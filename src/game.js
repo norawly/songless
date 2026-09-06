@@ -278,7 +278,9 @@ export class Game {
   select(track) {
     if (!track || this.rejectedIds.has(track.id)) return false;
     this.pending = track;
-    this._emit();
+    // Намеренно БЕЗ _emit(): перерисовка раунда пересоздала бы поле ввода и
+    // стёрла бы только что выбранное название. Подпись кнопки меняет
+    // контроллер точечно (main.js → syncActionButton).
     return true;
   }
 
@@ -286,7 +288,6 @@ export class Game {
   clearSelection() {
     if (!this.pending) return;
     this.pending = null;
-    this._emit();
   }
 
   get hasPending() {

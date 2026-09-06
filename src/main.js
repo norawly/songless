@@ -598,6 +598,7 @@ function renderRound() {
                  autocapitalize="off" autocorrect="off" spellcheck="false"
                  role="combobox" aria-expanded="false" aria-autocomplete="list"
                  aria-controls="answer-results"
+                 value="${esc(game.pending ? `${game.pending.title} — ${game.pending.artist}` : '')}"
                  placeholder="${esc(t('round.searchPlaceholder'))}">
           <ul class="results" id="answer-results" role="listbox"
               aria-label="${esc(t('a11y.results'))}" hidden></ul>
@@ -801,8 +802,9 @@ function wireRound() {
     const q = input.value.trim();
     if (!q) {
       // Поле очищено — кнопка возвращается в «Өткізу» (блок D1).
-      if (game.hasPending) game.clearSelection();
-      else closeList();
+      game.clearSelection();
+      syncActionButton();
+      closeList();
       return;
     }
     results = catalog.search(q, CONFIG.SEARCH_RESULTS);
@@ -854,6 +856,13 @@ function wireRound() {
    * Выбор варианта. Ответ НЕ засчитывается: он только заряжает кнопку,
    * которая превращается в «Тексеру» (блок D1).
    */
+  /** Подпись и вид кнопки действия зависят только от того, выбран ли вариант. */
+  function syncActionButton() {
+    actBtn.textContent = game.hasPending ? t('round.check') : t('round.skip');
+    actBtn.classList.toggle('btn--primary', game.hasPending);
+    actBtn.classList.toggle('btn--ghost', !game.hasPending);
+  }
+
   function selectTrack(track) {
     if (!track) return;
     if (game.rejectedIds.has(track.id)) {
@@ -863,8 +872,8 @@ function wireRound() {
     input.value = `${track.title} — ${track.artist}`;
     closeList(false);
     game.select(track);
-    // Перерисовка сменит подпись кнопки, поэтому фокус возвращаем осознанно.
-    if (canAutofocus()) $('#answer-input')?.focus();
+    syncActionButton();
+    if (canAutofocus()) input.focus();
   }
 
   function checkAnswer() {
