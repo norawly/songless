@@ -240,7 +240,7 @@ export class AudioEngine {
         const { offset, reason } = detectStartOffset(buf);
         this.offsets[track.id] = Number(offset.toFixed(3));
         saveOffsetCache(this.offsets);
-        if (window.__TAP_ANDA_DEBUG) {
+        if (window.__OLENSIZ_DEBUG) {
           console.info(`[offset] ${track.artist} — ${track.title}: ${offset.toFixed(3)}s (${reason})`);
         }
       }
@@ -280,7 +280,7 @@ export class AudioEngine {
           bump();
           return track;
         } catch (err) {
-          if (window.__TAP_ANDA_DEBUG) {
+          if (window.__OLENSIZ_DEBUG) {
             console.warn(`[preload] ${track.artist} — ${track.title}: ${err.message}`);
           }
         }
@@ -294,7 +294,15 @@ export class AudioEngine {
     return { tracks, replaced };
   }
 
+  /**
+   * Откуда начинать фрагмент.
+   *
+   * Ручная точка старта из data/overrides.json (локальный редактор, блок J)
+   * ВСЕГДА главнее автоматического детектора: человек слышал трек, а детектор
+   * только считал RMS.
+   */
   startOffsetOf(track) {
+    if (Number.isFinite(track.startOffset)) return Math.max(0, track.startOffset);
     return this.offsets[track.id] ?? 0;
   }
 

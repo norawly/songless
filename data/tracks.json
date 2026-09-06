@@ -1,7 +1,7 @@
 {
- "generatedAt": "2026-09-06T14:18:50.430Z",
- "source": "iTunes lookup by artistId (whitelist: data/artists.csv)",
- "note": "Треки собраны строго по artistId из whitelist. Свободный текстовый поиск по названиям не используется. Только метаданные и ссылки на официальные 30-секундные превью Apple; аудиофайлы не хранятся.",
+ "generatedAt": "2026-09-06T18:56:22.026Z",
+ "source": "iTunes lookup by artistId (whitelist: data/artists-v2.csv)",
+ "note": "Треки собраны строго по одному artistId из whitelist. Свободный текстовый поиск по названиям не используется. Только метаданные и ссылки на официальные 30-секундные превью Apple; аудиофайлы не хранятся.",
  "levelTiers": {
   "1": [
    1
@@ -23,6 +23,28 @@
    5
   ]
  },
+ "levelTiersExpert": {
+  "1": [
+   1
+  ],
+  "2": [
+   1,
+   2
+  ],
+  "3": [
+   2,
+   3
+  ],
+  "4": [
+   3,
+   4,
+   5
+  ],
+  "5": [
+   4,
+   5
+  ]
+ },
  "genres": [
   "toi",
   "retro",
@@ -32,38 +54,47 @@
   "underground",
   "indie",
   "folk",
+  "rock"
+ ],
+ "allGenres": [
+  "toi",
+  "retro",
+  "pop",
+  "rnb",
+  "rap",
+  "underground",
+  "indie",
+  "folk",
   "patriotic",
-  "jazz",
-  "electronic",
   "qpop",
   "rock"
  ],
- "count": 599,
+ "genreMinTracks": 25,
+ "count": 661,
+ "edited": 0,
  "byTier": {
   "1": 120,
   "2": 163,
-  "3": 209,
-  "4": 105,
+  "3": 256,
+  "4": 120,
   "5": 2
  },
  "byGenre": {
-  "toi": 126,
-  "pop": 342,
-  "rap": 121,
+  "toi": 131,
+  "pop": 377,
+  "rap": 126,
   "underground": 28,
-  "rnb": 116,
-  "qpop": 15,
-  "retro": 99,
-  "folk": 22,
-  "jazz": 20,
-  "indie": 66,
-  "rock": 14,
-  "patriotic": 21,
-  "electronic": 12
+  "rnb": 146,
+  "qpop": 22,
+  "retro": 109,
+  "folk": 32,
+  "indie": 75,
+  "rock": 29,
+  "patriotic": 21
  },
  "byAge": {
-  "family": 509,
-  "18plus": 90
+  "family": 561,
+  "18plus": 100
  },
  "tracks": [
   {
@@ -80,6 +111,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B0%D0%BB%D0%BC%D0%B0%D1%82%D1%8B-%D1%82%D2%AF%D0%BD%D1%96-feat-nyusha/1120230614?i=1120230794&uo=4",
    "tier": 1,
    "genres": [
+    "toi",
+    "pop"
+   ],
+   "tags": [
     "toi",
     "pop"
    ],
@@ -103,6 +138,10 @@
     "toi",
     "pop"
    ],
+   "tags": [
+    "toi",
+    "pop"
+   ],
    "age": "family",
    "era": "2010s-now"
   },
@@ -120,6 +159,10 @@
    "appleUrl": "https://music.apple.com/kz/album/seni-suiem/1541615405?i=1541615836&uo=4",
    "tier": 1,
    "genres": [
+    "toi",
+    "pop"
+   ],
+   "tags": [
     "toi",
     "pop"
    ],
@@ -143,6 +186,10 @@
     "toi",
     "pop"
    ],
+   "tags": [
+    "toi",
+    "pop"
+   ],
    "age": "family",
    "era": "2010s-now"
   },
@@ -160,6 +207,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%8D%D1%85-%D2%9B%D0%B0%D1%80%D1%8B%D0%BD%D0%B4%D0%B0%D1%81/1125369276?i=1125369350&uo=4",
    "tier": 1,
    "genres": [
+    "toi",
+    "pop"
+   ],
+   "tags": [
     "toi",
     "pop"
    ],
@@ -183,6 +234,10 @@
     "toi",
     "pop"
    ],
+   "tags": [
+    "toi",
+    "pop"
+   ],
    "age": "family",
    "era": "2010s-now"
   },
@@ -200,6 +255,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B1%D0%B0%D0%B9%D2%9B%D0%B0/1087826953?i=1087827217&uo=4",
    "tier": 1,
    "genres": [
+    "toi",
+    "pop"
+   ],
+   "tags": [
     "toi",
     "pop"
    ],
@@ -223,6 +282,10 @@
     "toi",
     "pop"
    ],
+   "tags": [
+    "toi",
+    "pop"
+   ],
    "age": "family",
    "era": "2010s-now"
   },
@@ -240,6 +303,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BE%D0%BB-%D1%81%D0%B5%D0%BD-%D0%B5%D0%BC%D0%B5%D1%81/1104905633?i=1104905880&uo=4",
    "tier": 1,
    "genres": [
+    "toi",
+    "pop"
+   ],
+   "tags": [
     "toi",
     "pop"
    ],
@@ -263,6 +330,10 @@
     "toi",
     "pop"
    ],
+   "tags": [
+    "toi",
+    "pop"
+   ],
    "age": "family",
    "era": "2010s-now"
   },
@@ -281,6 +352,11 @@
    "tier": 1,
    "genres": [
     "rap",
+    "underground"
+   ],
+   "tags": [
+    "rap",
+    "comedy",
     "underground"
    ],
    "age": "18plus",
@@ -303,6 +379,11 @@
     "rap",
     "underground"
    ],
+   "tags": [
+    "rap",
+    "comedy",
+    "underground"
+   ],
    "age": "18plus",
    "era": "2018-now"
   },
@@ -323,24 +404,9 @@
     "rap",
     "underground"
    ],
-   "age": "18plus",
-   "era": "2018-now"
-  },
-  {
-   "id": "1776026974",
-   "title": "TU MAI",
-   "artist": "IK & NRG On The Beat",
-   "artistId": 1714482615,
-   "artistKey": "irina-kairatovna",
-   "album": "TU MAI - Single",
-   "year": 2024,
-   "durationMs": 134809,
-   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/1f/ec/78/1fec7859-3c50-9cf8-1460-f9f521b05fcf/mzaf_11119028394943693532.plus.aac.p.m4a",
-   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b1/ac/a9/b1aca935-a7aa-fe11-12f4-ab3db24f76d5/artwork.jpg/600x600bb.jpg",
-   "appleUrl": "https://music.apple.com/kz/album/tu-mai/1776026972?i=1776026974&uo=4",
-   "tier": 1,
-   "genres": [
+   "tags": [
     "rap",
+    "comedy",
     "underground"
    ],
    "age": "18plus",
@@ -363,6 +429,11 @@
     "rap",
     "underground"
    ],
+   "tags": [
+    "rap",
+    "comedy",
+    "underground"
+   ],
    "age": "18plus",
    "era": "2018-now"
   },
@@ -381,6 +452,11 @@
    "tier": 1,
    "genres": [
     "rap",
+    "underground"
+   ],
+   "tags": [
+    "rap",
+    "comedy",
     "underground"
    ],
    "age": "18plus",
@@ -403,6 +479,11 @@
     "rap",
     "underground"
    ],
+   "tags": [
+    "rap",
+    "comedy",
+    "underground"
+   ],
    "age": "18plus",
    "era": "2018-now"
   },
@@ -421,6 +502,11 @@
    "tier": 1,
    "genres": [
     "rap",
+    "underground"
+   ],
+   "tags": [
+    "rap",
+    "comedy",
     "underground"
    ],
    "age": "18plus",
@@ -443,6 +529,11 @@
     "rap",
     "underground"
    ],
+   "tags": [
+    "rap",
+    "comedy",
+    "underground"
+   ],
    "age": "18plus",
    "era": "2018-now"
   },
@@ -463,6 +554,36 @@
     "rap",
     "underground"
    ],
+   "tags": [
+    "rap",
+    "comedy",
+    "underground"
+   ],
+   "age": "18plus",
+   "era": "2018-now"
+  },
+  {
+   "id": "1768734618",
+   "title": "30 не аут",
+   "artist": "Ирина Кайратовна",
+   "artistId": 1471393311,
+   "artistKey": "irina-kairatovna",
+   "album": "30 не аут - Single",
+   "year": 2024,
+   "durationMs": 210612,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/5c/97/41/5c974106-9921-266c-a5ce-26bccc8d11be/mzaf_4237574910639799451.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/cb/28/53/cb28536c-1dcf-5fe0-336c-4524d92370a3/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/30-%D0%BD%D0%B5-%D0%B0%D1%83%D1%82/1768734603?i=1768734618&uo=4",
+   "tier": 1,
+   "genres": [
+    "rap",
+    "underground"
+   ],
+   "tags": [
+    "rap",
+    "comedy",
+    "underground"
+   ],
    "age": "18plus",
    "era": "2018-now"
   },
@@ -480,6 +601,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BF%D0%BE%D1%87%D1%82%D0%B8-%D1%82%D1%8B/1501510561?i=1501510717&uo=4",
    "tier": 1,
    "genres": [
+    "rap",
+    "rnb"
+   ],
+   "tags": [
     "rap",
     "rnb"
    ],
@@ -503,6 +628,10 @@
     "rap",
     "rnb"
    ],
+   "tags": [
+    "rap",
+    "rnb"
+   ],
    "age": "18plus",
    "era": "2014-now"
   },
@@ -520,6 +649,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D1%81-feat-charusha/6768409585?i=6768409587&uo=4",
    "tier": 1,
    "genres": [
+    "rap",
+    "rnb"
+   ],
+   "tags": [
     "rap",
     "rnb"
    ],
@@ -543,6 +676,10 @@
     "rap",
     "rnb"
    ],
+   "tags": [
+    "rap",
+    "rnb"
+   ],
    "age": "18plus",
    "era": "2014-now"
   },
@@ -560,6 +697,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%82%D1%8B-%D0%BD%D0%B5-%D0%B2%D0%B5%D1%80%D1%8C-%D1%81%D0%BB%D0%B5%D0%B7%D0%B0%D0%BC-lab-%D1%81-%D0%B0%D0%BD%D1%82%D0%BE%D0%BD%D0%BE%D0%BC-%D0%B1%D0%B5%D0%BB%D1%8F%D0%B5%D0%B2%D1%8B%D0%BC/1737464464?i=1737464724&uo=4",
    "tier": 1,
    "genres": [
+    "rap",
+    "rnb"
+   ],
+   "tags": [
     "rap",
     "rnb"
    ],
@@ -583,6 +724,10 @@
     "rap",
     "rnb"
    ],
+   "tags": [
+    "rap",
+    "rnb"
+   ],
    "age": "18plus",
    "era": "2014-now"
   },
@@ -600,6 +745,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BB%D1%8E%D0%B1%D0%B8%D1%82%D0%B5-%D0%B4%D0%B5%D0%B2%D1%83%D1%88%D0%BA%D0%B8-lab-%D1%81-%D0%B0%D0%BD%D1%82%D0%BE%D0%BD%D0%BE%D0%BC-%D0%B1%D0%B5%D0%BB%D1%8F%D0%B5%D0%B2%D1%8B%D0%BC/1737463671?i=1737463696&uo=4",
    "tier": 1,
    "genres": [
+    "rap",
+    "rnb"
+   ],
+   "tags": [
     "rap",
     "rnb"
    ],
@@ -623,6 +772,10 @@
     "rap",
     "rnb"
    ],
+   "tags": [
+    "rap",
+    "rnb"
+   ],
    "age": "18plus",
    "era": "2014-now"
   },
@@ -640,6 +793,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B8%D0%BC%D0%B5%D0%BD%D0%B0/6769042854?i=6769042857&uo=4",
    "tier": 1,
    "genres": [
+    "rap",
+    "rnb"
+   ],
+   "tags": [
     "rap",
     "rnb"
    ],
@@ -663,6 +820,10 @@
     "rap",
     "rnb"
    ],
+   "tags": [
+    "rap",
+    "rnb"
+   ],
    "age": "18plus",
    "era": "2014-now"
   },
@@ -680,6 +841,10 @@
    "appleUrl": "https://music.apple.com/kz/album/ah-yah-mah/1364899253?i=1364899267&uo=4",
    "tier": 1,
    "genres": [
+    "pop",
+    "qpop"
+   ],
+   "tags": [
     "pop",
     "qpop"
    ],
@@ -703,6 +868,10 @@
     "pop",
     "qpop"
    ],
+   "tags": [
+    "pop",
+    "qpop"
+   ],
    "age": "family",
    "era": "2015-now"
   },
@@ -720,6 +889,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D2%9B%D0%B0%D0%B9%D1%82%D0%B0%D0%B4%D0%B0%D0%BD/1365551499?i=1365552271&uo=4",
    "tier": 1,
    "genres": [
+    "pop",
+    "qpop"
+   ],
+   "tags": [
     "pop",
     "qpop"
    ],
@@ -743,6 +916,10 @@
     "pop",
     "qpop"
    ],
+   "tags": [
+    "pop",
+    "qpop"
+   ],
    "age": "family",
    "era": "2015-now"
   },
@@ -760,6 +937,10 @@
    "appleUrl": "https://music.apple.com/kz/album/men-emes/1477173275?i=1477173279&uo=4",
    "tier": 1,
    "genres": [
+    "pop",
+    "qpop"
+   ],
+   "tags": [
     "pop",
     "qpop"
    ],
@@ -783,6 +964,10 @@
     "pop",
     "qpop"
    ],
+   "tags": [
+    "pop",
+    "qpop"
+   ],
    "age": "family",
    "era": "2015-now"
   },
@@ -800,6 +985,10 @@
    "appleUrl": "https://music.apple.com/kz/album/bari-biled/1477173275?i=1477173281&uo=4",
    "tier": 1,
    "genres": [
+    "pop",
+    "qpop"
+   ],
+   "tags": [
     "pop",
     "qpop"
    ],
@@ -823,6 +1012,10 @@
     "pop",
     "qpop"
    ],
+   "tags": [
+    "pop",
+    "qpop"
+   ],
    "age": "family",
    "era": "2015-now"
   },
@@ -840,6 +1033,10 @@
    "appleUrl": "https://music.apple.com/kz/album/bayau/1364899253?i=1364901224&uo=4",
    "tier": 1,
    "genres": [
+    "pop",
+    "qpop"
+   ],
+   "tags": [
     "pop",
     "qpop"
    ],
@@ -863,6 +1060,10 @@
     "pop",
     "qpop"
    ],
+   "tags": [
+    "pop",
+    "qpop"
+   ],
    "age": "family",
    "era": "2015-now"
   },
@@ -880,6 +1081,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B5%D1%80%D0%BA%D0%B5-%D2%9B%D1%8B%D0%B7/1033142106?i=1033142373&uo=4",
    "tier": 1,
    "genres": [
+    "toi",
+    "pop"
+   ],
+   "tags": [
     "toi",
     "pop"
    ],
@@ -903,6 +1108,10 @@
     "toi",
     "pop"
    ],
+   "tags": [
+    "toi",
+    "pop"
+   ],
    "age": "family",
    "era": "2008-now"
   },
@@ -920,6 +1129,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B0%D1%81%D1%8B%D0%BB%D1%8B%D0%BC/1535955300?i=1535955851&uo=4",
    "tier": 1,
    "genres": [
+    "toi",
+    "pop"
+   ],
+   "tags": [
     "toi",
     "pop"
    ],
@@ -943,6 +1156,10 @@
     "toi",
     "pop"
    ],
+   "tags": [
+    "toi",
+    "pop"
+   ],
    "age": "family",
    "era": "2008-now"
   },
@@ -960,6 +1177,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%81%D2%AF%D0%B9%D0%B3%D0%B5%D0%BD%D1%96%D0%BC/1807045661?i=1807046395&uo=4",
    "tier": 1,
    "genres": [
+    "toi",
+    "pop"
+   ],
+   "tags": [
     "toi",
     "pop"
    ],
@@ -983,6 +1204,10 @@
     "toi",
     "pop"
    ],
+   "tags": [
+    "toi",
+    "pop"
+   ],
    "age": "family",
    "era": "2008-now"
   },
@@ -1000,6 +1225,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%81%D0%B5%D0%BD%D0%B4%D0%B5%D0%B9-%D0%B0%D1%80%D1%83-%D0%B6%D0%BE%D2%9B/1535955272?i=1535956440&uo=4",
    "tier": 1,
    "genres": [
+    "toi",
+    "pop"
+   ],
+   "tags": [
     "toi",
     "pop"
    ],
@@ -1023,6 +1252,10 @@
     "toi",
     "pop"
    ],
+   "tags": [
+    "toi",
+    "pop"
+   ],
    "age": "family",
    "era": "2008-now"
   },
@@ -1040,6 +1273,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%81%D0%B5%D0%BD%D1%96-%D1%81%D0%B0%D2%93%D1%8B%D0%BD%D0%B4%D1%8B%D0%BC/1535955272?i=1535956526&uo=4",
    "tier": 1,
    "genres": [
+    "toi",
+    "pop"
+   ],
+   "tags": [
     "toi",
     "pop"
    ],
@@ -1063,6 +1300,10 @@
     "toi",
     "pop"
    ],
+   "tags": [
+    "toi",
+    "pop"
+   ],
    "age": "family",
    "era": "2008-now"
   },
@@ -1080,6 +1321,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%82%D0%BE%D0%B9-%D0%B6%D1%8B%D1%80%D1%8B/1666901832?i=1666901833&uo=4",
    "tier": 1,
    "genres": [
+    "retro",
+    "folk"
+   ],
+   "tags": [
     "retro",
     "folk"
    ],
@@ -1103,6 +1348,10 @@
     "retro",
     "folk"
    ],
+   "tags": [
+    "retro",
+    "folk"
+   ],
    "age": "family",
    "era": "1967-1990s"
   },
@@ -1120,6 +1369,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B3%D1%83%D0%BB-%D2%9B%D0%B0%D0%BB%D0%B0/1611007083?i=1611007515&uo=4",
    "tier": 1,
    "genres": [
+    "retro",
+    "folk"
+   ],
+   "tags": [
     "retro",
     "folk"
    ],
@@ -1143,6 +1396,10 @@
     "retro",
     "folk"
    ],
+   "tags": [
+    "retro",
+    "folk"
+   ],
    "age": "family",
    "era": "1967-1990s"
   },
@@ -1160,6 +1417,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BD%D0%B0%D0%B7-%D2%9B%D0%BE%D2%A3%D1%8B%D1%80/1611007083?i=1611007519&uo=4",
    "tier": 1,
    "genres": [
+    "retro",
+    "folk"
+   ],
+   "tags": [
     "retro",
     "folk"
    ],
@@ -1183,6 +1444,10 @@
     "retro",
     "folk"
    ],
+   "tags": [
+    "retro",
+    "folk"
+   ],
    "age": "family",
    "era": "1967-1990s"
   },
@@ -1200,6 +1465,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D2%9B%D2%B1%D1%81%D0%BD%D0%B8-%D2%9B%D0%BE%D1%80%D0%BB%D0%B0%D0%BD/1896127790?i=6765922802&uo=4",
    "tier": 1,
    "genres": [
+    "retro",
+    "folk"
+   ],
+   "tags": [
     "retro",
     "folk"
    ],
@@ -1223,6 +1492,10 @@
     "retro",
     "folk"
    ],
+   "tags": [
+    "retro",
+    "folk"
+   ],
    "age": "family",
    "era": "1967-1990s"
   },
@@ -1240,6 +1513,10 @@
    "appleUrl": "https://music.apple.com/kz/album/16-%D0%BA%D1%8B%D0%B7/1524483510?i=1524483730&uo=4",
    "tier": 1,
    "genres": [
+    "retro",
+    "folk"
+   ],
+   "tags": [
     "retro",
     "folk"
    ],
@@ -1263,6 +1540,10 @@
     "retro",
     "folk"
    ],
+   "tags": [
+    "retro",
+    "folk"
+   ],
    "age": "family",
    "era": "1967-1990s"
   },
@@ -1280,6 +1561,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%81%D0%B0%D2%93%D1%8B%D0%BD%D0%B4%D1%8B%D0%BC-%D0%B0%D0%BB%D0%BC%D0%B0%D1%82%D1%8B%D0%BC%D0%B4%D1%8B/1681089592?i=1681091076&uo=4",
    "tier": 1,
    "genres": [
+    "retro",
+    "pop"
+   ],
+   "tags": [
     "retro",
     "pop"
    ],
@@ -1303,6 +1588,10 @@
     "retro",
     "pop"
    ],
+   "tags": [
+    "retro",
+    "pop"
+   ],
    "age": "family",
    "era": "1990s-2010s"
   },
@@ -1320,6 +1609,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%81%D0%B0%D2%93%D1%8B%D0%BD%D0%B4%D1%8B%D0%BC/1682657467?i=1682657782&uo=4",
    "tier": 1,
    "genres": [
+    "retro",
+    "pop"
+   ],
+   "tags": [
     "retro",
     "pop"
    ],
@@ -1343,6 +1636,10 @@
     "retro",
     "pop"
    ],
+   "tags": [
+    "retro",
+    "pop"
+   ],
    "age": "family",
    "era": "1990s-2010s"
   },
@@ -1360,6 +1657,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BE%D0%BB-%D0%BA%D3%A9%D0%BA%D1%82%D0%B5%D0%BC-%D0%BE%D1%80%D0%B0%D0%BB%D0%BC%D0%B0%D0%B8-%D0%B4%D1%8B-live/1781698510?i=1781698515&uo=4",
    "tier": 1,
    "genres": [
+    "retro",
+    "pop"
+   ],
+   "tags": [
     "retro",
     "pop"
    ],
@@ -1383,6 +1684,10 @@
     "retro",
     "pop"
    ],
+   "tags": [
+    "retro",
+    "pop"
+   ],
    "age": "family",
    "era": "1990s-2010s"
   },
@@ -1400,6 +1705,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B0%D1%80%D0%BC%D0%B0%D0%BD-%D0%B0%D0%B9/1679407283?i=1679408015&uo=4",
    "tier": 1,
    "genres": [
+    "retro",
+    "pop"
+   ],
+   "tags": [
     "retro",
     "pop"
    ],
@@ -1423,6 +1732,10 @@
     "retro",
     "pop"
    ],
+   "tags": [
+    "retro",
+    "pop"
+   ],
    "age": "family",
    "era": "1990s-2010s"
   },
@@ -1440,6 +1753,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B5%D1%81%D1%96%D2%A3%D0%B5-%D0%B0%D0%BB/1679775005?i=1679775434&uo=4",
    "tier": 1,
    "genres": [
+    "retro",
+    "pop"
+   ],
+   "tags": [
     "retro",
     "pop"
    ],
@@ -1463,6 +1780,10 @@
     "retro",
     "pop"
    ],
+   "tags": [
+    "retro",
+    "pop"
+   ],
    "age": "family",
    "era": "1990s-2010s"
   },
@@ -1481,6 +1802,10 @@
    "tier": 1,
    "genres": [
     "retro"
+   ],
+   "tags": [
+    "retro",
+    "estrada"
    ],
    "age": "family",
    "era": "1970s-now"
@@ -1501,6 +1826,10 @@
    "genres": [
     "retro"
    ],
+   "tags": [
+    "retro",
+    "estrada"
+   ],
    "age": "family",
    "era": "1970s-now"
   },
@@ -1519,6 +1848,10 @@
    "tier": 1,
    "genres": [
     "retro"
+   ],
+   "tags": [
+    "retro",
+    "estrada"
    ],
    "age": "family",
    "era": "1970s-now"
@@ -1539,6 +1872,10 @@
    "genres": [
     "retro"
    ],
+   "tags": [
+    "retro",
+    "estrada"
+   ],
    "age": "family",
    "era": "1970s-now"
   },
@@ -1557,6 +1894,10 @@
    "tier": 1,
    "genres": [
     "retro"
+   ],
+   "tags": [
+    "retro",
+    "estrada"
    ],
    "age": "family",
    "era": "1970s-now"
@@ -1577,6 +1918,10 @@
    "genres": [
     "retro"
    ],
+   "tags": [
+    "retro",
+    "estrada"
+   ],
    "age": "family",
    "era": "1970s-now"
   },
@@ -1595,6 +1940,10 @@
    "tier": 1,
    "genres": [
     "retro"
+   ],
+   "tags": [
+    "retro",
+    "estrada"
    ],
    "age": "family",
    "era": "1970s-now"
@@ -1615,6 +1964,10 @@
    "genres": [
     "retro"
    ],
+   "tags": [
+    "retro",
+    "estrada"
+   ],
    "age": "family",
    "era": "1970s-now"
   },
@@ -1633,6 +1986,10 @@
    "tier": 1,
    "genres": [
     "retro"
+   ],
+   "tags": [
+    "retro",
+    "estrada"
    ],
    "age": "family",
    "era": "1970s-now"
@@ -1653,6 +2010,10 @@
    "genres": [
     "retro"
    ],
+   "tags": [
+    "retro",
+    "estrada"
+   ],
    "age": "family",
    "era": "1970s-now"
   },
@@ -1670,6 +2031,11 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%8F-%D0%BD%D0%B5-%D1%82%D0%B2%D0%BE%D0%B8/1586636475?i=1586636481&uo=4",
    "tier": 1,
    "genres": [
+    "retro",
+    "pop",
+    "rnb"
+   ],
+   "tags": [
     "retro",
     "pop",
     "jazz"
@@ -1693,6 +2059,11 @@
    "genres": [
     "retro",
     "pop",
+    "rnb"
+   ],
+   "tags": [
+    "retro",
+    "pop",
     "jazz"
    ],
    "age": "family",
@@ -1712,6 +2083,11 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B4%D0%B6%D1%83%D0%BB%D0%B8%D1%8F/1586634870?i=1586634871&uo=4",
    "tier": 1,
    "genres": [
+    "retro",
+    "pop",
+    "rnb"
+   ],
+   "tags": [
     "retro",
     "pop",
     "jazz"
@@ -1735,6 +2111,11 @@
    "genres": [
     "retro",
     "pop",
+    "rnb"
+   ],
+   "tags": [
+    "retro",
+    "pop",
     "jazz"
    ],
    "age": "family",
@@ -1754,6 +2135,11 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%81%D0%B5-%D0%BB%D1%8F-%D0%B2%D0%B8/1535968381?i=1535968382&uo=4",
    "tier": 1,
    "genres": [
+    "retro",
+    "pop",
+    "rnb"
+   ],
+   "tags": [
     "retro",
     "pop",
     "jazz"
@@ -1777,6 +2163,11 @@
    "genres": [
     "retro",
     "pop",
+    "rnb"
+   ],
+   "tags": [
+    "retro",
+    "pop",
     "jazz"
    ],
    "age": "family",
@@ -1796,6 +2187,11 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%82%D0%B8%D0%BA-%D1%82%D0%B0%D0%BA/1535533694?i=1535533695&uo=4",
    "tier": 1,
    "genres": [
+    "retro",
+    "pop",
+    "rnb"
+   ],
+   "tags": [
     "retro",
     "pop",
     "jazz"
@@ -1819,6 +2215,11 @@
    "genres": [
     "retro",
     "pop",
+    "rnb"
+   ],
+   "tags": [
+    "retro",
+    "pop",
     "jazz"
    ],
    "age": "family",
@@ -1838,6 +2239,11 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BF%D0%B0%D0%BF%D0%B0-%D0%BC%D0%B0%D0%BC%D0%B0-%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D1%8F-1/1586625527?i=1586625528&uo=4",
    "tier": 1,
    "genres": [
+    "retro",
+    "pop",
+    "rnb"
+   ],
+   "tags": [
     "retro",
     "pop",
     "jazz"
@@ -1861,6 +2267,11 @@
    "genres": [
     "retro",
     "pop",
+    "rnb"
+   ],
+   "tags": [
+    "retro",
+    "pop",
     "jazz"
    ],
    "age": "family",
@@ -1882,6 +2293,10 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop",
+    "classical"
+   ],
    "age": "family",
    "era": "2015-now"
   },
@@ -1900,6 +2315,10 @@
    "tier": 1,
    "genres": [
     "pop"
+   ],
+   "tags": [
+    "pop",
+    "classical"
    ],
    "age": "family",
    "era": "2015-now"
@@ -1920,8 +2339,13 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop",
+    "classical"
+   ],
    "age": "family",
-   "era": "2015-now"
+   "era": "2015-now",
+   "flagEnglish": true
   },
   {
    "id": "1474223815",
@@ -1939,8 +2363,13 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop",
+    "classical"
+   ],
    "age": "family",
-   "era": "2015-now"
+   "era": "2015-now",
+   "flagEnglish": true
   },
   {
    "id": "1474223806",
@@ -1957,6 +2386,10 @@
    "tier": 1,
    "genres": [
     "pop"
+   ],
+   "tags": [
+    "pop",
+    "classical"
    ],
    "age": "family",
    "era": "2015-now"
@@ -1977,8 +2410,13 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop",
+    "classical"
+   ],
    "age": "family",
-   "era": "2015-now"
+   "era": "2015-now",
+   "flagEnglish": true
   },
   {
    "id": "1647416048",
@@ -1995,6 +2433,10 @@
    "tier": 1,
    "genres": [
     "pop"
+   ],
+   "tags": [
+    "pop",
+    "classical"
    ],
    "age": "family",
    "era": "2015-now"
@@ -2015,8 +2457,13 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop",
+    "classical"
+   ],
    "age": "family",
-   "era": "2015-now"
+   "era": "2015-now",
+   "flagEnglish": true
   },
   {
    "id": "1395856096",
@@ -2034,8 +2481,13 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop",
+    "classical"
+   ],
    "age": "family",
-   "era": "2015-now"
+   "era": "2015-now",
+   "flagEnglish": true
   },
   {
    "id": "1473933842",
@@ -2052,6 +2504,10 @@
    "tier": 1,
    "genres": [
     "pop"
+   ],
+   "tags": [
+    "pop",
+    "classical"
    ],
    "age": "family",
    "era": "2015-now"
@@ -2070,6 +2526,11 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BC%D0%B5%D0%B4%D0%B8%D0%BD%D0%B0/1355736895?i=1355737377&uo=4",
    "tier": 1,
    "genres": [
+    "rap",
+    "rnb",
+    "pop"
+   ],
+   "tags": [
     "rap",
     "rnb",
     "pop"
@@ -2095,6 +2556,11 @@
     "rnb",
     "pop"
    ],
+   "tags": [
+    "rap",
+    "rnb",
+    "pop"
+   ],
    "age": "family",
    "era": "2015-now"
   },
@@ -2112,6 +2578,11 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BA%D0%B0%D0%B1%D0%BB%D1%83%D0%BA/1164160464?i=1164160868&uo=4",
    "tier": 1,
    "genres": [
+    "rap",
+    "rnb",
+    "pop"
+   ],
+   "tags": [
     "rap",
     "rnb",
     "pop"
@@ -2137,6 +2608,11 @@
     "rnb",
     "pop"
    ],
+   "tags": [
+    "rap",
+    "rnb",
+    "pop"
+   ],
    "age": "family",
    "era": "2015-now"
   },
@@ -2154,6 +2630,11 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BC%D0%B0%D0%BC%D0%B0%D1%81%D0%B8%D1%82%D0%B0/1264664929?i=1264665046&uo=4",
    "tier": 1,
    "genres": [
+    "rap",
+    "rnb",
+    "pop"
+   ],
+   "tags": [
     "rap",
     "rnb",
     "pop"
@@ -2179,6 +2660,11 @@
     "rnb",
     "pop"
    ],
+   "tags": [
+    "rap",
+    "rnb",
+    "pop"
+   ],
    "age": "family",
    "era": "2015-now"
   },
@@ -2196,6 +2682,11 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BB%D0%B5%D0%B9%D0%BB%D0%B0-feat-%D0%BC%D0%B0%D0%BA%D0%B2%D0%B8%D0%BD/1164160464?i=1164160850&uo=4",
    "tier": 1,
    "genres": [
+    "rap",
+    "rnb",
+    "pop"
+   ],
+   "tags": [
     "rap",
     "rnb",
     "pop"
@@ -2221,6 +2712,11 @@
     "rnb",
     "pop"
    ],
+   "tags": [
+    "rap",
+    "rnb",
+    "pop"
+   ],
    "age": "family",
    "era": "2015-now"
   },
@@ -2238,6 +2734,11 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BD%D0%B0-%D1%81%D0%B2%D0%BE%D1%91%D0%BC-%D0%B2%D0%B0%D0%B9%D0%B1%D0%B5-feat-%D0%B3%D1%83%D1%84/1525916178?i=1525916353&uo=4",
    "tier": 1,
    "genres": [
+    "rap",
+    "rnb",
+    "pop"
+   ],
+   "tags": [
     "rap",
     "rnb",
     "pop"
@@ -2263,6 +2764,11 @@
     "rnb",
     "pop"
    ],
+   "tags": [
+    "rap",
+    "rnb",
+    "pop"
+   ],
    "age": "family",
    "era": "2015-now"
   },
@@ -2280,6 +2786,10 @@
    "appleUrl": "https://music.apple.com/kz/album/sagynysh/6766889006?i=6766889800&uo=4",
    "tier": 1,
    "genres": [
+    "pop",
+    "rnb"
+   ],
+   "tags": [
     "pop",
     "rnb"
    ],
@@ -2303,6 +2813,10 @@
     "pop",
     "rnb"
    ],
+   "tags": [
+    "pop",
+    "rnb"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -2320,6 +2834,10 @@
    "appleUrl": "https://music.apple.com/kz/album/menin-adamym/6766889006?i=6766889610&uo=4",
    "tier": 1,
    "genres": [
+    "pop",
+    "rnb"
+   ],
+   "tags": [
     "pop",
     "rnb"
    ],
@@ -2343,6 +2861,10 @@
     "pop",
     "rnb"
    ],
+   "tags": [
+    "pop",
+    "rnb"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -2360,6 +2882,10 @@
    "appleUrl": "https://music.apple.com/kz/album/aiga-qarap/1700912870?i=1700912887&uo=4",
    "tier": 1,
    "genres": [
+    "pop",
+    "rnb"
+   ],
+   "tags": [
     "pop",
     "rnb"
    ],
@@ -2383,6 +2909,10 @@
     "pop",
     "rnb"
    ],
+   "tags": [
+    "pop",
+    "rnb"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -2400,6 +2930,10 @@
    "appleUrl": "https://music.apple.com/kz/album/melodrama/1768082620?i=1768082732&uo=4",
    "tier": 1,
    "genres": [
+    "pop",
+    "rnb"
+   ],
+   "tags": [
     "pop",
     "rnb"
    ],
@@ -2423,6 +2957,10 @@
     "pop",
     "rnb"
    ],
+   "tags": [
+    "pop",
+    "rnb"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -2440,6 +2978,10 @@
    "appleUrl": "https://music.apple.com/kz/album/qansha-kun/1695106253?i=1695106274&uo=4",
    "tier": 1,
    "genres": [
+    "pop",
+    "rnb"
+   ],
+   "tags": [
     "pop",
     "rnb"
    ],
@@ -2463,6 +3005,10 @@
     "pop",
     "rnb"
    ],
+   "tags": [
+    "pop",
+    "rnb"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -2481,6 +3027,10 @@
    "tier": 2,
    "genres": [
     "indie"
+   ],
+   "tags": [
+    "indie",
+    "alt"
    ],
    "age": "family",
    "era": "2015-now"
@@ -2501,6 +3051,10 @@
    "genres": [
     "indie"
    ],
+   "tags": [
+    "indie",
+    "alt"
+   ],
    "age": "family",
    "era": "2015-now"
   },
@@ -2519,6 +3073,10 @@
    "tier": 2,
    "genres": [
     "indie"
+   ],
+   "tags": [
+    "indie",
+    "alt"
    ],
    "age": "family",
    "era": "2015-now"
@@ -2539,6 +3097,10 @@
    "genres": [
     "indie"
    ],
+   "tags": [
+    "indie",
+    "alt"
+   ],
    "age": "family",
    "era": "2015-now"
   },
@@ -2557,6 +3119,10 @@
    "tier": 2,
    "genres": [
     "indie"
+   ],
+   "tags": [
+    "indie",
+    "alt"
    ],
    "age": "family",
    "era": "2015-now"
@@ -2577,6 +3143,10 @@
    "genres": [
     "indie"
    ],
+   "tags": [
+    "indie",
+    "alt"
+   ],
    "age": "family",
    "era": "2015-now"
   },
@@ -2596,6 +3166,10 @@
    "genres": [
     "indie"
    ],
+   "tags": [
+    "indie",
+    "alt"
+   ],
    "age": "family",
    "era": "2015-now"
   },
@@ -2613,6 +3187,10 @@
    "appleUrl": "https://music.apple.com/kz/album/big-city-life/1704632805?i=1704633051&uo=4",
    "tier": 2,
    "genres": [
+    "rap",
+    "rnb"
+   ],
+   "tags": [
     "rap",
     "rnb"
    ],
@@ -2636,6 +3214,10 @@
     "rap",
     "rnb"
    ],
+   "tags": [
+    "rap",
+    "rnb"
+   ],
    "age": "18plus",
    "era": "2017-now"
   },
@@ -2653,6 +3235,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B4%D0%B0%D0%BB%D0%B0%D0%B4%D0%B0/1692972415?i=1692972427&uo=4",
    "tier": 2,
    "genres": [
+    "rap",
+    "rnb"
+   ],
+   "tags": [
     "rap",
     "rnb"
    ],
@@ -2676,6 +3262,10 @@
     "rap",
     "rnb"
    ],
+   "tags": [
+    "rap",
+    "rnb"
+   ],
    "age": "18plus",
    "era": "2017-now"
   },
@@ -2693,6 +3283,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%82%D0%BE%D1%87%D0%BA%D0%B0-%D0%B8%D0%BB%D0%B8-%D0%B7%D0%B0%D0%BF%D1%8F%D1%82%D0%B0%D1%8F/1531905643?i=1531905663&uo=4",
    "tier": 2,
    "genres": [
+    "rap",
+    "rnb"
+   ],
+   "tags": [
     "rap",
     "rnb"
    ],
@@ -2716,6 +3310,10 @@
     "rap",
     "rnb"
    ],
+   "tags": [
+    "rap",
+    "rnb"
+   ],
    "age": "18plus",
    "era": "2017-now"
   },
@@ -2733,6 +3331,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B4%D0%BB%D1%8F-%D0%B4%D0%B5%D0%B2%D1%87%D0%BE%D0%BD%D0%BE%D0%BA/1519806348?i=1519807092&uo=4",
    "tier": 2,
    "genres": [
+    "rap",
+    "rnb"
+   ],
+   "tags": [
     "rap",
     "rnb"
    ],
@@ -2756,6 +3358,10 @@
     "rock",
     "indie"
    ],
+   "tags": [
+    "rock",
+    "alt"
+   ],
    "age": "family",
    "era": "2015-now"
   },
@@ -2775,6 +3381,10 @@
    "genres": [
     "rock",
     "indie"
+   ],
+   "tags": [
+    "rock",
+    "alt"
    ],
    "age": "family",
    "era": "2015-now"
@@ -2796,6 +3406,10 @@
     "rock",
     "indie"
    ],
+   "tags": [
+    "rock",
+    "alt"
+   ],
    "age": "family",
    "era": "2015-now"
   },
@@ -2815,6 +3429,10 @@
    "genres": [
     "rock",
     "indie"
+   ],
+   "tags": [
+    "rock",
+    "alt"
    ],
    "age": "family",
    "era": "2015-now"
@@ -2836,6 +3454,10 @@
     "rock",
     "indie"
    ],
+   "tags": [
+    "rock",
+    "alt"
+   ],
    "age": "family",
    "era": "2015-now"
   },
@@ -2855,6 +3477,10 @@
    "genres": [
     "rock",
     "indie"
+   ],
+   "tags": [
+    "rock",
+    "alt"
    ],
    "age": "family",
    "era": "2015-now"
@@ -2876,6 +3502,10 @@
     "rock",
     "indie"
    ],
+   "tags": [
+    "rock",
+    "alt"
+   ],
    "age": "family",
    "era": "2015-now"
   },
@@ -2893,6 +3523,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BF%D1%8F%D1%82%D1%8B%D0%B9-%D0%BD%D1%8D%D0%BF/1804052776?i=1804053081&uo=4",
    "tier": 2,
    "genres": [
+    "rap",
+    "rnb"
+   ],
+   "tags": [
     "rap",
     "rnb"
    ],
@@ -2917,6 +3551,10 @@
     "rap",
     "rnb"
    ],
+   "tags": [
+    "rap",
+    "rnb"
+   ],
    "age": "18plus",
    "era": "2019-now",
    "needsReview": true
@@ -2935,6 +3573,10 @@
    "appleUrl": "https://music.apple.com/kz/album/tytyn/1751629432?i=1751629448&uo=4",
    "tier": 2,
    "genres": [
+    "rap",
+    "rnb"
+   ],
+   "tags": [
     "rap",
     "rnb"
    ],
@@ -2959,6 +3601,10 @@
     "rap",
     "rnb"
    ],
+   "tags": [
+    "rap",
+    "rnb"
+   ],
    "age": "18plus",
    "era": "2019-now",
    "needsReview": true
@@ -2977,6 +3623,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BE%D1%87%D0%B8/1597449493?i=1597449503&uo=4",
    "tier": 2,
    "genres": [
+    "rap",
+    "rnb"
+   ],
+   "tags": [
     "rap",
     "rnb"
    ],
@@ -3001,6 +3651,10 @@
     "rap",
     "rnb"
    ],
+   "tags": [
+    "rap",
+    "rnb"
+   ],
    "age": "18plus",
    "era": "2019-now",
    "needsReview": true
@@ -3019,6 +3673,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BE%D0%B9%D0%BB%D0%BE%D1%80%D1%83%D0%BC%D0%B4%D0%B0/1552905345?i=1552905349&uo=4",
    "tier": 2,
    "genres": [
+    "rap",
+    "rnb"
+   ],
+   "tags": [
     "rap",
     "rnb"
    ],
@@ -3043,6 +3701,10 @@
     "rnb",
     "rap"
    ],
+   "tags": [
+    "rnb",
+    "rap"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -3060,6 +3722,10 @@
    "appleUrl": "https://music.apple.com/kz/album/algabas/1785615542?i=1785615544&uo=4",
    "tier": 2,
    "genres": [
+    "rnb",
+    "rap"
+   ],
+   "tags": [
     "rnb",
     "rap"
    ],
@@ -3083,6 +3749,10 @@
     "rnb",
     "rap"
    ],
+   "tags": [
+    "rnb",
+    "rap"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -3100,6 +3770,10 @@
    "appleUrl": "https://music.apple.com/kz/album/1000/1491731247?i=1491731353&uo=4",
    "tier": 2,
    "genres": [
+    "rnb",
+    "rap"
+   ],
+   "tags": [
     "rnb",
     "rap"
    ],
@@ -3123,6 +3797,10 @@
     "rnb",
     "rap"
    ],
+   "tags": [
+    "rnb",
+    "rap"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -3140,6 +3818,10 @@
    "appleUrl": "https://music.apple.com/kz/album/unaisyn-feat-%D0%B8%D1%80%D0%B8%D0%BD%D0%B0-%D0%BA%D0%B0%D0%B9%D1%80%D0%B0%D1%82%D0%BE%D0%B2%D0%BD%D0%B0/1697484825?i=1697484956&uo=4",
    "tier": 2,
    "genres": [
+    "rnb",
+    "rap"
+   ],
+   "tags": [
     "rnb",
     "rap"
    ],
@@ -3163,6 +3845,10 @@
     "rnb",
     "rap"
    ],
+   "tags": [
+    "rnb",
+    "rap"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -3180,6 +3866,10 @@
    "appleUrl": "https://music.apple.com/kz/album/ter/1762067853?i=1762067862&uo=4",
    "tier": 2,
    "genres": [
+    "rap",
+    "underground"
+   ],
+   "tags": [
     "rap",
     "underground"
    ],
@@ -3203,6 +3893,10 @@
     "rap",
     "underground"
    ],
+   "tags": [
+    "rap",
+    "underground"
+   ],
    "age": "18plus",
    "era": "2019-now"
   },
@@ -3220,6 +3914,10 @@
    "appleUrl": "https://music.apple.com/kz/album/667/6768429447?i=6768429450&uo=4",
    "tier": 2,
    "genres": [
+    "rap",
+    "underground"
+   ],
+   "tags": [
     "rap",
     "underground"
    ],
@@ -3243,6 +3941,10 @@
     "rap",
     "underground"
    ],
+   "tags": [
+    "rap",
+    "underground"
+   ],
    "age": "18plus",
    "era": "2019-now"
   },
@@ -3260,6 +3962,10 @@
    "appleUrl": "https://music.apple.com/kz/album/khabar/1719775297?i=1719775413&uo=4",
    "tier": 2,
    "genres": [
+    "rap",
+    "underground"
+   ],
+   "tags": [
     "rap",
     "underground"
    ],
@@ -3283,6 +3989,10 @@
     "rap",
     "underground"
    ],
+   "tags": [
+    "rap",
+    "underground"
+   ],
    "age": "18plus",
    "era": "2019-now"
   },
@@ -3300,6 +4010,10 @@
    "appleUrl": "https://music.apple.com/kz/album/bas/1719775297?i=1719775967&uo=4",
    "tier": 2,
    "genres": [
+    "rap",
+    "underground"
+   ],
+   "tags": [
     "rap",
     "underground"
    ],
@@ -3323,6 +4037,10 @@
     "rock",
     "toi"
    ],
+   "tags": [
+    "rock",
+    "toi"
+   ],
    "age": "family",
    "era": "2000s-now"
   },
@@ -3340,6 +4058,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%81%D2%AF%D0%B9%D1%96%D0%BA%D1%82%D1%96-%D0%B5%D1%82%D1%88%D1%96-cover/1708918527?i=1708918539&uo=4",
    "tier": 2,
    "genres": [
+    "rock",
+    "toi"
+   ],
+   "tags": [
     "rock",
     "toi"
    ],
@@ -3363,6 +4085,10 @@
     "rock",
     "toi"
    ],
+   "tags": [
+    "rock",
+    "toi"
+   ],
    "age": "family",
    "era": "2000s-now"
   },
@@ -3380,6 +4106,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BD%D0%B0%D0%B9%D0%B7%D0%B0%D2%93%D0%B0%D0%B9-feat-%D3%99%D0%BB%D0%B8%D1%84/1677835733?i=1677835736&uo=4",
    "tier": 2,
    "genres": [
+    "rock",
+    "toi"
+   ],
+   "tags": [
     "rock",
     "toi"
    ],
@@ -3403,6 +4133,10 @@
     "rock",
     "toi"
    ],
+   "tags": [
+    "rock",
+    "toi"
+   ],
    "age": "family",
    "era": "2000s-now"
   },
@@ -3420,6 +4154,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D2%B1%D1%88%D1%82%D1%8B/1684940317?i=1684940318&uo=4",
    "tier": 2,
    "genres": [
+    "rock",
+    "toi"
+   ],
+   "tags": [
     "rock",
     "toi"
    ],
@@ -3443,6 +4181,10 @@
     "rock",
     "toi"
    ],
+   "tags": [
+    "rock",
+    "toi"
+   ],
    "age": "family",
    "era": "2000s-now"
   },
@@ -3460,6 +4202,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%85%D0%B0%D0%BD%D1%88%D0%B0%D0%B9%D1%8B%D0%BC/1530453400?i=1530453416&uo=4",
    "tier": 2,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -3481,6 +4226,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2010s-now"
   },
@@ -3498,6 +4246,9 @@
    "appleUrl": "https://music.apple.com/kz/album/kuiim/1779312034?i=1779312037&uo=4",
    "tier": 2,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -3519,6 +4270,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2010s-now"
   },
@@ -3536,6 +4290,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%82%D0%BE%D0%B9-%D0%B6%D1%8B%D1%80%D1%8B/1530453400?i=1530453640&uo=4",
    "tier": 2,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -3557,6 +4314,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2010s-now"
   },
@@ -3576,6 +4336,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2010s-now"
   },
@@ -3593,6 +4356,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%81%D0%BE%D0%BD%D0%B4%D0%B0-%D0%B4%D0%B0-%D1%81%D2%AF%D0%B9%D0%B5%D0%BC/1693142634?i=1693142638&uo=4",
    "tier": 2,
    "genres": [
+    "toi",
+    "pop"
+   ],
+   "tags": [
     "toi",
     "pop"
    ],
@@ -3616,6 +4383,10 @@
     "toi",
     "pop"
    ],
+   "tags": [
+    "toi",
+    "pop"
+   ],
    "age": "family",
    "era": "2010s-now"
   },
@@ -3633,6 +4404,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BA%D2%AF%D0%BD%D1%96%D0%BC-%D1%81%D0%B5%D0%BD-%D1%81%D3%A9%D0%BD%D0%B1%D0%B5%D1%88%D1%96/1234975176?i=1234975394&uo=4",
    "tier": 2,
    "genres": [
+    "toi",
+    "pop"
+   ],
+   "tags": [
     "toi",
     "pop"
    ],
@@ -3656,6 +4431,10 @@
     "toi",
     "pop"
    ],
+   "tags": [
+    "toi",
+    "pop"
+   ],
    "age": "family",
    "era": "2010s-now"
   },
@@ -3673,6 +4452,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BC%D0%B0%D1%85%D0%B0%D0%B1%D0%B1%D0%B0%D1%82%D1%8B%D0%BC-%D0%B0%D1%83/1198566599?i=1198566736&uo=4",
    "tier": 2,
    "genres": [
+    "toi",
+    "pop"
+   ],
+   "tags": [
     "toi",
     "pop"
    ],
@@ -3696,6 +4479,10 @@
     "toi",
     "pop"
    ],
+   "tags": [
+    "toi",
+    "pop"
+   ],
    "age": "family",
    "era": "2010s-now"
   },
@@ -3713,6 +4500,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BA%D0%B8%D0%BD%D0%BE%D0%B4%D0%B0%D2%93%D1%8B%D0%B4%D0%B0%D0%B9/1534562604?i=1534562614&uo=4",
    "tier": 2,
    "genres": [
+    "toi",
+    "pop"
+   ],
+   "tags": [
     "toi",
     "pop"
    ],
@@ -3736,6 +4527,10 @@
     "toi",
     "pop"
    ],
+   "tags": [
+    "toi",
+    "pop"
+   ],
    "age": "family",
    "era": "2010s-now"
   },
@@ -3753,6 +4548,10 @@
    "appleUrl": "https://music.apple.com/kz/album/qa%C4%B1dasyn-gashygym/1530388226?i=1530388227&uo=4",
    "tier": 2,
    "genres": [
+    "toi",
+    "pop"
+   ],
+   "tags": [
     "toi",
     "pop"
    ],
@@ -3776,6 +4575,10 @@
     "toi",
     "pop"
    ],
+   "tags": [
+    "toi",
+    "pop"
+   ],
    "age": "family",
    "era": "2010s-now"
   },
@@ -3793,6 +4596,10 @@
    "appleUrl": "https://music.apple.com/kz/album/qaida/1530576257?i=1530576268&uo=4",
    "tier": 2,
    "genres": [
+    "toi",
+    "pop"
+   ],
+   "tags": [
     "toi",
     "pop"
    ],
@@ -3816,6 +4623,10 @@
     "toi",
     "pop"
    ],
+   "tags": [
+    "toi",
+    "pop"
+   ],
    "age": "family",
    "era": "2010s-now"
   },
@@ -3833,6 +4644,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B0%D0%B4%D0%B0%D0%BB%D0%B4%D1%8B%D2%9B/1563772370?i=1563772382&uo=4",
    "tier": 2,
    "genres": [
+    "toi",
+    "pop"
+   ],
+   "tags": [
     "toi",
     "pop"
    ],
@@ -3856,6 +4671,10 @@
     "toi",
     "pop"
    ],
+   "tags": [
+    "toi",
+    "pop"
+   ],
    "age": "family",
    "era": "2010s-now"
   },
@@ -3873,6 +4692,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B1%D0%B0%D2%9B%D1%8B%D1%82%D1%8B%D2%A3%D0%B4%D1%8B-%D1%82%D0%B0%D0%B1%D0%B0%D1%81%D1%8B%D2%A3/1763681803?i=1763682058&uo=4",
    "tier": 2,
    "genres": [
+    "pop",
+    "rnb"
+   ],
+   "tags": [
     "pop",
     "rnb"
    ],
@@ -3896,6 +4719,10 @@
     "pop",
     "rnb"
    ],
+   "tags": [
+    "pop",
+    "rnb"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -3913,6 +4740,10 @@
    "appleUrl": "https://music.apple.com/kz/album/jylama-janym/6793974046?i=6793974359&uo=4",
    "tier": 2,
    "genres": [
+    "pop",
+    "rnb"
+   ],
+   "tags": [
     "pop",
     "rnb"
    ],
@@ -3936,6 +4767,10 @@
     "pop",
     "rnb"
    ],
+   "tags": [
+    "pop",
+    "rnb"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -3953,6 +4788,10 @@
    "appleUrl": "https://music.apple.com/kz/album/senimenen/1846503519?i=1846503522&uo=4",
    "tier": 2,
    "genres": [
+    "pop",
+    "rnb"
+   ],
+   "tags": [
     "pop",
     "rnb"
    ],
@@ -3976,6 +4815,10 @@
     "pop",
     "rnb"
    ],
+   "tags": [
+    "pop",
+    "rnb"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -3993,6 +4836,10 @@
    "appleUrl": "https://music.apple.com/kz/album/ana/1682735623?i=1682735625&uo=4",
    "tier": 2,
    "genres": [
+    "pop",
+    "rnb"
+   ],
+   "tags": [
     "pop",
     "rnb"
    ],
@@ -4016,6 +4863,10 @@
     "pop",
     "retro"
    ],
+   "tags": [
+    "pop",
+    "estrada"
+   ],
    "age": "family",
    "era": "2005-now"
   },
@@ -4035,6 +4886,10 @@
    "genres": [
     "pop",
     "retro"
+   ],
+   "tags": [
+    "pop",
+    "estrada"
    ],
    "age": "family",
    "era": "2005-now"
@@ -4056,6 +4911,10 @@
     "pop",
     "retro"
    ],
+   "tags": [
+    "pop",
+    "estrada"
+   ],
    "age": "family",
    "era": "2005-now"
   },
@@ -4075,6 +4934,10 @@
    "genres": [
     "pop",
     "retro"
+   ],
+   "tags": [
+    "pop",
+    "estrada"
    ],
    "age": "family",
    "era": "2005-now"
@@ -4096,6 +4959,10 @@
     "pop",
     "retro"
    ],
+   "tags": [
+    "pop",
+    "estrada"
+   ],
    "age": "family",
    "era": "2005-now"
   },
@@ -4115,6 +4982,10 @@
    "genres": [
     "pop",
     "retro"
+   ],
+   "tags": [
+    "pop",
+    "estrada"
    ],
    "age": "family",
    "era": "2005-now"
@@ -4136,6 +5007,10 @@
     "pop",
     "retro"
    ],
+   "tags": [
+    "pop",
+    "estrada"
+   ],
    "age": "family",
    "era": "2005-now"
   },
@@ -4153,6 +5028,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%81%D0%B5%D0%BD-%D0%BC%D1%83%D0%BD%D1%8B%D0%BD%D0%B4%D1%8B-%D0%B1%D0%B5%D0%B7-%D0%BC%D0%B0%D0%B3%D0%B0%D0%BD/1330814183?i=1330814196&uo=4",
    "tier": 2,
    "genres": [
+    "retro",
+    "pop"
+   ],
+   "tags": [
     "retro",
     "pop"
    ],
@@ -4176,6 +5055,10 @@
     "retro",
     "pop"
    ],
+   "tags": [
+    "retro",
+    "pop"
+   ],
    "age": "family",
    "era": "1990s-2010s"
   },
@@ -4193,6 +5076,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B0%D1%80%D0%BC%D0%B0%D0%BD-%D0%B6%D0%BE%D0%BB%D0%B4%D0%B0%D1%80/1330814183?i=1330814192&uo=4",
    "tier": 2,
    "genres": [
+    "retro",
+    "pop"
+   ],
+   "tags": [
     "retro",
     "pop"
    ],
@@ -4216,6 +5103,10 @@
     "retro",
     "pop"
    ],
+   "tags": [
+    "retro",
+    "pop"
+   ],
    "age": "family",
    "era": "1990s-2010s"
   },
@@ -4233,6 +5124,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BF%D0%B5%D0%B2%D0%B8%D1%86%D0%B0-%D0%B8-%D1%81%D0%B0%D0%BA%D1%81%D0%BE%D1%84%D0%BE%D0%BD/1658555860?i=1658556393&uo=4",
    "tier": 2,
    "genres": [
+    "retro",
+    "pop"
+   ],
+   "tags": [
     "retro",
     "pop"
    ],
@@ -4256,6 +5151,10 @@
     "retro",
     "pop"
    ],
+   "tags": [
+    "retro",
+    "pop"
+   ],
    "age": "family",
    "era": "1990s-2010s"
   },
@@ -4273,6 +5172,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B0%D1%80%D0%BC%D0%B0%D0%BD-%D0%B6%D0%BE%D0%BB%D0%B4%D0%B0%D1%80-%D0%BF%D0%BE%D1%81%D0%BB%D0%B5%D0%B4%D0%BD%D1%8F%D1%8F/1330814183?i=1330814694&uo=4",
    "tier": 2,
    "genres": [
+    "retro",
+    "pop"
+   ],
+   "tags": [
     "retro",
     "pop"
    ],
@@ -4296,6 +5199,10 @@
     "retro",
     "pop"
    ],
+   "tags": [
+    "retro",
+    "pop"
+   ],
    "age": "family",
    "era": "1987-now"
   },
@@ -4313,6 +5220,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%82%D1%8B/1559103816?i=1559103828&uo=4",
    "tier": 2,
    "genres": [
+    "retro",
+    "pop"
+   ],
+   "tags": [
     "retro",
     "pop"
    ],
@@ -4336,6 +5247,10 @@
     "toi",
     "patriotic"
    ],
+   "tags": [
+    "toi",
+    "patriotic"
+   ],
    "age": "family",
    "era": "2010s-now"
   },
@@ -4353,6 +5268,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B0%D0%BF%D0%BF%D0%B0%D2%93%D1%8B%D0%BC/1810255644?i=1810255668&uo=4",
    "tier": 2,
    "genres": [
+    "toi",
+    "patriotic"
+   ],
+   "tags": [
     "toi",
     "patriotic"
    ],
@@ -4376,6 +5295,10 @@
     "toi",
     "patriotic"
    ],
+   "tags": [
+    "toi",
+    "patriotic"
+   ],
    "age": "family",
    "era": "2010s-now"
   },
@@ -4393,6 +5316,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BB%D0%B0%D1%83%D0%BB%D0%B0/1250465106?i=1250465508&uo=4",
    "tier": 2,
    "genres": [
+    "toi",
+    "patriotic"
+   ],
+   "tags": [
     "toi",
     "patriotic"
    ],
@@ -4416,6 +5343,10 @@
     "toi",
     "patriotic"
    ],
+   "tags": [
+    "toi",
+    "patriotic"
+   ],
    "age": "family",
    "era": "2010s-now"
   },
@@ -4433,6 +5364,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D2%9B%D0%B0%D0%BB%D0%B0%D0%B9-%D0%B4%D0%B0/1210785921?i=1210785981&uo=4",
    "tier": 2,
    "genres": [
+    "toi",
+    "patriotic"
+   ],
+   "tags": [
     "toi",
     "patriotic"
    ],
@@ -4456,6 +5391,10 @@
     "toi",
     "patriotic"
    ],
+   "tags": [
+    "toi",
+    "patriotic"
+   ],
    "age": "family",
    "era": "2010s-now"
   },
@@ -4473,6 +5412,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B0%D0%BB%D0%BC%D0%B0%D1%82%D1%8B-%D0%B5%D2%A3-%D0%B0%D0%BB%D2%93%D0%B0%D1%88%D2%9B%D1%8B-%D0%BC%D0%B0%D1%85%D0%B0%D0%B1%D0%B1%D0%B0%D1%82%D1%8B%D0%BC/1747338088?i=1747338095&uo=4",
    "tier": 2,
    "genres": [
+    "toi",
+    "pop"
+   ],
+   "tags": [
     "toi",
     "pop"
    ],
@@ -4496,6 +5439,10 @@
     "toi",
     "pop"
    ],
+   "tags": [
+    "toi",
+    "pop"
+   ],
    "age": "family",
    "era": "2010s-now"
   },
@@ -4513,6 +5460,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B1%D1%96%D1%80%D1%82%D2%AF%D1%80%D0%BB%D1%96-%D2%9B%D1%8B%D0%B7/1126022078?i=1126022273&uo=4",
    "tier": 2,
    "genres": [
+    "toi",
+    "pop"
+   ],
+   "tags": [
     "toi",
     "pop"
    ],
@@ -4536,6 +5487,10 @@
     "toi",
     "pop"
    ],
+   "tags": [
+    "toi",
+    "pop"
+   ],
    "age": "family",
    "era": "2010s-now"
   },
@@ -4553,6 +5508,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B4%D0%BE-%D1%80%D0%B5-%D0%BC%D0%B8/1118362189?i=1118362705&uo=4",
    "tier": 2,
    "genres": [
+    "toi",
+    "pop"
+   ],
+   "tags": [
     "toi",
     "pop"
    ],
@@ -4576,6 +5535,10 @@
     "toi",
     "pop"
    ],
+   "tags": [
+    "toi",
+    "pop"
+   ],
    "age": "family",
    "era": "2010s-now"
   },
@@ -4593,6 +5556,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B0%D0%BB%D0%BB%D0%BE-%D0%B6%D0%B0%D2%A3%D0%B0-%D0%BD%D2%B1%D1%81%D2%9B%D0%B0/1121988919?i=1121989421&uo=4",
    "tier": 2,
    "genres": [
+    "toi",
+    "pop"
+   ],
+   "tags": [
     "toi",
     "pop"
    ],
@@ -4616,6 +5583,10 @@
     "pop",
     "rnb"
    ],
+   "tags": [
+    "pop",
+    "rnb"
+   ],
    "age": "family",
    "era": "2015-now"
   },
@@ -4633,6 +5604,10 @@
    "appleUrl": "https://music.apple.com/kz/album/24-7/1823742956?i=1823742959&uo=4",
    "tier": 3,
    "genres": [
+    "pop",
+    "rnb"
+   ],
+   "tags": [
     "pop",
     "rnb"
    ],
@@ -4656,6 +5631,10 @@
     "pop",
     "rnb"
    ],
+   "tags": [
+    "pop",
+    "rnb"
+   ],
    "age": "family",
    "era": "2015-now"
   },
@@ -4673,6 +5652,10 @@
    "appleUrl": "https://music.apple.com/kz/album/s-o-s/1439182640?i=1439182641&uo=4",
    "tier": 3,
    "genres": [
+    "pop",
+    "rnb"
+   ],
+   "tags": [
     "pop",
     "rnb"
    ],
@@ -4696,6 +5679,10 @@
     "pop",
     "rnb"
    ],
+   "tags": [
+    "pop",
+    "rnb"
+   ],
    "age": "family",
    "era": "2015-now"
   },
@@ -4713,6 +5700,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B6%D0%B0%D0%BD%D1%8B%D0%BC-%D0%B0%D1%83-%D1%81%D0%B5%D0%BD/1648878245?i=1648878252&uo=4",
    "tier": 2,
    "genres": [
+    "pop",
+    "rap"
+   ],
+   "tags": [
     "pop",
     "rap"
    ],
@@ -4736,6 +5727,10 @@
     "pop",
     "rap"
    ],
+   "tags": [
+    "pop",
+    "rap"
+   ],
    "age": "family",
    "era": "2017-now"
   },
@@ -4753,6 +5748,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%81%D0%B0%D0%BC%D0%B0%D1%8F-%D0%B2%D1%8B%D1%88%D0%BA%D0%B0-radio-dfm-mix/1647591011?i=1647591012&uo=4",
    "tier": 2,
    "genres": [
+    "pop",
+    "rap"
+   ],
+   "tags": [
     "pop",
     "rap"
    ],
@@ -4776,6 +5775,10 @@
     "pop",
     "rap"
    ],
+   "tags": [
+    "pop",
+    "rap"
+   ],
    "age": "family",
    "era": "2017-now"
   },
@@ -4793,6 +5796,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B4%D0%B5%D0%BC/1648878245?i=1648878249&uo=4",
    "tier": 2,
    "genres": [
+    "pop",
+    "rap"
+   ],
+   "tags": [
     "pop",
     "rap"
    ],
@@ -4816,6 +5823,10 @@
     "pop",
     "rap"
    ],
+   "tags": [
+    "pop",
+    "rap"
+   ],
    "age": "family",
    "era": "2017-now"
   },
@@ -4833,6 +5844,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BF%D0%BE%D0%BB%D0%B5%D1%82%D0%B0%D0%B5%D0%BC-remix-feat-lavrushkin-eddie-g/1408440857?i=1408440939&uo=4",
    "tier": 2,
    "genres": [
+    "pop",
+    "rap"
+   ],
+   "tags": [
     "pop",
     "rap"
    ],
@@ -4856,6 +5871,10 @@
     "toi",
     "pop"
    ],
+   "tags": [
+    "toi",
+    "pop"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -4873,6 +5892,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B6%D0%B0%D1%81%D1%8B%D1%80%D1%8B%D0%BD-%D0%BA%D0%B5%D0%B7%D0%B4%D0%B5%D1%81%D1%83/6802228030?i=6802228364&uo=4",
    "tier": 2,
    "genres": [
+    "toi",
+    "pop"
+   ],
+   "tags": [
     "toi",
     "pop"
    ],
@@ -4896,6 +5919,10 @@
     "toi",
     "pop"
    ],
+   "tags": [
+    "toi",
+    "pop"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -4913,6 +5940,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B1%D2%B1%D1%80%D1%82%D0%B8%D2%93%D0%B0%D0%BD%D1%8B%D2%A3%D0%B4%D1%8B-%D1%81%D2%AF%D0%B9%D0%B4%D1%96%D0%BC/1554093885?i=1554093891&uo=4",
    "tier": 2,
    "genres": [
+    "toi",
+    "pop"
+   ],
+   "tags": [
     "toi",
     "pop"
    ],
@@ -4936,6 +5967,10 @@
     "toi",
     "pop"
    ],
+   "tags": [
+    "toi",
+    "pop"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -4953,6 +5988,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B0%D0%BB%D1%82%D1%8B%D0%BD-%D2%9B%D1%8B%D0%B7/1569594687?i=1569595118&uo=4",
    "tier": 2,
    "genres": [
+    "toi",
+    "pop"
+   ],
+   "tags": [
     "toi",
     "pop"
    ],
@@ -4976,6 +6015,10 @@
     "toi",
     "pop"
    ],
+   "tags": [
+    "toi",
+    "pop"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -4993,6 +6036,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B1%D1%96%D0%B7-%D0%B6%D0%BE%D0%BB%D1%8B%D2%93%D0%B0%D0%BC%D1%8B%D0%B7/6772223496?i=6772223501&uo=4",
    "tier": 2,
    "genres": [
+    "pop",
+    "toi"
+   ],
+   "tags": [
     "pop",
     "toi"
    ],
@@ -5016,6 +6063,10 @@
     "pop",
     "toi"
    ],
+   "tags": [
+    "pop",
+    "toi"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -5033,6 +6084,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%88%D1%8B%D0%BD%D1%8B%D2%A3%D0%B4%D1%8B-%D0%B0%D0%B9%D1%82/1887509227?i=1887509229&uo=4",
    "tier": 2,
    "genres": [
+    "pop",
+    "toi"
+   ],
+   "tags": [
     "pop",
     "toi"
    ],
@@ -5056,6 +6111,10 @@
     "pop",
     "toi"
    ],
+   "tags": [
+    "pop",
+    "toi"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -5073,6 +6132,10 @@
    "appleUrl": "https://music.apple.com/kz/album/darumenim/6799036662?i=6799036793&uo=4",
    "tier": 2,
    "genres": [
+    "pop",
+    "toi"
+   ],
+   "tags": [
     "pop",
     "toi"
    ],
@@ -5096,6 +6159,10 @@
     "pop",
     "toi"
    ],
+   "tags": [
+    "pop",
+    "toi"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -5113,6 +6180,10 @@
    "appleUrl": "https://music.apple.com/kz/album/biz-turaly/1817963903?i=1817963907&uo=4",
    "tier": 2,
    "genres": [
+    "pop",
+    "toi"
+   ],
+   "tags": [
     "pop",
     "toi"
    ],
@@ -5135,6 +6206,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -5152,6 +6226,9 @@
    "appleUrl": "https://music.apple.com/kz/album/meni-kut/1781052074?i=1781052381&uo=4",
    "tier": 2,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -5173,6 +6250,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -5190,6 +6270,9 @@
    "appleUrl": "https://music.apple.com/kz/album/senen-kein/1717396743?i=1717396951&uo=4",
    "tier": 2,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -5211,6 +6294,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -5228,6 +6314,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B6%D0%B0%D1%80%D1%8B%D2%93%D1%8B%D0%BC/1893440364?i=1893440366&uo=4",
    "tier": 2,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -5249,6 +6338,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -5266,6 +6358,10 @@
    "appleUrl": "https://music.apple.com/kz/album/ademi/1891054435?i=1891054568&uo=4",
    "tier": 2,
    "genres": [
+    "rap",
+    "pop"
+   ],
+   "tags": [
     "rap",
     "pop"
    ],
@@ -5289,6 +6385,10 @@
     "rap",
     "pop"
    ],
+   "tags": [
+    "rap",
+    "pop"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -5306,6 +6406,10 @@
    "appleUrl": "https://music.apple.com/kz/album/olai/1766268304?i=1766268418&uo=4",
    "tier": 2,
    "genres": [
+    "rap",
+    "pop"
+   ],
+   "tags": [
     "rap",
     "pop"
    ],
@@ -5329,6 +6433,10 @@
     "rap",
     "pop"
    ],
+   "tags": [
+    "rap",
+    "pop"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -5346,6 +6454,10 @@
    "appleUrl": "https://music.apple.com/kz/album/qar/1762425030?i=1762425042&uo=4",
    "tier": 2,
    "genres": [
+    "rap",
+    "pop"
+   ],
+   "tags": [
     "rap",
     "pop"
    ],
@@ -5369,6 +6481,10 @@
     "rap",
     "pop"
    ],
+   "tags": [
+    "rap",
+    "pop"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -5386,6 +6502,10 @@
    "appleUrl": "https://music.apple.com/kz/album/hello/1780791664?i=1780791667&uo=4",
    "tier": 2,
    "genres": [
+    "rap",
+    "pop"
+   ],
+   "tags": [
     "rap",
     "pop"
    ],
@@ -5408,6 +6528,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2020-now"
   },
@@ -5425,6 +6548,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B1%D0%B0%D1%8F%D2%93%D1%8B%D0%B4%D0%B0%D0%B9/1752465958?i=1752465977&uo=4",
    "tier": 3,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -5446,6 +6572,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2020-now"
   },
@@ -5463,6 +6592,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BA%D0%B8%D0%BD%D0%BE/1605779581?i=1605779829&uo=4",
    "tier": 3,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -5484,6 +6616,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2020-now"
   },
@@ -5502,6 +6637,10 @@
    "tier": 3,
    "genres": [
     "indie"
+   ],
+   "tags": [
+    "indie",
+    "acoustic"
    ],
    "age": "family",
    "era": "2019-now"
@@ -5522,6 +6661,10 @@
    "genres": [
     "indie"
    ],
+   "tags": [
+    "indie",
+    "acoustic"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -5540,6 +6683,10 @@
    "tier": 3,
    "genres": [
     "indie"
+   ],
+   "tags": [
+    "indie",
+    "acoustic"
    ],
    "age": "family",
    "era": "2019-now"
@@ -5560,6 +6707,10 @@
    "genres": [
     "indie"
    ],
+   "tags": [
+    "indie",
+    "acoustic"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -5579,6 +6730,10 @@
    "genres": [
     "indie"
    ],
+   "tags": [
+    "indie",
+    "acoustic"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -5596,6 +6751,10 @@
    "appleUrl": "https://music.apple.com/kz/album/tartady/1755171126?i=1755171356&uo=4",
    "tier": 3,
    "genres": [
+    "indie",
+    "rnb"
+   ],
+   "tags": [
     "indie",
     "rnb"
    ],
@@ -5619,6 +6778,10 @@
     "indie",
     "rnb"
    ],
+   "tags": [
+    "indie",
+    "rnb"
+   ],
    "age": "family",
    "era": "2020-now"
   },
@@ -5636,6 +6799,10 @@
    "appleUrl": "https://music.apple.com/kz/album/sybyrlaiyn-3/1645073431?i=1645073442&uo=4",
    "tier": 3,
    "genres": [
+    "indie",
+    "rnb"
+   ],
+   "tags": [
     "indie",
     "rnb"
    ],
@@ -5659,6 +6826,10 @@
     "indie",
     "rnb"
    ],
+   "tags": [
+    "indie",
+    "rnb"
+   ],
    "age": "family",
    "era": "2020-now"
   },
@@ -5676,6 +6847,10 @@
    "appleUrl": "https://music.apple.com/kz/album/kel-kel/1715481464?i=1715481652&uo=4",
    "tier": 3,
    "genres": [
+    "indie",
+    "rnb"
+   ],
+   "tags": [
     "indie",
     "rnb"
    ],
@@ -5699,6 +6874,10 @@
     "pop",
     "rnb"
    ],
+   "tags": [
+    "pop",
+    "rnb"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -5716,6 +6895,10 @@
    "appleUrl": "https://music.apple.com/kz/album/tu-tu-tu/1644713485?i=1644713500&uo=4",
    "tier": 3,
    "genres": [
+    "pop",
+    "rnb"
+   ],
+   "tags": [
     "pop",
     "rnb"
    ],
@@ -5739,6 +6922,10 @@
     "pop",
     "rnb"
    ],
+   "tags": [
+    "pop",
+    "rnb"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -5756,6 +6943,10 @@
    "appleUrl": "https://music.apple.com/kz/album/gashyqpyn/1653665622?i=1653665787&uo=4",
    "tier": 3,
    "genres": [
+    "pop",
+    "rnb"
+   ],
+   "tags": [
     "pop",
     "rnb"
    ],
@@ -5779,6 +6970,10 @@
     "pop",
     "rnb"
    ],
+   "tags": [
+    "pop",
+    "rnb"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -5796,8 +6991,12 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%87%D1%82%D0%BE-%D1%82%D0%B0%D0%BA%D0%BE%D0%B5-%D1%81%D1%87%D0%B0%D1%81%D1%82%D1%8C%D0%B5/1803583547?i=1803583680&uo=4",
    "tier": 3,
    "genres": [
-    "jazz",
     "rnb"
+   ],
+   "tags": [
+    "jazz",
+    "rnb",
+    "soul"
    ],
    "age": "family",
    "era": "2017-now"
@@ -5816,8 +7015,12 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BD%D1%83%D0%B6%D0%BD%D0%B0/1803583547?i=1803583697&uo=4",
    "tier": 3,
    "genres": [
-    "jazz",
     "rnb"
+   ],
+   "tags": [
+    "jazz",
+    "rnb",
+    "soul"
    ],
    "age": "family",
    "era": "2017-now"
@@ -5836,8 +7039,12 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B4%D0%BE%D0%B6%D0%B4%D1%8C/1841862618?i=1841862620&uo=4",
    "tier": 3,
    "genres": [
-    "jazz",
     "rnb"
+   ],
+   "tags": [
+    "jazz",
+    "rnb",
+    "soul"
    ],
    "age": "family",
    "era": "2017-now"
@@ -5856,8 +7063,12 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%82%D0%B5%D0%BC%D0%BF%D0%B5%D1%80%D0%B0%D1%82%D1%83%D1%80%D0%B0/1538730797?i=1538730945&uo=4",
    "tier": 3,
    "genres": [
-    "jazz",
     "rnb"
+   ],
+   "tags": [
+    "jazz",
+    "rnb",
+    "soul"
    ],
    "age": "family",
    "era": "2017-now"
@@ -5876,8 +7087,12 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B2%D1%8B%D0%B4%D0%BE%D1%85-%D0%B2%D0%B4%D0%BE%D1%85-nick-rouze-remix/1841862618?i=1841862631&uo=4",
    "tier": 3,
    "genres": [
-    "jazz",
     "rnb"
+   ],
+   "tags": [
+    "jazz",
+    "rnb",
+    "soul"
    ],
    "age": "family",
    "era": "2017-now"
@@ -5896,6 +7111,9 @@
    "appleUrl": "https://music.apple.com/kz/album/sheker/1807096312?i=1807096318&uo=4",
    "tier": 3,
    "genres": [
+    "rnb"
+   ],
+   "tags": [
     "rnb",
     "jazz"
    ],
@@ -5916,6 +7134,9 @@
    "appleUrl": "https://music.apple.com/kz/album/shyraq/1841605040?i=1841605041&uo=4",
    "tier": 3,
    "genres": [
+    "rnb"
+   ],
+   "tags": [
     "rnb",
     "jazz"
    ],
@@ -5936,6 +7157,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%C3%BA%C4%B1de/1807096312?i=1807096320&uo=4",
    "tier": 3,
    "genres": [
+    "rnb"
+   ],
+   "tags": [
     "rnb",
     "jazz"
    ],
@@ -5956,6 +7180,9 @@
    "appleUrl": "https://music.apple.com/kz/album/bylygyp/1807096312?i=1807096313&uo=4",
    "tier": 3,
    "genres": [
+    "rnb"
+   ],
+   "tags": [
     "rnb",
     "jazz"
    ],
@@ -5976,6 +7203,9 @@
    "appleUrl": "https://music.apple.com/kz/album/erikpe-%C3%B5zen-version/1807096312?i=1807096316&uo=4",
    "tier": 3,
    "genres": [
+    "rnb"
+   ],
+   "tags": [
     "rnb",
     "jazz"
    ],
@@ -5999,6 +7229,10 @@
     "pop",
     "indie"
    ],
+   "tags": [
+    "pop",
+    "indie"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -6016,6 +7250,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D2%9B%D0%BE%D0%B7%D1%8B-%D0%BA%D3%A9%D1%80%D0%BF%D0%B5%D1%88-%D0%B1%D0%B0%D1%8F%D0%BD-%D1%81%D2%B1%D0%BB%D1%83/1752475946?i=1752476280&uo=4",
    "tier": 3,
    "genres": [
+    "pop",
+    "indie"
+   ],
+   "tags": [
     "pop",
     "indie"
    ],
@@ -6039,6 +7277,10 @@
     "pop",
     "indie"
    ],
+   "tags": [
+    "pop",
+    "indie"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -6056,6 +7298,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B8%D1%89%D1%83-%D1%82%D0%B5%D0%B1%D1%8F/1636348304?i=1636348622&uo=4",
    "tier": 3,
    "genres": [
+    "pop",
+    "indie"
+   ],
+   "tags": [
     "pop",
     "indie"
    ],
@@ -6079,6 +7325,10 @@
     "pop",
     "indie"
    ],
+   "tags": [
+    "pop",
+    "indie"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -6096,6 +7346,9 @@
    "appleUrl": "https://music.apple.com/kz/album/unaidy-magan/1451371264?i=1451371265&uo=4",
    "tier": 3,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -6117,6 +7370,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -6134,6 +7390,9 @@
    "appleUrl": "https://music.apple.com/kz/album/gana/1450993885?i=1450994066&uo=4",
    "tier": 3,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -6155,6 +7414,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -6174,6 +7436,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -6191,6 +7456,10 @@
    "appleUrl": "https://music.apple.com/kz/album/men-dep-oila-yeski-taspa/1664856008?i=1664856014&uo=4",
    "tier": 3,
    "genres": [
+    "pop",
+    "indie"
+   ],
+   "tags": [
     "pop",
     "indie"
    ],
@@ -6214,6 +7483,10 @@
     "pop",
     "indie"
    ],
+   "tags": [
+    "pop",
+    "indie"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -6231,6 +7504,10 @@
    "appleUrl": "https://music.apple.com/kz/album/meili/1837198491?i=1837198493&uo=4",
    "tier": 3,
    "genres": [
+    "pop",
+    "indie"
+   ],
+   "tags": [
     "pop",
     "indie"
    ],
@@ -6254,6 +7531,10 @@
     "pop",
     "indie"
    ],
+   "tags": [
+    "pop",
+    "indie"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -6271,6 +7552,10 @@
    "appleUrl": "https://music.apple.com/kz/album/desekte/1841482799?i=1841483137&uo=4",
    "tier": 3,
    "genres": [
+    "pop",
+    "indie"
+   ],
+   "tags": [
     "pop",
     "indie"
    ],
@@ -6293,6 +7578,9 @@
    "genres": [
     "indie"
    ],
+   "tags": [
+    "indie"
+   ],
    "age": "family",
    "era": "2020-now"
   },
@@ -6310,6 +7598,9 @@
    "appleUrl": "https://music.apple.com/kz/album/zhanbyr/1746524880?i=1746525170&uo=4",
    "tier": 3,
    "genres": [
+    "indie"
+   ],
+   "tags": [
     "indie"
    ],
    "age": "family",
@@ -6331,6 +7622,9 @@
    "genres": [
     "indie"
    ],
+   "tags": [
+    "indie"
+   ],
    "age": "family",
    "era": "2020-now"
   },
@@ -6348,6 +7642,9 @@
    "appleUrl": "https://music.apple.com/kz/album/tandauly/1654029892?i=1654029898&uo=4",
    "tier": 3,
    "genres": [
+    "indie"
+   ],
+   "tags": [
     "indie"
    ],
    "age": "family",
@@ -6369,6 +7666,9 @@
    "genres": [
     "indie"
    ],
+   "tags": [
+    "indie"
+   ],
    "age": "family",
    "era": "2020-now"
   },
@@ -6387,6 +7687,10 @@
    "tier": 3,
    "genres": [
     "indie"
+   ],
+   "tags": [
+    "indie",
+    "alt"
    ],
    "age": "family",
    "era": "2018-now"
@@ -6407,6 +7711,10 @@
    "genres": [
     "indie"
    ],
+   "tags": [
+    "indie",
+    "alt"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -6425,6 +7733,10 @@
    "tier": 3,
    "genres": [
     "indie"
+   ],
+   "tags": [
+    "indie",
+    "alt"
    ],
    "age": "family",
    "era": "2018-now"
@@ -6445,6 +7757,10 @@
    "genres": [
     "indie"
    ],
+   "tags": [
+    "indie",
+    "alt"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -6464,6 +7780,10 @@
    "genres": [
     "indie"
    ],
+   "tags": [
+    "indie",
+    "alt"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -6481,6 +7801,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BC%D1%83%D1%81%D0%B0/1882981331?i=1882981333&uo=4",
    "tier": 3,
    "genres": [
+    "rap"
+   ],
+   "tags": [
     "rap"
    ],
    "age": "18plus",
@@ -6502,6 +7825,9 @@
    "genres": [
     "rap"
    ],
+   "tags": [
+    "rap"
+   ],
    "age": "18plus",
    "era": "2016-now"
   },
@@ -6519,6 +7845,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BF%D1%80%D0%B8%D1%87%D0%B8%D0%BD%D1%8B/1822256629?i=1822256920&uo=4",
    "tier": 3,
    "genres": [
+    "rap"
+   ],
+   "tags": [
     "rap"
    ],
    "age": "18plus",
@@ -6540,6 +7869,9 @@
    "genres": [
     "rap"
    ],
+   "tags": [
+    "rap"
+   ],
    "age": "18plus",
    "era": "2016-now"
   },
@@ -6557,6 +7889,9 @@
    "appleUrl": "https://music.apple.com/kz/album/14/1822256629?i=1822256632&uo=4",
    "tier": 3,
    "genres": [
+    "rap"
+   ],
+   "tags": [
     "rap"
    ],
    "age": "18plus",
@@ -6578,6 +7913,9 @@
    "genres": [
     "rap"
    ],
+   "tags": [
+    "rap"
+   ],
    "age": "18plus",
    "era": "2017-now"
   },
@@ -6595,6 +7933,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%82%D0%B0%D0%BB%D0%B8%D1%8F-feat-truwer-karma-remix/1692916043?i=1692916044&uo=4",
    "tier": 3,
    "genres": [
+    "rap"
+   ],
+   "tags": [
     "rap"
    ],
    "age": "18plus",
@@ -6616,6 +7957,9 @@
    "genres": [
     "rap"
    ],
+   "tags": [
+    "rap"
+   ],
    "age": "18plus",
    "era": "2017-now"
   },
@@ -6633,6 +7977,9 @@
    "appleUrl": "https://music.apple.com/kz/album/one-two-three-feat-dj-worm-sam-omi/6769594871?i=6769594877&uo=4",
    "tier": 3,
    "genres": [
+    "rap"
+   ],
+   "tags": [
     "rap"
    ],
    "age": "18plus",
@@ -6654,6 +8001,9 @@
    "genres": [
     "rap"
    ],
+   "tags": [
+    "rap"
+   ],
    "age": "18plus",
    "era": "2017-now"
   },
@@ -6671,6 +8021,9 @@
    "appleUrl": "https://music.apple.com/kz/album/backwoods/1499345756?i=1499346331&uo=4",
    "tier": 3,
    "genres": [
+    "rap"
+   ],
+   "tags": [
     "rap"
    ],
    "age": "18plus",
@@ -6692,6 +8045,9 @@
    "genres": [
     "rap"
    ],
+   "tags": [
+    "rap"
+   ],
    "age": "18plus",
    "era": "2015-now"
   },
@@ -6709,6 +8065,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%8F-%D0%B7%D0%BD%D0%B0%D1%8E-%D0%BA%D0%B0%D0%BA%D0%B0%D1%8F-%D1%82%D1%8B-feat-%D1%81%D0%BA%D1%80%D0%B8%D0%BF%D1%82%D0%BE%D0%BD%D0%B8%D1%82-maqlao/1287036900?i=1287038494&uo=4",
    "tier": 3,
    "genres": [
+    "rap"
+   ],
+   "tags": [
     "rap"
    ],
    "age": "18plus",
@@ -6730,6 +8089,9 @@
    "genres": [
     "rap"
    ],
+   "tags": [
+    "rap"
+   ],
    "age": "18plus",
    "era": "2015-now"
   },
@@ -6749,6 +8111,9 @@
    "genres": [
     "rap"
    ],
+   "tags": [
+    "rap"
+   ],
    "age": "18plus",
    "era": "2015-now"
   },
@@ -6766,6 +8131,10 @@
    "appleUrl": "https://music.apple.com/kz/album/am-jalama/1893376633?i=1893376637&uo=4",
    "tier": 3,
    "genres": [
+    "rap",
+    "underground"
+   ],
+   "tags": [
     "rap",
     "underground"
    ],
@@ -6789,8 +8158,13 @@
     "rap",
     "underground"
    ],
+   "tags": [
+    "rap",
+    "underground"
+   ],
    "age": "18plus",
-   "era": "2016-now"
+   "era": "2016-now",
+   "flagEnglish": true
   },
   {
    "id": "1689222728",
@@ -6806,6 +8180,10 @@
    "appleUrl": "https://music.apple.com/kz/album/64-bars/1689221501?i=1689222728&uo=4",
    "tier": 3,
    "genres": [
+    "rap",
+    "underground"
+   ],
+   "tags": [
     "rap",
     "underground"
    ],
@@ -6829,6 +8207,10 @@
     "rap",
     "underground"
    ],
+   "tags": [
+    "rap",
+    "underground"
+   ],
    "age": "18plus",
    "era": "2016-now"
   },
@@ -6846,6 +8228,10 @@
    "appleUrl": "https://music.apple.com/kz/album/magan-unaid/1701404637?i=1701404846&uo=4",
    "tier": 3,
    "genres": [
+    "rap",
+    "underground"
+   ],
+   "tags": [
     "rap",
     "underground"
    ],
@@ -6868,6 +8254,10 @@
    "genres": [
     "rap"
    ],
+   "tags": [
+    "rap",
+    "meme"
+   ],
    "age": "18plus",
    "era": "2020-now"
   },
@@ -6887,6 +8277,10 @@
    "genres": [
     "rap"
    ],
+   "tags": [
+    "rap",
+    "meme"
+   ],
    "age": "18plus",
    "era": "2020-now"
   },
@@ -6904,6 +8298,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B2%D0%BE%D1%81%D1%82%D0%BE%D1%87%D0%BD%D0%B0%D1%8F-%D0%BD%D0%BE%D1%87%D1%8C/1476842353?i=1476842504&uo=4",
    "tier": 3,
    "genres": [
+    "rap"
+   ],
+   "tags": [
     "rap"
    ],
    "age": "18plus",
@@ -6925,6 +8322,9 @@
    "genres": [
     "rap"
    ],
+   "tags": [
+    "rap"
+   ],
    "age": "18plus",
    "era": "2000s-2010s"
   },
@@ -6942,6 +8342,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%85%D0%B0%D0%BD%D0%BA%D0%B0-3/1835895392?i=1835895429&uo=4",
    "tier": 3,
    "genres": [
+    "rap"
+   ],
+   "tags": [
     "rap"
    ],
    "age": "18plus",
@@ -6963,6 +8366,9 @@
    "genres": [
     "rap"
    ],
+   "tags": [
+    "rap"
+   ],
    "age": "18plus",
    "era": "2000s-2010s"
   },
@@ -6980,6 +8386,9 @@
    "appleUrl": "https://music.apple.com/kz/album/supa/1733000759?i=1733000773&uo=4",
    "tier": 3,
    "genres": [
+    "rap"
+   ],
+   "tags": [
     "rap"
    ],
    "age": "18plus",
@@ -7001,6 +8410,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2000s-now"
   },
@@ -7018,6 +8430,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B3%D2%AF%D0%BB-%D0%B0%D0%BB%D0%BC%D0%B0%D1%82%D1%8B/1583725269?i=1583725276&uo=4",
    "tier": 2,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -7039,6 +8454,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2000s-now"
   },
@@ -7056,6 +8474,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%82%D0%B2%D0%BE%D0%B8-%D1%88%D0%B0%D0%B3%D0%B8/1584124747?i=1584124750&uo=4",
    "tier": 2,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -7077,6 +8498,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2000s-now"
   },
@@ -7094,6 +8518,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%81%D0%B0%D2%93%D1%8B%D0%BC-%D0%B4%D2%AF%D0%BD%D0%B8%D0%B5/1583725269?i=1583725285&uo=4",
    "tier": 2,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -7115,6 +8542,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2000s-now"
   },
@@ -7132,6 +8562,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B1%D1%83%D0%BB-%D0%BE%D0%BC%D1%8B%D1%80%D0%B4%D0%B5/1561441553?i=1561441555&uo=4",
    "tier": 3,
    "genres": [
+    "pop",
+    "toi"
+   ],
+   "tags": [
     "pop",
     "toi"
    ],
@@ -7155,6 +8589,10 @@
     "pop",
     "toi"
    ],
+   "tags": [
+    "pop",
+    "toi"
+   ],
    "age": "family",
    "era": "2010s-now"
   },
@@ -7175,8 +8613,13 @@
     "pop",
     "toi"
    ],
+   "tags": [
+    "pop",
+    "toi"
+   ],
    "age": "family",
-   "era": "2010s-now"
+   "era": "2010s-now",
+   "flagEnglish": true
   },
   {
    "id": "6778916204",
@@ -7192,6 +8635,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BD%D0%B5-%D0%BB%D1%8E%D0%B1%D0%BE%D0%B2%D1%8C/6778916201?i=6778916204&uo=4",
    "tier": 3,
    "genres": [
+    "pop",
+    "toi"
+   ],
+   "tags": [
     "pop",
     "toi"
    ],
@@ -7215,6 +8662,10 @@
     "pop",
     "toi"
    ],
+   "tags": [
+    "pop",
+    "toi"
+   ],
    "age": "family",
    "era": "2010s-now"
   },
@@ -7232,6 +8683,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%81%D2%AF%D0%B9%D0%B5%D0%BC-%D0%B6%D0%B5%D0%BA-%D0%BA%D3%A9%D1%80%D0%B5%D0%BC/1701406745?i=1701407035&uo=4",
    "tier": 3,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -7253,6 +8707,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2010s-now"
   },
@@ -7270,6 +8727,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%81%D0%B5%D0%BD-%D0%B5%D0%BC%D0%B5%D1%81/1700518662?i=1700519121&uo=4",
    "tier": 3,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -7291,6 +8751,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2010s-now"
   },
@@ -7308,6 +8771,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BA%D1%96%D0%BC-%D2%AF%D1%88%D1%96%D0%BD/1701406618?i=1701406853&uo=4",
    "tier": 3,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -7330,6 +8796,10 @@
     "toi",
     "retro"
    ],
+   "tags": [
+    "toi",
+    "estrada"
+   ],
    "age": "family",
    "era": "2000s-now"
   },
@@ -7349,6 +8819,10 @@
    "genres": [
     "toi",
     "retro"
+   ],
+   "tags": [
+    "toi",
+    "estrada"
    ],
    "age": "family",
    "era": "2000s-now"
@@ -7370,6 +8844,10 @@
     "toi",
     "retro"
    ],
+   "tags": [
+    "toi",
+    "estrada"
+   ],
    "age": "family",
    "era": "2000s-now"
   },
@@ -7389,6 +8867,10 @@
    "genres": [
     "toi",
     "retro"
+   ],
+   "tags": [
+    "toi",
+    "estrada"
    ],
    "age": "family",
    "era": "2000s-now"
@@ -7410,6 +8892,10 @@
     "toi",
     "retro"
    ],
+   "tags": [
+    "toi",
+    "estrada"
+   ],
    "age": "family",
    "era": "2000s-now"
   },
@@ -7429,6 +8915,10 @@
    "genres": [
     "toi",
     "retro"
+   ],
+   "tags": [
+    "toi",
+    "estrada"
    ],
    "age": "family",
    "era": "2000s-now"
@@ -7450,6 +8940,10 @@
     "toi",
     "retro"
    ],
+   "tags": [
+    "toi",
+    "estrada"
+   ],
    "age": "family",
    "era": "2000s-now"
   },
@@ -7469,6 +8963,10 @@
    "genres": [
     "toi",
     "retro"
+   ],
+   "tags": [
+    "toi",
+    "estrada"
    ],
    "age": "family",
    "era": "2000s-now"
@@ -7490,6 +8988,10 @@
     "toi",
     "retro"
    ],
+   "tags": [
+    "toi",
+    "estrada"
+   ],
    "age": "family",
    "era": "2000s-now"
   },
@@ -7509,6 +9011,10 @@
    "genres": [
     "toi",
     "retro"
+   ],
+   "tags": [
+    "toi",
+    "estrada"
    ],
    "age": "family",
    "era": "2000s-now"
@@ -7530,6 +9036,10 @@
     "toi",
     "retro"
    ],
+   "tags": [
+    "toi",
+    "estrada"
+   ],
    "age": "family",
    "era": "2000s-now"
   },
@@ -7550,6 +9060,10 @@
     "toi",
     "retro"
    ],
+   "tags": [
+    "toi",
+    "estrada"
+   ],
    "age": "family",
    "era": "2000s-now"
   },
@@ -7568,6 +9082,10 @@
    "tier": 3,
    "genres": [
     "folk"
+   ],
+   "tags": [
+    "folk",
+    "ethno"
    ],
    "age": "family",
    "era": "2008-now"
@@ -7588,6 +9106,10 @@
    "genres": [
     "folk"
    ],
+   "tags": [
+    "folk",
+    "ethno"
+   ],
    "age": "family",
    "era": "2008-now"
   },
@@ -7607,8 +9129,13 @@
    "genres": [
     "folk"
    ],
+   "tags": [
+    "folk",
+    "ethno"
+   ],
    "age": "family",
-   "era": "2008-now"
+   "era": "2008-now",
+   "flagEnglish": true
   },
   {
    "id": "6784112112",
@@ -7625,6 +9152,10 @@
    "tier": 3,
    "genres": [
     "folk"
+   ],
+   "tags": [
+    "folk",
+    "ethno"
    ],
    "age": "family",
    "era": "2008-now"
@@ -7643,6 +9174,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B0%D1%82%D0%B0%D0%BC%D0%B5%D0%BA%D0%B5%D0%BD/1692919531?i=1692919542&uo=4",
    "tier": 3,
    "genres": [
+    "retro",
+    "folk"
+   ],
+   "tags": [
     "retro",
     "folk"
    ],
@@ -7666,6 +9201,10 @@
     "retro",
     "folk"
    ],
+   "tags": [
+    "retro",
+    "folk"
+   ],
    "age": "family",
    "era": "1970s-now"
   },
@@ -7683,6 +9222,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B5%D1%81%D1%96%D2%A3%D0%B5-%D0%B0%D0%BB/1692919531?i=1692919781&uo=4",
    "tier": 3,
    "genres": [
+    "retro",
+    "folk"
+   ],
+   "tags": [
     "retro",
     "folk"
    ],
@@ -7706,6 +9249,10 @@
     "retro",
     "folk"
    ],
+   "tags": [
+    "retro",
+    "folk"
+   ],
    "age": "family",
    "era": "1970s-now"
   },
@@ -7723,6 +9270,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BA%D0%B5%D0%BB%D1%88%D1%96-%D0%BA%D0%B5%D0%BB%D1%88%D1%96-%D0%B1%D0%B0%D0%BB%D0%B0%D1%88%D1%8B%D0%BC/1692919531?i=1692919961&uo=4",
    "tier": 3,
    "genres": [
+    "retro",
+    "folk"
+   ],
+   "tags": [
     "retro",
     "folk"
    ],
@@ -7746,6 +9297,10 @@
     "pop",
     "toi"
    ],
+   "tags": [
+    "pop",
+    "toi"
+   ],
    "age": "family",
    "era": "2015-now"
   },
@@ -7763,6 +9318,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%81%D0%B5%D0%B7%D1%96%D0%BC-%D2%AF%D1%88%D1%96%D0%BD/1549819135?i=1549819447&uo=4",
    "tier": 3,
    "genres": [
+    "pop",
+    "toi"
+   ],
+   "tags": [
     "pop",
     "toi"
    ],
@@ -7786,6 +9345,10 @@
     "pop",
     "toi"
    ],
+   "tags": [
+    "pop",
+    "toi"
+   ],
    "age": "family",
    "era": "2015-now"
   },
@@ -7803,6 +9366,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B5%D1%80%D0%BA%D0%B5%D0%BA%D0%BF%D1%96%D0%BD-%D0%BC%D0%B5%D0%BD/1537448361?i=1537448839&uo=4",
    "tier": 3,
    "genres": [
+    "pop",
+    "toi"
+   ],
+   "tags": [
     "pop",
     "toi"
    ],
@@ -7826,6 +9393,10 @@
     "pop",
     "toi"
    ],
+   "tags": [
+    "pop",
+    "toi"
+   ],
    "age": "family",
    "era": "2015-now"
   },
@@ -7843,6 +9414,9 @@
    "appleUrl": "https://music.apple.com/kz/album/seni-izdeimin/1641337890?i=1641337895&uo=4",
    "tier": 3,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -7864,6 +9438,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -7881,6 +9458,9 @@
    "appleUrl": "https://music.apple.com/kz/album/oralma-qashqyn/1499337595?i=1499337604&uo=4",
    "tier": 3,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -7902,6 +9482,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -7919,6 +9502,9 @@
    "appleUrl": "https://music.apple.com/kz/album/qaitemiz/1545158341?i=1545158343&uo=4",
    "tier": 3,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -7940,6 +9526,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -7957,6 +9546,9 @@
    "appleUrl": "https://music.apple.com/kz/album/ekeumiz/1564595608?i=1564595614&uo=4",
    "tier": 3,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -7978,6 +9570,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -7995,6 +9590,9 @@
    "appleUrl": "https://music.apple.com/kz/album/kok-aspan/1564595608?i=1564595610&uo=4",
    "tier": 3,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -8016,6 +9614,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -8033,6 +9634,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B1%D0%B8%D0%BB%D0%B5/1690374738?i=1690375045&uo=4",
    "tier": 3,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -8054,6 +9658,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2016-now"
   },
@@ -8071,6 +9678,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BC%D0%B5%D0%BD-%D2%9B%D0%B0%D0%B7%D0%B0%D2%9B%D0%BF%D1%8B%D0%BD/1685886705?i=1685886988&uo=4",
    "tier": 3,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -8092,6 +9702,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2016-now"
   },
@@ -8109,6 +9722,9 @@
    "appleUrl": "https://music.apple.com/kz/album/seni-korsem/1641922120?i=1641922188&uo=4",
    "tier": 3,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -8130,6 +9746,10 @@
    "genres": [
     "indie"
    ],
+   "tags": [
+    "indie",
+    "alt"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -8148,6 +9768,10 @@
    "tier": 3,
    "genres": [
     "indie"
+   ],
+   "tags": [
+    "indie",
+    "alt"
    ],
    "age": "family",
    "era": "2018-now"
@@ -8168,6 +9792,10 @@
    "genres": [
     "indie"
    ],
+   "tags": [
+    "indie",
+    "alt"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -8186,6 +9814,10 @@
    "tier": 3,
    "genres": [
     "indie"
+   ],
+   "tags": [
+    "indie",
+    "alt"
    ],
    "age": "family",
    "era": "2018-now"
@@ -8206,6 +9838,10 @@
    "genres": [
     "indie"
    ],
+   "tags": [
+    "indie",
+    "alt"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -8223,6 +9859,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B4%D0%BE%D0%BC%D0%B0/1269143651?i=1269143960&uo=4",
    "tier": 3,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop",
     "electronic"
    ],
@@ -8244,6 +9883,9 @@
    "appleUrl": "https://music.apple.com/kz/album/almaty/6769760054?i=6769760055&uo=4",
    "tier": 3,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop",
     "electronic"
    ],
@@ -8265,6 +9907,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B4%D0%B5%D1%82%D0%BA%D0%B0-%D1%82%D1%8B-%D1%81%D0%BB%D0%BE%D0%B2%D0%BD%D0%BE-%D0%BB%D0%B0%D0%BC%D0%B1%D0%BE/1270259986?i=1270261042&uo=4",
    "tier": 3,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop",
     "electronic"
    ],
@@ -8286,6 +9931,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BD%D0%B0%D0%BA%D1%80%D0%BE%D0%B5%D1%82-%D0%B2%D0%BE%D0%BB%D0%BD%D0%BE%D0%B9/1270259986?i=1270260353&uo=4",
    "tier": 3,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop",
     "electronic"
    ],
@@ -8307,6 +9955,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BB%D0%BE%D0%BD%D0%B5%D0%BB%D0%B8/1270259986?i=1270261697&uo=4",
    "tier": 3,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop",
     "electronic"
    ],
@@ -8328,7 +9979,11 @@
    "appleUrl": "https://music.apple.com/kz/album/belly-dancer/1609633532?i=1609633533&uo=4",
    "tier": 2,
    "genres": [
-    "electronic"
+    "pop"
+   ],
+   "tags": [
+    "electronic",
+    "remix"
    ],
    "age": "family",
    "era": "2019-now"
@@ -8347,7 +10002,11 @@
    "appleUrl": "https://music.apple.com/kz/album/blackout-feat-tory-lanez/1525217114?i=1525217116&uo=4",
    "tier": 2,
    "genres": [
-    "electronic"
+    "pop"
+   ],
+   "tags": [
+    "electronic",
+    "remix"
    ],
    "age": "family",
    "era": "2019-now"
@@ -8366,7 +10025,11 @@
    "appleUrl": "https://music.apple.com/kz/album/sob/1850358021?i=1850358025&uo=4",
    "tier": 2,
    "genres": [
-    "electronic"
+    "pop"
+   ],
+   "tags": [
+    "electronic",
+    "remix"
    ],
    "age": "family",
    "era": "2019-now"
@@ -8385,10 +10048,15 @@
    "appleUrl": "https://music.apple.com/kz/album/married-to-your-melody/1615756095?i=1615756108&uo=4",
    "tier": 2,
    "genres": [
-    "electronic"
+    "pop"
+   ],
+   "tags": [
+    "electronic",
+    "remix"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "flagEnglish": true
   },
   {
    "id": "1846548876",
@@ -8404,7 +10072,11 @@
    "appleUrl": "https://music.apple.com/kz/album/wala-lela/1846548865?i=1846548876&uo=4",
    "tier": 2,
    "genres": [
-    "electronic"
+    "pop"
+   ],
+   "tags": [
+    "electronic",
+    "remix"
    ],
    "age": "family",
    "era": "2019-now"
@@ -8423,10 +10095,15 @@
    "appleUrl": "https://music.apple.com/kz/album/in-the-morning-exit-remix/1742845006?i=1742845428&uo=4",
    "tier": 2,
    "genres": [
-    "electronic"
+    "pop"
+   ],
+   "tags": [
+    "electronic",
+    "remix"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "flagEnglish": true
   },
   {
    "id": "1660029826",
@@ -8442,7 +10119,11 @@
    "appleUrl": "https://music.apple.com/kz/album/loca-feat-even-the-foe-remix/1660029521?i=1660029826&uo=4",
    "tier": 2,
    "genres": [
-    "electronic"
+    "pop"
+   ],
+   "tags": [
+    "electronic",
+    "remix"
    ],
    "age": "family",
    "era": "2019-now"
@@ -8461,6 +10142,10 @@
    "appleUrl": "https://music.apple.com/kz/album/digidik/1854572552?i=1854572800&uo=4",
    "tier": 3,
    "genres": [
+    "pop",
+    "qpop"
+   ],
+   "tags": [
     "pop",
     "qpop"
    ],
@@ -8484,6 +10169,10 @@
     "pop",
     "qpop"
    ],
+   "tags": [
+    "pop",
+    "qpop"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -8501,6 +10190,10 @@
    "appleUrl": "https://music.apple.com/kz/album/garyshker/1818807328?i=1818807331&uo=4",
    "tier": 3,
    "genres": [
+    "pop",
+    "qpop"
+   ],
+   "tags": [
     "pop",
     "qpop"
    ],
@@ -8524,6 +10217,10 @@
     "pop",
     "qpop"
    ],
+   "tags": [
+    "pop",
+    "qpop"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -8541,6 +10238,10 @@
    "appleUrl": "https://music.apple.com/kz/album/scenario/1809381135?i=1809381136&uo=4",
    "tier": 3,
    "genres": [
+    "pop",
+    "qpop"
+   ],
+   "tags": [
     "pop",
     "qpop"
    ],
@@ -8563,6 +10264,10 @@
    "genres": [
     "indie"
    ],
+   "tags": [
+    "indie",
+    "acoustic"
+   ],
    "age": "family",
    "era": "2020-now"
   },
@@ -8581,6 +10286,10 @@
    "tier": 4,
    "genres": [
     "indie"
+   ],
+   "tags": [
+    "indie",
+    "acoustic"
    ],
    "age": "family",
    "era": "2020-now"
@@ -8601,6 +10310,10 @@
    "genres": [
     "indie"
    ],
+   "tags": [
+    "indie",
+    "acoustic"
+   ],
    "age": "family",
    "era": "2020-now"
   },
@@ -8618,6 +10331,9 @@
    "appleUrl": "https://music.apple.com/kz/album/s%C3%B6zderin/1755358696?i=1755358885&uo=4",
    "tier": 4,
    "genres": [
+    "indie"
+   ],
+   "tags": [
     "indie"
    ],
    "age": "family",
@@ -8639,6 +10355,9 @@
    "genres": [
     "indie"
    ],
+   "tags": [
+    "indie"
+   ],
    "age": "family",
    "era": "2020-now"
   },
@@ -8656,6 +10375,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BD%D0%B5-%D0%BC%D0%BE%D1%8F/1730527445?i=1730527590&uo=4",
    "tier": 4,
    "genres": [
+    "indie"
+   ],
+   "tags": [
     "indie"
    ],
    "age": "family",
@@ -8677,6 +10399,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2015-now"
   },
@@ -8694,6 +10419,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B0%D0%BD%D0%B0%D1%81%D1%8B-%D0%B1%D0%B0%D1%80-%D0%B6%D0%B0%D0%BD-%D0%B1%D0%B0%D2%9B%D1%8B%D1%82%D1%82%D1%8B/1567268869?i=1567268882&uo=4",
    "tier": 3,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -8715,6 +10443,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2015-now"
   },
@@ -8732,6 +10463,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%81%D1%83/1885930588?i=1885930597&uo=4",
    "tier": 3,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -8753,6 +10487,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2015-now"
   },
@@ -8770,6 +10507,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B1%D1%96%D0%B7%D0%B4%D0%B5-%D1%88%D0%B5/1655642994?i=1655643248&uo=4",
    "tier": 4,
    "genres": [
+    "pop",
+    "toi"
+   ],
+   "tags": [
     "pop",
     "toi"
    ],
@@ -8793,6 +10534,10 @@
     "pop",
     "toi"
    ],
+   "tags": [
+    "pop",
+    "toi"
+   ],
    "age": "family",
    "era": "2015-now"
   },
@@ -8810,6 +10555,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B6%D0%B0%D1%8F%D1%83/1695613301?i=1695613427&uo=4",
    "tier": 4,
    "genres": [
+    "pop",
+    "toi"
+   ],
+   "tags": [
     "pop",
     "toi"
    ],
@@ -8833,6 +10582,10 @@
     "pop",
     "toi"
    ],
+   "tags": [
+    "pop",
+    "toi"
+   ],
    "age": "family",
    "era": "2010s-now"
   },
@@ -8850,6 +10603,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%82%D1%83%D1%84/1779426778?i=1779426789&uo=4",
    "tier": 3,
    "genres": [
+    "pop",
+    "toi"
+   ],
+   "tags": [
     "pop",
     "toi"
    ],
@@ -8873,6 +10630,10 @@
     "pop",
     "toi"
    ],
+   "tags": [
+    "pop",
+    "toi"
+   ],
    "age": "family",
    "era": "2010s-now"
   },
@@ -8890,6 +10651,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%82%D3%99%D1%82%D1%82%D1%96%D0%BC%D1%81%D1%96%D2%A3/1779426778?i=1779426784&uo=4",
    "tier": 3,
    "genres": [
+    "pop",
+    "toi"
+   ],
+   "tags": [
     "pop",
     "toi"
    ],
@@ -8913,6 +10678,10 @@
     "pop",
     "toi"
    ],
+   "tags": [
+    "pop",
+    "toi"
+   ],
    "age": "family",
    "era": "2010s-now"
   },
@@ -8930,6 +10699,10 @@
    "appleUrl": "https://music.apple.com/kz/album/o%C4%B1ladyn-ba/1535213168?i=1535213174&uo=4",
    "tier": 4,
    "genres": [
+    "pop",
+    "rnb"
+   ],
+   "tags": [
     "pop",
     "rnb"
    ],
@@ -8953,6 +10726,10 @@
     "pop",
     "rnb"
    ],
+   "tags": [
+    "pop",
+    "rnb"
+   ],
    "age": "family",
    "era": "2020-now"
   },
@@ -8970,6 +10747,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BC%D0%B5%D0%BD-%D1%81%D0%B5%D0%BD%D1%96-%D1%81%D2%AF%D0%B9%D0%B5%D0%BC/1559525773?i=1559525975&uo=4",
    "tier": 4,
    "genres": [
+    "pop",
+    "rnb"
+   ],
+   "tags": [
     "pop",
     "rnb"
    ],
@@ -8993,6 +10774,10 @@
     "indie",
     "rnb"
    ],
+   "tags": [
+    "indie",
+    "rnb"
+   ],
    "age": "family",
    "era": "2020-now"
   },
@@ -9010,6 +10795,10 @@
    "appleUrl": "https://music.apple.com/kz/album/eles/1841702496?i=1841702497&uo=4",
    "tier": 4,
    "genres": [
+    "indie",
+    "rnb"
+   ],
+   "tags": [
     "indie",
     "rnb"
    ],
@@ -9033,6 +10822,10 @@
     "rap",
     "rnb"
    ],
+   "tags": [
+    "rap",
+    "rnb"
+   ],
    "age": "18plus",
    "era": "2020-now"
   },
@@ -9050,6 +10843,10 @@
    "appleUrl": "https://music.apple.com/kz/album/kzo/1750449563?i=1750449567&uo=4",
    "tier": 3,
    "genres": [
+    "rap",
+    "rnb"
+   ],
+   "tags": [
     "rap",
     "rnb"
    ],
@@ -9073,6 +10870,10 @@
     "rap",
     "rnb"
    ],
+   "tags": [
+    "rap",
+    "rnb"
+   ],
    "age": "18plus",
    "era": "2020-now"
   },
@@ -9090,6 +10891,10 @@
    "appleUrl": "https://music.apple.com/kz/album/torde/1703960568?i=1703960574&uo=4",
    "tier": 3,
    "genres": [
+    "rap",
+    "rnb"
+   ],
+   "tags": [
     "rap",
     "rnb"
    ],
@@ -9113,6 +10918,10 @@
     "rap",
     "rnb"
    ],
+   "tags": [
+    "rap",
+    "rnb"
+   ],
    "age": "18plus",
    "era": "2020-now"
   },
@@ -9130,6 +10939,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BE%D0%B1%D0%BD%D1%8F%D0%BB-%D0%BF%D0%BE%D1%86%D0%B5%D0%BB%D0%BE%D0%B2%D0%B0%D0%BB/1891504524?i=1891504528&uo=4",
    "tier": 4,
    "genres": [
+    "rap",
+    "underground"
+   ],
+   "tags": [
     "rap",
     "underground"
    ],
@@ -9153,6 +10966,10 @@
     "rap",
     "underground"
    ],
+   "tags": [
+    "rap",
+    "underground"
+   ],
    "age": "18plus",
    "era": "2018-now"
   },
@@ -9170,6 +10987,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BF%D0%BD%D0%B5%D0%B2%D0%BC%D0%BE%D0%BD%D0%B8%D1%8F/1826856582?i=1826856585&uo=4",
    "tier": 4,
    "genres": [
+    "rap",
+    "underground"
+   ],
+   "tags": [
     "rap",
     "underground"
    ],
@@ -9193,6 +11014,10 @@
     "rnb",
     "rap"
    ],
+   "tags": [
+    "rnb",
+    "rap"
+   ],
    "age": "18plus",
    "era": "2017-now"
   },
@@ -9210,6 +11035,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B1%D1%83%D1%82%D1%8B%D0%BB%D0%BA%D0%B8/1538561778?i=1538561781&uo=4",
    "tier": 3,
    "genres": [
+    "rnb",
+    "rap"
+   ],
+   "tags": [
     "rnb",
     "rap"
    ],
@@ -9233,6 +11062,10 @@
     "rnb",
     "rap"
    ],
+   "tags": [
+    "rnb",
+    "rap"
+   ],
    "age": "18plus",
    "era": "2017-now"
   },
@@ -9250,6 +11083,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%81%D0%BA%D0%BE%D0%BB%D1%8C%D0%BA%D0%BE-%D1%81%D1%82%D0%BE%D0%B8%D1%82/1538561778?i=1538561795&uo=4",
    "tier": 3,
    "genres": [
+    "rnb",
+    "rap"
+   ],
+   "tags": [
     "rnb",
     "rap"
    ],
@@ -9273,6 +11110,10 @@
     "rnb",
     "rap"
    ],
+   "tags": [
+    "rnb",
+    "rap"
+   ],
    "age": "18plus",
    "era": "2017-now"
   },
@@ -9290,6 +11131,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BE%D1%81%D0%BE%D0%B1%D0%B0-%D0%BA%D1%80%D1%83%D1%82%D0%B0%D1%8F/1505352399?i=1505352406&uo=4",
    "tier": 4,
    "genres": [
+    "rap",
+    "rnb"
+   ],
+   "tags": [
     "rap",
     "rnb"
    ],
@@ -9313,6 +11158,10 @@
     "rap",
     "rnb"
    ],
+   "tags": [
+    "rap",
+    "rnb"
+   ],
    "age": "18plus",
    "era": "2018-now"
   },
@@ -9330,6 +11179,10 @@
    "appleUrl": "https://music.apple.com/kz/album/adjare-gudju/1688358597?i=1688358610&uo=4",
    "tier": 4,
    "genres": [
+    "rap",
+    "rnb"
+   ],
+   "tags": [
     "rap",
     "rnb"
    ],
@@ -9353,6 +11206,10 @@
     "indie",
     "underground"
    ],
+   "tags": [
+    "alt",
+    "underground"
+   ],
    "age": "18plus",
    "era": "2019-now"
   },
@@ -9371,6 +11228,10 @@
    "tier": 4,
    "genres": [
     "indie",
+    "underground"
+   ],
+   "tags": [
+    "alt",
     "underground"
    ],
    "age": "18plus",
@@ -9393,6 +11254,10 @@
     "indie",
     "underground"
    ],
+   "tags": [
+    "alt",
+    "underground"
+   ],
    "age": "18plus",
    "era": "2019-now"
   },
@@ -9410,6 +11275,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BB%D1%8F%D0%B9%D1%81%D0%B0%D0%BD/1776637007?i=1776637008&uo=4",
    "tier": 4,
    "genres": [
+    "rap"
+   ],
+   "tags": [
     "rap"
    ],
    "age": "18plus",
@@ -9431,6 +11299,9 @@
    "genres": [
     "rap"
    ],
+   "tags": [
+    "rap"
+   ],
    "age": "18plus",
    "era": "2018-now"
   },
@@ -9450,6 +11321,9 @@
    "genres": [
     "rap"
    ],
+   "tags": [
+    "rap"
+   ],
    "age": "18plus",
    "era": "2018-now"
   },
@@ -9467,6 +11341,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BC%D0%B0%D1%82%D1%87%D0%B0-%D1%87%D0%B0%D0%B9/1678396164?i=1678396183&uo=4",
    "tier": 4,
    "genres": [
+    "pop",
+    "rnb"
+   ],
+   "tags": [
     "pop",
     "rnb"
    ],
@@ -9490,6 +11368,10 @@
     "pop",
     "rnb"
    ],
+   "tags": [
+    "pop",
+    "rnb"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -9507,6 +11389,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%83%D0%B1%D1%8C%D1%8E/1786983777?i=1786983794&uo=4",
    "tier": 4,
    "genres": [
+    "pop",
+    "rnb"
+   ],
+   "tags": [
     "pop",
     "rnb"
    ],
@@ -9529,6 +11415,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -9546,6 +11435,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%81%D0%B8%D0%BD%D1%82%D0%B5%D0%B7%D0%B0%D1%82%D0%BE%D1%80/1612058713?i=1612058720&uo=4",
    "tier": 3,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -9567,6 +11459,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -9584,6 +11479,9 @@
    "appleUrl": "https://music.apple.com/kz/album/seni-suiem/1541615573?i=1541615576&uo=4",
    "tier": 3,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -9605,6 +11503,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -9622,6 +11523,10 @@
    "appleUrl": "https://music.apple.com/kz/album/mynmen/1605116486?i=1605116492&uo=4",
    "tier": 4,
    "genres": [
+    "pop",
+    "rnb"
+   ],
+   "tags": [
     "pop",
     "rnb"
    ],
@@ -9645,6 +11550,10 @@
     "pop",
     "rnb"
    ],
+   "tags": [
+    "pop",
+    "rnb"
+   ],
    "age": "family",
    "era": "2020-now"
   },
@@ -9662,6 +11571,10 @@
    "appleUrl": "https://music.apple.com/kz/album/boztorgaiym/1620212810?i=1620212816&uo=4",
    "tier": 4,
    "genres": [
+    "pop",
+    "rnb"
+   ],
+   "tags": [
     "pop",
     "rnb"
    ],
@@ -9685,6 +11598,10 @@
     "pop",
     "rnb"
    ],
+   "tags": [
+    "pop",
+    "rnb"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -9702,6 +11619,10 @@
    "appleUrl": "https://music.apple.com/kz/album/sene-almadym/1695970419?i=1695971264&uo=4",
    "tier": 4,
    "genres": [
+    "pop",
+    "rnb"
+   ],
+   "tags": [
     "pop",
     "rnb"
    ],
@@ -9725,6 +11646,10 @@
     "pop",
     "rnb"
    ],
+   "tags": [
+    "pop",
+    "rnb"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -9742,6 +11667,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BE%D1%81%D1%8B-%D0%BC%D1%83%D0%B7%D1%8B%D0%BA%D0%B0-%D2%B1%D0%BD%D0%B0%D0%B9%D0%B4%D1%8B/1617661685?i=1617661812&uo=4",
    "tier": 3,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -9763,8 +11691,12 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
-   "era": "2016-now"
+   "era": "2016-now",
+   "flagEnglish": true
   },
   {
    "id": "1574165451",
@@ -9780,6 +11712,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B6%D1%8B%D0%BB%D1%82%D1%8B%D1%80-%D0%BA%D3%A9%D0%B9%D0%BB%D0%B5%D0%BA/1574165449?i=1574165451&uo=4",
    "tier": 3,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -9801,6 +11736,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2016-now"
   },
@@ -9818,6 +11756,9 @@
    "appleUrl": "https://music.apple.com/kz/album/moldiregen-janaryn/1649660937?i=1649660940&uo=4",
    "tier": 3,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -9839,6 +11780,9 @@
    "genres": [
     "indie"
    ],
+   "tags": [
+    "indie"
+   ],
    "age": "family",
    "era": "2020-now"
   },
@@ -9856,6 +11800,9 @@
    "appleUrl": "https://music.apple.com/kz/album/h%C3%BCz%C3%BCn/1500276956?i=1500277353&uo=4",
    "tier": 4,
    "genres": [
+    "indie"
+   ],
+   "tags": [
     "indie"
    ],
    "age": "family",
@@ -9877,6 +11824,9 @@
    "genres": [
     "indie"
    ],
+   "tags": [
+    "indie"
+   ],
    "age": "family",
    "era": "2020-now"
   },
@@ -9894,6 +11844,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B1%D2%B1%D0%B7%D1%8B%D2%9B/6780475344?i=6780475354&uo=4",
    "tier": 3,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -9915,6 +11868,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2022-now"
   },
@@ -9932,6 +11888,9 @@
    "appleUrl": "https://music.apple.com/kz/album/eski-gashygym/1730489169?i=1730489366&uo=4",
    "tier": 3,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -9953,6 +11912,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2022-now"
   },
@@ -9970,6 +11932,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B1%D0%B0%D1%8F%D2%93%D1%8B/1864364629?i=1864364638&uo=4",
    "tier": 3,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -9991,6 +11956,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2022-now"
   },
@@ -10008,6 +11976,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BF%D0%BE%D1%81%D1%82%D0%B5%D0%BF%D0%B5%D0%BD%D0%BD%D0%BE/1743020049?i=1743020155&uo=4",
    "tier": 3,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -10029,6 +12000,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2022-now"
   },
@@ -10046,6 +12020,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BE%D0%B4%D0%B8%D0%BD-%D1%88%D0%B0%D0%B3/1532811706?i=1532811723&uo=4",
    "tier": 3,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -10067,6 +12044,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2022-now"
   },
@@ -10086,6 +12066,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2021-now"
   },
@@ -10103,6 +12086,10 @@
    "appleUrl": "https://music.apple.com/kz/album/top-tompaq/1530538296?i=1530538306&uo=4",
    "tier": 4,
    "genres": [
+    "pop",
+    "toi"
+   ],
+   "tags": [
     "pop",
     "toi"
    ],
@@ -10126,6 +12113,10 @@
     "pop",
     "toi"
    ],
+   "tags": [
+    "pop",
+    "toi"
+   ],
    "age": "family",
    "era": "2021-now"
   },
@@ -10143,6 +12134,10 @@
    "appleUrl": "https://music.apple.com/kz/album/dama/1643157587?i=1643157609&uo=4",
    "tier": 4,
    "genres": [
+    "pop",
+    "toi"
+   ],
+   "tags": [
     "pop",
     "toi"
    ],
@@ -10165,6 +12160,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2021-now"
   },
@@ -10182,6 +12180,9 @@
    "appleUrl": "https://music.apple.com/kz/album/nege-bilmedim/1683000099?i=1683000104&uo=4",
    "tier": 4,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -10203,6 +12204,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2021-now"
   },
@@ -10220,6 +12224,9 @@
    "appleUrl": "https://music.apple.com/kz/album/country/1799714350?i=1799715053&uo=4",
    "tier": 4,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -10241,6 +12248,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2021-now"
   },
@@ -10258,6 +12268,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B0%D1%80%D0%BC%D0%B0%D0%BD-%D1%81%D0%B5%D0%BD%D1%96-%D0%BA%D2%AF%D0%BD%D0%B4%D0%B5-%D0%BA%D3%A9%D1%80%D1%83/1646351808?i=1646351817&uo=4",
    "tier": 4,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -10279,6 +12292,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2021-now"
   },
@@ -10296,6 +12312,9 @@
    "appleUrl": "https://music.apple.com/kz/album/zhanym-deshi/1721885509?i=1721885516&uo=4",
    "tier": 4,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -10317,6 +12336,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2021-now"
   },
@@ -10334,6 +12356,10 @@
    "appleUrl": "https://music.apple.com/kz/album/sa%C7%B5ynamyn/1749317976?i=1749318432&uo=4",
    "tier": 4,
    "genres": [
+    "pop",
+    "toi"
+   ],
+   "tags": [
     "pop",
     "toi"
    ],
@@ -10357,6 +12383,10 @@
     "pop",
     "toi"
    ],
+   "tags": [
+    "pop",
+    "toi"
+   ],
    "age": "family",
    "era": "2020-now"
   },
@@ -10374,6 +12404,10 @@
    "appleUrl": "https://music.apple.com/kz/album/bir-gajap/1763656650?i=1763656882&uo=4",
    "tier": 4,
    "genres": [
+    "pop",
+    "toi"
+   ],
+   "tags": [
     "pop",
     "toi"
    ],
@@ -10397,6 +12431,10 @@
     "toi",
     "pop"
    ],
+   "tags": [
+    "toi",
+    "pop"
+   ],
    "age": "family",
    "era": "2020-now"
   },
@@ -10414,6 +12452,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B1%D1%96%D1%80-%D1%88%D3%99%D1%83%D0%B3%D1%96%D0%BC-%D1%88%D3%99%D0%B9/1675392641?i=1675392810&uo=4",
    "tier": 4,
    "genres": [
+    "toi",
+    "pop"
+   ],
+   "tags": [
     "toi",
     "pop"
    ],
@@ -10437,6 +12479,10 @@
     "toi",
     "pop"
    ],
+   "tags": [
+    "toi",
+    "pop"
+   ],
    "age": "family",
    "era": "2020-now"
   },
@@ -10454,6 +12500,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B0%D1%80%D1%83/1777238787?i=1777238788&uo=4",
    "tier": 4,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -10475,6 +12524,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2021-now"
   },
@@ -10494,6 +12546,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2021-now"
   },
@@ -10511,6 +12566,10 @@
    "appleUrl": "https://music.apple.com/kz/album/men-qazaq/6785375576?i=6785375581&uo=4",
    "tier": 3,
    "genres": [
+    "pop",
+    "patriotic"
+   ],
+   "tags": [
     "pop",
     "patriotic"
    ],
@@ -10534,6 +12593,10 @@
     "pop",
     "patriotic"
    ],
+   "tags": [
+    "pop",
+    "patriotic"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -10551,6 +12614,10 @@
    "appleUrl": "https://music.apple.com/kz/album/erke-qyz/6785375576?i=6785375591&uo=4",
    "tier": 3,
    "genres": [
+    "pop",
+    "patriotic"
+   ],
+   "tags": [
     "pop",
     "patriotic"
    ],
@@ -10574,6 +12641,10 @@
     "pop",
     "patriotic"
    ],
+   "tags": [
+    "pop",
+    "patriotic"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -10591,6 +12662,10 @@
    "appleUrl": "https://music.apple.com/kz/album/boijetken/6785375576?i=6785375584&uo=4",
    "tier": 3,
    "genres": [
+    "pop",
+    "patriotic"
+   ],
+   "tags": [
     "pop",
     "patriotic"
    ],
@@ -10614,6 +12689,10 @@
     "pop",
     "rnb"
    ],
+   "tags": [
+    "pop",
+    "rnb"
+   ],
    "age": "family",
    "era": "2020-now"
   },
@@ -10631,6 +12710,10 @@
    "appleUrl": "https://music.apple.com/kz/album/biraq/1719768178?i=1719768533&uo=4",
    "tier": 4,
    "genres": [
+    "pop",
+    "rnb"
+   ],
+   "tags": [
     "pop",
     "rnb"
    ],
@@ -10654,6 +12737,10 @@
     "pop",
     "rnb"
    ],
+   "tags": [
+    "pop",
+    "rnb"
+   ],
    "age": "family",
    "era": "2020-now"
   },
@@ -10671,6 +12758,10 @@
    "appleUrl": "https://music.apple.com/kz/album/suie-tura/1760814026?i=1760814208&uo=4",
    "tier": 4,
    "genres": [
+    "rnb",
+    "indie"
+   ],
+   "tags": [
     "rnb",
     "indie"
    ],
@@ -10694,6 +12785,10 @@
     "rnb",
     "indie"
    ],
+   "tags": [
+    "rnb",
+    "indie"
+   ],
    "age": "family",
    "era": "2021-now"
   },
@@ -10711,6 +12806,10 @@
    "appleUrl": "https://music.apple.com/kz/album/t%C3%BAs%D1%96nbed%D1%96%C5%84/1841419264?i=1841419265&uo=4",
    "tier": 4,
    "genres": [
+    "rnb",
+    "indie"
+   ],
+   "tags": [
     "rnb",
     "indie"
    ],
@@ -10733,6 +12832,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2021-now"
   },
@@ -10750,6 +12852,9 @@
    "appleUrl": "https://music.apple.com/kz/album/arabian/1681554532?i=1681554535&uo=4",
    "tier": 4,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -10771,6 +12876,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2021-now"
   },
@@ -10788,6 +12896,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B6%D0%BE%D0%BB%D0%B4%D0%B0%D1%80/1688527625?i=1688528177&uo=4",
    "tier": 4,
    "genres": [
+    "pop",
+    "toi"
+   ],
+   "tags": [
     "pop",
     "toi"
    ],
@@ -10811,6 +12923,10 @@
     "pop",
     "toi"
    ],
+   "tags": [
+    "pop",
+    "toi"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -10828,6 +12944,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BE%D0%B9%D0%BB%D0%B0%D0%B4%D1%8B%D2%A3-%D0%B1%D0%B0-%D0%BC%D0%B5%D0%BD%D1%96/1723181389?i=1723181407&uo=4",
    "tier": 4,
    "genres": [
+    "pop",
+    "toi"
+   ],
+   "tags": [
     "pop",
     "toi"
    ],
@@ -10851,6 +12971,10 @@
     "toi",
     "pop"
    ],
+   "tags": [
+    "toi",
+    "pop"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -10868,6 +12992,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B5%D1%81%D1%96%D2%A3%D0%B5-%D0%BC%D0%B5%D0%BD%D1%96-%D0%B0%D0%BB%D2%93%D0%B0%D0%B9%D1%81%D1%8B%D2%A3/1815240003?i=1815240856&uo=4",
    "tier": 4,
    "genres": [
+    "toi",
+    "pop"
+   ],
+   "tags": [
     "toi",
     "pop"
    ],
@@ -10891,6 +13019,10 @@
     "toi",
     "pop"
    ],
+   "tags": [
+    "toi",
+    "pop"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -10908,6 +13040,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B0%D1%8F%D0%B3%D3%A9%D0%B7-%D2%9B%D0%B0%D0%B9%D0%B4%D0%B0-%D0%B1%D0%B0%D1%80%D0%B0%D1%81%D1%8B%D2%A3/1563427527?i=1563427535&uo=4",
    "tier": 4,
    "genres": [
+    "toi",
+    "folk"
+   ],
+   "tags": [
     "toi",
     "folk"
    ],
@@ -10931,6 +13067,10 @@
     "toi",
     "folk"
    ],
+   "tags": [
+    "toi",
+    "folk"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -10948,6 +13088,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B0%D1%8F%D1%83%D0%BB%D1%8B%D0%BC/1683436995?i=1683437283&uo=4",
    "tier": 4,
    "genres": [
+    "toi",
+    "folk"
+   ],
+   "tags": [
     "toi",
     "folk"
    ],
@@ -10970,6 +13114,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -10987,6 +13134,9 @@
    "appleUrl": "https://music.apple.com/kz/album/ademim/1746151065?i=1746151345&uo=4",
    "tier": 4,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -11008,6 +13158,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -11025,6 +13178,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%85%D0%B0%D0%BD%D1%88%D0%B0%D0%B9%D1%8B%D0%BC-%D1%85%D0%B0%D0%BD%D1%88%D0%B0%D0%B9%D1%8B%D0%BC%D1%8B%D0%BC-%D0%B0%D1%83/1498896490?i=1498896493&uo=4",
    "tier": 4,
    "genres": [
+    "toi",
+    "pop"
+   ],
+   "tags": [
     "toi",
     "pop"
    ],
@@ -11048,6 +13205,10 @@
     "toi",
     "pop"
    ],
+   "tags": [
+    "toi",
+    "pop"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -11065,6 +13226,10 @@
    "appleUrl": "https://music.apple.com/kz/album/bir-kelip/1495210014?i=1495210018&uo=4",
    "tier": 4,
    "genres": [
+    "toi",
+    "pop"
+   ],
+   "tags": [
     "toi",
     "pop"
    ],
@@ -11087,6 +13252,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -11104,6 +13272,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%82%D0%B0%D1%80%D0%B0%D0%BC-%D1%82%D0%B0%D1%80%D0%B0%D0%BC/6790894817?i=6790895172&uo=4",
    "tier": 4,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -11125,6 +13296,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -11142,6 +13316,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B1%D0%B0%D0%B9%D1%80%D0%B0%D2%93%D1%8B%D0%BC/1607318628?i=1607318638&uo=4",
    "tier": 4,
    "genres": [
+    "patriotic",
+    "pop"
+   ],
+   "tags": [
     "patriotic",
     "pop"
    ],
@@ -11165,6 +13343,10 @@
     "patriotic",
     "pop"
    ],
+   "tags": [
+    "patriotic",
+    "pop"
+   ],
    "age": "family",
    "era": "2019-now"
   },
@@ -11182,6 +13364,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%81%D1%83%D0%B5%D1%82%D0%BE%D0%BB%D0%BE%D0%B3/1545394043?i=1545394044&uo=4",
    "tier": 4,
    "genres": [
+    "patriotic",
+    "pop"
+   ],
+   "tags": [
     "patriotic",
     "pop"
    ],
@@ -11205,6 +13391,10 @@
     "patriotic",
     "toi"
    ],
+   "tags": [
+    "patriotic",
+    "toi"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -11222,6 +13412,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BC%D0%B5%D0%BD-%D2%9B%D0%B0%D0%B7%D0%B0%D2%9B%D1%82%D1%8B%D2%A3-%D0%B1%D0%B0%D0%BB%D0%B0%D1%81%D1%8B/1701427744?i=1701427745&uo=4",
    "tier": 4,
    "genres": [
+    "patriotic",
+    "toi"
+   ],
+   "tags": [
     "patriotic",
     "toi"
    ],
@@ -11245,6 +13439,10 @@
     "patriotic",
     "toi"
    ],
+   "tags": [
+    "patriotic",
+    "toi"
+   ],
    "age": "family",
    "era": "2018-now"
   },
@@ -11262,6 +13460,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D1%85%D0%B0%D0%BB%D0%BA%D1%8B%D0%BC/1832508067?i=1832509243&uo=4",
    "tier": 4,
    "genres": [
+    "rap",
+    "patriotic"
+   ],
+   "tags": [
     "rap",
     "patriotic"
    ],
@@ -11285,6 +13487,10 @@
     "rap",
     "patriotic"
    ],
+   "tags": [
+    "rap",
+    "patriotic"
+   ],
    "age": "family",
    "era": "2020-now"
   },
@@ -11302,6 +13508,10 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D1%81/1479441620?i=1479441621&uo=4",
    "tier": 4,
    "genres": [
+    "rap",
+    "patriotic"
+   ],
+   "tags": [
     "rap",
     "patriotic"
    ],
@@ -11324,6 +13534,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2015-now"
   },
@@ -11343,6 +13556,9 @@
    "genres": [
     "pop"
    ],
+   "tags": [
+    "pop"
+   ],
    "age": "family",
    "era": "2015-now"
   },
@@ -11360,6 +13576,9 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%B0%D2%93%D0%B0%D0%B9%D1%8B%D0%BD%D0%B4%D1%8B-%D0%B8%D0%B7-%D1%84%D0%B8%D0%BB%D1%8C%D0%BC%D0%B0-%D0%B0%D2%93%D0%B0%D0%B9%D1%8B%D0%BD%D0%B4%D1%8B/1817721469?i=1817721472&uo=4",
    "tier": 4,
    "genres": [
+    "pop"
+   ],
+   "tags": [
     "pop"
    ],
    "age": "family",
@@ -11382,6 +13601,10 @@
     "toi",
     "retro"
    ],
+   "tags": [
+    "toi",
+    "estrada"
+   ],
    "age": "family",
    "era": "2010s-now"
   },
@@ -11401,6 +13624,10 @@
    "genres": [
     "toi",
     "retro"
+   ],
+   "tags": [
+    "toi",
+    "estrada"
    ],
    "age": "family",
    "era": "2010s-now"
@@ -11422,6 +13649,10 @@
     "toi",
     "retro"
    ],
+   "tags": [
+    "toi",
+    "estrada"
+   ],
    "age": "family",
    "era": "2010s-now"
   },
@@ -11440,6 +13671,10 @@
    "tier": 4,
    "genres": [
     "retro"
+   ],
+   "tags": [
+    "retro",
+    "estrada"
    ],
    "age": "family",
    "era": "1990s-2010s"
@@ -11460,6 +13695,10 @@
    "genres": [
     "retro"
    ],
+   "tags": [
+    "retro",
+    "estrada"
+   ],
    "age": "family",
    "era": "1990s-2010s"
   },
@@ -11478,6 +13717,10 @@
    "tier": 4,
    "genres": [
     "retro"
+   ],
+   "tags": [
+    "retro",
+    "estrada"
    ],
    "age": "family",
    "era": "1990s-2010s"
@@ -11498,6 +13741,10 @@
    "genres": [
     "retro"
    ],
+   "tags": [
+    "retro",
+    "estrada"
+   ],
    "age": "family",
    "era": "retro-compilation"
   },
@@ -11516,6 +13763,10 @@
    "tier": 3,
    "genres": [
     "retro"
+   ],
+   "tags": [
+    "retro",
+    "estrada"
    ],
    "age": "family",
    "era": "retro-compilation"
@@ -11536,6 +13787,10 @@
    "genres": [
     "retro"
    ],
+   "tags": [
+    "retro",
+    "estrada"
+   ],
    "age": "family",
    "era": "retro-compilation"
   },
@@ -11554,6 +13809,10 @@
    "tier": 3,
    "genres": [
     "retro"
+   ],
+   "tags": [
+    "retro",
+    "estrada"
    ],
    "age": "family",
    "era": "retro-compilation"
@@ -11574,6 +13833,10 @@
    "genres": [
     "retro"
    ],
+   "tags": [
+    "retro",
+    "estrada"
+   ],
    "age": "family",
    "era": "retro-compilation"
   },
@@ -11582,7 +13845,7 @@
    "title": "Құстар Қайтып Барады",
    "artist": "Нұрлан Өнербаев",
    "artistId": 1531891268,
-   "artistKey": "nurlan-onerbaev",
+   "artistKey": "nurlan-onerbaev2",
    "album": "Қазақ Қызы",
    "year": 2023,
    "durationMs": 195360,
@@ -11593,6 +13856,10 @@
    "genres": [
     "retro"
    ],
+   "tags": [
+    "retro",
+    "estrada"
+   ],
    "age": "family",
    "era": "1980s-2000s"
   },
@@ -11601,7 +13868,7 @@
    "title": "Қарағым Ай (Acustic Version)",
    "artist": "Нұрлан Өнербаев",
    "artistId": 1531891268,
-   "artistKey": "nurlan-onerbaev",
+   "artistKey": "nurlan-onerbaev2",
    "album": "Өмір Арман",
    "year": 2023,
    "durationMs": 192470,
@@ -11612,6 +13879,10 @@
    "genres": [
     "retro"
    ],
+   "tags": [
+    "retro",
+    "estrada"
+   ],
    "age": "family",
    "era": "1980s-2000s"
   },
@@ -11620,7 +13891,7 @@
    "title": "Мен Қазақ Қыздарына Қайран Қалам",
    "artist": "Нұрлан Өнербаев",
    "artistId": 1531891268,
-   "artistKey": "nurlan-onerbaev",
+   "artistKey": "nurlan-onerbaev2",
    "album": "Қазақ Қызы",
    "year": 2023,
    "durationMs": 242680,
@@ -11631,6 +13902,10 @@
    "genres": [
     "retro"
    ],
+   "tags": [
+    "retro",
+    "estrada"
+   ],
    "age": "family",
    "era": "1980s-2000s"
   },
@@ -11639,7 +13914,7 @@
    "title": "Көзімнің Қарасы",
    "artist": "Нұрлан Өнербаев",
    "artistId": 1531891268,
-   "artistKey": "nurlan-onerbaev",
+   "artistKey": "nurlan-onerbaev2",
    "album": "Қазақ Қызы",
    "year": 2023,
    "durationMs": 161800,
@@ -11650,6 +13925,10 @@
    "genres": [
     "retro"
    ],
+   "tags": [
+    "retro",
+    "estrada"
+   ],
    "age": "family",
    "era": "1980s-2000s"
   },
@@ -11658,7 +13937,7 @@
    "title": "Бауырды Сағыну (Acustic Version)",
    "artist": "Нұрлан Өнербаев",
    "artistId": 1531891268,
-   "artistKey": "nurlan-onerbaev",
+   "artistKey": "nurlan-onerbaev2",
    "album": "Өмір Арман",
    "year": 2023,
    "durationMs": 280987,
@@ -11668,6 +13947,10 @@
    "tier": 3,
    "genres": [
     "retro"
+   ],
+   "tags": [
+    "retro",
+    "estrada"
    ],
    "age": "family",
    "era": "1980s-2000s"
@@ -11688,6 +13971,10 @@
    "genres": [
     "retro"
    ],
+   "tags": [
+    "retro",
+    "estrada"
+   ],
    "age": "family",
    "era": "1980s-now"
   },
@@ -11706,6 +13993,10 @@
    "tier": 3,
    "genres": [
     "retro"
+   ],
+   "tags": [
+    "retro",
+    "estrada"
    ],
    "age": "family",
    "era": "1980s-now"
@@ -11726,6 +14017,10 @@
    "genres": [
     "retro"
    ],
+   "tags": [
+    "retro",
+    "estrada"
+   ],
    "age": "family",
    "era": "1980s-now"
   },
@@ -11744,6 +14039,10 @@
    "tier": 3,
    "genres": [
     "retro"
+   ],
+   "tags": [
+    "retro",
+    "estrada"
    ],
    "age": "family",
    "era": "1980s-now"
@@ -11764,6 +14063,10 @@
    "genres": [
     "retro"
    ],
+   "tags": [
+    "retro",
+    "estrada"
+   ],
    "age": "family",
    "era": "1980s-now"
   },
@@ -11782,6 +14085,10 @@
    "tier": 3,
    "genres": [
     "retro"
+   ],
+   "tags": [
+    "retro",
+    "estrada"
    ],
    "age": "family",
    "era": "1980s-now"
@@ -11802,6 +14109,10 @@
    "genres": [
     "retro"
    ],
+   "tags": [
+    "retro",
+    "estrada"
+   ],
    "age": "family",
    "era": "1980s-now"
   },
@@ -11820,6 +14131,10 @@
    "tier": 3,
    "genres": [
     "retro"
+   ],
+   "tags": [
+    "retro",
+    "estrada"
    ],
    "age": "family",
    "era": "1980s-now"
@@ -11840,6 +14155,10 @@
    "genres": [
     "retro"
    ],
+   "tags": [
+    "retro",
+    "estrada"
+   ],
    "age": "family",
    "era": "1980s-now"
   },
@@ -11859,8 +14178,1500 @@
    "genres": [
     "retro"
    ],
+   "tags": [
+    "retro",
+    "estrada"
+   ],
    "age": "family",
    "era": "1980s-now"
+  },
+  {
+   "id": "1534860271",
+   "title": "1000-чи петлей (feat. Onion & Эдвард OM)",
+   "artist": "MFM",
+   "artistId": 1533401554,
+   "artistKey": "mfm",
+   "album": "Джем - EP",
+   "year": 2019,
+   "durationMs": 145476,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview114/v4/19/7b/89/197b893c-6536-d826-73d8-22747f0b31d8/mzaf_10813904799951632513.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/96/10/9f/96109fb3-ffca-0f9a-38c1-84d00bad895b/0.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/1000-%D1%87%D0%B8-%D0%BF%D0%B5%D1%82%D0%BB%D0%B5%D0%B9-feat-onion-%D1%8D%D0%B4%D0%B2%D0%B0%D1%80%D0%B4-om/1534860270?i=1534860271&uo=4",
+   "tier": 3,
+   "genres": [
+    "qpop",
+    "pop"
+   ],
+   "tags": [
+    "qpop",
+    "pop"
+   ],
+   "age": "family",
+   "era": "2017-now",
+   "needsReview": true
+  },
+  {
+   "id": "1534860610",
+   "title": "В кругу (feat. Эдвард OM)",
+   "artist": "MFM",
+   "artistId": 1533401554,
+   "artistKey": "mfm",
+   "album": "Джем - EP",
+   "year": 2019,
+   "durationMs": 251063,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview124/v4/65/f5/66/65f566c1-8bed-f56b-20ba-b62b6f861227/mzaf_18676852025081010.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/96/10/9f/96109fb3-ffca-0f9a-38c1-84d00bad895b/0.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D0%B2-%D0%BA%D1%80%D1%83%D0%B3%D1%83-feat-%D1%8D%D0%B4%D0%B2%D0%B0%D1%80%D0%B4-om/1534860270?i=1534860610&uo=4",
+   "tier": 3,
+   "genres": [
+    "qpop",
+    "pop"
+   ],
+   "tags": [
+    "qpop",
+    "pop"
+   ],
+   "age": "family",
+   "era": "2017-now",
+   "needsReview": true
+  },
+  {
+   "id": "1535604838",
+   "title": "Ау (feat. Onion)",
+   "artist": "MFM",
+   "artistId": 1533401554,
+   "artistKey": "mfm",
+   "album": "Ь - Single",
+   "year": 2019,
+   "durationMs": 205218,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview114/v4/9c/e9/b8/9ce9b897-75df-53c9-6eef-d7dbdd3f6583/mzaf_15650839998543898365.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/10/35/af/1035afb6-0322-21ad-df85-775f7198a816/0.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D0%B0%D1%83-feat-onion/1535604835?i=1535604838&uo=4",
+   "tier": 3,
+   "genres": [
+    "qpop",
+    "pop"
+   ],
+   "tags": [
+    "qpop",
+    "pop"
+   ],
+   "age": "family",
+   "era": "2017-now",
+   "needsReview": true
+  },
+  {
+   "id": "1535604836",
+   "title": "Чувство дома (feat. Onion)",
+   "artist": "MFM",
+   "artistId": 1533401554,
+   "artistKey": "mfm",
+   "album": "Ь - Single",
+   "year": 2019,
+   "durationMs": 323213,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview124/v4/a2/13/18/a21318a5-b051-e235-1c6e-6a9aa2ab6e84/mzaf_12451957720847513829.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/10/35/af/1035afb6-0322-21ad-df85-775f7198a816/0.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D1%87%D1%83%D0%B2%D1%81%D1%82%D0%B2%D0%BE-%D0%B4%D0%BE%D0%BC%D0%B0-feat-onion/1535604835?i=1535604836&uo=4",
+   "tier": 3,
+   "genres": [
+    "qpop",
+    "pop"
+   ],
+   "tags": [
+    "qpop",
+    "pop"
+   ],
+   "age": "family",
+   "era": "2017-now",
+   "needsReview": true
+  },
+  {
+   "id": "1535604837",
+   "title": "Узлы",
+   "artist": "MFM",
+   "artistId": 1533401554,
+   "artistKey": "mfm",
+   "album": "Ь - Single",
+   "year": 2019,
+   "durationMs": 264150,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview124/v4/bc/80/5b/bc805b32-cf76-f3b4-9e5c-2f813ee9e5ae/mzaf_17045812480462529233.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/10/35/af/1035afb6-0322-21ad-df85-775f7198a816/0.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D1%83%D0%B7%D0%BB%D1%8B/1535604835?i=1535604837&uo=4",
+   "tier": 3,
+   "genres": [
+    "qpop",
+    "pop"
+   ],
+   "tags": [
+    "qpop",
+    "pop"
+   ],
+   "age": "family",
+   "era": "2017-now",
+   "needsReview": true
+  },
+  {
+   "id": "1871221196",
+   "title": "Не могу без тебя (prod. by Fato Deejays)",
+   "artist": "НьюТон",
+   "artistId": 1870497890,
+   "artistKey": "newton",
+   "album": "Не могу без тебя (prod. by Fato Deejays) - EP",
+   "year": 2026,
+   "durationMs": 220312,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/66/6c/04/666c04ef-008b-de5e-31f6-2f2f6b0bdb86/mzaf_7420175693234292860.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/3d/cd/07/3dcd0764-984f-71ce-7ea0-363cb61b7326/6_001_N_yuTon-Ne_mogu_bez_tebya.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D0%BD%D0%B5-%D0%BC%D0%BE%D0%B3%D1%83-%D0%B1%D0%B5%D0%B7-%D1%82%D0%B5%D0%B1%D1%8F-prod-by-fato-deejays/1871221195?i=1871221196&uo=4",
+   "tier": 3,
+   "genres": [
+    "qpop",
+    "pop"
+   ],
+   "tags": [
+    "qpop",
+    "pop"
+   ],
+   "age": "family",
+   "era": "2018-now",
+   "needsReview": true
+  },
+  {
+   "id": "1887575339",
+   "title": "Танцы в пустоте",
+   "artist": "НьюТон",
+   "artistId": 1870497890,
+   "artistKey": "newton",
+   "album": "Танцы в пустоте - Single",
+   "year": 2026,
+   "durationMs": 203050,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/d6/5f/78/d65f78d4-850e-20c4-bd72-355f8cc8bc14/mzaf_12077045408108114598.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/a1/72/7b/a1727bbe-88cb-321a-766d-0108173ab102/4741534979368.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D1%82%D0%B0%D0%BD%D1%86%D1%8B-%D0%B2-%D0%BF%D1%83%D1%81%D1%82%D0%BE%D1%82%D0%B5/1887575338?i=1887575339&uo=4",
+   "tier": 3,
+   "genres": [
+    "qpop",
+    "pop"
+   ],
+   "tags": [
+    "qpop",
+    "pop"
+   ],
+   "age": "family",
+   "era": "2018-now",
+   "needsReview": true
+  },
+  {
+   "id": "1473816002",
+   "title": "Bisharashka",
+   "artist": "Say Mo",
+   "artistId": 1460384379,
+   "artistKey": "say-mo",
+   "album": "Bisharashka - Single",
+   "year": 2019,
+   "durationMs": 152889,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/02/4b/64/024b6463-c7be-643f-936e-ee127c7d8c52/mzaf_5344893365426484288.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/31/c4/8d/31c48da5-16aa-6a16-1e16-c0b1d32322af/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/bisharashka/1473815998?i=1473816002&uo=4",
+   "tier": 3,
+   "genres": [
+    "rap",
+    "pop"
+   ],
+   "tags": [
+    "rap",
+    "electronic"
+   ],
+   "age": "18plus",
+   "era": "2017-now"
+  },
+  {
+   "id": "1764342874",
+   "title": "COCO",
+   "artist": "Say Mo",
+   "artistId": 1460384379,
+   "artistKey": "say-mo",
+   "album": "COCO - Single",
+   "year": 2019,
+   "durationMs": 130120,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/fe/5c/05/fe5c05ff-40f3-158d-14ae-082ea23628c2/mzaf_7782959841983656962.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/fc/68/1c/fc681c34-fc71-39ec-7546-f0502523c5d0/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/coco/1764342682?i=1764342874&uo=4",
+   "tier": 3,
+   "genres": [
+    "rap",
+    "pop"
+   ],
+   "tags": [
+    "rap",
+    "electronic"
+   ],
+   "age": "18plus",
+   "era": "2017-now"
+  },
+  {
+   "id": "1490833470",
+   "title": "Я - ра",
+   "artist": "Say Mo",
+   "artistId": 1460384379,
+   "artistKey": "say-mo",
+   "album": "Я пот бит",
+   "year": 2019,
+   "durationMs": 201881,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/94/80/d9/9480d913-d31b-a022-e481-dd7d88eddb8c/mzaf_10748242525376695824.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/e1/a9/8b/e1a98b7d-4755-8844-25a7-eb2ca72903e7/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D1%8F-%D1%80%D0%B0/1490833467?i=1490833470&uo=4",
+   "tier": 3,
+   "genres": [
+    "rap",
+    "pop"
+   ],
+   "tags": [
+    "rap",
+    "electronic"
+   ],
+   "age": "18plus",
+   "era": "2017-now"
+  },
+  {
+   "id": "1490833672",
+   "title": "Тестим тусим",
+   "artist": "Say Mo",
+   "artistId": 1460384379,
+   "artistKey": "say-mo",
+   "album": "Я пот бит",
+   "year": 2019,
+   "durationMs": 163350,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/5c/d3/b8/5cd3b825-025c-8ed5-e565-922e33de9795/mzaf_10972908459017239025.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/e1/a9/8b/e1a98b7d-4755-8844-25a7-eb2ca72903e7/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D0%BC-%D1%82%D1%83%D1%81%D0%B8%D0%BC/1490833467?i=1490833672&uo=4",
+   "tier": 3,
+   "genres": [
+    "rap",
+    "pop"
+   ],
+   "tags": [
+    "rap",
+    "electronic"
+   ],
+   "age": "18plus",
+   "era": "2017-now"
+  },
+  {
+   "id": "1778269295",
+   "title": "ALMATY - TASHKENT",
+   "artist": "Say Mo & King Macarella",
+   "artistId": 1460384379,
+   "artistKey": "say-mo",
+   "album": "ALMATY - TASHKENT - Single",
+   "year": 2024,
+   "durationMs": 121846,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/26/87/9f/26879f7b-31e6-22c2-104c-db767b0702c0/mzaf_16555955713750144163.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/3a/b4/a5/3ab4a5a7-11c5-3dd0-5562-7e50d1b62a3d/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/almaty-tashkent/1778269294?i=1778269295&uo=4",
+   "tier": 3,
+   "genres": [
+    "rap",
+    "pop"
+   ],
+   "tags": [
+    "rap",
+    "electronic"
+   ],
+   "age": "18plus",
+   "era": "2017-now"
+  },
+  {
+   "id": "1758916566",
+   "title": "Сталинград",
+   "artist": "Мотор-Роллер",
+   "artistId": 1758916075,
+   "artistKey": "motor-roller",
+   "album": "Брестские крепости",
+   "year": 2024,
+   "durationMs": 303747,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/76/1d/4a/761d4a75-2da5-6344-90eb-2ff1663e49bc/mzaf_12821707439811212073.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/85/a1/ef/85a1efbf-a7cb-7238-bc1e-a73e073a4f77/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D1%81%D1%82%D0%B0%D0%BB%D0%B8%D0%BD%D0%B3%D1%80%D0%B0%D0%B4/1758915843?i=1758916566&uo=4",
+   "tier": 3,
+   "genres": [
+    "rock"
+   ],
+   "tags": [
+    "rock"
+   ],
+   "age": "family",
+   "era": "1990s-now"
+  },
+  {
+   "id": "1787188129",
+   "title": "Два ветра и парус (Счастливый вариант)",
+   "artist": "Мотор-Роллер",
+   "artistId": 1758916075,
+   "artistKey": "motor-roller",
+   "album": "Рок-мюзикл \"Три дома окнами во двор\"",
+   "year": 2025,
+   "durationMs": 273622,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/7b/23/b9/7b23b976-8d4f-164a-0f5c-f488778953fb/mzaf_15810723472598240075.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d9/82/f3/d982f36f-2dcf-6fb2-3bee-9c54c3981bf7/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D0%B4%D0%B2%D0%B0-%D0%B2%D0%B5%D1%82%D1%80%D0%B0-%D0%B8-%D0%BF%D0%B0%D1%80%D1%83%D1%81-%D1%81%D1%87%D0%B0%D1%81%D1%82%D0%BB%D0%B8%D0%B2%D1%8B%D0%B9-%D0%B2%D0%B0%D1%80%D0%B8%D0%B0%D0%BD%D1%82/1787187137?i=1787188129&uo=4",
+   "tier": 3,
+   "genres": [
+    "rock"
+   ],
+   "tags": [
+    "rock"
+   ],
+   "age": "family",
+   "era": "1990s-now"
+  },
+  {
+   "id": "1758917518",
+   "title": "Русский и Азиат",
+   "artist": "Мотор-Роллер",
+   "artistId": 1758916075,
+   "artistKey": "motor-roller",
+   "album": "Брестские крепости",
+   "year": 2024,
+   "durationMs": 160587,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/f8/8d/92/f88d9255-c3f6-f39f-cf14-38fe08c0340b/mzaf_573438625783451673.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/85/a1/ef/85a1efbf-a7cb-7238-bc1e-a73e073a4f77/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9-%D0%B8-%D0%B0%D0%B7%D0%B8%D0%B0%D1%82/1758915843?i=1758917518&uo=4",
+   "tier": 3,
+   "genres": [
+    "rock"
+   ],
+   "tags": [
+    "rock"
+   ],
+   "age": "family",
+   "era": "1990s-now"
+  },
+  {
+   "id": "1758917527",
+   "title": "Терпеть и петь",
+   "artist": "Мотор-Роллер",
+   "artistId": 1758916075,
+   "artistKey": "motor-roller",
+   "album": "Брестские крепости",
+   "year": 2024,
+   "durationMs": 206841,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/bf/f0/36/bff03623-5269-5f6c-1cbe-95def4989c15/mzaf_10415578064422736525.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/85/a1/ef/85a1efbf-a7cb-7238-bc1e-a73e073a4f77/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D1%82%D0%B5%D1%80%D0%BF%D0%B5%D1%82%D1%8C-%D0%B8-%D0%BF%D0%B5%D1%82%D1%8C/1758915843?i=1758917527&uo=4",
+   "tier": 3,
+   "genres": [
+    "rock"
+   ],
+   "tags": [
+    "rock"
+   ],
+   "age": "family",
+   "era": "1990s-now"
+  },
+  {
+   "id": "1772222208",
+   "title": "Баллада о спинах",
+   "artist": "Мотор-Роллер",
+   "artistId": 1758916075,
+   "artistKey": "motor-roller",
+   "album": "Над Землей",
+   "year": 2024,
+   "durationMs": 277480,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/3e/f9/f7/3ef9f7f9-7d56-3845-9463-e52f2d8607f3/mzaf_4167952199513433495.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/30/2b/bc/302bbc98-ba79-75f2-87c3-f6979726df2f/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D0%B1%D0%B0%D0%BB%D0%BB%D0%B0%D0%B4%D0%B0-%D0%BE-%D1%81%D0%BF%D0%B8%D0%BD%D0%B0%D1%85/1772221934?i=1772222208&uo=4",
+   "tier": 3,
+   "genres": [
+    "rock"
+   ],
+   "tags": [
+    "rock"
+   ],
+   "age": "family",
+   "era": "1990s-now"
+  },
+  {
+   "id": "1099206375",
+   "title": "Тысячелетие",
+   "artist": "Adaptatsiya",
+   "artistId": 586585814,
+   "artistKey": "adaptatsiya",
+   "album": "No pasaran!",
+   "year": 2011,
+   "durationMs": 313547,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/97/24/56/972456d6-1fe1-799c-65c5-a23acdb1b108/mzaf_10372336698353619634.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music49/v4/23/72/1f/23721fae-949b-a5f5-dbc3-2f408ef12aa0/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D1%82%D1%8B%D1%81%D1%8F%D1%87%D0%B5%D0%BB%D0%B5%D1%82%D0%B8%D0%B5/1099206285?i=1099206375&uo=4",
+   "tier": 3,
+   "genres": [
+    "rock"
+   ],
+   "tags": [
+    "rock",
+    "punk"
+   ],
+   "age": "18plus",
+   "era": "1990s-now"
+  },
+  {
+   "id": "1313825535",
+   "title": "Между любовью и ненавистью",
+   "artist": "Adaptatsiya",
+   "artistId": 586585814,
+   "artistKey": "adaptatsiya",
+   "album": "Олдскул",
+   "year": 2017,
+   "durationMs": 309573,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/e9/8b/25/e98b2537-865c-3bac-ead7-5a83b9c5ce0b/mzaf_5674800390665890537.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/46/5c/99/465c992c-1469-f821-93c4-6e75b80c62b0/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D0%BC%D0%B5%D0%B6%D0%B4%D1%83-%D0%BB%D1%8E%D0%B1%D0%BE%D0%B2%D1%8C%D1%8E-%D0%B8-%D0%BD%D0%B5%D0%BD%D0%B0%D0%B2%D0%B8%D1%81%D1%82%D1%8C%D1%8E/1313824858?i=1313825535&uo=4",
+   "tier": 3,
+   "genres": [
+    "rock"
+   ],
+   "tags": [
+    "rock",
+    "punk"
+   ],
+   "age": "18plus",
+   "era": "1990s-now"
+  },
+  {
+   "id": "1214839491",
+   "title": "Памяти Курта Кобейна",
+   "artist": "Adaptatsiya",
+   "artistId": 586585814,
+   "artistKey": "adaptatsiya",
+   "album": "Radio Resistance",
+   "year": 2017,
+   "durationMs": 124715,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/04/e6/d9/04e6d90f-c819-cfa6-d4c2-f02eeb9c835d/mzaf_14292625002061128406.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music111/v4/11/57/b2/1157b23f-30d1-900a-0c45-aa3142d9bc1b/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D0%BF%D0%B0%D0%BC%D1%8F%D1%82%D0%B8-%D0%BA%D1%83%D1%80%D1%82%D0%B0-%D0%BA%D0%BE%D0%B1%D0%B5%D0%B9%D0%BD%D0%B0/1214839476?i=1214839491&uo=4",
+   "tier": 3,
+   "genres": [
+    "rock"
+   ],
+   "tags": [
+    "rock",
+    "punk"
+   ],
+   "age": "18plus",
+   "era": "1990s-now"
+  },
+  {
+   "id": "1214839492",
+   "title": "Будущего нет",
+   "artist": "Adaptatsiya",
+   "artistId": 586585814,
+   "artistKey": "adaptatsiya",
+   "album": "Radio Resistance",
+   "year": 2017,
+   "durationMs": 280284,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/b6/35/fe/b635fe2f-d15a-6c2b-3b06-2b891833706e/mzaf_12904616466249956387.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music111/v4/11/57/b2/1157b23f-30d1-900a-0c45-aa3142d9bc1b/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D0%B1%D1%83%D0%B4%D1%83%D1%89%D0%B5%D0%B3%D0%BE-%D0%BD%D0%B5%D1%82/1214839476?i=1214839492&uo=4",
+   "tier": 3,
+   "genres": [
+    "rock"
+   ],
+   "tags": [
+    "rock",
+    "punk"
+   ],
+   "age": "18plus",
+   "era": "1990s-now"
+  },
+  {
+   "id": "1099240007",
+   "title": "Пепел",
+   "artist": "Adaptatsiya",
+   "artistId": 586585814,
+   "artistKey": "adaptatsiya",
+   "album": "Так горит степь",
+   "year": 2005,
+   "durationMs": 422653,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/46/5b/b8/465bb834-073b-0c18-e84e-073c92dd0937/mzaf_857024425187888566.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music49/v4/85/ca/55/85ca5545-279e-09c9-93a5-8386c147f204/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D0%BF%D0%B5%D0%BF%D0%B5%D0%BB/1099239969?i=1099240007&uo=4",
+   "tier": 3,
+   "genres": [
+    "rock"
+   ],
+   "tags": [
+    "rock",
+    "punk"
+   ],
+   "age": "18plus",
+   "era": "1990s-now"
+  },
+  {
+   "id": "1674901905",
+   "title": "NAURYZ",
+   "artist": "URKER",
+   "artistId": 1552968137,
+   "artistKey": "urker",
+   "album": "NAURYZ - Single",
+   "year": 2023,
+   "durationMs": 205238,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/8d/07/31/8d073109-58eb-e80d-0fd6-6e1901ae0139/mzaf_1414665477224125952.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/12/90/cb/1290cb0e-10b5-1a41-31b3-3b3bd5dcbacd/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/nauryz/1674901886?i=1674901905&uo=4",
+   "tier": 3,
+   "genres": [
+    "rock",
+    "folk"
+   ],
+   "tags": [
+    "rock",
+    "ethno"
+   ],
+   "age": "family",
+   "era": "1990s-now"
+  },
+  {
+   "id": "1464608444",
+   "title": "Zhanym (Edit)",
+   "artist": "URKER",
+   "artistId": 1552968137,
+   "artistKey": "urker",
+   "album": "25",
+   "year": 2018,
+   "durationMs": 305707,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/28/d9/5f/28d95f7b-1973-e839-3c5c-767fb64f154d/mzaf_973060894426321669.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f1/14/11/f114119a-f83e-569e-a4ea-746b0e9e12f8/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/zhanym-edit/1464608211?i=1464608444&uo=4",
+   "tier": 3,
+   "genres": [
+    "rock",
+    "folk"
+   ],
+   "tags": [
+    "rock",
+    "ethno"
+   ],
+   "age": "family",
+   "era": "1990s-now"
+  },
+  {
+   "id": "1464608439",
+   "title": "Makhabbat Any (Club Mix)",
+   "artist": "URKER",
+   "artistId": 1552968137,
+   "artistKey": "urker",
+   "album": "25",
+   "year": 2018,
+   "durationMs": 313427,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/46/cf/cc/46cfcca8-139f-6506-9fdc-03729bf6b099/mzaf_11542181383839191932.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f1/14/11/f114119a-f83e-569e-a4ea-746b0e9e12f8/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/makhabbat-any-club-mix/1464608211?i=1464608439&uo=4",
+   "tier": 3,
+   "genres": [
+    "rock",
+    "folk"
+   ],
+   "tags": [
+    "rock",
+    "ethno"
+   ],
+   "age": "family",
+   "era": "1990s-now"
+  },
+  {
+   "id": "1464608290",
+   "title": "Sen (Radio Version)",
+   "artist": "URKER",
+   "artistId": 1552968137,
+   "artistKey": "urker",
+   "album": "25",
+   "year": 2018,
+   "durationMs": 213213,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/16/ea/3c/16ea3cae-ab62-3d6e-89f9-5ca163034f30/mzaf_12980036787635830850.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f1/14/11/f114119a-f83e-569e-a4ea-746b0e9e12f8/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/sen-radio-version/1464608211?i=1464608290&uo=4",
+   "tier": 3,
+   "genres": [
+    "rock",
+    "folk"
+   ],
+   "tags": [
+    "rock",
+    "ethno"
+   ],
+   "age": "family",
+   "era": "1990s-now"
+  },
+  {
+   "id": "1464608436",
+   "title": "Perishte (Club Mix)",
+   "artist": "URKER",
+   "artistId": 1552968137,
+   "artistKey": "urker",
+   "album": "25",
+   "year": 2018,
+   "durationMs": 184653,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/36/e3/8e/36e38ea9-d641-7671-ba19-f26fe3047543/mzaf_14059103156547019427.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f1/14/11/f114119a-f83e-569e-a4ea-746b0e9e12f8/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/perishte-club-mix/1464608211?i=1464608436&uo=4",
+   "tier": 3,
+   "genres": [
+    "rock",
+    "folk"
+   ],
+   "tags": [
+    "rock",
+    "ethno"
+   ],
+   "age": "family",
+   "era": "1990s-now"
+  },
+  {
+   "id": "1726600313",
+   "title": "Balqadisha (2024 Remastered Version)",
+   "artist": "Aldaspan",
+   "artistId": 1521516156,
+   "artistKey": "aldaspan",
+   "album": "Balqadisha 2024 (2024 Remastered Version)",
+   "year": 2019,
+   "durationMs": 255516,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/67/6c/1e/676c1ea6-5ce5-35f8-a048-d0612f9fd062/mzaf_5286062380854678533.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/b6/4a/f9/b64af9f5-eaa5-7ed8-3e9a-026574224750/8a60604d-16b1-4b59-ae90-e1bc40942b05.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/balqadisha-2024-remastered-version/1726600308?i=1726600313&uo=4",
+   "tier": 3,
+   "genres": [
+    "folk"
+   ],
+   "tags": [
+    "folk",
+    "ethno",
+    "metal"
+   ],
+   "age": "family",
+   "era": "2010s-now"
+  },
+  {
+   "id": "1726649880",
+   "title": "Boztorgai (2024 Remastered Version)",
+   "artist": "Aldaspan",
+   "artistId": 1521516156,
+   "artistKey": "aldaspan",
+   "album": "Zhol 2024 (2024 Remastered Version) - EP",
+   "year": 2019,
+   "durationMs": 223693,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/0a/8a/84/0a8a8441-5c47-3f09-0d96-8f07ef492913/mzaf_9690500665269210580.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/38/7a/fa/387afa73-d895-dca9-2228-a7507ed41b1d/c2b44564-e16b-495c-a933-d3bcbe89eed0.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/boztorgai-2024-remastered-version/1726649574?i=1726649880&uo=4",
+   "tier": 3,
+   "genres": [
+    "folk"
+   ],
+   "tags": [
+    "folk",
+    "ethno",
+    "metal"
+   ],
+   "age": "family",
+   "era": "2010s-now"
+  },
+  {
+   "id": "1726896737",
+   "title": "Ustazga (2024 Remastered Version)",
+   "artist": "Aldaspan",
+   "artistId": 1521516156,
+   "artistKey": "aldaspan",
+   "album": "Elge Qait 2024 (2024 Remastered Version)",
+   "year": 2024,
+   "durationMs": 189537,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/5d/51/05/5d51051f-d6ab-d579-d809-82bb152aca35/mzaf_4704453672883806700.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/61/ab/37/61ab3710-4697-0548-1195-bdc6f8a277e4/3ffa776c-517e-4272-a72f-4f7c56969f1a.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/ustazga-2024-remastered-version/1726896168?i=1726896737&uo=4",
+   "tier": 3,
+   "genres": [
+    "folk"
+   ],
+   "tags": [
+    "folk",
+    "ethno",
+    "metal"
+   ],
+   "age": "family",
+   "era": "2010s-now"
+  },
+  {
+   "id": "1726600327",
+   "title": "Sugir Termesi (2024 Remastered Version)",
+   "artist": "Aldaspan",
+   "artistId": 1521516156,
+   "artistKey": "aldaspan",
+   "album": "Balqadisha 2024 (2024 Remastered Version)",
+   "year": 2024,
+   "durationMs": 193533,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/30/27/e3/3027e354-14fe-ba90-2f98-13e1aa930428/mzaf_15375144664771487306.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/b6/4a/f9/b64af9f5-eaa5-7ed8-3e9a-026574224750/8a60604d-16b1-4b59-ae90-e1bc40942b05.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/sugir-termesi-2024-remastered-version/1726600308?i=1726600327&uo=4",
+   "tier": 3,
+   "genres": [
+    "folk"
+   ],
+   "tags": [
+    "folk",
+    "ethno",
+    "metal"
+   ],
+   "age": "family",
+   "era": "2010s-now"
+  },
+  {
+   "id": "1726600330",
+   "title": "Zhorgatai (2024 Remastered Version)",
+   "artist": "Aldaspan",
+   "artistId": 1521516156,
+   "artistKey": "aldaspan",
+   "album": "Balqadisha 2024 (2024 Remastered Version)",
+   "year": 2024,
+   "durationMs": 255958,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/50/54/49/5054492b-9272-cae7-4306-5bf262a1ae16/mzaf_10219889610966903399.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/b6/4a/f9/b64af9f5-eaa5-7ed8-3e9a-026574224750/8a60604d-16b1-4b59-ae90-e1bc40942b05.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/zhorgatai-2024-remastered-version/1726600308?i=1726600330&uo=4",
+   "tier": 3,
+   "genres": [
+    "folk"
+   ],
+   "tags": [
+    "folk",
+    "ethno",
+    "metal"
+   ],
+   "age": "family",
+   "era": "2010s-now"
+  },
+  {
+   "id": "1639059053",
+   "title": "Махаббат",
+   "artist": "Kairat Baekenov",
+   "artistId": 1524134915,
+   "artistKey": "kaиrat-baekenov",
+   "album": "Махаббат - Single",
+   "year": 2022,
+   "durationMs": 245845,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview112/v4/95/6b/60/956b6050-effe-5ae1-3790-612e57ba27bf/mzaf_17196942137076623537.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/67/63/b5/6763b52f-d7c7-b49f-24de-d04874ac5102/859764736850_cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D0%BC%D0%B0%D1%85%D0%B0%D0%B1%D0%B1%D0%B0%D1%82/1639059047?i=1639059053&uo=4",
+   "tier": 3,
+   "genres": [
+    "retro",
+    "pop"
+   ],
+   "tags": [
+    "retro",
+    "pop"
+   ],
+   "age": "family",
+   "era": "1990s-2000s"
+  },
+  {
+   "id": "1020786886",
+   "title": "An Alemi",
+   "artist": "Kairat Baekenov & Format Group",
+   "artistId": 1524134915,
+   "artistKey": "kaиrat-baekenov",
+   "album": "An Alemi - Single",
+   "year": 2015,
+   "durationMs": 221053,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/33/2c/13/332c1347-44dc-f5b6-2c27-efacb76bb533/mzaf_9793054286839150982.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/61/88/f2/6188f21d-6784-da4c-54c4-e5040d0422bc/859715191417_cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/an-alemi/1020786212?i=1020786886&uo=4",
+   "tier": 3,
+   "genres": [
+    "retro",
+    "pop"
+   ],
+   "tags": [
+    "retro",
+    "pop"
+   ],
+   "age": "family",
+   "era": "1990s-2000s"
+  },
+  {
+   "id": "1669914832",
+   "title": "Телефон",
+   "artist": "Kairat Baekenov & Формат",
+   "artistId": 1524134915,
+   "artistKey": "kaиrat-baekenov",
+   "album": "Телефон - Single",
+   "year": 2023,
+   "durationMs": 218932,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/b9/d5/bb/b9d5bb45-fa79-ee31-d446-f898d33daa6e/mzaf_13412390695143167504.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/4e/4a/25/4e4a2586-2e80-5f72-c6bb-bc0bb22a8804/859770266105_cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D1%82%D0%B5%D0%BB%D0%B5%D1%84%D0%BE%D0%BD/1669914831?i=1669914832&uo=4",
+   "tier": 3,
+   "genres": [
+    "retro",
+    "pop"
+   ],
+   "tags": [
+    "retro",
+    "pop"
+   ],
+   "age": "family",
+   "era": "1990s-2000s"
+  },
+  {
+   "id": "1524135097",
+   "title": "Ғажап LiFE",
+   "artist": "Kairat Baekenov & Формат",
+   "artistId": 1524134915,
+   "artistKey": "kaиrat-baekenov",
+   "album": "Ғажап LiFE - Single",
+   "year": 2020,
+   "durationMs": 136385,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/a4/77/53/a4775339-49ae-2307-628c-b823b5d8a60d/mzaf_11215097413902904287.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/9a/71/a1/9a71a117-63de-98d4-5ff8-32857e7f30ef/859740625444_cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D2%93%D0%B0%D0%B6%D0%B0%D0%BF-life/1524134913?i=1524135097&uo=4",
+   "tier": 3,
+   "genres": [
+    "retro",
+    "pop"
+   ],
+   "tags": [
+    "retro",
+    "pop"
+   ],
+   "age": "family",
+   "era": "1990s-2000s"
+  },
+  {
+   "id": "1693814477",
+   "title": "Qos Jurek",
+   "artist": "Kairat Baekenov & Ayree",
+   "artistId": 1524134915,
+   "artistKey": "kaиrat-baekenov",
+   "album": "Qos Jurek - Single",
+   "year": 2023,
+   "durationMs": 203750,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/5c/e9/88/5ce988c3-390f-cb40-2fc0-a3c1633c4fbd/mzaf_270405833638838513.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/b8/a4/27/b8a427d2-0ec0-984c-d781-f7534c6230c6/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/qos-jurek/1693813875?i=1693814477&uo=4",
+   "tier": 3,
+   "genres": [
+    "retro",
+    "pop"
+   ],
+   "tags": [
+    "retro",
+    "pop"
+   ],
+   "age": "family",
+   "era": "1990s-2000s"
+  },
+  {
+   "id": "1891751968",
+   "title": "Жас жұбайлар",
+   "artist": "Алтынай Жорабаева",
+   "artistId": 1125369601,
+   "artistKey": "altynai-zhorabaeva",
+   "album": "Жас жұбайлар - Single",
+   "year": 2016,
+   "durationMs": 250000,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/b5/4b/c3/b54bc3c5-f64e-3546-cb53-2a5788217b16/mzaf_5567387848740256665.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d3/9d/44/d39d449e-0fc7-4dba-a60d-c6e3d78c9d30/859735723926_cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D0%B6%D0%B0%D1%81-%D0%B6%D2%B1%D0%B1%D0%B0%D0%B9%D0%BB%D0%B0%D1%80/1891751960?i=1891751968&uo=4",
+   "tier": 3,
+   "genres": [
+    "toi",
+    "retro"
+   ],
+   "tags": [
+    "toi",
+    "estrada"
+   ],
+   "age": "family",
+   "era": "2000s-now"
+  },
+  {
+   "id": "1558445116",
+   "title": "Өмір-өзен (жаңа нұсқа)",
+   "artist": "Алтынай Жорабаева",
+   "artistId": 1125369601,
+   "artistKey": "altynai-zhorabaeva",
+   "album": "Бақытты Әйел",
+   "year": 2021,
+   "durationMs": 320952,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview114/v4/05/6f/9b/056f9b6a-8af1-7d1a-965b-609dba6bb68e/mzaf_7985784742056088839.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/00/a8/c4/00a8c43b-d448-61c1-d3c8-c39af958c4ca/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D3%A9%D0%BC%D1%96%D1%80-%D3%A9%D0%B7%D0%B5%D0%BD-%D0%B6%D0%B0%D2%A3%D0%B0-%D0%BD%D2%B1%D1%81%D2%9B%D0%B0/1558443873?i=1558445116&uo=4",
+   "tier": 3,
+   "genres": [
+    "toi",
+    "retro"
+   ],
+   "tags": [
+    "toi",
+    "estrada"
+   ],
+   "age": "family",
+   "era": "2000s-now"
+  },
+  {
+   "id": "1563059874",
+   "title": "Сол Бір Түн",
+   "artist": "Алтынай Жорабаева",
+   "artistId": 1125369601,
+   "artistKey": "altynai-zhorabaeva",
+   "album": "Еркеш Шакеев: Қазақша Әндер",
+   "year": 2021,
+   "durationMs": 215759,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview114/v4/96/1f/8b/961f8b3b-8002-637e-0e9a-ad255518a4c4/mzaf_18375539921248696962.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/9b/f3/33/9bf333d6-b471-7da6-e2e5-e4b20f95f670/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D1%81%D0%BE%D0%BB-%D0%B1%D1%96%D1%80-%D1%82%D2%AF%D0%BD/1563059856?i=1563059874&uo=4",
+   "tier": 3,
+   "genres": [
+    "toi",
+    "retro"
+   ],
+   "tags": [
+    "toi",
+    "estrada"
+   ],
+   "age": "family",
+   "era": "2000s-now"
+  },
+  {
+   "id": "1558444254",
+   "title": "Бақытты Әйел",
+   "artist": "Алтынай Жорабаева",
+   "artistId": 1125369601,
+   "artistKey": "altynai-zhorabaeva",
+   "album": "Бақытты Әйел",
+   "year": 2021,
+   "durationMs": 232571,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview124/v4/27/b0/12/27b012fa-1c84-035a-23fa-8e2e68e172d6/mzaf_3855904034706534517.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/00/a8/c4/00a8c43b-d448-61c1-d3c8-c39af958c4ca/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D0%B1%D0%B0%D2%9B%D1%8B%D1%82%D1%82%D1%8B-%D3%99%D0%B9%D0%B5%D0%BB/1558443873?i=1558444254&uo=4",
+   "tier": 3,
+   "genres": [
+    "toi",
+    "retro"
+   ],
+   "tags": [
+    "toi",
+    "estrada"
+   ],
+   "age": "family",
+   "era": "2000s-now"
+  },
+  {
+   "id": "1558445134",
+   "title": "Саржайлау (Жаңа Нұсқа)",
+   "artist": "Алтынай Жорабаева",
+   "artistId": 1125369601,
+   "artistKey": "altynai-zhorabaeva",
+   "album": "Бақытты Әйел",
+   "year": 2021,
+   "durationMs": 231910,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview114/v4/93/50/46/935046ea-dbbf-ad10-d08f-6445fb473524/mzaf_11373553543794053591.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/00/a8/c4/00a8c43b-d448-61c1-d3c8-c39af958c4ca/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D1%81%D0%B0%D1%80%D0%B6%D0%B0%D0%B9%D0%BB%D0%B0%D1%83-%D0%B6%D0%B0%D2%A3%D0%B0-%D0%BD%D2%B1%D1%81%D2%9B%D0%B0/1558443873?i=1558445134&uo=4",
+   "tier": 3,
+   "genres": [
+    "toi",
+    "retro"
+   ],
+   "tags": [
+    "toi",
+    "estrada"
+   ],
+   "age": "family",
+   "era": "2000s-now"
+  },
+  {
+   "id": "1842092512",
+   "title": "Túnniń bir uaģynda",
+   "artist": "Almás",
+   "artistId": 1842092095,
+   "artistKey": "almas",
+   "album": "Túnniń bir uaģynda - Single",
+   "year": 2025,
+   "durationMs": 213250,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/88/f7/b7/88f7b77a-7dba-d1c9-6938-51d93e4f341b/mzaf_535377525607166982.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/8d/53/11/8d53115d-ad82-c21d-7c31-c0cfd1b9b2df/8721416343988.png/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/t%C3%BAnni%C5%84-bir-ua%C4%A3ynda/1842092510?i=1842092512&uo=4",
+   "tier": 4,
+   "genres": [
+    "indie",
+    "rnb"
+   ],
+   "tags": [
+    "indie",
+    "rnb"
+   ],
+   "age": "family",
+   "era": "2020-now"
+  },
+  {
+   "id": "1888554484",
+   "title": "Zhar-Zhar",
+   "artist": "Almás",
+   "artistId": 1842092095,
+   "artistKey": "almas",
+   "album": "Zhar-Zhar - Single",
+   "year": 2026,
+   "durationMs": 284308,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ce/68/5e/ce685ecc-b1f5-25ee-545d-83709e6e60a6/mzaf_16846383832017592269.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/1b/66/9e/1b669e8f-866d-2673-5ac7-9885220ddafc/821406030329_cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/zhar-zhar/1888554477?i=1888554484&uo=4",
+   "tier": 4,
+   "genres": [
+    "indie",
+    "rnb"
+   ],
+   "tags": [
+    "indie",
+    "rnb"
+   ],
+   "age": "family",
+   "era": "2020-now"
+  },
+  {
+   "id": "6799129581",
+   "title": "Aldáma",
+   "artist": "Almás",
+   "artistId": 1842092095,
+   "artistKey": "almas",
+   "album": "Aldáma - Single",
+   "year": 2026,
+   "durationMs": 273023,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/f0/75/40/f07540c5-3b48-9ff6-4df5-aa0487bf94f0/mzaf_14087220308782281642.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/1b/da/fa/1bdafabe-6094-818e-12bc-85b46f4044c5/859743705730_cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/ald%C3%A1ma/6799129333?i=6799129581&uo=4",
+   "tier": 4,
+   "genres": [
+    "indie",
+    "rnb"
+   ],
+   "tags": [
+    "indie",
+    "rnb"
+   ],
+   "age": "family",
+   "era": "2020-now"
+  },
+  {
+   "id": "1691082849",
+   "title": "sagan eshkim ten kelmeidi",
+   "artist": "niyazkul & Айбек Серикханов",
+   "artistId": 1539114175,
+   "artistKey": "niyazkul",
+   "album": "sagan eshkim ten kelmeidi - Single",
+   "year": 2022,
+   "durationMs": 143879,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/55/0e/ef/550eef92-6bb9-7104-aec1-8b0d6bf651d2/mzaf_6086427227299387519.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/e6/3e/d5/e63ed597-ba8f-eaad-d084-0a7e89977bde/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/sagan-eshkim-ten-kelmeidi/1691082831?i=1691082849&uo=4",
+   "tier": 4,
+   "genres": [
+    "indie",
+    "rnb"
+   ],
+   "tags": [
+    "indie",
+    "rnb"
+   ],
+   "age": "family",
+   "era": "2020-now"
+  },
+  {
+   "id": "1711220493",
+   "title": "taba aldyn ba?",
+   "artist": "niyazkul",
+   "artistId": 1539114175,
+   "artistKey": "niyazkul",
+   "album": "taba aldyn ba? - Single",
+   "year": 2023,
+   "durationMs": 120889,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/ba/d7/51/bad75127-f083-38f0-e38a-a76f1b2edfc5/mzaf_11984517924217252392.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/11/f5/5c/11f55cb8-ebfa-b554-de75-6d68e0b2d77a/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/taba-aldyn-ba/1711220141?i=1711220493&uo=4",
+   "tier": 4,
+   "genres": [
+    "indie",
+    "rnb"
+   ],
+   "tags": [
+    "indie",
+    "rnb"
+   ],
+   "age": "family",
+   "era": "2020-now"
+  },
+  {
+   "id": "1540742625",
+   "title": "Qarangy Tunde",
+   "artist": "niyazkul",
+   "artistId": 1539114175,
+   "artistKey": "niyazkul",
+   "album": "Qarangy Tunde - Single",
+   "year": 2020,
+   "durationMs": 127500,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/41/08/21/410821dc-b593-8f2c-7c67-47e95bab545e/mzaf_17182566219768500342.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/b3/19/79/b3197908-33cf-0fd8-de65-acb6b78cd32d/0.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/qarangy-tunde/1540742624?i=1540742625&uo=4",
+   "tier": 4,
+   "genres": [
+    "indie",
+    "rnb"
+   ],
+   "tags": [
+    "indie",
+    "rnb"
+   ],
+   "age": "family",
+   "era": "2020-now"
+  },
+  {
+   "id": "1849955382",
+   "title": "Jana Omir",
+   "artist": "TIBO & Beckth",
+   "artistId": 1794380036,
+   "artistKey": "tibo",
+   "album": "Jana Omir - Single",
+   "year": 2025,
+   "durationMs": 189182,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/66/d7/6e/66d76e87-77ab-fad6-432b-d442d2fdedf9/mzaf_3131226621491623132.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/3d/9d/b8/3d9db8bd-9044-10b4-fb97-b0ee2522e44f/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/jana-omir/1849955380?i=1849955382&uo=4",
+   "tier": 4,
+   "genres": [
+    "rnb",
+    "pop"
+   ],
+   "tags": [
+    "rnb",
+    "pop"
+   ],
+   "age": "family",
+   "era": "2020-now"
+  },
+  {
+   "id": "1807130037",
+   "title": "ooh-ooh",
+   "artist": "TIBO & Beckth",
+   "artistId": 1794380036,
+   "artistKey": "tibo",
+   "album": "ooh-ooh - Single",
+   "year": 2025,
+   "durationMs": 205274,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/08/dd/60/08dd6006-4aa6-3314-e009-0eb8dde3add5/mzaf_3149483762111408193.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e3/4c/69/e34c693d-8796-9c82-cfdf-a2a2445c0b3d/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/ooh-ooh/1807129774?i=1807130037&uo=4",
+   "tier": 4,
+   "genres": [
+    "rnb",
+    "pop"
+   ],
+   "tags": [
+    "rnb",
+    "pop"
+   ],
+   "age": "family",
+   "era": "2020-now"
+  },
+  {
+   "id": "1758914540",
+   "title": "buktelip (feat. Beckth)",
+   "artist": "TIBO",
+   "artistId": 1794380036,
+   "artistKey": "tibo",
+   "album": "buktelip (feat. Beckth) - Single",
+   "year": 2024,
+   "durationMs": 148916,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/33/52/ef/3352ef42-7827-1794-9399-f11f2020aa05/mzaf_5686532489523146211.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/fe/90/88/fe908844-6dca-c7c0-cacd-82428f21a181/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/buktelip-feat-beckth/1758914398?i=1758914540&uo=4",
+   "tier": 4,
+   "genres": [
+    "rnb",
+    "pop"
+   ],
+   "tags": [
+    "rnb",
+    "pop"
+   ],
+   "age": "family",
+   "era": "2020-now"
+  },
+  {
+   "id": "1636900729",
+   "title": "Лепестками",
+   "artist": "Mona Songz",
+   "artistId": 1455988971,
+   "artistKey": "mona-songz",
+   "album": "Феромоны - EP",
+   "year": 2022,
+   "durationMs": 184000,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview122/v4/4b/37/45/4b3745c8-0cb5-b98b-122e-8ec6f9138eed/mzaf_2691124246404604159.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/1d/83/77/1d837776-2c83-7408-e83f-63c68d724fed/0.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D0%BB%D0%B5%D0%BF%D0%B5%D1%81%D1%82%D0%BA%D0%B0%D0%BC%D0%B8/1636900454?i=1636900729&uo=4",
+   "tier": 4,
+   "genres": [
+    "pop",
+    "rnb"
+   ],
+   "tags": [
+    "pop",
+    "rnb"
+   ],
+   "age": "family",
+   "era": "2019-now",
+   "needsReview": true
+  },
+  {
+   "id": "1657188747",
+   "title": "Салют, Вера",
+   "artist": "Mona Songz",
+   "artistId": 1455988971,
+   "artistKey": "mona-songz",
+   "album": "Салют, Вера - Single",
+   "year": 2020,
+   "durationMs": 202756,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/a6/d2/e2/a6d2e2a4-f0df-db70-652a-eac625a35c63/mzaf_17154396228448080708.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/66/ca/c2/66cac22f-c4a1-0a99-c569-02b4b298e34a/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D1%81%D0%B0%D0%BB%D1%8E%D1%82-%D0%B2%D0%B5%D1%80%D0%B0/1657188740?i=1657188747&uo=4",
+   "tier": 4,
+   "genres": [
+    "pop",
+    "rnb"
+   ],
+   "tags": [
+    "pop",
+    "rnb"
+   ],
+   "age": "family",
+   "era": "2019-now",
+   "needsReview": true
+  },
+  {
+   "id": "1711026651",
+   "title": "О тебе",
+   "artist": "Mona Songz",
+   "artistId": 1455988971,
+   "artistKey": "mona-songz",
+   "album": "Млечный путь - EP",
+   "year": 2023,
+   "durationMs": 133636,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/a7/4a/d0/a74ad0cc-87b6-518c-0fd9-030e7c507cc0/mzaf_11108675959289793428.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/a7/9c/49/a79c491f-ea47-68da-b606-54f80b7bc163/0.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D0%BE-%D1%82%D0%B5%D0%B1%D0%B5/1711026648?i=1711026651&uo=4",
+   "tier": 4,
+   "genres": [
+    "pop",
+    "rnb"
+   ],
+   "tags": [
+    "pop",
+    "rnb"
+   ],
+   "age": "family",
+   "era": "2019-now",
+   "needsReview": true
+  },
+  {
+   "id": "1624511058",
+   "title": "Карандашом",
+   "artist": "НАZИМА",
+   "artistId": 1376622690,
+   "artistKey": "nazima",
+   "album": "Карандашом - Single",
+   "year": 2022,
+   "durationMs": 157600,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview112/v4/80/d4/86/80d4868e-573a-1e80-43b3-110513e6010e/mzaf_1158322479470083877.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/35/52/8f/35528f3d-75e1-8d7d-bfce-ffb7ba27db44/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D0%BA%D0%B0%D1%80%D0%B0%D0%BD%D0%B4%D0%B0%D1%88%D0%BE%D0%BC/1624510651?i=1624511058&uo=4",
+   "tier": 3,
+   "genres": [
+    "pop",
+    "rnb"
+   ],
+   "tags": [
+    "pop",
+    "rnb"
+   ],
+   "age": "family",
+   "era": "2018-now",
+   "needsReview": true
+  },
+  {
+   "id": "1391693570",
+   "title": "Беги",
+   "artist": "НАZИМА",
+   "artistId": 1376622690,
+   "artistKey": "nazima",
+   "album": "Беги - Single",
+   "year": 2018,
+   "durationMs": 204772,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/fc/ff/dd/fcffddbc-9b1f-75ae-4313-ad4800f15878/mzaf_16480223683498672080.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/f7/7d/51/f77d5123-fd55-c67e-4428-10e2fa553073/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D0%B1%D0%B5%D0%B3%D0%B8/1391692765?i=1391693570&uo=4",
+   "tier": 3,
+   "genres": [
+    "pop",
+    "rnb"
+   ],
+   "tags": [
+    "pop",
+    "rnb"
+   ],
+   "age": "family",
+   "era": "2018-now",
+   "needsReview": true
+  },
+  {
+   "id": "1439309007",
+   "title": "Чувства",
+   "artist": "НАZИМА",
+   "artistId": 1376622690,
+   "artistKey": "nazima",
+   "album": "Чувства - Single",
+   "year": 2018,
+   "durationMs": 200013,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/2c/60/15/2c601576-5bbc-8322-85d3-5b9a3934db89/mzaf_7518012166201015294.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/40/bf/7c/40bf7c6c-ccb0-72bb-103b-ca91f6ee8545/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D1%87%D1%83%D0%B2%D1%81%D1%82%D0%B2%D0%B0/1439309004?i=1439309007&uo=4",
+   "tier": 3,
+   "genres": [
+    "pop",
+    "rnb"
+   ],
+   "tags": [
+    "pop",
+    "rnb"
+   ],
+   "age": "family",
+   "era": "2018-now",
+   "needsReview": true
+  },
+  {
+   "id": "1486296865",
+   "title": "Я твоя (Акустическая версия)",
+   "artist": "НАZИМА & Misha Marvin",
+   "artistId": 1376622690,
+   "artistKey": "nazima",
+   "album": "Я твоя (Акустическая версия) - Single",
+   "year": 2019,
+   "durationMs": 229091,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/2d/16/9e/2d169ec6-869a-2aed-c8eb-156d7ceb3861/mzaf_10349300320492152455.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/21/bd/13/21bd1362-0d13-8108-94e5-30f6a2da6715/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D1%8F-%D1%82%D0%B2%D0%BE%D1%8F-%D0%B0%D0%BA%D1%83%D1%81%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B0%D1%8F-%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D1%8F/1486296858?i=1486296865&uo=4",
+   "tier": 3,
+   "genres": [
+    "pop",
+    "rnb"
+   ],
+   "tags": [
+    "pop",
+    "rnb"
+   ],
+   "age": "family",
+   "era": "2018-now",
+   "needsReview": true
+  },
+  {
+   "id": "1376637175",
+   "title": "Падай со мной",
+   "artist": "НАZИМА",
+   "artistId": 1376622690,
+   "artistKey": "nazima",
+   "album": "Падай со мной - Single",
+   "year": 2018,
+   "durationMs": 180000,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/de/8b/65/de8b654a-57ac-d737-edbb-56121e15c3a4/mzaf_3863363268753408264.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/a4/df/30/a4df3004-cb2a-5a50-c1cb-c360a1cc9ee6/cover.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D0%BF%D0%B0%D0%B4%D0%B0%D0%B9-%D1%81%D0%BE-%D0%BC%D0%BD%D0%BE%D0%B9/1376636696?i=1376637175&uo=4",
+   "tier": 3,
+   "genres": [
+    "pop",
+    "rnb"
+   ],
+   "tags": [
+    "pop",
+    "rnb"
+   ],
+   "age": "family",
+   "era": "2018-now",
+   "needsReview": true
+  },
+  {
+   "id": "1773162507",
+   "title": "Моё",
+   "artist": "abdr.",
+   "artistId": 1372684697,
+   "artistKey": "abdr",
+   "album": "Моё - Single",
+   "year": 2021,
+   "durationMs": 171000,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/46/d9/cf/46d9cf6a-a26f-9bcc-98a1-b7d229311f03/mzaf_16872039611370996921.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/8e/2b/89/8e2b890e-c3e9-2d5a-5fac-0d584f34b422/0.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D0%BC%D0%BE%D1%91/1773162506?i=1773162507&uo=4",
+   "tier": 4,
+   "genres": [
+    "rnb",
+    "indie"
+   ],
+   "tags": [
+    "rnb",
+    "indie"
+   ],
+   "age": "family",
+   "era": "2020-now"
+  },
+  {
+   "id": "6776877950",
+   "title": "Из-за тебя (acoustic)",
+   "artist": "abdr.",
+   "artistId": 1372684697,
+   "artistKey": "abdr",
+   "album": "Из-за тебя (acoustic) - Single",
+   "year": 2026,
+   "durationMs": 282353,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/4d/5b/7c/4d5b7c5a-4766-b06a-36af-a720b6b9c5bc/mzaf_13431243385240377237.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/19/83/b2/1983b236-0f9b-47d5-1915-8007dd78cfeb/0.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D0%B8%D0%B7-%D0%B7%D0%B0-%D1%82%D0%B5%D0%B1%D1%8F-acoustic/6776877859?i=6776877950&uo=4",
+   "tier": 4,
+   "genres": [
+    "rnb",
+    "indie"
+   ],
+   "tags": [
+    "rnb",
+    "indie"
+   ],
+   "age": "family",
+   "era": "2020-now"
+  },
+  {
+   "id": "1773314441",
+   "title": "Магниты",
+   "artist": "abdr.",
+   "artistId": 1372684697,
+   "artistKey": "abdr",
+   "album": "Без остатка",
+   "year": 2019,
+   "durationMs": 198000,
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/34/d0/17/34d0170a-48c7-60f4-6c30-54dd531076c2/mzaf_5393849453355389619.plus.aac.p.m4a",
+   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/6e/14/24/6e14240c-fc27-bde1-eda1-c7db1439a743/0.jpg/600x600bb.jpg",
+   "appleUrl": "https://music.apple.com/kz/album/%D0%BC%D0%B0%D0%B3%D0%BD%D0%B8%D1%82%D1%8B/1773314433?i=1773314441&uo=4",
+   "tier": 4,
+   "genres": [
+    "rnb",
+    "indie"
+   ],
+   "tags": [
+    "rnb",
+    "indie"
+   ],
+   "age": "family",
+   "era": "2020-now"
   }
  ]
 }

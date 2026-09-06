@@ -1,7 +1,7 @@
 {
-  "name": "tap-anda",
-  "version": "2.0.0",
-  "description": "ТАП ӘНДІ — угадай казахскую песню за 0,1 секунды. Статичный сайт без бэкенда.",
+  "name": "olensiz",
+  "version": "3.0.0",
+  "description": "Óleńsiz — угадай казахскую песню по короткому фрагменту. Статичный сайт без бэкенда.",
   "type": "module",
   "private": true,
   "license": "MIT",
@@ -16,7 +16,8 @@
     "build:catalog": "node scripts/build-catalog.mjs",
     "build:catalog:fresh": "node scripts/build-catalog.mjs --fresh",
     "screenshots": "node scripts/screenshots.mjs",
-    "og": "node scripts/make-og.mjs"
+    "og": "node scripts/make-og.mjs",
+    "editor": "node scripts/editor-server.mjs"
   },
   "engines": {
     "node": ">=18"

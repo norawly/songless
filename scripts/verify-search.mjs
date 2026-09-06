@@ -128,26 +128,71 @@ console.log('\n— Фильтры режима —');
   console.log(`${ok18 ? '  ok  ' : ' FAIL '} 18+ расширяет каталог, а не заменяет (${adult.length} ≥ ${famOnly.length})`);
   if (!ok18) failed++;
 
-  for (const g of ['rap', 'retro', 'jazz']) {
+  // Категории проверяем те, что каталог реально показывает игроку.
+  for (const g of cat.genres) {
     const only = cat.filtered({ genres: [g] });
     const pure = only.every((t) => t.genres.includes(g));
-    console.log(`${pure && only.length ? '  ok  ' : ' FAIL '} жанр «${g}»: ${only.length} треков, все с этим тегом`);
+    console.log(`${pure && only.length ? '  ok  ' : ' FAIL '} категория «${g}»: ${only.length} треков, все с этим тегом`);
     if (!pure || !only.length) failed++;
   }
 
-  const two = cat.filtered({ genres: ['jazz', 'rap'] });
-  const union = two.every((t) => t.genres.includes('jazz') || t.genres.includes('rap'));
-  console.log(`${union ? '  ok  ' : ' FAIL '} несколько жанров работают как объединение (${two.length})`);
+  // Блок I2: категория показывается, только если в ней хватает песен.
+  const minTracks = payload.genreMinTracks || 25;
+  const thin = cat.genres.filter((g) => (payload.byGenre[g] || 0) < minTracks);
+  console.log(`${thin.length === 0 ? '  ok  ' : ' FAIL '} нет показанных категорий тоньше ${minTracks} треков` +
+    (thin.length ? `: ${thin.join(', ')}` : ''));
+  if (thin.length) failed++;
+
+  const hidden = (payload.allGenres || []).filter((g) => !cat.genres.includes(g));
+  console.log(`  ok   скрытые категории (мало треков): ${hidden.length ? hidden.join(', ') : 'нет'}`);
+
+  const [g1, g2] = cat.genres;
+  const two = cat.filtered({ genres: [g1, g2] });
+  const union = two.every((t) => t.genres.includes(g1) || t.genres.includes(g2));
+  console.log(`${union ? '  ok  ' : ' FAIL '} несколько категорий работают как объединение (${two.length})`);
   if (!union) failed++;
 
   // Защита от пустой выборки: невозможная комбинация не должна давать старт
-  const impossible = cat.canStart({ age: 'family', genres: ['jazz'] });
+  const impossible = cat.canStart({ age: 'family', genres: ['qpop'] });
   console.log(`  ok   canStart для узкого фильтра: ${impossible.ok ? 'можно играть' : 'старт заблокирован'}` +
     ` (по уровням: ${impossible.perLevel.map((p) => p.count).join('/')})`);
 
   const wide = cat.canStart({ age: '18plus', genres: [] });
   console.log(`${wide.ok ? '  ok  ' : ' FAIL '} полный каталог позволяет начать партию`);
   if (!wide.ok) failed++;
+}
+
+console.log('\n— Экспертный режим (блок B1) —');
+{
+  const normal4 = cat.poolForLevel(4, { difficulty: 'normal' });
+  const expert4 = cat.poolForLevel(4, { difficulty: 'expert' });
+  const wider = expert4.length >= normal4.length;
+  console.log(`${wider ? '  ok  ' : ' FAIL '} на 4-м уровне экспертный пул шире обычного (${expert4.length} ≥ ${normal4.length})`);
+  if (!wider) failed++;
+
+  const hasT5 = expert4.some((t) => t.tier === 5);
+  const hasUnder = expert4.some((t) => (t.genres || []).includes('underground'));
+  console.log(`${hasT5 || hasUnder ? '  ok  ' : ' FAIL '} в верхние уровни подмешаны тир 5 / андеграунд`);
+  if (!hasT5 && !hasUnder) failed++;
+}
+
+console.log('\n— Без повторов (блок I3) —');
+{
+  // localStorage в Node нет, PlayHistory это переживает и работает в памяти.
+  cat.history.clear();
+  const seen = new Set();
+  let repeats = 0;
+  for (let i = 0; i < 20; i++) {
+    const { picked } = cat.pickGame();
+    for (const t of picked) {
+      if (seen.has(t.id)) repeats++;
+      seen.add(t.id);
+    }
+    cat.remember(picked);
+  }
+  console.log(`${repeats === 0 ? '  ok  ' : ' FAIL '} 20 партий подряд без единого повтора (уникальных треков: ${seen.size})`);
+  if (repeats) failed++;
+  cat.history.clear();
 }
 
 console.log('\n— Каталог чист от чужого —');

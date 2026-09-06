@@ -39,7 +39,7 @@ const SCENES = [
     name: 'раунд',
     script: SCRIPTS.toRound,
     // Эти пять элементов не прячутся ни при какой плотности.
-    must: ['[data-play]', '#answer-input', '[data-skip]', '[data-total-score]', '.steps'],
+    must: ['[data-play]', '#answer-input', '[data-act]', '[data-total-score]', '.steps'],
   },
   { name: 'карточка', script: SCRIPTS.toReveal, must: ['[data-next]', '.card__artist'] },
   {

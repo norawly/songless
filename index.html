@@ -3,20 +3,36 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ТАП ӘНДІ — қазақ әндерін таны</title>
-<meta name="description" content="Қазақ әнін 0,1 секундтан таны. 5 раунд, 7 талпыныс.">
+
+<title>Óleńsiz — қазақша ән ойыны · угадай казахскую песню</title>
+<meta name="description" content="Óleńsiz (Olensiz) — қазақ әнін бірнеше секундтан танитын онлайн ойын. 600-ден астам ән, 5 раунд, екі режим. Игра: угадай казахскую песню по короткому фрагменту.">
+<meta name="keywords" content="өлең тап, әнді тап, songless қазақша, қазақша ән ойыны, olensiz, угадай казахскую песню, songless казахстан, казахская музыкальная игра, qazaqsha an oiyny">
+<meta name="author" content="zhengisbay.com">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#08090a">
+<link rel="canonical" href="https://olensiz.zhengisbay.com/">
+
+<!-- Язык выбирается в интерфейсе и живёт в одном URL; для поисковика
+     разводим версии параметром ?lang= — его читает src/i18n.js. -->
+<link rel="alternate" hreflang="kk" href="https://olensiz.zhengisbay.com/?lang=kk">
+<link rel="alternate" hreflang="ru" href="https://olensiz.zhengisbay.com/?lang=ru">
+<link rel="alternate" hreflang="x-default" href="https://olensiz.zhengisbay.com/">
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="ТАП ӘНДІ">
-<meta property="og:description" content="Қазақ әнін 0,1 секундтан таны. 5 раунд, 7 талпыныс.">
-<meta property="og:url" content="https://songless.zhengisbay.com/">
-<meta property="og:image" content="https://songless.zhengisbay.com/og-image.png">
+<meta property="og:site_name" content="Óleńsiz">
+<meta property="og:title" content="Óleńsiz — қазақша ән ойыны">
+<meta property="og:description" content="Угадай казахскую песню по короткому фрагменту. 600+ песен, 5 раундов, два режима. Қазақ әнін бірнеше секундтан таны.">
+<meta property="og:url" content="https://olensiz.zhengisbay.com/">
+<meta property="og:image" content="https://olensiz.zhengisbay.com/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Olensiz — игра «угадай казахскую песню»">
+<meta property="og:locale" content="kk_KZ">
+<meta property="og:locale:alternate" content="ru_RU">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://songless.zhengisbay.com/og-image.png">
+<meta name="twitter:title" content="Óleńsiz — қазақша ән ойыны">
+<meta name="twitter:description" content="Угадай казахскую песню по короткому фрагменту. Қазақ әнін бірнеше секундтан таны.">
+<meta name="twitter:image" content="https://olensiz.zhengisbay.com/og-image.png">
 
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23ccff00'/><rect x='6' y='9' width='4' height='14' fill='%23000'/><rect x='14' y='5' width='4' height='22' fill='%23000'/><rect x='22' y='13' width='4' height='6' fill='%23000'/></svg>">
 
@@ -26,10 +42,31 @@
 
 <link rel="stylesheet" href="styles/tokens.css">
 <link rel="stylesheet" href="styles/app.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "name": "Óleńsiz",
+  "alternateName": ["Olensiz", "Өлеңсіз", "Songless қазақша"],
+  "url": "https://olensiz.zhengisbay.com/",
+  "image": "https://olensiz.zhengisbay.com/og-image.png",
+  "description": "Онлайн-игра: угадай казахскую песню по короткому фрагменту. Қазақ әнін бірнеше секундтан танитын ойын.",
+  "inLanguage": ["kk", "ru"],
+  "genre": ["Music", "Quiz", "Trivia"],
+  "gamePlatform": "Web browser",
+  "applicationCategory": "GameApplication",
+  "operatingSystem": "Any",
+  "author": { "@type": "Person", "name": "Nurali Zhengisbay", "url": "https://zhengisbay.com" },
+  "publisher": { "@type": "Organization", "name": "zhengisbay.com", "url": "https://zhengisbay.com" },
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "KZT" },
+  "isAccessibleForFree": true
+}
+</script>
 </head>
 <body>
-  <!-- Слой, окрашенный доминирующими цветами обложки и пульсирующий
-       под низкие частоты играющего трека. Управляется src/pulse.js. -->
+  <!-- Слой, окрашенный доминирующими цветами обложки: медленно течёт и
+       реагирует на бит. Управляется src/pulse.js. -->
   <div class="song-bg" id="song-bg" aria-hidden="true"></div>
 
   <a class="skip-link" href="#screen">Мазмұнға өту</a>
@@ -39,9 +76,47 @@
     <main class="chrome__main" id="screen" tabindex="-1"></main>
   </div>
 
+  <!--
+    Статический текст для поисковиков и читалок.
+
+    Игра — одностраничное приложение, и без текста в разметке она не
+    ранжируется. Здесь ровно то же, что человек видит в оверлее «Ойын туралы»,
+    плюс ссылка на полную страницу about.html: содержание совпадает с тем, что
+    на экране, никакой отдельной «страницы для роботов» тут нет.
+  -->
+  <section class="seo-copy" id="about-static">
+    <h2>Óleńsiz — қазақша ән ойыны</h2>
+    <p lang="kk">
+      Óleńsiz (Olensiz, «өлеңсіз») — қазақ әндерін танитын онлайн ойын.
+      Әннің қысқа үзіндісі ойналады, сен оны табуың керек: тани алмасаң,
+      үзінді ұзарады, бірақ ұпай азаяды. Каталогта 600-ден астам ән — той
+      әндері, ретро эстрада, Q-pop, рэп, инди, фольклор және андеграунд.
+      Барлығы қазақстандық орындаушылар. Тегін, тіркеусіз, браузерде.
+    </p>
+    <h2 lang="ru">Угадай казахскую песню</h2>
+    <p lang="ru">
+      Óleńsiz — музыкальная игра, в которой нужно угадать казахскую песню по
+      короткому фрагменту. Не узнал с первого раза — фрагмент становится
+      длиннее, но очков остаётся меньше. Больше 600 песен казахстанских
+      исполнителей: тойские хиты, ретро-эстрада, Q-pop, рэп, инди, фольклор и
+      андеграунд. Два режима сложности, пять раундов, таблица лидеров.
+      Бесплатно и без регистрации.
+    </p>
+    <p>
+      <a href="about.html">Ойын туралы толығырақ · Подробнее об игре</a>
+    </p>
+    <p>
+      Ойын Apple iTunes-тың ашық ресми үзінділерін пайдаланады, аудио файлдарды
+      сақтамайды. Игра использует официальные открытые превью Apple, не хранит
+      аудиофайлы и указывает исполнителя каждой песни.
+    </p>
+  </section>
+
   <noscript>
     <p style="padding:2rem;font:16px system-ui;color:#f6f7f8">
       Бұл ойын JavaScript-сіз жұмыс істемейді. Браузер баптауларынан қосыңыз.
+      <br>Эта игра не работает без JavaScript. Включите его в настройках браузера.
+      <br><a href="about.html" style="color:#ccff00">Ойын туралы · Об игре</a>
     </p>
   </noscript>
 

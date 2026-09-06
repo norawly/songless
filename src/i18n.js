@@ -51,7 +51,25 @@ export function otherLocale() {
   return current === 'kk' ? 'ru' : 'kk';
 }
 
-export async function loadStrings(loc = savedLocale() || CONFIG.DEFAULT_LOCALE) {
+/**
+ * Язык из адреса: `?lang=ru`.
+ *
+ * Нужен для hreflang — поисковику необходим отдельный URL на каждую языковую
+ * версию, а у одностраничной игры адрес один. Приоритет выше сохранённого
+ * выбора: если человек пришёл по русской ссылке, он ждёт русский текст.
+ */
+export function urlLocale() {
+  try {
+    const v = new URLSearchParams(location.search).get('lang');
+    return CONFIG.LOCALES.includes(v) ? v : null;
+  } catch {
+    return null;
+  }
+}
+
+export async function loadStrings(
+  loc = urlLocale() || savedLocale() || CONFIG.DEFAULT_LOCALE
+) {
   const res = await fetch(`i18n/${loc}.json`);
   if (!res.ok) throw new Error(`i18n: не удалось загрузить ${loc}.json`);
   strings = await res.json();

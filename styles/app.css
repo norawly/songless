@@ -1,12 +1,11 @@
 /* ============================================================================
-   ТАП ӘНДІ — компоненты. Итерация 2.
+   Óleńsiz — компоненты. Итерация 3.
 
    Правила этого файла:
    1. Все значения берутся из styles/tokens.css. Хардкод цвета или отступа —
-      баг, а не стиль.
-   2. ТОЛЬКО десктоп (база 1440×900). Мобильных брейкпоинтов нет: мобильная
-      версия будет отдельным проектом с другой структурой.
-   3. ТОЛЬКО тёмная тема. Кода светлой темы здесь нет.
+      баг, а не стиль. Отступы только из шкалы --s-4 … --s-64.
+   2. Экраны раскладываются ПО СЕТКЕ (12 колонок), а не потоком блоков.
+   3. ТОЛЬКО десктоп (база 1440×900) и ТОЛЬКО тёмная тема.
    4. НОЛЬ СКРОЛЛИНГА: каждый экран помещается в один вьюпорт. Размеры завязаны
       на высоту через clamp(), а нехватка высоты обрабатывается атрибутом
       [data-dense] от src/fit.js — см. блок «Адаптивная деградация» внизу.
@@ -34,8 +33,8 @@ body {
 }
 
 img { max-width: 100%; display: block; }
-button, input { font: inherit; color: inherit; }
-h1, h2, h3, p, ol, ul, figure { margin: 0; }
+button, input, select { font: inherit; color: inherit; }
+h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
 
 ::selection { background: var(--color-accent-primary); color: var(--color-accent-on); }
 
@@ -54,41 +53,89 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
 }
 
 .skip-link {
-  position: absolute; left: var(--space-3); top: -100px; z-index: 100;
+  position: absolute; left: var(--s-8); top: -100px; z-index: 100;
   display: inline-flex; align-items: center;
-  padding: var(--space-3) var(--space-5);
+  padding: var(--s-8) var(--s-16);
   background: var(--color-accent-primary); color: var(--color-accent-on);
   font-weight: var(--font-weight-bold); text-decoration: none;
 }
-.skip-link:focus { top: var(--space-3); }
+.skip-link:focus { top: var(--s-8); }
 
 .muted { color: var(--color-text-secondary); }
 .num { text-align: right; font-variant-numeric: tabular-nums; }
 
 /* ---------------------------------------------------------------------------
-   Фон, окрашенный обложкой и пульсирующий под музыку (src/pulse.js)
+   ЖИВОЙ ФОН (src/pulse.js)
+
+   Три пятна плывут по собственным траекториям с взаимно простыми периодами —
+   картинка не зацикливается на глаз и движется даже в тишине. Поверх них
+   белая вспышка, прозрачность которой ведёт энергия баса: на бите фон
+   светлеет к белому и чуть расширяется.
+
+   Пульсация трогает только фильтр и масштаб — то есть композитор. Ни один
+   кадр не пересчитывает лейаут.
    ------------------------------------------------------------------------ */
 
 .song-bg {
   position: fixed;
-  inset: -10%;
+  inset: -12%;
   z-index: 0;
   pointer-events: none;
   opacity: var(--song-opacity);
-  /* Яркость и масштаб ведёт энергия низких частот. Коэффициенты намеренно
-     маленькие: это дыхание, а не стробоскоп. */
-  filter: saturate(calc(1 + var(--song-energy) * 0.5))
-          brightness(calc(0.85 + var(--song-energy) * 0.4))
-          blur(40px);
+  filter: saturate(calc(1 + var(--song-energy) * 0.6))
+          brightness(calc(0.82 + var(--song-energy) * 0.55))
+          blur(46px);
   transform: scale(calc(1.02 + var(--song-energy) * 0.05));
-  background:
-    radial-gradient(46% 52% at 22% 26%, var(--song-c1), transparent 68%),
-    radial-gradient(42% 48% at 78% 22%, var(--song-c2), transparent 68%),
-    radial-gradient(52% 46% at 52% 88%, var(--song-c3), transparent 70%);
-  transition:
-    opacity var(--duration-slower) var(--easing-default),
-    background var(--duration-slower) var(--easing-default);
+  transition: opacity var(--duration-slower) var(--easing-default);
   will-change: transform, filter;
+}
+
+.song-bg__blob {
+  position: absolute;
+  display: block;
+  width: 62%; height: 66%;
+  border-radius: 50%;
+  will-change: transform;
+}
+.song-bg__blob--1 {
+  left: 2%; top: 4%;
+  background: radial-gradient(circle at 50% 50%, var(--song-c1), transparent 70%);
+  animation: drift-a 19s ease-in-out infinite alternate;
+}
+.song-bg__blob--2 {
+  right: 0%; top: 0%;
+  background: radial-gradient(circle at 50% 50%, var(--song-c2), transparent 70%);
+  animation: drift-b 23s ease-in-out infinite alternate;
+}
+.song-bg__blob--3 {
+  left: 22%; bottom: 0%;
+  background: radial-gradient(circle at 50% 50%, var(--song-c3), transparent 72%);
+  animation: drift-c 29s ease-in-out infinite alternate;
+}
+
+@keyframes drift-a {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(14%, 9%, 0) scale(1.14); }
+  to   { transform: translate3d(-6%, 16%, 0) scale(0.94); }
+}
+@keyframes drift-b {
+  from { transform: translate3d(0, 0, 0) scale(1.06); }
+  50%  { transform: translate3d(-16%, 12%, 0) scale(0.92); }
+  to   { transform: translate3d(-4%, -8%, 0) scale(1.18); }
+}
+@keyframes drift-c {
+  from { transform: translate3d(0, 0, 0) scale(0.96); }
+  50%  { transform: translate3d(12%, -14%, 0) scale(1.16); }
+  to   { transform: translate3d(-12%, -4%, 0) scale(1.02); }
+}
+
+/* Вспышка на бит: мягкое свечение к белому, без резких краёв. */
+.song-bg__flash {
+  position: absolute; inset: 0;
+  display: block;
+  background: radial-gradient(58% 62% at 50% 52%, #fff, transparent 72%);
+  opacity: calc(var(--song-energy) * 0.34);
+  mix-blend-mode: screen;
 }
 
 /* ---------------------------------------------------------------------------
@@ -110,7 +157,7 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  gap: var(--space-4);
+  gap: var(--s-16);
   padding-block: var(--pad-shell-v);
   border-bottom: var(--border-width-hair) solid var(--color-border-secondary);
 }
@@ -133,24 +180,27 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
 .chrome[data-hide-brand="1"] .brand { visibility: hidden; }
 
 .brand {
-  display: inline-flex; align-items: center; gap: var(--space-3);
+  display: inline-flex; align-items: center; gap: var(--s-8);
   color: inherit; text-decoration: none;
   justify-self: start;
-  padding: var(--space-2) 0;
+  padding: var(--s-4) 0;
   background: none; border: 0; cursor: pointer;
 }
 .brand__mark { width: 13px; height: 13px; background: var(--color-accent-primary); }
 .brand__name {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-md);
   font-weight: var(--font-weight-bold);
-  letter-spacing: var(--letter-spacing-wider);
+  letter-spacing: var(--letter-spacing-tight);
   white-space: nowrap;
 }
 
-.chrome__nav { display: flex; gap: var(--space-2); justify-self: end; align-items: center; }
+.chrome__nav { display: flex; gap: var(--s-4); justify-self: end; align-items: center; }
 
 /* Индикатор раундов: статус, не навигация. */
-.chrome__rail { display: flex; gap: var(--space-2); justify-self: center; }
+.chrome__rail { display: flex; gap: var(--s-4); justify-self: center; }
+/* display:flex перебивает браузерное [hidden]{display:none}, и вне партии
+   счётчик раундов оставался бы висеть в шапке. */
+.chrome__rail[hidden] { display: none; }
 .rail__seg { display: block; width: 34px; }
 .rail__seg i {
   display: block; height: var(--rail-thickness);
@@ -219,9 +269,9 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
 
 .btn {
   display: inline-flex; align-items: center; justify-content: center;
-  gap: var(--space-3);
+  gap: var(--s-8);
   min-height: var(--control-height);
-  padding: 0 var(--space-6);
+  padding: 0 var(--s-24);
   border: var(--border-width-rule) solid transparent;
   border-radius: var(--border-radius-md);
   background: transparent;
@@ -262,9 +312,16 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
 .btn--icon svg { width: 18px; height: 18px; }
 .btn--icon:hover { color: var(--color-text-primary); border-color: var(--color-border-primary); }
 
+.btn--sm {
+  min-height: 32px;
+  padding-inline: var(--s-12);
+  font-size: var(--font-size-sm);
+  border-width: var(--border-width-hair);
+}
+
 .btn--xl {
   min-height: clamp(48px, 6.5vh, 64px);
-  padding-inline: var(--space-9);
+  padding-inline: var(--s-48);
   font-size: var(--font-size-lg);
 }
 
@@ -288,7 +345,7 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
   letter-spacing: var(--letter-spacing-wider);
   text-transform: uppercase;
   color: var(--color-text-secondary);
-  margin-bottom: var(--space-3);
+  margin-bottom: var(--s-8);
 }
 
 .hint {
@@ -297,27 +354,69 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
   line-height: var(--line-height-relaxed);
 }
 
+/* Панель — единственный «контейнер» в проекте: фон на тон светлее и
+   волосяная рамка. Ею отделено всё, что подчинено главному действию. */
+.panel {
+  background: var(--color-bg-secondary);
+  border: var(--border-width-hair) solid var(--color-border-secondary);
+  border-radius: var(--border-radius-md);
+  padding: var(--s-16) var(--s-24);
+}
+
+.field { display: grid; gap: var(--s-8); align-content: start; }
+.field__label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-wider);
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+.field__hint {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+}
+
 /* ===========================================================================
-   ЭКРАН: СТАРТ — две колонки, справа лидерборды
+   ЭКРАН: СТАРТ
+
+   Сетка, а не поток. Две зоны по 12-колоночной сетке:
+     колонки 1–7  — герой с кнопкой старта (композиционный центр)
+                    и под ним панель настроек партии;
+     колонки 8–12 — лидерборды (или короткое «как это работает», пока
+                    таблицы нет: пустая правая зона — та самая дыра,
+                    из-за которой экран переделывался).
+   Настройки визуально подчинены: они в панели, мельче и глуше героя.
    ======================================================================== */
 
 .screen--start {
-  grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.75fr);
-  gap: clamp(24px, 4vw, 72px);
+  grid-template-columns: 7fr 5fr;
+  /* Обе строки по содержимому, а весь блок центрируется целиком: иначе
+     строка 1fr растягивала героя и между ним и панелью настроек зияла дыра. */
+  grid-template-rows: auto auto;
+  column-gap: clamp(32px, 5vw, 64px);
+  row-gap: var(--gap-v-lg);
   align-content: center;
   min-height: 0;
 }
-/* Лидерборды выключены (пустой LEADERBOARD_ENDPOINT) — правая зона не нужна. */
-.screen--start.is-solo { grid-template-columns: minmax(0, 1fr); }
 
-.start__left {
+.start__main {
+  grid-column: 1; grid-row: 1;
   display: grid;
-  align-content: center;
   gap: var(--gap-v-md);
   min-height: 0;
 }
+.start__setup { grid-column: 1; grid-row: 2; align-self: start; }
+.start__side {
+  grid-column: 2; grid-row: 1 / span 2;
+  display: grid;
+  grid-template-rows: auto auto;
+  gap: var(--gap-v-lg);
+  min-height: 0;
+  align-content: center;
+  align-self: center;
+}
 
-.hero { display: grid; gap: var(--gap-v-sm); }
+.hero { display: grid; gap: var(--s-8); }
 .hero__title {
   font-size: var(--font-size-4xl);
   line-height: var(--line-height-tight);
@@ -330,36 +429,35 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
   max-width: 26ch;
 }
 
-/* Факты о партии: три жёстких блока вместо текстовой подсказки про очки —
-   правила ушли в оверлей за иконкой «?». */
-.facts { display: flex; gap: var(--space-6); flex-wrap: wrap; }
-.facts__item { display: grid; gap: 2px; }
-.facts__n {
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-bold);
-  line-height: 1;
+.start__cta { display: flex; align-items: center; gap: var(--s-24); flex-wrap: wrap; }
+.start__meta {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
   font-variant-numeric: tabular-nums;
 }
-.facts__label {
-  font-size: var(--font-size-xs);
-  letter-spacing: var(--letter-spacing-wide);
-  text-transform: uppercase;
-  color: var(--color-text-tertiary);
+.start__warn {
+  color: var(--color-status-warning);
+  font-size: var(--font-size-sm);
 }
 
-/* --- Режим и жанры ------------------------------------------------------- */
-
-.modes { display: grid; gap: var(--gap-v-sm); }
-.modes__row { display: flex; align-items: center; gap: var(--space-4); flex-wrap: wrap; }
+/* Панель настроек: три поля в одной сетке, а не разбросанные блоки. */
+.start__setup {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: var(--s-16) var(--s-32);
+  align-items: start;
+}
+.field--wide { grid-column: 1 / -1; }
 
 .seg {
   display: inline-flex;
   border: var(--border-width-hair) solid var(--color-border-primary);
   border-radius: var(--border-radius-md);
   overflow: hidden;
+  width: max-content;
 }
 .seg__btn {
-  padding: 7px 16px;
+  padding: 7px var(--s-16);
   background: transparent; border: 0; cursor: pointer;
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
@@ -373,9 +471,9 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
 }
 .seg__btn:not([aria-pressed="true"]):hover { color: var(--color-text-primary); }
 
-.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips { display: flex; flex-wrap: wrap; gap: var(--s-8); }
 .chip {
-  padding: 5px 11px;
+  padding: 5px var(--s-12);
   background: transparent;
   border: var(--border-width-hair) solid var(--color-border-secondary);
   border-radius: var(--border-radius-md);
@@ -407,34 +505,15 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
 }
 .chip--random[aria-pressed="false"] { opacity: .5; }
 
-.start__cta { display: flex; align-items: center; gap: var(--space-5); flex-wrap: wrap; }
-.start__meta {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-tertiary);
-  font-variant-numeric: tabular-nums;
-}
-.start__warn {
-  color: var(--color-status-warning);
-  font-size: var(--font-size-sm);
-}
+/* --- Правая колонка: лидерборды ----------------------------------------- */
 
-/* --- Правая колонка: два лидерборда ------------------------------------- */
-
-.start__right {
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-  gap: var(--gap-v-md);
-  min-height: 0;
-  align-content: center;
-}
-
-.board { display: grid; grid-template-rows: auto minmax(0, 1fr); min-height: 0; }
+.board { display: grid; grid-template-rows: auto auto; min-height: 0; align-content: start; }
 .board__head {
   display: flex; align-items: baseline; justify-content: space-between;
-  gap: var(--space-4);
-  padding-bottom: var(--space-2);
+  gap: var(--s-16);
+  padding-bottom: var(--s-4);
   border-bottom: var(--border-width-rule) solid var(--color-border-secondary);
-  margin-bottom: var(--space-3);
+  margin-bottom: var(--s-8);
 }
 .board__title {
   background: none; border: 0; padding: 0; cursor: pointer;
@@ -446,6 +525,7 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
   text-align: left;
 }
 .board__title:hover { color: var(--color-accent-primary); }
+.board__title.as-heading { cursor: default; margin-bottom: var(--s-16); display: block; }
 .board__more {
   font-size: var(--font-size-xs);
   color: var(--color-text-tertiary);
@@ -455,11 +535,35 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
 .board__more:hover { color: var(--color-accent-primary); }
 .board__body { min-height: 0; overflow: hidden; }
 
+/* Правая колонка, когда лидерборды выключены. */
+.howto {
+  grid-row: 1 / span 2;
+  align-self: center;
+  display: grid;
+  align-content: center;
+  gap: var(--s-16);
+  border-left: var(--border-width-rule) solid var(--color-border-secondary);
+  padding-left: var(--s-32);
+}
+.howto__list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-16); }
+.howto__list li { display: grid; grid-template-columns: 24px 1fr; gap: var(--s-12); }
+.howto__list b {
+  font-size: var(--font-size-sm);
+  color: var(--color-accent-primary);
+  font-variant-numeric: tabular-nums;
+}
+.howto__list span {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+}
+.howto__legal { font-size: var(--font-size-xs); color: var(--color-text-tertiary); }
+
 /* --- Таблица лидеров ----------------------------------------------------- */
 
 .lb { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
 .lb th, .lb td {
-  padding: 5px var(--space-2);
+  padding: 5px var(--s-4);
   border-bottom: var(--border-width-hair) solid var(--color-border-secondary);
   text-align: left;
   font-size: var(--font-size-sm);
@@ -474,7 +578,13 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
 .lb td:first-child { color: var(--color-text-tertiary); width: 2.4em; }
 .lb__nick { max-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .lb tr.is-me td { color: var(--color-accent-primary); font-weight: var(--font-weight-bold); }
-.lb--full { max-height: 62vh; }
+
+.lb-controls {
+  display: flex; align-items: end; justify-content: space-between;
+  gap: var(--s-16); flex-wrap: wrap;
+}
+.lb-controls__cat { display: grid; gap: var(--s-4); min-width: 0; flex: 1; max-width: 22rem; }
+.lb-controls select { min-height: var(--control-height); }
 
 /* ===========================================================================
    ЭКРАН: ЗАГРУЗКА ПАРТИИ
@@ -509,26 +619,27 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
 }
 
 /* ===========================================================================
-   ЭКРАН: РАУНД
+   ЭКРАН: РАУНД — одна центральная колонка сетки (7 из 12)
    ======================================================================== */
 
 .screen--round {
   align-content: center;
   justify-items: center;
-  gap: var(--gap-v-sm);
+  gap: var(--gap-v-md);
   min-height: 0;
   /* Резерв под выпадающую выдачу: с ним она почти всегда открывается вниз
      и не закрывает ни кнопку воспроизведения, ни шкалу ступеней. */
-  padding-bottom: clamp(90px, 20vh, 240px);
+  padding-bottom: clamp(90px, 18vh, 220px);
 }
 
 .round__top {
-  width: min(760px, 100%);
+  width: var(--col-round);
   display: flex; align-items: flex-end; justify-content: space-between;
-  gap: var(--space-6);
-  padding-bottom: var(--gap-v-sm);
+  gap: var(--s-24);
+  padding-bottom: var(--s-12);
+  border-bottom: var(--border-width-hair) solid var(--color-border-secondary);
 }
-.round__head { display: grid; gap: 2px; }
+.round__head { display: grid; gap: var(--s-4); }
 .round__level {
   font-size: var(--font-size-2xl);
   line-height: var(--line-height-tight);
@@ -536,7 +647,7 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
   font-weight: var(--font-weight-bold);
 }
 /* Текущий счёт — не прячется ни при какой плотности. */
-.round__score { display: grid; gap: 2px; justify-items: end; }
+.round__score { display: grid; gap: var(--s-4); justify-items: end; }
 .round__score b {
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-bold);
@@ -544,7 +655,7 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
   line-height: 1;
 }
 
-.player { display: grid; justify-items: center; gap: var(--gap-v-sm); }
+.player { display: grid; justify-items: center; gap: var(--s-12); }
 
 .play {
   position: relative;
@@ -600,53 +711,77 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
   font-variant-numeric: tabular-nums;
 }
 
-/* Ступени: семь полос — самый «швейцарский» элемент интерфейса.
-   Индикатор ступени не прячется ни при какой плотности. */
+/* --- Шкала ступеней ------------------------------------------------------
+   Цены ступеней здесь больше нет (блок E3): она вводила в заблуждение, потому
+   что итог зависит ещё от времени и режима. Убывание показано формой —
+   столбик становится ниже с каждым шагом.
+
+   Цвет несёт ровно один смысл:
+     серый    — ступень пропущена без попытки
+     красный  — на ступени была попытка, и она неверна
+     лайм     — текущая ступень
+   Индикатор ступени не прячется ни при какой плотности.
+   ------------------------------------------------------------------------ */
 .steps {
-  width: min(760px, 100%);
+  width: var(--col-round);
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: var(--space-2);
+  grid-template-columns: repeat(var(--steps, 7), 1fr);
+  gap: var(--s-4);
+  align-items: end;
 }
-.steps__cell { display: grid; gap: 3px; justify-items: center; }
+.steps__legend {
+  grid-column: 1 / -1;
+  margin-top: var(--s-4);
+  text-align: center;
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+.steps__cell { display: grid; gap: var(--s-4); justify-items: center; align-content: end; }
 .steps__bar {
-  display: block; width: 100%; height: 5px;
-  background: var(--color-bg-tertiary);
-  overflow: hidden;
+  display: flex; align-items: flex-end;
+  width: 100%; height: 28px;
+  background: linear-gradient(to top,
+    var(--color-bg-tertiary) 0,
+    var(--color-bg-tertiary) var(--h, 100%),
+    transparent var(--h, 100%));
 }
 .steps__bar i {
-  display: block; height: 100%; width: 0;
-  background: var(--color-border-strong);
-  transition: width var(--duration-normal) var(--easing-default);
+  display: block; width: 100%; height: var(--h, 100%);
+  background: transparent;
+  transition: background var(--duration-normal) var(--easing-default);
 }
-.steps__cell[data-state="spent"] .steps__bar i { width: 100%; }
-.steps__cell[data-state="now"] .steps__bar { background: var(--color-accent-primary); }
-.steps__dur, .steps__pts {
+.steps__cell[data-state="skipped"] .steps__bar i { background: var(--color-border-strong); }
+.steps__cell[data-state="wrong"] .steps__bar i { background: var(--color-status-error-strong); }
+.steps__cell[data-state="solved"] .steps__bar i { background: var(--color-accent-primary); }
+.steps__cell[data-state="now"] .steps__bar i { background: var(--color-accent-primary); }
+.steps__dur {
   font-family: var(--font-family-mono);
   font-size: var(--font-size-xs);
   color: var(--color-text-tertiary);
   letter-spacing: -.02em;
 }
-.steps__cell[data-state="now"] .steps__pts {
+.steps__cell[data-state="now"] .steps__dur {
   color: var(--color-accent-primary);
   font-weight: var(--font-weight-bold);
 }
-.steps__cell[data-state="spent"] .steps__dur,
-.steps__cell[data-state="spent"] .steps__pts { opacity: .4; }
+.steps__cell[data-state="wrong"] .steps__dur { color: var(--color-status-error); }
+.steps__cell[data-state="skipped"] .steps__dur { opacity: .5; }
 
 /* --- Поиск ответа -------------------------------------------------------- */
 
 .answer {
   position: relative;
-  width: min(620px, 100%);
-  display: flex; gap: var(--space-3);
+  width: var(--col-answer);
+  display: flex; gap: var(--s-8);
 }
 .answer__field { position: relative; flex: 1; }
 
 .input {
   width: 100%;
   min-height: var(--control-height);
-  padding: 0 var(--space-4);
+  padding: 0 var(--s-12);
   background: var(--color-bg-secondary);
   border: var(--border-width-hair) solid var(--color-border-primary);
   border-radius: var(--border-radius-md);
@@ -658,9 +793,7 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
 
 /* Направление и высоту выдачи считает JS по реальному свободному месту
    (wireRound → placeList): прокручивать экран нельзя, а перекрывать плеер
-   и шкалу ступеней не хочется. Вниз — предпочтительно, вверх — если снизу
-   места меньше. Высота всегда ограничена доступным зазором, поэтому список
-   не обрезается краем вьюпорта. */
+   и шкалу ступеней не хочется. */
 .results {
   list-style: none; margin: 0; padding: 0;
   position: absolute; left: 0; right: 0;
@@ -686,7 +819,7 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
 
 .results__item {
   display: grid; gap: 1px;
-  padding: 8px var(--space-4);
+  padding: var(--s-8) var(--s-12);
   cursor: pointer;
   border-bottom: var(--border-width-hair) solid var(--color-border-secondary);
   /* Ступенчатое появление: задержка приходит инлайном как --i. */
@@ -704,19 +837,50 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
 }
 .results__title { font-weight: var(--font-weight-semibold); font-size: var(--font-size-base); }
 .results__artist { font-size: var(--font-size-sm); color: var(--color-text-secondary); }
-/* Подсветка совпавшей подстроки. */
 .results mark {
   background: transparent;
   color: var(--color-accent-primary);
   font-weight: var(--font-weight-bold);
 }
 .results__empty {
-  padding: var(--space-4);
+  padding: var(--s-12);
   color: var(--color-text-secondary);
   font-size: var(--font-size-sm);
 }
 
-.round__hint { min-height: 1.4em; text-align: center; }
+/* Уже отвергнутый в этом раунде вариант: виден, но выбрать нельзя. */
+.results__item.is-rejected {
+  cursor: not-allowed;
+  color: var(--color-status-error);
+  opacity: .6;
+}
+.results__item.is-rejected .results__title,
+.results__item.is-rejected .results__artist {
+  text-decoration: line-through;
+  color: inherit;
+}
+.results__item.is-rejected:hover {
+  background: transparent;
+  box-shadow: inset 3px 0 0 var(--color-status-error);
+}
+
+.round__hint { min-height: 1.4em; text-align: center; max-width: 52ch; }
+
+/* Вспышка на неверный ответ (блок D2): заметно, коротко, с затуханием. */
+body::after {
+  content: "";
+  position: fixed; inset: 0; z-index: 40;
+  pointer-events: none;
+  background: radial-gradient(120% 90% at 50% 50%,
+    rgba(239, 68, 68, 0) 40%, rgba(239, 68, 68, .55) 100%);
+  opacity: 0;
+}
+body.is-wrong::after { animation: wrong-flash 440ms var(--easing-out) both; }
+@keyframes wrong-flash {
+  0% { opacity: 0; }
+  18% { opacity: 1; }
+  100% { opacity: 0; }
+}
 
 /* ===========================================================================
    ЭКРАН: КАРТОЧКА РЕЗУЛЬТАТА РАУНДА
@@ -728,7 +892,7 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
   width: min(860px, 100%);
   display: grid;
   grid-template-columns: var(--reveal-art-size) minmax(0, 1fr);
-  gap: clamp(20px, 3vw, 44px);
+  gap: clamp(24px, 3vw, 48px);
   align-items: center;
 }
 
@@ -746,7 +910,7 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
   to { opacity: 1; transform: none; }
 }
 
-.card__meta { display: grid; gap: var(--gap-v-sm); min-width: 0; }
+.card__meta { display: grid; gap: var(--s-12); min-width: 0; }
 .card__title {
   font-size: var(--font-size-xl);
   line-height: var(--line-height-snug);
@@ -759,8 +923,8 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
 
 .score {
   border-top: var(--border-width-rule) solid var(--color-border-primary);
-  padding-top: var(--gap-v-sm);
-  display: grid; gap: 2px;
+  padding-top: var(--s-12);
+  display: grid; gap: var(--s-4);
 }
 .score__value {
   font-size: var(--font-size-3xl);
@@ -778,7 +942,7 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
 }
 .score__detail { font-size: var(--font-size-sm); color: var(--color-text-secondary); }
 
-.links { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
+.links { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-8); }
 .links__label {
   font-size: var(--font-size-xs);
   letter-spacing: var(--letter-spacing-wider);
@@ -788,13 +952,18 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
 .links__a {
   display: inline-flex; align-items: center;
   min-height: 34px;
-  padding-inline: var(--space-4);
+  padding-inline: var(--s-12);
   border: var(--border-width-hair) solid var(--color-border-primary);
   color: var(--color-text-primary);
   text-decoration: none;
   font-size: var(--font-size-sm);
 }
 .links__a:hover { border-color: var(--color-accent-primary); color: var(--color-accent-primary); }
+
+/* Панель трека в оверлее — та же карточка, что после угадывания. */
+.tsheet { display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: var(--s-24); }
+.tsheet__art { width: 160px; }
+.tsheet__meta { display: grid; gap: var(--s-12); align-content: start; }
 
 /* ===========================================================================
    ЭКРАН: ФИНАЛ — компактно, без логотипа, всё в один вьюпорт
@@ -809,8 +978,8 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
 
 .final__top {
   display: flex; align-items: flex-end; justify-content: space-between;
-  gap: var(--space-6);
-  padding-bottom: var(--gap-v-sm);
+  gap: var(--s-24);
+  padding-bottom: var(--s-12);
   border-bottom: var(--border-width-rule) solid var(--color-border-secondary);
 }
 .final__verdict {
@@ -832,7 +1001,7 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
 .final__grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: clamp(10px, 1.4vw, 22px);
+  gap: clamp(12px, 1.4vw, 24px);
   align-content: center;
   perspective: 1300px;
   min-height: 0;
@@ -848,8 +1017,8 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
 }
 .fcard__inner {
   display: grid;
-  grid-template-rows: auto auto 1fr auto;
-  gap: 6px;
+  grid-template-rows: auto auto auto 1fr;
+  gap: var(--s-4);
   height: 100%;
   min-height: 0;
   transform-origin: left center;
@@ -868,17 +1037,17 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
 
 /* Наведённая карточка заметно выдвигается вперёд, соседние отступают
    и притухают — так поднятая читается как выбранная. */
-.final__grid.is-open:hover .fcard { opacity: .55; filter: saturate(.7); }
+.final__grid.is-open:hover .fcard { opacity: .5; filter: saturate(.6); }
 .final__grid.is-open:hover .fcard:hover,
 .final__grid.is-open .fcard:focus-visible { opacity: 1; filter: none; }
 
 .final__grid.is-open .fcard:hover .fcard__inner,
 .final__grid.is-open .fcard:focus-visible .fcard__inner {
   transform:
-    translateZ(70px)
+    translateZ(90px)
     rotateX(var(--tilt-x, 0deg))
     rotateY(var(--tilt-y, 0deg))
-    scale(1.09);
+    scale(1.12);
   box-shadow: var(--shadow-card-lift);
   transition: transform var(--duration-fast) var(--easing-out),
               box-shadow var(--duration-normal) var(--easing-out);
@@ -934,24 +1103,38 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
   color: var(--color-text-secondary);
   line-height: var(--line-height-snug);
 }
-.fcard__score {
-  display: flex; align-items: baseline; gap: var(--space-3);
+
+/* Три факта о раунде: на каком шаге, за сколько, сколько принёс. */
+.fcard__facts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s-4);
   align-self: end;
-  padding-top: 5px;
+  padding-top: var(--s-4);
   border-top: var(--border-width-hair) solid var(--color-border-secondary);
 }
-.fcard__score b { font-size: var(--font-size-md); font-variant-numeric: tabular-nums; }
-.fcard__score span { font-size: var(--font-size-xs); color: var(--color-text-tertiary); }
+.fcard__facts dt {
+  font-size: 9px;
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+.fcard__facts dd {
+  font-size: var(--font-size-sm);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.fcard__facts dd b { font-weight: var(--font-weight-bold); }
 
 .final__bottom {
   display: flex; align-items: center; justify-content: space-between;
-  gap: var(--space-6);
-  padding-top: var(--gap-v-sm);
+  gap: var(--s-24);
+  padding-top: var(--s-12);
   border-top: var(--border-width-rule) solid var(--color-border-secondary);
   flex-wrap: wrap;
 }
-.final__actions { display: flex; gap: var(--space-3); }
-.lb-form { display: flex; gap: var(--space-3); align-items: center; }
+.final__actions { display: flex; gap: var(--s-8); }
+.lb-form { display: flex; gap: var(--s-8); align-items: center; }
 .lb-form .input { width: clamp(160px, 18vw, 240px); }
 .lb-status {
   font-size: var(--font-size-sm);
@@ -967,7 +1150,7 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
   position: fixed; inset: 0; z-index: 50;
   background: var(--color-surface-overlay);
   display: grid; place-items: center;
-  padding: var(--space-6);
+  padding: var(--s-24);
   opacity: 0;
   transition: opacity var(--duration-normal) var(--easing-default);
 }
@@ -980,7 +1163,7 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
   background: var(--color-bg-secondary);
   border: var(--border-width-rule) solid var(--color-accent-primary);
   box-shadow: var(--shadow-sheet);
-  padding: var(--space-6);
+  padding: var(--s-24);
   transform: translateY(16px) scale(.98);
   transition: transform var(--duration-normal) var(--easing-out);
 }
@@ -989,8 +1172,8 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
 
 .sheet__head {
   display: flex; align-items: center; justify-content: space-between;
-  gap: var(--space-4);
-  margin-bottom: var(--space-5);
+  gap: var(--s-16);
+  margin-bottom: var(--s-16);
 }
 .sheet__title {
   font-size: var(--font-size-lg);
@@ -999,13 +1182,13 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
 }
 /* Единственное место в игре, где скролл разрешён: полный список лидеров
    и длинные правила физически не помещаются в экран. */
-.sheet__body { display: grid; gap: var(--space-4); overflow-y: auto; min-height: 0; }
+.sheet__body { display: grid; gap: var(--s-16); overflow-y: auto; min-height: 0; }
 .sheet__body p { color: var(--color-text-secondary); line-height: var(--line-height-relaxed); }
-.sheet__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-2); }
+.sheet__actions { display: flex; flex-wrap: wrap; gap: var(--s-8); margin-top: var(--s-4); }
 
 .share__grid {
   margin: 0;
-  padding: var(--space-5);
+  padding: var(--s-16);
   background: var(--color-bg-primary);
   border: var(--border-width-hair) solid var(--color-border-primary);
   font-family: var(--font-family-mono);
@@ -1019,9 +1202,9 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
    ======================================================================== */
 
 .toast {
-  position: fixed; left: 50%; bottom: var(--space-7); z-index: 60;
+  position: fixed; left: 50%; bottom: var(--s-32); z-index: 60;
   transform: translate(-50%, 14px);
-  padding: var(--space-3) var(--space-6);
+  padding: var(--s-8) var(--s-24);
   background: var(--color-bg-inverse);
   color: var(--color-text-inverse);
   font-size: var(--font-size-sm);
@@ -1035,6 +1218,9 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
 /* Близкий промах подсвечен акцентом, а не красным: это поощрение, не ошибка. */
 .toast[data-tone="near"], .toast[data-tone="good"] {
   background: var(--color-accent-primary); color: var(--color-accent-on);
+}
+.toast[data-tone="bad"] {
+  background: var(--color-status-error-strong); color: var(--n-999);
 }
 
 /* ===========================================================================
@@ -1050,23 +1236,42 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
 }
 
 /* ===========================================================================
+   Статическая секция «Об игре» — она нужна поисковикам, а не игроку.
+   Видна только роботам и читалкам: SPA без текста не ранжируется, но и
+   показывать этот текст поверх игры незачем.
+   ======================================================================== */
+.seo-copy {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0; border: 0;
+  clip-path: inset(50%);
+  overflow: hidden;
+}
+
+/* ===========================================================================
    АДАПТИВНАЯ ДЕГРАДАЦИЯ ПО ВЫСОТЕ (атрибут ставит src/fit.js)
 
    Порядок сокрытия строго такой:
-     1 → декоративные полоски и линейки
+     1 → декоративные полоски, линейки и пояснения
      2 → счётчик уровней в шапке
      3 → подписи под иконками и вторичные пояснения
      4 → второй лидерборд
 
-   НИКОГДА не прячутся: кнопка воспроизведения, поле поиска, кнопка пропуска,
-   текущий счёт, индикатор ступени. Это проверяется scripts/verify-noscroll.mjs.
+   НИКОГДА не прячутся: кнопка воспроизведения, поле поиска, кнопка действия
+   (Өткізу/Тексеру), текущий счёт, индикатор ступени.
+   Это проверяется scripts/verify-noscroll.mjs.
    ======================================================================== */
 
-/* Уровень 1: декор */
-[data-dense="1"] .facts,
-[data-dense="2"] .facts,
-[data-dense="3"] .facts,
-[data-dense="4"] .facts { display: none; }
+/* Уровень 1: декор и пояснения */
+[data-dense="1"] .steps__legend,
+[data-dense="2"] .steps__legend,
+[data-dense="3"] .steps__legend,
+[data-dense="4"] .steps__legend { display: none; }
+
+[data-dense="1"] .field__hint,
+[data-dense="2"] .field__hint,
+[data-dense="3"] .field__hint,
+[data-dense="4"] .field__hint { display: none; }
 
 [data-dense="1"] .steps__dur,
 [data-dense="2"] .steps__dur,
@@ -1082,6 +1287,10 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
 [data-dense="3"] .round__hint,
 [data-dense="4"] .round__hint { display: none; }
 
+[data-dense="2"] .howto__legal,
+[data-dense="3"] .howto__legal,
+[data-dense="4"] .howto__legal { display: none; }
+
 /* Уровень 3: подписи и вторичные пояснения */
 [data-dense="3"] .player__label,
 [data-dense="4"] .player__label { display: none; }
@@ -1095,8 +1304,11 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
 [data-dense="3"] .fcard__badge,
 [data-dense="4"] .fcard__badge { display: none; }
 
+[data-dense="3"] .fcard__facts dt,
+[data-dense="4"] .fcard__facts dt { display: none; }
+
 /* Уровень 4: второй лидерборд */
-[data-dense="4"] .start__right { grid-template-rows: 1fr; }
+[data-dense="4"] .start__side { grid-template-rows: 1fr; }
 [data-dense="4"] .board--today { display: none; }
 [data-dense="4"] .hero__tagline { display: none; }
 
@@ -1121,6 +1333,9 @@ h1, h2, h3, p, ol, ul, figure { margin: 0; }
   .final__grid { perspective: none; }
   .fcard.is-sounding .fcard__eq i { animation: none; height: 9px; }
   .card__art, .results, .results__item, .lang__hint { animation: none; }
-  /* Фон не пульсирует — остаётся ровный градиент (см. src/pulse.js). */
+  /* Фон не движется и не пульсирует — остаётся ровный градиент. */
   .song-bg { transform: none; }
+  .song-bg__blob { animation: none !important; }
+  .song-bg__flash { opacity: 0; }
+  body.is-wrong::after { animation: none; }
 }

@@ -178,3 +178,13 @@ export function formatStepDuration(ms) {
   const s = ms / 1000;
   return `${String(s).replace('.', ',')} с`;
 }
+
+/**
+ * Время ответа для карточки финала: «4,2 с» под десятью секундами и «17 с»
+ * дальше. Дробная часть у долгих ответов не несёт смысла и только шумит.
+ */
+export function fmtSeconds(ms) {
+  const s = Math.max(0, ms) / 1000;
+  const v = s < 10 ? s.toFixed(1) : String(Math.round(s));
+  return `${v.replace('.', ',')} с`;
+}

@@ -60,10 +60,10 @@ const html = `<!doctype html>
             rgba(8,9,10,.62) 100%); }
 
   .content { position:absolute; inset:0; padding:64px 72px;
-             display:grid; align-content:center; gap:22px; width:640px; }
+             display:grid; align-content:center; gap:24px; width:660px; }
   .eyebrow { font-size:15px; font-weight:700; letter-spacing:.18em;
              text-transform:uppercase; color: var(--color-text-secondary); }
-  .title { font-size:118px; line-height:.92; letter-spacing:-.045em; font-weight:700; }
+  .title { font-size:132px; line-height:.9; letter-spacing:-.05em; font-weight:700; }
   .tag { font-size:26px; color: var(--color-text-secondary); max-width:16ch; line-height:1.25; }
   .row { display:flex; align-items:center; gap:18px; margin-top:6px; }
   .cta { display:inline-flex; align-items:center; padding:15px 34px;
@@ -73,19 +73,20 @@ const html = `<!doctype html>
   .mark { position:absolute; left:72px; top:52px;
           display:flex; align-items:center; gap:11px; }
   .mark i { width:15px; height:15px; background: var(--color-accent-primary); display:block; }
-  .mark span { font-size:15px; font-weight:700; letter-spacing:.2em; }
+  .mark span { font-size:14px; font-weight:700; letter-spacing:.2em;
+          color: var(--color-text-secondary); }
 </style></head>
 <body><div class="wrap">
   <div class="tiles">${arts.map((a) => `<img src="${a}" crossorigin="anonymous">`).join('')}</div>
   <div class="veil"></div>
-  <div class="mark"><i></i><span>ТАП ӘНДІ</span></div>
+  <div class="mark"><i></i><span>OLENSIZ.ZHENGISBAY.COM</span></div>
   <div class="content">
-    <div class="eyebrow">Қазақ әндерін таны</div>
-    <div class="title">ТАП<br>ӘНДІ</div>
-    <div class="tag">Әнді 0,1 секундтан танисың ба?</div>
+    <div class="eyebrow">Қазақ әндері · Угадай казахскую песню</div>
+    <div class="title">Óleńsiz</div>
+    <div class="tag">Әуенді қанша секундтан танисың?</div>
     <div class="row">
       <span class="cta">Бастау</span>
-      <span class="meta">${catalog.count} ән · 5 раунд · 7 талпыныс</span>
+      <span class="meta">${catalog.count} ән · 5 раунд · 2 режим</span>
     </div>
   </div>
 </div></body></html>`;

@@ -1,87 +1,159 @@
 #!/usr/bin/env node
 /**
- * Проверка инвариантов системы очков. Запускается перед стартом (`npm start`)
- * и вручную: `npm run verify`.
+ * Исполняемая проверка системы очков. Гоняется перед каждым релизом:
+ * `npm run verify`.
  *
- * Главный инвариант — «ступень важнее скорости» (SCORING.md §3.4). Если кто-то
- * поправит STEP_POINTS или BONUS_FRACTION и сломает его, узнать надо здесь,
- * а не из жалоб игроков.
+ * Проверяются ровно те свойства, которые обещаны в SCORING.md, — в первую
+ * очередь три правила итерации 3: бонус только добавляет, верный ответ никогда
+ * не стоит нуля, ступень всегда важнее скорости.
  */
 
 import {
-  STEP_MS, STEP_POINTS, STEPS, BONUS_FRACTION, REACTION_FLOOR_S, BONUS_TAU_S,
-  MAX_ROUND_SCORE, MAX_GAME_SCORE, speedBonus, roundScore, verifyStepDominance,
+  MODES, ROUNDS, BONUS_FRACTION, REACTION_FLOOR_S, BONUS_TAU_S, FLOOR_FRACTION,
+  MAX_ROUND_SCORE, MAX_GAME_SCORE,
+  roundScore, speedBonus, stepPoints, stepCount, verifyStepDominance, verdictIndex,
 } from '../src/scoring.js';
 
 let failed = 0;
-const ok = (cond, msg) => {
-  console.log(`${cond ? '  ok  ' : ' FAIL '} ${msg}`);
+const ok = (cond, label, extra = '') => {
+  console.log(`${cond ? '  ok  ' : ' FAIL '} ${label}${extra ? ` — ${extra}` : ''}`);
   if (!cond) failed++;
 };
 
-console.log('\nИнварианты системы очков\n');
+const MODE_IDS = Object.keys(MODES);
 
-ok(STEP_MS.length === STEP_POINTS.length, `ступеней ${STEPS}, цен ${STEP_POINTS.length}`);
-ok(STEP_MS[0] === 100, 'первая ступень = 100 мс (0,1 с)');
-ok(
-  STEP_POINTS.every((p, i) => i === 0 || p < STEP_POINTS[i - 1]),
-  'цены ступеней строго убывают'
-);
+console.log('\n— Ступень важнее скорости —');
+{
+  const problems = verifyStepDominance();
+  ok(problems.length === 0, 'ответ на ступени k без бонуса дороже ответа на k+1 с максимальным');
+  problems.forEach((p) => console.log('        ', p));
 
-const dominance = verifyStepDominance();
-ok(dominance.length === 0, 'ступень доминирует над скоростью на всех парах');
-dominance.forEach((p) => console.log(`        ${p}`));
-
-// Убывание нелинейно: разность разностей не постоянна
-const d1 = STEP_POINTS.slice(1).map((p, i) => STEP_POINTS[i] - p);
-const d2 = d1.slice(1).map((d, i) => d1[i] - d);
-ok(new Set(d2).size > 1, 'убывание нелинейное (не арифметическая прогрессия)');
-
-ok(BONUS_FRACTION < 0.4, `β = ${BONUS_FRACTION.toFixed(3)} < 0.400 (граница инварианта)`);
-ok(speedBonus(0, 0) === speedBonus(0, REACTION_FLOOR_S * 1000),
-  'быстрее пола реакции бонус не растёт');
-ok(speedBonus(0, 100) === Math.round(STEP_POINTS[0] * BONUS_FRACTION),
-  'на поле реакции бонус максимален');
-ok(speedBonus(0, 60000) < 5, 'через минуту бонус практически исчезает');
-ok(speedBonus(0, null) === 0, 'без первого ввода бонуса нет');
-ok(speedBonus(0, 100, true) === 0, 'после неверного ответа бонуса нет');
-
-const miss = roundScore({ solved: false, stepIndex: 0, timeToFirstInputMs: 10 });
-ok(miss.total === 0, 'непойманный раунд = ровно 0, не минус');
-
-let minNonNegative = true;
-for (let k = 0; k < STEPS; k++) {
-  for (const t of [0, 350, 1000, 5000, 30000, null]) {
-    const r = roundScore({ solved: true, stepIndex: k, timeToFirstInputMs: t });
-    if (r.total < 0) minNonNegative = false;
+  for (const id of MODE_IDS) {
+    const n = stepCount(id);
+    let bad = 0;
+    for (let k = 0; k < n - 1; k++) {
+      const slowHere = roundScore({ solved: true, stepIndex: k, timeToFirstInputMs: 60000, mode: id });
+      const fastNext = roundScore({ solved: true, stepIndex: k + 1, timeToFirstInputMs: 0, mode: id });
+      if (fastNext.total >= slowHere.total) bad++;
+    }
+    ok(bad === 0, `[${id}] то же самое на реальных числах, все ступени`);
   }
 }
-ok(minNonNegative, 'отрицательных очков не бывает ни при каких входах');
 
-ok(MAX_ROUND_SCORE === 1333, `максимум за раунд = ${MAX_ROUND_SCORE}`);
-ok(MAX_GAME_SCORE === 6665 || MAX_GAME_SCORE === 6667 || MAX_GAME_SCORE > 6000,
-  `максимум за партию = ${MAX_GAME_SCORE}`);
-
-console.log('\nКривая бонуса (ступень 1, база 1000):');
-for (const t of [0, 0.35, 1, 2, 3.85, 6, 10, 15]) {
-  const b = speedBonus(0, t * 1000);
-  console.log(`  t=${String(t).padStart(5)}с  бонус ${String(b).padStart(4)}  ` +
-    `множитель ${(b / (STEP_POINTS[0] * BONUS_FRACTION)).toFixed(2)}`);
+console.log('\n— Бонус только добавляет (блок E2) —');
+{
+  for (const id of MODE_IDS) {
+    const n = stepCount(id);
+    let negative = 0;
+    let overCap = 0;
+    let reducesBase = 0;
+    for (let k = 0; k < n; k++) {
+      const base = stepPoints(id, k);
+      for (const ms of [0, 100, 350, 1000, 2000, 6000, 20000, 120000, null]) {
+        const b = speedBonus(id, k, ms);
+        if (b < 0) negative++;
+        if (b > base * BONUS_FRACTION + 1) overCap++;
+        const r = roundScore({ solved: true, stepIndex: k, timeToFirstInputMs: ms, mode: id });
+        if (r.total < Math.round(base * MODES[id].multiplier)) reducesBase++;
+      }
+    }
+    ok(negative === 0, `[${id}] бонус никогда не отрицательный`);
+    ok(overCap === 0, `[${id}] бонус не выше ${Math.round(BONUS_FRACTION * 100)}% базы`);
+    ok(reducesBase === 0, `[${id}] бонус никогда не уменьшает базу ступени`);
+  }
 }
 
-console.log('\nТаблица ступеней:');
-for (let k = 0; k < STEPS; k++) {
-  const ms = STEP_MS[k];
-  const label = ms < 1000 ? `${ms} мс` : `${ms / 1000} с`;
-  console.log(
-    `  ${k + 1}) ${label.padStart(7)}  база ${String(STEP_POINTS[k]).padStart(4)}` +
-    `  макс.бонус ${String(Math.round(STEP_POINTS[k] * BONUS_FRACTION)).padStart(4)}` +
-    `  макс.раунд ${String(Math.round(STEP_POINTS[k] * (1 + BONUS_FRACTION))).padStart(4)}`
-  );
+console.log('\n— Жёсткий пол: верный ответ ≠ 0 (блок E1) —');
+{
+  for (const id of MODE_IDS) {
+    const n = stepCount(id);
+    let zeros = 0;
+    for (let k = 0; k < n; k++) {
+      // Самый плохой возможный случай: последняя ступень, был неверный ответ
+      // (бонус аннулирован), отвечал долго.
+      const r = roundScore({
+        solved: true, stepIndex: k, timeToFirstInputMs: null, bonusVoid: true, mode: id,
+      });
+      if (r.total <= 0) zeros++;
+      const floor = stepPoints(id, k) * FLOOR_FRACTION * MODES[id].multiplier;
+      if (r.total < Math.floor(floor)) zeros++;
+    }
+    ok(zeros === 0, `[${id}] на любой ступени верный ответ стоит больше нуля и не ниже пола`);
+
+    const last = stepCount(id) - 1;
+    const worst = roundScore({
+      solved: true, stepIndex: last, timeToFirstInputMs: null, bonusVoid: true, mode: id,
+    });
+    ok(worst.total > 0, `[${id}] последняя ступень: угадал за ${MODES[id].stepMs[last] / 1000} с`,
+      `${worst.total} очков`);
+  }
+
+  const missed = roundScore({ solved: false, stepIndex: 0, timeToFirstInputMs: 0, mode: 'expert' });
+  ok(missed.total === 0, 'ноль возможен только у неугаданного трека');
 }
 
-console.log(
-  `\nτ = ${BONUS_TAU_S}с, пол реакции = ${REACTION_FLOOR_S}с, β = ${BONUS_FRACTION.toFixed(4)}`
-);
-console.log(failed === 0 ? '\nВсе инварианты выполнены.\n' : `\n${failed} нарушений.\n`);
+console.log('\n— Спад бонуса пологий (блок E2) —');
+{
+  for (const id of MODE_IDS) {
+    const b2 = speedBonus(id, 0, 2000);
+    const b6 = speedBonus(id, 0, 6000);
+    const ratio = b2 / b6;
+    // «Заметно, но не драматично»: быстрый ответ лучше в 1,5–2,5 раза.
+    ok(ratio > 1.4 && ratio < 2.6, `[${id}] 2 с против 6 с различимы, но не драматично`,
+      `${b2} против ${b6}, в ${ratio.toFixed(2)} раза`);
+  }
+  ok(BONUS_TAU_S >= 5, 'постоянная времени увеличена относительно итерации 2 (3,5 с)',
+    `τ = ${BONUS_TAU_S} с`);
+
+  const instant = speedBonus('expert', 0, 0);
+  const atFloor = speedBonus('expert', 0, REACTION_FLOOR_S * 1000);
+  ok(instant === atFloor, 'быстрее физиологического пола бонус не растёт',
+    `${REACTION_FLOOR_S} с`);
+}
+
+console.log('\n— Множитель режима (блок B1) —');
+{
+  const n = roundScore({ solved: true, stepIndex: 0, timeToFirstInputMs: 1000, mode: 'normal' });
+  const e = roundScore({ solved: true, stepIndex: 0, timeToFirstInputMs: 1000, mode: 'expert' });
+  ok(MODES.expert.multiplier === 1.8 && MODES.normal.multiplier === 1.0,
+    'коэффициенты: обычный ×1,0, экспертный ×1,8');
+  ok(e.total > n.total, 'та же ступень в экспертном режиме дороже',
+    `${n.total} против ${e.total}`);
+  ok(MODES.normal.stepMs.join(',') === '2000,4000,6000,10000,14000,20000',
+    'обычный режим: 2 → 4 → 6 → 10 → 14 → 20 с');
+  ok(MODES.expert.stepMs.join(',') === '100,500,1000,2000,4000,8000,16000',
+    'экспертный режим: 0,1 → 0,5 → 1 → 2 → 4 → 8 → 16 с');
+}
+
+console.log('\n— Границы партии —');
+{
+  const best = roundScore({ solved: true, stepIndex: 0, timeToFirstInputMs: 0, mode: 'expert' });
+  ok(best.total <= MAX_ROUND_SCORE, 'лучший возможный раунд не превышает MAX_ROUND_SCORE',
+    `${best.total} ≤ ${MAX_ROUND_SCORE}`);
+  ok(MAX_GAME_SCORE === MAX_ROUND_SCORE * ROUNDS, 'максимум партии = максимум раунда × 5',
+    `${MAX_GAME_SCORE}`);
+
+  const verdicts = [0, 500, 3000, 6000, 11250].map((v) => verdictIndex(v, 'expert'));
+  ok(verdicts.every((v, i) => i === 0 || v >= verdicts[i - 1]), 'вердикт не падает с ростом счёта',
+    verdicts.join(' → '));
+  ok(verdictIndex(0, 'normal') === 0, 'ноль очков — отдельный, но не обидный вердикт');
+}
+
+console.log('\n— Примеры расчёта (те же, что в SCORING.md) —');
+{
+  const rows = [
+    ['expert', 0, 500, false, 'мгновенно на первой ступени'],
+    ['expert', 6, 8000, true, 'медленно на последней, после промаха'],
+    ['normal', 0, 800, false, 'обычный режим, первая ступень'],
+    ['normal', 5, 12000, true, 'обычный режим, последняя ступень'],
+  ];
+  for (const [mode, step, ms, voided, label] of rows) {
+    const r = roundScore({
+      solved: true, stepIndex: step, timeToFirstInputMs: ms, bonusVoid: voided, mode,
+    });
+    console.log(`         ${label.padEnd(42)} база ${String(r.base).padStart(4)} + бонус ${String(r.bonus).padStart(3)} → ${r.total}`);
+  }
+}
+
+console.log(failed === 0 ? '\nСистема очков в порядке.\n' : `\n${failed} провалов.\n`);
 process.exit(failed === 0 ? 0 : 1);

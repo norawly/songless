@@ -15,6 +15,74 @@ import { CONFIG } from './config.js';
 import { norm, foldKey, tightKey, levenshtein, trigramSim } from './normalize.js';
 import { ROUNDS } from './scoring.js';
 
+/* ------------------------------------------------------------------ */
+/* История сыгранного (блок I3)                                        */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Игрок не должен встречать один и тот же трек, пока не исчерпает каталог.
+ *
+ * История лежит в localStorage и ограничена по размеру: хранилище не должно
+ * пухнуть от многолетней игры. Когда в каком-то тире свободных треков не
+ * осталось, сбрасывается история ТОЛЬКО этого тира — иначе один исчерпанный
+ * уровень обнулял бы память обо всех остальных.
+ */
+export class PlayHistory {
+  constructor(key = CONFIG.HISTORY_KEY, limit = CONFIG.HISTORY_LIMIT) {
+    this.key = key;
+    this.limit = limit;
+    this.ids = this._read();
+  }
+
+  _read() {
+    try {
+      const raw = JSON.parse(localStorage.getItem(this.key) || '[]');
+      return Array.isArray(raw) ? raw.map(String) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  _write() {
+    try {
+      localStorage.setItem(this.key, JSON.stringify(this.ids));
+    } catch {
+      /* приватный режим — история просто не переживёт вкладку */
+    }
+  }
+
+  has(id) {
+    return this.ids.includes(String(id));
+  }
+
+  add(ids) {
+    for (const id of ids) {
+      const s = String(id);
+      if (!this.ids.includes(s)) this.ids.push(s);
+    }
+    // FIFO: самые старые забываются первыми.
+    if (this.ids.length > this.limit) this.ids = this.ids.slice(-this.limit);
+    this._write();
+  }
+
+  /** Забывает треки, попадающие в предикат. @returns {number} сколько забыли */
+  forget(pred) {
+    const before = this.ids.length;
+    this.ids = this.ids.filter((id) => !pred(id));
+    if (this.ids.length !== before) this._write();
+    return before - this.ids.length;
+  }
+
+  clear() {
+    this.ids = [];
+    this._write();
+  }
+
+  get size() {
+    return this.ids.length;
+  }
+}
+
 /** Веса релевантности: точное совпадение названия всегда выше нечёткого. */
 const W = {
   titleExact: 1000,
@@ -39,7 +107,11 @@ export class Catalog {
     this.levelTiers = payload.levelTiers || {
       1: [1], 2: [1, 2], 3: [2, 3], 4: [3, 4], 5: [4, 5],
     };
+    // Экспертный режим подмешивает тир 5 и андеграунд в верхние уровни.
+    this.levelTiersExpert = payload.levelTiersExpert || this.levelTiers;
+    /** Категории, которые вообще показываются игроку (порог из сборщика). */
     this.genres = payload.genres || [];
+    this.history = new PlayHistory();
 
     this.tracks = payload.tracks.map((t) => {
       const titleF = foldKey(t.title);
@@ -97,12 +169,27 @@ export class Catalog {
     return this.tracks.filter((t) => this.matches(t, filters));
   }
 
-  /** Треки, допустимые на уровне `level` при данных фильтрах. */
+  /** Карта «уровень → тиры» для выбранного режима подачи. */
+  tiersFor(filters = {}) {
+    return filters.difficulty === 'expert' ? this.levelTiersExpert : this.levelTiers;
+  }
+
+  /**
+   * Треки, допустимые на уровне `level` при данных фильтрах.
+   *
+   * В экспертном режиме на уровнях 4–5 к тирам добавляется андеграунд
+   * независимо от тира: это ровно то «подмешивание», которого требует блок B1,
+   * и оно делает верхние раунды по-настоящему трудными.
+   */
   poolForLevel(level, filters = {}) {
-    const tiers = this.levelTiers[level] || this.levelTiers[String(level)] || [];
-    return this.tracks.filter(
-      (t) => tiers.includes(t.tier) && this.matches(t, filters)
-    );
+    const map = this.tiersFor(filters);
+    const tiers = map[level] || map[String(level)] || [];
+    const mixUnderground = filters.difficulty === 'expert' && level >= 4;
+    return this.tracks.filter((t) => {
+      if (!this.matches(t, filters)) return false;
+      if (tiers.includes(t.tier)) return true;
+      return mixUnderground && (t.genres || []).includes('underground');
+    });
   }
 
   /**
@@ -141,11 +228,22 @@ export class Catalog {
     const used = new Set();
     const picked = [];
     const spares = [];
+    /** Уровни, для которых пришлось сбросить историю (блок I3). */
+    const recycled = [];
 
     for (let level = 1; level <= rounds; level++) {
-      const pool = this.poolForLevel(level, filters).filter((t) => !used.has(t.id));
-      if (pool.length === 0) {
+      const levelPool = this.poolForLevel(level, filters).filter((t) => !used.has(t.id));
+      if (levelPool.length === 0) {
         throw new Error(`Нет треков для уровня ${level} с текущими фильтрами`);
+      }
+
+      let pool = levelPool.filter((t) => !this.history.has(t.id));
+      if (pool.length === 0) {
+        // Уровень исчерпан: забываем историю ровно этого уровня, не всю.
+        const ids = new Set(levelPool.map((t) => t.id));
+        this.history.forget((id) => ids.has(id));
+        recycled.push(level);
+        pool = levelPool;
       }
       const shuffled = shuffle(pool);
       const main = shuffled[0];
@@ -161,7 +259,12 @@ export class Catalog {
       }
       spares.push(levelSpares);
     }
-    return { picked, spares };
+    return { picked, spares, recycled };
+  }
+
+  /** Запоминает сыгранные треки, чтобы они не повторялись (блок I3). */
+  remember(tracks) {
+    this.history.add(tracks.map((t) => t.id));
   }
 
   get(id) {
@@ -260,12 +363,17 @@ export async function loadCatalog(url = CONFIG.CATALOG_URL) {
   return new Catalog(payload);
 }
 
-/** Ссылки на стриминги. Apple — точная, Spotify — поисковая. */
+/**
+ * Ссылки на стриминги. Apple — точная (из API), остальные — поисковые.
+ * Атрибуция обязана быть везде, где показан трек: и на карточке раунда,
+ * и на карточке финала.
+ */
 export function streamingLinks(track) {
   const q = encodeURIComponent(`${track.artist} ${track.title}`);
   return [
     track.appleUrl && { name: 'Apple Music', url: track.appleUrl },
     { name: 'Spotify', url: `https://open.spotify.com/search/${q}` },
+    { name: 'Deezer', url: `https://www.deezer.com/search/${q}` },
   ].filter(Boolean);
 }
 

@@ -25,7 +25,8 @@ import { dirname, join } from 'node:path';
 import { foldKey, norm } from '../src/normalize.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const CSV = join(ROOT, 'data', 'artists.csv');
+const CSV = join(ROOT, 'data', 'artists-v2.csv');
+const OVERRIDES = join(ROOT, 'data', 'overrides.json');
 const OUT = join(ROOT, 'data', 'tracks.json');
 const REPORT = join(ROOT, 'data', 'build-report.md');
 const CACHE = join(ROOT, '.cache');
@@ -38,6 +39,9 @@ const TRACKS_PER_TIER = { 1: 10, 2: 7, 3: 5, 4: 3, 5: 2 };
 /**
  * Уровни сложности строятся из fame_tier, а не из выдуманного индекса.
  * Тир артиста → на каких уровнях могут появляться его треки.
+ *
+ * Экспертный режим (блок B1) подмешивает в верхние уровни тир 5 и андеграунд:
+ * это и делает его экспертным, а не просто «фрагменты короче».
  */
 export const LEVEL_TIERS = {
   1: [1],
@@ -47,13 +51,25 @@ export const LEVEL_TIERS = {
   5: [4, 5],
 };
 
+export const LEVEL_TIERS_EXPERT = {
+  1: [1],
+  2: [1, 2],
+  3: [2, 3],
+  4: [3, 4, 5],
+  5: [4, 5],
+};
+
 /**
- * Канонические жанровые теги для фильтров на стартовом экране.
- * В CSV встречаются более дробные — сводим их к этому набору.
+ * Игровые категории — то, что человек видит чипами на старте.
+ *
+ * Итерация 3: тонкие жанры слиты в родительские, потому что категория без
+ * песен хуже отсутствующей категории. jazz → rnb, electronic → pop,
+ * classical вообще не игровая категория. Исходные теги при этом никуда не
+ * деваются: они лежат в поле `tags` каждого трека и доступны редактору.
  */
 const CANON_GENRES = [
   'toi', 'retro', 'pop', 'rnb', 'rap', 'underground',
-  'indie', 'folk', 'patriotic', 'jazz', 'electronic', 'qpop', 'rock',
+  'indie', 'folk', 'patriotic', 'qpop', 'rock',
 ];
 
 const GENRE_ALIASES = {
@@ -65,9 +81,17 @@ const GENRE_ALIASES = {
   soul: 'rnb',
   comedy: 'rap',
   meme: 'rap',
-  remix: 'electronic',
+  remix: 'pop',
+  jazz: 'rnb',
+  electronic: 'pop',
   classical: 'pop',
 };
+
+/**
+ * Порог показа категории. Меньше — категория есть в данных, но чипа нет:
+ * пустой фильтр обманывает игрока сильнее, чем его отсутствие.
+ */
+const GENRE_MIN_TRACKS = 25;
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -113,15 +137,62 @@ function parseCsv(text) {
   });
 }
 
+/**
+ * @returns {{genres: string[], tags: string[]}}
+ *   genres — игровые категории (после слияния), tags — как записано в CSV.
+ */
 function canonGenres(raw) {
+  const tags = String(raw || '')
+    .split('|').map((x) => x.trim().toLowerCase()).filter(Boolean);
   const out = new Set();
-  for (const g of String(raw || '').split('|').map((x) => x.trim().toLowerCase())) {
-    if (!g) continue;
+  for (const g of tags) {
     const mapped = GENRE_ALIASES[g] || g;
     if (CANON_GENRES.includes(mapped)) out.add(mapped);
   }
   if (out.size === 0) out.add('pop');
-  return [...out];
+  return { genres: [...out], tags };
+}
+
+/**
+ * Схлопывает строки-дубли. В artists-v2.csv один и тот же артист встречается
+ * дважды (`madi-rymbaev`), а Turan — под двумя разными id. Сборщик обязан это
+ * пережить сам: пусть CSV остаётся таким, каким его ведёт человек.
+ */
+function dedupeRows(rows, report) {
+  const byKey = new Map();
+  for (const row of rows) {
+    const key = foldKey(row.artist) || row.id;
+    const prev = byKey.get(key);
+    if (!prev) { byKey.set(key, row); continue; }
+    report.duplicates.push({ kept: prev.id, dropped: row.id, artist: row.artist });
+    // Оставляем строку с более заполненными notes — в них кураторский сигнал.
+    if ((row.notes || '').length > (prev.notes || '').length) byKey.set(key, row);
+  }
+  return [...byKey.values()];
+}
+
+/**
+ * Похоже ли название на английскую песню.
+ *
+ * Это второй сигнал из блока I1: у казахоязычного артиста трек с чисто
+ * английским названием — повод посмотреть глазами. Проверяем не «латиницу»
+ * (половина каталога на латинице: «Sagynysh», «Bolme»), а именно английские
+ * служебные слова — только они отличают чужую песню от казахской в романизации.
+ */
+const EN_WORDS = new Set([
+  'the', 'you', 'your', 'my', 'me', 'i', 'love', 'baby', 'girl', 'boy', 'night',
+  'day', 'life', 'time', 'heart', 'don', 'dont', 'can', 'want', 'need', 'know',
+  'never', 'forever', 'always', 'about', 'without', 'with', 'and', 'for', 'like',
+  'feel', 'feeling', 'money', 'dream', 'dreams', 'lonely', 'again', 'all', 'is',
+  'it', 'no', 'on', 'in', 'of', 'to', 'be', 'we', 'she', 'he', 'they', 'she',
+]);
+
+function looksEnglish(title) {
+  const words = norm(title).split(' ').filter(Boolean);
+  if (words.length === 0) return false;
+  if (/[а-яёәөүұқңғіһ]/i.test(title)) return false;
+  const hits = words.filter((w) => EN_WORDS.has(w)).length;
+  return hits >= Math.max(1, Math.ceil(words.length * 0.34));
 }
 
 /* ==================================================================== */
@@ -201,10 +272,21 @@ function nameMatches(candidates, found) {
   });
 }
 
+/**
+ * Слишком короткий алиас нельзя использовать для опознания артиста.
+ *
+ * Именно так в каталог попал англоязычный трек под «Ириной Кайратовной»:
+ * в алиасах стоит «IK», а в Apple есть исполнители ровно с таким именем.
+ * Две-три буквы совпадают у кого угодно, поэтому такие алиасы участвуют
+ * только в поиске игрока, но не в сопоставлении артиста.
+ */
+const MIN_ALIAS_LEN = 4;
+
 async function resolveArtistIds(row, log) {
   const names = [row.artist, ...String(row.aliases || '').split('|')]
     .map((s) => s.trim())
-    .filter(Boolean);
+    .filter(Boolean)
+    .filter((s) => s === row.artist || foldKey(s).replace(/\s/g, '').length >= MIN_ALIAS_LEN);
 
   /** @type {Map<number, {name:string, count:number}>} */
   const found = new Map();
@@ -340,6 +422,7 @@ async function fetchArtistTracks(row, artistIds, report) {
   // Лучше потерять артиста (он будет назван в отчёте) и проверить его руками,
   // чем затащить японский хип-хоп в игру про казахскую музыку.
   const confirms = (c) => c.noteHits > 0 || c.kz >= 0.25;
+  const strength = (c) => c.noteHits * 10 + c.kz * 4;
 
   if (!confirms(best)) {
     report.suspicious.push({
@@ -349,20 +432,40 @@ async function fetchArtistTracks(row, artistIds, report) {
       kz: best.kz.toFixed(2),
       candidates: candidates.length,
       sample: best.tracks.slice(0, 3).map((t) => t.trackName).join(' / '),
+      reason: 'ни одного попадания в notes, кириллицы почти нет',
     });
     return { tracks: [], accepted: [], suspicious: true };
   }
 
-  // Остальные id присоединяются, только если сами проходят ту же проверку:
-  // это дубли одного артиста в базе Apple, а не однофамильцы.
-  const accepted = [best, ...candidates.slice(1).filter(confirms)];
-  const suspicious = false;
+  /*
+   * Второй профиль того же артиста в Apple — обычное дело: «Мақпал Жүнісова»
+   * заведена дважды, Батырхан Шүкенов существует и сам по себе, и как
+   * А'Студио. Такие профили сливать нужно, иначе половина каталога артиста
+   * просто потеряется.
+   *
+   * А вот однофамилец с другого конца мира сливаться не должен. Отличаем их
+   * не по «похожести», а по тому же тесту подтверждения: чужой исполнитель
+   * не даёт ни попаданий в notes, ни кириллицы, и до этой строки не доходит.
+   *
+   * Отдельно логируем каждое слияние: если оно окажется ошибочным, это будет
+   * видно в отчёте по имени профиля, а не обнаружится в игре.
+   */
+  const extra = candidates.slice(1).filter(confirms);
+  const accepted = [best, ...extra];
+  if (extra.length) {
+    report.merged.push({
+      artist: row.artist,
+      profiles: accepted.map((c) => `${c.artistName} (${c.artistId})`).join(', '),
+      strength: accepted.map((c) => strength(c).toFixed(1)).join(' / '),
+    });
+  }
 
+  // Треки только подтверждённых профилей и только там, где артист основной.
   const byTrackId = new Map();
   for (const c of accepted) {
     for (const t of c.tracks) if (!byTrackId.has(t.trackId)) byTrackId.set(t.trackId, t);
   }
-  return { tracks: [...byTrackId.values()], accepted, suspicious };
+  return { tracks: [...byTrackId.values()], accepted, suspicious: false };
 }
 
 /**
@@ -459,21 +562,63 @@ function bigArt(url) {
   return url ? url.replace(/\/\d+x\d+bb\.(jpg|png)$/, '/600x600bb.$1') : null;
 }
 
+/** Ручные переопределения из локального редактора (scripts/editor-server.mjs). */
+async function loadOverrides() {
+  try {
+    const raw = JSON.parse(await readFile(OVERRIDES, 'utf8'));
+    return raw && typeof raw === 'object' ? raw : {};
+  } catch {
+    return {};
+  }
+}
+
+/**
+ * Накладывает ручные правки поверх собранного трека.
+ * Пересборка каталога НИКОГДА не затирает переопределения: они живут в
+ * отдельном файле и применяются последними.
+ */
+function applyOverride(track, ov) {
+  if (!ov) return track;
+  const out = { ...track };
+  if (Number.isFinite(ov.startOffset)) out.startOffset = Number(ov.startOffset);
+  if (Number.isFinite(ov.tier)) out.tier = Math.min(5, Math.max(1, Math.round(ov.tier)));
+  if (Array.isArray(ov.genres) && ov.genres.length) {
+    out.genres = ov.genres.filter((g) => CANON_GENRES.includes(g));
+    if (!out.genres.length) out.genres = track.genres;
+  }
+  if (ov.age === 'family' || ov.age === '18plus') out.age = ov.age;
+  if (typeof ov.note === 'string' && ov.note.trim()) out.note = ov.note.trim();
+  if (ov.hidden === true) out.hidden = true;
+  out.edited = true;
+  return out;
+}
+
 async function main() {
   await mkdir(CACHE, { recursive: true });
-  const rows = parseCsv(await readFile(CSV, 'utf8'));
-  console.log(`Артистов в whitelist: ${rows.length}${FRESH ? ' (кэш игнорируется)' : ''}\n`);
+  const all = parseCsv(await readFile(CSV, 'utf8'));
 
-  const tracks = [];
   const report = {
-    artists: rows.length,
+    csvRows: all.length,
     resolved: 0,
     failed: [],
     needsReview: [],
     suspicious: [],
+    merged: [],
+    duplicates: [],
+    englishTitles: [],
     perArtist: [],
     rejected: { noPreview: 0, tooShort: 0, dupTitle: 0, live: 0, remix: 0, junk: 0 },
   };
+
+  const rows = dedupeRows(all, report);
+  report.artists = rows.length;
+  const overrides = await loadOverrides();
+  console.log(
+    `Строк в CSV: ${all.length} → артистов после дедупликации: ${rows.length}` +
+    `${FRESH ? ' (кэш игнорируется)' : ''}\n`
+  );
+
+  const tracks = [];
 
   for (let i = 0; i < rows.length; i++) {
     const row = rows[i];
@@ -505,11 +650,15 @@ async function main() {
       continue;
     }
 
-    const genres = canonGenres(row.genres);
+    const { genres, tags } = canonGenres(row.genres);
     const needsReview = row.kz_origin === 'verify';
 
     for (const t of chosen) {
-      tracks.push({
+      const english = looksEnglish(t.trackName);
+      if (english) {
+        report.englishTitles.push({ artist: row.artist, title: t.trackName });
+      }
+      const base = {
         id: String(t.trackId),
         title: t.trackName,
         artist: t.artistName,
@@ -523,10 +672,15 @@ async function main() {
         appleUrl: t.trackViewUrl || null,
         tier,
         genres,
+        tags,
         age: row.age === '18plus' ? '18plus' : 'family',
         era: row.era || null,
         ...(needsReview ? { needsReview: true } : {}),
-      });
+        // Английское название у казахоязычного артиста — повод посмотреть
+        // глазами. Не исключаем, но помечаем: редактор умеет фильтровать.
+        ...(english ? { flagEnglish: true } : {}),
+      };
+      tracks.push(applyOverride(base, overrides[base.id]));
     }
 
     report.resolved++;
@@ -543,6 +697,7 @@ async function main() {
   // --- финальная дедупликация по trackId между артистами (фиты) ---
   const seenId = new Set();
   const unique = tracks.filter((t) => {
+    if (t.hidden) return false; // скрыт вручную в редакторе
     if (seenId.has(t.id)) return false;
     seenId.add(t.id);
     return true;
@@ -557,16 +712,25 @@ async function main() {
     for (const g of t.genres) byGenre[g] = (byGenre[g] || 0) + 1;
   }
 
+  // Категория показывается игроку, только если в ней действительно есть песни.
+  const playableGenres = CANON_GENRES.filter((g) => (byGenre[g] || 0) >= GENRE_MIN_TRACKS);
+
   const payload = {
     generatedAt: new Date().toISOString(),
-    source: 'iTunes lookup by artistId (whitelist: data/artists.csv)',
+    source: 'iTunes lookup by artistId (whitelist: data/artists-v2.csv)',
     note:
-      'Треки собраны строго по artistId из whitelist. Свободный текстовый поиск ' +
-      'по названиям не используется. Только метаданные и ссылки на официальные ' +
+      'Треки собраны строго по одному artistId из whitelist. Свободный текстовый ' +
+      'поиск по названиям не используется. Только метаданные и ссылки на официальные ' +
       '30-секундные превью Apple; аудиофайлы не хранятся.',
     levelTiers: LEVEL_TIERS,
-    genres: CANON_GENRES,
+    levelTiersExpert: LEVEL_TIERS_EXPERT,
+    /** Категории, которые показываются чипами (≥ GENRE_MIN_TRACKS треков). */
+    genres: playableGenres,
+    /** Все канонические категории — для отчёта и редактора. */
+    allGenres: CANON_GENRES,
+    genreMinTracks: GENRE_MIN_TRACKS,
     count: unique.length,
+    edited: unique.filter((t) => t.edited).length,
     byTier,
     byGenre,
     byAge,
@@ -580,14 +744,17 @@ async function main() {
     '# Отчёт сборки каталога',
     '',
     `Дата: ${new Date().toISOString()}`,
-    `Источник: \`data/artists.csv\` → iTunes lookup по \`artistId\``,
+    `Источник: \`data/artists-v2.csv\` → iTunes lookup по одному \`artistId\``,
     '',
     '## Итог',
     '',
-    `- Артистов в whitelist: **${report.artists}**`,
+    `- Строк в CSV: **${report.csvRows}**`,
+    `- Артистов после дедупликации: **${report.artists}**`,
     `- Успешно обработано: **${report.resolved}**`,
     `- Не удалось: **${report.failed.length}**`,
     `- Треков в каталоге: **${unique.length}**`,
+    `- Из них с ручными правками: **${payload.edited}**`,
+    `- Игровых категорий: **${playableGenres.length}** из ${CANON_GENRES.length}`,
     `- Уникальных артистов в каталоге: **${new Set(unique.map((t) => t.artistKey)).size}**`,
     '',
     '## Распределение по тирам',
@@ -598,11 +765,21 @@ async function main() {
       `| ${t} | ${byTier[t] || 0} | ${Object.entries(LEVEL_TIERS)
         .filter(([, ts]) => ts.includes(t)).map(([l]) => l).join(', ')} |`),
     '',
-    '## Распределение по жанрам',
+    '## Категории',
     '',
-    '| Жанр | Треков |',
-    '| --- | ---: |',
-    ...CANON_GENRES.map((g) => `| ${g} | ${byGenre[g] || 0} |`),
+    `Категория показывается чипом на старте, только если в ней хотя бы`,
+    `**${GENRE_MIN_TRACKS}** треков. Пустая категория обманывает игрока сильнее,`,
+    'чем её отсутствие, поэтому такие просто не показываются.',
+    '',
+    '| Категория | Треков | Показывается |',
+    '| --- | ---: | --- |',
+    ...CANON_GENRES.map((g) =>
+      `| ${g} | ${byGenre[g] || 0} | ${(byGenre[g] || 0) >= GENRE_MIN_TRACKS ? 'да' : '**нет**'} |`),
+    '',
+    'Слиты в родительские и как отдельные категории не существуют: ' +
+      '`jazz` → `rnb`, `electronic` → `pop`, `classical` → `pop`, `estrada` → `retro`, ' +
+      '`ethno`/`instrumental` → `folk`, `alt`/`acoustic` → `indie`. ' +
+      'Исходные теги сохранены в поле `tags` каждого трека.',
     '',
     '## Возрастной фильтр',
     '',
@@ -642,6 +819,52 @@ async function main() {
       '| --- | --- | ---: | ---: | ---: | --- |',
       ...report.suspicious.map((r) =>
         `| ${r.artist} | ${r.picked} | ${r.artistId} | ${r.kz} | ${r.candidates} | ${r.sample} |`),
+      ''
+    );
+  }
+
+  if (report.merged.length) {
+    lines.push(
+      '## Слитые профили одного артиста',
+      '',
+      'В Apple у артиста несколько профилей — они объединены. Слияние проходят',
+      'только профили, прошедшие тот же тест на подлинность (попадания в `notes`',
+      'или кириллица в названиях), поэтому однофамилец с другого конца мира',
+      'сюда попасть не может. Список — чтобы ошибочное слияние было видно здесь,',
+      'а не обнаружилось в игре.',
+      '',
+      '| Артист | Профили | Сила сигнала |',
+      '| --- | --- | --- |',
+      ...report.merged.map((r) => `| ${r.artist} | ${r.profiles} | ${r.strength} |`),
+      ''
+    );
+  }
+
+  if (report.duplicates.length) {
+    lines.push(
+      '## Дубли строк в CSV',
+      '',
+      'Схлопнуты автоматически, CSV править не обязательно.',
+      '',
+      '| Артист | Оставлен id | Отброшен id |',
+      '| --- | --- | --- |',
+      ...report.duplicates.map((d) => `| ${d.artist} | \`${d.kept}\` | \`${d.dropped}\` |`),
+      ''
+    );
+  }
+
+  if (report.englishTitles.length) {
+    lines.push(
+      '## Английские названия (флаг на проверку)',
+      '',
+      'Не исключены из каталога — просто помечены `flagEnglish`. В локальном',
+      'редакторе (`npm run editor`) по этому флагу есть фильтр.',
+      '',
+      '| Артист | Трек |',
+      '| --- | --- |',
+      ...report.englishTitles.slice(0, 60).map((r) => `| ${r.artist} | ${r.title} |`),
+      report.englishTitles.length > 60
+        ? `\n…и ещё ${report.englishTitles.length - 60}.` : '',
       ''
     );
   }
@@ -687,6 +910,8 @@ async function main() {
   console.log(`Отвалилось артистов: ${report.failed.length}`);
   console.log(`needs_review: ${report.needsReview.length}`);
   console.log(`отклонено как неподтверждённые: ${report.suspicious.length}`);
+  console.log(`слито профилей: ${report.merged.length}`);
+  console.log('категории:', playableGenres.join(', '));
   console.log(`\n→ data/tracks.json`);
   console.log(`→ data/build-report.md`);
   const files = await readdir(CACHE).catch(() => []);

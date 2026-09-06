@@ -114,7 +114,7 @@ export const SCRIPTS = {
 
   /** Стартовать партию и дождаться первого раунда (предзагрузка 5 треков). */
   toRound: `
-    const g = () => window.__tapAnda.game;
+    const g = () => window.__olensiz.game;
     document.querySelector('[data-start]').click();
     for (let i = 0; i < 150; i++) {
       if (g().screen === 'round') break;
@@ -131,7 +131,7 @@ export const SCRIPTS = {
 
   /** Дойти до карточки результата раунда. */
   toReveal: `
-    const g = () => window.__tapAnda.game;
+    const g = () => window.__olensiz.game;
     document.querySelector('[data-start]').click();
     for (let i = 0; i < 150; i++) {
       if (g().screen === 'round') break;
@@ -139,14 +139,14 @@ export const SCRIPTS = {
     }
     document.querySelector('[data-play]')?.click();
     await new Promise(r => setTimeout(r, 300));
-    g().guess(g().track);
+    g().select(g().track); g().check();
     await new Promise(r => setTimeout(r, 1800));
     return g().screen;
   `,
 
   /** Пройти партию целиком до финала. */
   toFinal: `
-    const g = () => window.__tapAnda.game;
+    const g = () => window.__olensiz.game;
     document.querySelector('[data-start]').click();
     for (let i = 0; i < 150; i++) {
       if (g().screen === 'round') break;
@@ -154,16 +154,16 @@ export const SCRIPTS = {
     }
     for (let n = 0; n < 5; n++) {
       if (n === 3) {
-        for (let k = 0; k < 7; k++) {
-          document.querySelector('[data-skip]')?.click();
+        for (let k = 0; k < g().stepsTotal; k++) {
+          g().skip();
           await new Promise(r => setTimeout(r, 30));
         }
       } else {
         for (let k = 0; k < n; k++) {
-          document.querySelector('[data-skip]')?.click();
+          g().skip();
           await new Promise(r => setTimeout(r, 30));
         }
-        g().guess(g().track);
+        g().select(g().track); g().check();
       }
       await new Promise(r => setTimeout(r, 250));
       document.querySelector('[data-next]')?.click();

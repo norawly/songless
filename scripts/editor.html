@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Редактор каталога — Óleńsiz (локально)</title>
+<!--
+  Локальный редактор каталога. Не деплоится и в продакшене не работает:
+  сохранять ему некуда без scripts/editor-server.mjs.
+
+  Правило слияния (блок J4): каждое поле показывает ТЕКУЩЕЕ значение и
+  откуда оно взялось — «авто» из сборки или «моё» из data/overrides.json.
+  В файл пишутся только реально изменённые поля; пересборка каталога их не
+  затирает, потому что накладывает overrides последними.
+-->
+<style>
+  :root {
+    --bg: #0e1012; --bg2: #16181c; --bg3: #1e2126;
+    --fg: #f6f7f8; --fg2: #949aa4; --fg3: #6b727d;
+    --line: #2b2f36; --acc: #ccff00; --warn: #fbbf24; --err: #f87171;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  header {
+    position: sticky; top: 0; z-index: 5;
+    background: var(--bg); border-bottom: 1px solid var(--line);
+    padding: 12px 16px; display: grid; gap: 8px;
+  }
+  h1 { margin: 0; font-size: 16px; letter-spacing: .02em; }
+  h1 small { color: var(--fg3); font-weight: 400; margin-left: 8px; }
+  .bar { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  input, select, button, textarea {
+    font: inherit; color: var(--fg);
+    background: var(--bg2); border: 1px solid var(--line); border-radius: 2px;
+    padding: 6px 8px;
+  }
+  input:focus, select:focus, textarea:focus { outline: 2px solid var(--acc); outline-offset: 1px; }
+  button { cursor: pointer; }
+  button:hover { border-color: var(--fg3); }
+  button.primary { background: var(--acc); color: #08090a; border-color: var(--acc); font-weight: 700; }
+  button.ghost { background: transparent; }
+  .progress { margin-left: auto; color: var(--fg2); font-variant-numeric: tabular-nums; }
+  .progress b { color: var(--acc); }
+
+  main { padding: 16px; display: grid; gap: 12px; }
+  .row {
+    display: grid;
+    grid-template-columns: 64px minmax(220px, 1.4fr) minmax(260px, 1.6fr) auto;
+    gap: 16px; align-items: start;
+    background: var(--bg2); border: 1px solid var(--line); border-radius: 2px;
+    padding: 12px;
+  }
+  .row.edited { border-color: var(--acc); }
+  .row.hidden-track { opacity: .45; }
+  .art { width: 64px; height: 64px; object-fit: cover; background: var(--bg3); }
+  .meta { min-width: 0; display: grid; gap: 2px; }
+  .meta .t { font-weight: 700; }
+  .meta .a { color: var(--fg2); }
+  .meta .s { color: var(--fg3); font-size: 12px; }
+  .flags { display: flex; gap: 6px; margin-top: 4px; flex-wrap: wrap; }
+  .flag {
+    font-size: 10px; text-transform: uppercase; letter-spacing: .08em;
+    border: 1px solid var(--line); padding: 1px 5px; color: var(--fg3);
+  }
+  .flag.en { color: var(--warn); border-color: var(--warn); }
+  .flag.rev { color: var(--err); border-color: var(--err); }
+  .flag.mine { color: var(--acc); border-color: var(--acc); }
+
+  .wave { display: grid; gap: 6px; min-width: 0; }
+  canvas { width: 100%; height: 56px; background: var(--bg3); display: block; cursor: crosshair; }
+  .wave .ctl { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; font-size: 12px; color: var(--fg2); }
+  .wave .ctl b { color: var(--fg); font-variant-numeric: tabular-nums; }
+
+  .fields { display: grid; gap: 8px; min-width: 260px; }
+  .fields label { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--fg3); }
+  .line { display: flex; gap: 8px; align-items: center; }
+  .src { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: var(--fg3); }
+  .src.mine { color: var(--acc); }
+  .tags { display: flex; gap: 4px; flex-wrap: wrap; max-width: 320px; }
+  .tag {
+    font-size: 12px; padding: 2px 7px; border: 1px solid var(--line);
+    background: transparent; color: var(--fg2); border-radius: 2px;
+  }
+  .tag[aria-pressed="true"] { background: var(--acc); border-color: var(--acc); color: #08090a; font-weight: 600; }
+  .pager { display: flex; gap: 8px; align-items: center; justify-content: center; padding: 16px; }
+  .muted { color: var(--fg3); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Редактор каталога <small id="stamp">…</small></h1>
+  <div class="bar">
+    <input id="q" type="search" placeholder="Название или исполнитель…" style="min-width:260px">
+    <select id="fGenre"><option value="">все категории</option></select>
+    <select id="fTier">
+      <option value="">все уровни</option>
+      <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+    </select>
+    <select id="fAge">
+      <option value="">любой возраст</option>
+      <option value="family">family</option>
+      <option value="18plus">18+</option>
+    </select>
+    <select id="fEdit">
+      <option value="">все треки</option>
+      <option value="no">только непроверенные</option>
+      <option value="yes">только мои правки</option>
+      <option value="flag">только с флагами</option>
+    </select>
+    <span class="progress">проверено <b id="doneN">0</b> из <span id="allN">0</span></span>
+  </div>
+</header>
+
+<main id="list"></main>
+<div class="pager" id="pager"></div>
+
+<script>
+const PER_PAGE = 25;
+let DATA = { tracks: [], overrides: {}, genres: [] };
+let page = 0;
+let ctx = null;
+let playing = null;
+const buffers = new Map();
+
+const $ = (s, r = document) => r.querySelector(s);
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) =>
+  ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+/** Текущее значение поля: моё переопределение, иначе автоматическое. */
+function cur(track, field) {
+  const ov = DATA.overrides[track.id];
+  if (ov && ov[field] !== undefined) return { value: ov[field], mine: true };
+  return { value: track[field], mine: false };
+}
+
+async function load() {
+  const r = await fetch('/api/data');
+  DATA = await r.json();
+  $('#stamp').textContent = `${DATA.tracks.length} треков · собрано ${String(DATA.generatedAt).slice(0, 10)}`;
+  $('#fGenre').insertAdjacentHTML('beforeend',
+    DATA.genres.map((g) => `<option>${esc(g)}</option>`).join(''));
+  render();
+}
+
+function filtered() {
+  const q = $('#q').value.trim().toLowerCase();
+  const g = $('#fGenre').value;
+  const tier = $('#fTier').value;
+  const age = $('#fAge').value;
+  const ed = $('#fEdit').value;
+
+  return DATA.tracks.filter((t) => {
+    if (q && !`${t.title} ${t.artist} ${t.album || ''}`.toLowerCase().includes(q)) return false;
+    if (g && !(cur(t, 'genres').value || []).includes(g)) return false;
+    if (tier && String(cur(t, 'tier').value) !== tier) return false;
+    if (age && cur(t, 'age').value !== age) return false;
+    const mine = Boolean(DATA.overrides[t.id]);
+    if (ed === 'yes' && !mine) return false;
+    if (ed === 'no' && mine) return false;
+    if (ed === 'flag' && !t.flagEnglish && !t.needsReview) return false;
+    return true;
+  });
+}
+
+function render() {
+  const rows = filtered();
+  $('#allN').textContent = DATA.tracks.length;
+  $('#doneN').textContent = Object.keys(DATA.overrides).length;
+
+  const pages = Math.max(1, Math.ceil(rows.length / PER_PAGE));
+  if (page >= pages) page = pages - 1;
+  const slice = rows.slice(page * PER_PAGE, (page + 1) * PER_PAGE);
+
+  $('#list').innerHTML = slice.length
+    ? slice.map(rowHtml).join('')
+    : '<p class="muted">Ничего не нашлось.</p>';
+
+  $('#pager').innerHTML = `
+    <button class="ghost" data-page="${page - 1}" ${page === 0 ? 'disabled' : ''}>← назад</button>
+    <span class="muted">${page + 1} / ${pages} · найдено ${rows.length}</span>
+    <button class="ghost" data-page="${page + 1}" ${page >= pages - 1 ? 'disabled' : ''}>вперёд →</button>`;
+}
+
+function rowHtml(t) {
+  const tier = cur(t, 'tier');
+  const age = cur(t, 'age');
+  const genres = cur(t, 'genres');
+  const note = cur(t, 'note');
+  const off = cur(t, 'startOffset');
+  const ov = DATA.overrides[t.id];
+  const hidden = ov && ov.hidden;
+
+  return `
+  <article class="row${ov ? ' edited' : ''}${hidden ? ' hidden-track' : ''}" data-id="${esc(t.id)}">
+    <img class="art" src="${esc(t.art || '')}" alt="" loading="lazy">
+
+    <div class="meta">
+      <span class="t">${esc(t.title)}</span>
+      <span class="a">${esc(t.artist)}</span>
+      <span class="s">${esc(t.album || '—')}${t.year ? ' · ' + t.year : ''}</span>
+      <div class="flags">
+        ${ov ? '<span class="flag mine">мои правки</span>' : ''}
+        ${t.flagEnglish ? '<span class="flag en">английское название</span>' : ''}
+        ${t.needsReview ? '<span class="flag rev">needs review</span>' : ''}
+        ${(t.tags || []).map((x) => `<span class="flag">${esc(x)}</span>`).join('')}
+      </div>
+    </div>
+
+    <div class="wave">
+      <canvas data-canvas height="56"></canvas>
+      <div class="ctl">
+        <button class="ghost" data-wave>Волна</button>
+        <button class="ghost" data-play>▶ с точки</button>
+        <span>старт <b data-off>${Number(off.value || 0).toFixed(2)}</b> с</span>
+        <span class="src${off.mine ? ' mine' : ''}">${off.mine ? 'моё' : 'авто'}</span>
+        <button class="ghost" data-off-reset>сброс</button>
+      </div>
+    </div>
+
+    <div class="fields">
+      <div>
+        <label>Уровень (tier) <span class="src${tier.mine ? ' mine' : ''}">${tier.mine ? 'моё' : 'авто'}</span></label>
+        <div class="line">
+          <input type="range" min="1" max="5" step="1" value="${tier.value}" data-tier>
+          <b data-tier-v>${tier.value}</b>
+        </div>
+      </div>
+
+      <div>
+        <label>Возраст <span class="src${age.mine ? ' mine' : ''}">${age.mine ? 'моё' : 'авто'}</span></label>
+        <div class="line">
+          <button class="tag" data-age="family" aria-pressed="${age.value === 'family'}">family</button>
+          <button class="tag" data-age="18plus" aria-pressed="${age.value === '18plus'}">18+</button>
+        </div>
+      </div>
+
+      <div>
+        <label>Категории <span class="src${genres.mine ? ' mine' : ''}">${genres.mine ? 'моё' : 'авто'}</span></label>
+        <div class="tags">
+          ${DATA.genres.map((g) => `
+            <button class="tag" data-genre="${esc(g)}"
+                    aria-pressed="${(genres.value || []).includes(g)}">${esc(g)}</button>`).join('')}
+        </div>
+      </div>
+
+      <div>
+        <label>Заметка <span class="src${note.mine ? ' mine' : ''}">${note.mine ? 'моё' : '—'}</span></label>
+        <input type="text" data-note value="${esc(note.value || '')}" placeholder="для себя">
+      </div>
+
+      <div class="line">
+        <button class="tag" data-hide aria-pressed="${Boolean(hidden)}">скрыть из игры</button>
+        <button class="ghost" data-reset>Сбросить всё</button>
+      </div>
+    </div>
+  </article>`;
+}
+
+/* ---------------- сохранение ---------------- */
+
+async function patch(id, fields) {
+  const store = { ...(DATA.overrides[id] || {}) };
+  for (const [k, v] of Object.entries(fields)) {
+    if (v === null) delete store[k];
+    else store[k] = v;
+  }
+  const res = await fetch('/api/override', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id, patch: store }),
+  });
+  const data = await res.json();
+  if (!data.ok) { alert('Не сохранилось: ' + data.error); return; }
+  if (data.saved) DATA.overrides[id] = data.saved;
+  else delete DATA.overrides[id];
+  render();
+}
+
+/* ---------------- аудио и волна ---------------- */
+
+function audioCtx() {
+  if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+  if (ctx.state === 'suspended') ctx.resume();
+  return ctx;
+}
+
+async function bufferOf(track) {
+  if (buffers.has(track.id)) return buffers.get(track.id);
+  const res = await fetch(track.preview, { mode: 'cors' });
+  const raw = await res.arrayBuffer();
+  const buf = await audioCtx().decodeAudioData(raw);
+  buffers.set(track.id, buf);
+  return buf;
+}
+
+/** Пики по каналу 0 — этого достаточно, чтобы глазами найти начало звука. */
+function drawWave(canvas, buf, offset) {
+  const w = canvas.clientWidth || 320;
+  const h = 56;
+  canvas.width = w * devicePixelRatio;
+  canvas.height = h * devicePixelRatio;
+  const c = canvas.getContext('2d');
+  c.scale(devicePixelRatio, devicePixelRatio);
+  c.clearRect(0, 0, w, h);
+
+  const ch = buf.getChannelData(0);
+  const step = Math.floor(ch.length / w) || 1;
+  c.fillStyle = '#6b727d';
+  for (let x = 0; x < w; x++) {
+    let peak = 0;
+    for (let i = 0; i < step; i++) {
+      const v = Math.abs(ch[x * step + i] || 0);
+      if (v > peak) peak = v;
+    }
+    const bar = Math.max(1, peak * h);
+    c.fillRect(x, (h - bar) / 2, 1, bar);
+  }
+
+  const x = (offset / buf.duration) * w;
+  c.fillStyle = '#ccff00';
+  c.fillRect(x - 1, 0, 2, h);
+  canvas.dataset.duration = String(buf.duration);
+}
+
+function stopAudio() {
+  if (playing) { try { playing.stop(); } catch {} playing = null; }
+}
+
+async function playFrom(track, offset) {
+  stopAudio();
+  const buf = await bufferOf(track);
+  const c = audioCtx();
+  const src = c.createBufferSource();
+  src.buffer = buf;
+  src.connect(c.destination);
+  src.start(0, Math.min(offset, buf.duration - 0.1));
+  playing = src;
+}
+
+/* ---------------- события ---------------- */
+
+const byId = (id) => DATA.tracks.find((t) => t.id === id);
+
+document.addEventListener('click', async (e) => {
+  const pageBtn = e.target.closest('[data-page]');
+  if (pageBtn) { page = Number(pageBtn.dataset.page); render(); window.scrollTo(0, 0); return; }
+
+  const row = e.target.closest('.row');
+  if (!row) return;
+  const track = byId(row.dataset.id);
+  if (!track) return;
+
+  if (e.target.closest('[data-wave]')) {
+    const canvas = row.querySelector('[data-canvas]');
+    e.target.textContent = '…';
+    try {
+      const buf = await bufferOf(track);
+      drawWave(canvas, buf, Number(row.querySelector('[data-off]').textContent.replace(',', '.')) || 0);
+      e.target.textContent = 'Волна';
+    } catch (err) {
+      e.target.textContent = 'ошибка';
+      console.warn(err);
+    }
+    return;
+  }
+
+  if (e.target.closest('[data-play]')) {
+    const off = Number(row.querySelector('[data-off]').textContent.replace(',', '.')) || 0;
+    playFrom(track, off).catch((err) => console.warn(err));
+    return;
+  }
+
+  if (e.target.closest('[data-off-reset]')) return patch(track.id, { startOffset: null });
+
+  const ageBtn = e.target.closest('[data-age]');
+  if (ageBtn) return patch(track.id, { age: ageBtn.dataset.age });
+
+  const genreBtn = e.target.closest('[data-genre]');
+  if (genreBtn) {
+    const now = new Set(cur(track, 'genres').value || []);
+    const g = genreBtn.dataset.genre;
+    if (now.has(g)) now.delete(g); else now.add(g);
+    if (now.size === 0) return; // хотя бы одна категория обязана остаться
+    return patch(track.id, { genres: [...now] });
+  }
+
+  if (e.target.closest('[data-hide]')) {
+    const on = e.target.closest('[data-hide]').getAttribute('aria-pressed') === 'true';
+    return patch(track.id, { hidden: on ? null : true });
+  }
+
+  if (e.target.closest('[data-reset]')) {
+    if (confirm('Убрать все мои правки этого трека?')) {
+      await fetch('/api/override', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: track.id, patch: {} }),
+      });
+      delete DATA.overrides[track.id];
+      render();
+    }
+  }
+});
+
+/** Точка старта задаётся прямо по волне: тащишь маркер — слышишь результат. */
+document.addEventListener('pointerdown', async (e) => {
+  const canvas = e.target.closest('[data-canvas]');
+  if (!canvas) return;
+  const row = canvas.closest('.row');
+  const track = byId(row.dataset.id);
+  const duration = Number(canvas.dataset.duration || 0);
+  if (!track || !duration) return;
+
+  const setFrom = (ev) => {
+    const r = canvas.getBoundingClientRect();
+    const ratio = Math.min(1, Math.max(0, (ev.clientX - r.left) / r.width));
+    return Math.round(ratio * duration * 1000) / 1000;
+  };
+
+  let value = setFrom(e);
+  const buf = buffers.get(track.id);
+  drawWave(canvas, buf, value);
+  row.querySelector('[data-off]').textContent = value.toFixed(2);
+
+  const move = (ev) => {
+    value = setFrom(ev);
+    drawWave(canvas, buf, value);
+    row.querySelector('[data-off]').textContent = value.toFixed(2);
+  };
+  const up = async () => {
+    window.removeEventListener('pointermove', move);
+    window.removeEventListener('pointerup', up);
+    await playFrom(track, value);
+    patch(track.id, { startOffset: value });
+  };
+  window.addEventListener('pointermove', move);
+  window.addEventListener('pointerup', up);
+});
+
+document.addEventListener('input', (e) => {
+  const row = e.target.closest('.row');
+  if (!row) return;
+  if (e.target.matches('[data-tier]')) {
+    row.querySelector('[data-tier-v]').textContent = e.target.value;
+  }
+});
+
+document.addEventListener('change', (e) => {
+  const row = e.target.closest('.row');
+  if (row && e.target.matches('[data-tier]')) {
+    return patch(row.dataset.id, { tier: Number(e.target.value) });
+  }
+  if (row && e.target.matches('[data-note]')) {
+    const v = e.target.value.trim();
+    return patch(row.dataset.id, { note: v || null });
+  }
+  if (!row) { page = 0; render(); }
+});
+
+$('#q').addEventListener('input', () => { page = 0; render(); });
+
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') stopAudio(); });
+
+load();
+</script>
+</body>
+</html>

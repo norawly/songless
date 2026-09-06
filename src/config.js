@@ -34,10 +34,18 @@ export const CONFIG = {
   TRACK_LOAD_TIMEOUT_MS: 12000,
 
   /** Ключи localStorage. */
-  OFFSET_CACHE_KEY: 'tap-anda:offsets:v2',
-  LOCALE_KEY: 'tap-anda:locale',
-  LOCALE_SEEN_KEY: 'tap-anda:locale-hint-seen',
+  OFFSET_CACHE_KEY: 'olensiz:offsets:v2',
+  LOCALE_KEY: 'olensiz:locale',
+  LOCALE_SEEN_KEY: 'olensiz:locale-hint-seen',
+  /** Сыгранные треки — чтобы не повторялись (блок I3). */
+  HISTORY_KEY: 'olensiz:played:v1',
+  /** Потолок истории: ~600 треков в каталоге, двойной запас и не больше. */
+  HISTORY_LIMIT: 1200,
+  /** Имя игрока подставляется в следующий раз само (блок H3). */
+  NICK_KEY: 'olensiz:nick',
+  /** Выбранный режим подачи (блок B1). */
+  MODE_KEY: 'olensiz:mode',
 
   /** Публичная ссылка на игру — подставляется в текст шеринга. */
-  SHARE_URL: 'https://songless.zhengisbay.com',
+  SHARE_URL: 'https://olensiz.zhengisbay.com',
 };

@@ -2,26 +2,31 @@
  * Контроллер и экраны. Игра линейна, состояние держит Game, здесь — рендер
  * и обработка ввода.
  *
- * Итерация 2: только десктоп, только тёмная тема, ни один экран не скроллится.
+ * Итерация 3: только десктоп, только тёмная тема, ни один экран не скроллится.
+ * Композиция собрана по сетке из DESIGN_BRIEF §«Сетка»: 12 колонок, отступы
+ * только из шкалы 4/8/12/16/24/32/48/64.
  */
 
 import { CONFIG } from './config.js';
 import {
-  loadStrings, t, levelName, genreName, locale, otherLocale, setLocale,
-  onLocaleChange, localeShort, localeHintSeen, markLocaleHintSeen, savedLocale,
+  loadStrings, t, levelName, genreName, locale, setLocale,
+  onLocaleChange, localeHintSeen, markLocaleHintSeen, savedLocale, otherLocale,
+  localeShort,
 } from './i18n.js';
 import { loadCatalog, streamingLinks } from './catalog.js';
 import { AudioEngine } from './audio.js';
 import { Pulse } from './pulse.js';
 import { extractPalette } from './palette.js';
 import { watchViewportHeight } from './fit.js';
-import { Game, SCREEN } from './game.js';
-import { STEP_MS, STEP_POINTS, ROUNDS, verdictIndex } from './scoring.js';
+import { Game, SCREEN, STEP_STATE } from './game.js';
+import {
+  ROUNDS, MODES, verdictIndex, stepDuration, stepCount,
+} from './scoring.js';
 import { buildShareText, buildGrid, copyText, canShareNatively, shareNatively } from './share.js';
 import * as LB from './leaderboard.js';
 import {
   $, $$, esc, sheet, closeSheet, toast, animateCount,
-  reduceMotion, formatStepDuration, fmtNum,
+  reduceMotion, formatStepDuration, fmtNum, fmtSeconds,
 } from './ui.js';
 
 const app = () => document.getElementById('screen');
@@ -37,12 +42,22 @@ let submittedThisGame = false;
 let playing = false;
 /** Кэш загруженных топов, чтобы не дёргать сеть на каждую перерисовку. */
 let boardsCache = null;
+let boardsSlice = null;
+/** Перехват «уходишь без имени» показывается ровно один раз за сессию. */
+let signPromptShown = false;
 /**
  * Счётчик перерисовок экрана. Извлечение палитры асинхронно и может
  * завершиться уже после того, как игрок ушёл дальше, — тогда фон окрасился бы
  * на экране, который должен быть нейтральным. Токен отсекает такие ответы.
  */
 let paintToken = 0;
+
+/**
+ * Автофокус в поле ответа — только там, где есть мышь.
+ * На телефоне фокус открывает клавиатуру поверх пол-экрана, и делать это
+ * без явного тапа игрока нельзя (блок D4).
+ */
+const canAutofocus = () => window.matchMedia('(pointer: fine)').matches;
 
 /* ================================================================== */
 /* Загрузка                                                            */
@@ -70,6 +85,7 @@ async function boot() {
   }
 
   game = new Game(catalog);
+  restoreMode();
   game.onChange(render);
 
   // Смена языка перерисовывает и шапку, и текущий экран.
@@ -81,6 +97,24 @@ async function boot() {
   render();
 }
 
+/** Режим подачи запоминается между партиями — это выбор, а не настройка. */
+function restoreMode() {
+  try {
+    const saved = localStorage.getItem(CONFIG.MODE_KEY);
+    if (saved && MODES[saved]) game.filters.difficulty = saved;
+  } catch {
+    /* приватный режим */
+  }
+}
+
+function rememberMode(id) {
+  try {
+    localStorage.setItem(CONFIG.MODE_KEY, id);
+  } catch {
+    /* приватный режим */
+  }
+}
+
 /* ================================================================== */
 /* Шапка                                                               */
 /* ================================================================== */
@@ -90,7 +124,7 @@ function renderChrome() {
   const showHint = !localeHintSeen() && locale() === 'kk';
 
   header.innerHTML = `
-    <button class="brand" data-home type="button">
+    <button class="brand" data-home type="button" title="${esc(t('app.title'))}">
       <span class="brand__mark" aria-hidden="true"></span>
       <span class="brand__name">${esc(t('app.title'))}</span>
     </button>
@@ -98,6 +132,10 @@ function renderChrome() {
     <div class="chrome__rail" id="level-rail" hidden></div>
 
     <nav class="chrome__nav">
+      <button class="btn btn--icon" data-about type="button"
+              aria-label="${esc(t('nav.about'))}" title="${esc(t('nav.about'))}">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 11v6M12 7.6v.01" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
       <button class="btn btn--icon" data-rules type="button"
               aria-label="${esc(t('nav.rules'))}" title="${esc(t('nav.rules'))}">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17v.01M12 14c0-2 2.5-2.2 2.5-4.3A2.6 2.6 0 0 0 12 7a2.6 2.6 0 0 0-2.5 2.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="2"/></svg>
@@ -128,6 +166,7 @@ function onChromeClick(e) {
     return;
   }
   if (e.target.closest('[data-rules]')) return showRules();
+  if (e.target.closest('[data-about]')) return showAbout();
   if (e.target.closest('[data-home]')) return goHome();
 }
 
@@ -213,51 +252,12 @@ function renderStart() {
   const genres = catalog.availableGenres();
 
   app().innerHTML = `
-    <section class="screen screen--start${LB.enabled() ? '' : ' is-solo'}">
-      <div class="start__left">
+    <section class="screen screen--start">
+      <div class="start__main">
         <div class="hero">
           <p class="eyebrow">${esc(t('app.subtitle'))}</p>
           <h1 class="hero__title">${esc(t('app.title'))}</h1>
           <p class="hero__tagline">${esc(t('app.tagline'))}</p>
-        </div>
-
-        <div class="facts">
-          <div class="facts__item">
-            <span class="facts__n">5</span>
-            <span class="facts__label">${esc(t('start.rounds'))}</span>
-          </div>
-          <div class="facts__item">
-            <span class="facts__n">7</span>
-            <span class="facts__label">${esc(t('start.attempts'))}</span>
-          </div>
-          <div class="facts__item">
-            <span class="facts__n">${fmtNum(catalog.size)}</span>
-            <span class="facts__label">${esc(t('start.songsLabel'))}</span>
-          </div>
-        </div>
-
-        <div class="modes">
-          <div class="modes__row">
-            <span class="section-label" style="margin:0">${esc(t('start.mode'))}</span>
-            <div class="seg" role="group" aria-label="${esc(t('start.mode'))}">
-              <button class="seg__btn" data-age="family" type="button"
-                      aria-pressed="${game.filters.age === 'family'}"
-                      title="${esc(t('age.familyHint'))}">${esc(t('age.family'))}</button>
-              <button class="seg__btn" data-age="18plus" type="button"
-                      aria-pressed="${game.filters.age === '18plus'}"
-                      title="${esc(t('age.18plusHint'))}">${esc(t('age.18plus'))}</button>
-            </div>
-          </div>
-
-          <div class="chips" role="group" aria-label="${esc(t('start.genres'))}">
-            <button class="chip chip--random" data-random type="button"
-                    aria-pressed="${game.isRandom}"
-                    title="${esc(t('start.randomHint'))}">${esc(t('start.random'))}</button>
-            ${genres.map((g) => `
-              <button class="chip" data-genre="${esc(g)}" type="button"
-                      aria-pressed="${game.filters.genres.includes(g)}">${esc(genreName(g))}</button>
-            `).join('')}
-          </div>
         </div>
 
         <div class="start__cta">
@@ -271,15 +271,73 @@ function renderStart() {
         </div>
       </div>
 
-      ${LB.enabled() ? `
-        <aside class="start__right" id="start-boards">
-          ${boardMarkup('allTime', t('lb.allTime'))}
-          ${boardMarkup('today', t('lb.today'))}
-        </aside>` : ''}
+      <div class="start__setup panel">
+        <div class="field">
+          <span class="field__label" id="lbl-diff">${esc(t('start.difficulty'))}</span>
+          <div class="seg" role="group" aria-labelledby="lbl-diff">
+            ${['normal', 'expert'].map((id) => `
+              <button class="seg__btn" data-diff="${id}" type="button"
+                      aria-pressed="${game.filters.difficulty === id}"
+                      title="${esc(t(`difficulty.${id}Hint`))}">${esc(t(`difficulty.${id}`))}</button>
+            `).join('')}
+          </div>
+          <span class="field__hint">${esc(t(`difficulty.${game.filters.difficulty}Hint`))}</span>
+        </div>
+
+        <div class="field">
+          <span class="field__label" id="lbl-age">${esc(t('start.audience'))}</span>
+          <div class="seg" role="group" aria-labelledby="lbl-age">
+            ${['family', '18plus'].map((id) => `
+              <button class="seg__btn" data-age="${id}" type="button"
+                      aria-pressed="${game.filters.age === id}"
+                      title="${esc(t(`age.${id}Hint`))}">${esc(t(`age.${id}`))}</button>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="field field--wide">
+          <span class="field__label" id="lbl-genre">${esc(t('start.genres'))}</span>
+          <div class="chips" role="group" aria-labelledby="lbl-genre">
+            <button class="chip chip--random" data-random type="button"
+                    aria-pressed="${game.isRandom}"
+                    title="${esc(t('start.randomHint'))}">${esc(t('start.random'))}</button>
+            ${genres.map((g) => `
+              <button class="chip" data-genre="${esc(g)}" type="button"
+                      aria-pressed="${game.filters.genres.includes(g)}">${esc(genreName(g))}</button>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+
+      <aside class="start__side">
+        ${LB.enabled()
+          ? boardMarkup('allTime', t('lb.allTime')) + boardMarkup('today', t('lb.today'))
+          : howToMarkup()}
+      </aside>
     </section>`;
 
   wireStart();
   if (LB.enabled()) loadBoards();
+}
+
+/**
+ * Правая колонка, когда лидерборды выключены.
+ *
+ * Пустая правая зона — ровно та композиционная дыра, из-за которой стартовый
+ * экран переделывался. Пока таблицы нет, её место занимает короткое «как это
+ * работает»: три шага, никакой рекламы.
+ */
+function howToMarkup() {
+  return `
+    <section class="howto">
+      <h2 class="board__title as-heading">${esc(t('nav.about'))}</h2>
+      <ol class="howto__list">
+        <li><b>1</b><span>${esc(t('about.p1'))}</span></li>
+        <li><b>2</b><span>${esc(t('rules.body3'))}</span></li>
+        <li><b>3</b><span>${esc(t('rules.body5'))}</span></li>
+      </ol>
+      <p class="howto__legal">${esc(t('legal.note'))}</p>
+    </section>`;
 }
 
 function boardMarkup(kind, title) {
@@ -299,6 +357,12 @@ function wireStart() {
   const screen = $('.screen--start');
 
   screen.addEventListener('click', (e) => {
+    const diff = e.target.closest('[data-diff]');
+    if (diff) {
+      rememberMode(diff.dataset.diff);
+      return game.setDifficulty(diff.dataset.diff);
+    }
+
     const age = e.target.closest('[data-age]');
     if (age) return game.setAge(age.dataset.age);
 
@@ -314,16 +378,27 @@ function wireStart() {
   });
 }
 
+/* ------------------------------------------------------------------ */
+/* Лидерборды                                                          */
+/* ------------------------------------------------------------------ */
+
 async function loadBoards() {
-  const box = $('#start-boards');
-  if (!box) return;
+  const boxes = $$('[data-board]');
+  if (!boxes.length) return;
+  const slice = game.sliceKey;
   try {
-    boardsCache = await LB.fetchBoards();
+    boardsCache = await LB.fetchBoards(slice);
+    boardsSlice = slice;
     paintBoard('allTime');
     paintBoard('today');
-  } catch {
-    // Лидерборды необязательны: молча убираем блок, игру не трогаем.
-    box.remove();
+  } catch (err) {
+    console.warn('leaderboard:', err);
+    // Лидерборд необязателен: показываем честное состояние, игру не трогаем.
+    for (const box of boxes) {
+      box.innerHTML = `<p class="muted">${esc(t('lb.offline'))}</p>
+        <button class="btn btn--ghost btn--sm" data-retry-board type="button">${esc(t('lb.retry'))}</button>`;
+    }
+    $('[data-retry-board]')?.addEventListener('click', () => loadBoards());
   }
 }
 
@@ -349,25 +424,89 @@ function leaderboardTable(rows, highlightNick = null) {
     </table>`;
 }
 
-async function showFullBoard(kind) {
+/** Человекочитаемое имя среза для переключателя и шеринга. */
+function sliceLabel(slice) {
+  const [cat, diff] = slice.split('|');
+  const category = cat === 'random'
+    ? t('lb.sliceRandom')
+    : cat.slice(2).split('+').map((g) => genreName(g)).join(' + ');
+  return { category, mode: t(`difficulty.${diff === 'expert' ? 'expert' : 'normal'}`) };
+}
+
+/**
+ * Полноэкранный список. Здесь скроллинг разрешён — прямо по заданию.
+ * Переключатели: период (за всё время / сегодня) и категория (срез).
+ */
+async function showFullBoard(kind = 'allTime', slice = game.sliceKey, highlight = null) {
+  const label = sliceLabel(slice);
   const panel = sheet({
-    title: kind === 'today' ? t('lb.today') : t('lb.allTime'),
+    title: t('lb.title'),
     wide: true,
-    bodyHtml: `<p class="muted" data-full>${esc(t('lb.loading'))}</p>`,
+    bodyHtml: `
+      <div class="lb-controls">
+        <div class="seg" role="group" aria-label="${esc(t('lb.period'))}">
+          <button class="seg__btn" data-period="allTime" type="button"
+                  aria-pressed="${kind === 'allTime'}">${esc(t('lb.allTime'))}</button>
+          <button class="seg__btn" data-period="today" type="button"
+                  aria-pressed="${kind === 'today'}">${esc(t('lb.today'))}</button>
+        </div>
+        <label class="lb-controls__cat">
+          <span class="field__label">${esc(t('lb.category'))}</span>
+          <select class="input" data-slice></select>
+        </label>
+      </div>
+      <div data-full><p class="muted">${esc(t('lb.loading'))}</p></div>`,
   });
-  try {
-    const boards = await LB.fetchBoards(CONFIG.LEADERBOARD_FULL_N);
-    const rows = boards[kind] || [];
-    panel.querySelector('[data-full]').outerHTML = rows.length
-      ? leaderboardTable(rows)
-      : `<p class="muted">${esc(kind === 'today' ? t('lb.emptyToday') : t('lb.empty'))}</p>`;
-  } catch {
-    panel.querySelector('[data-full]').textContent = t('lb.error');
-  }
+
+  const body = panel.querySelector('[data-full]');
+  const select = panel.querySelector('[data-slice]');
+  let period = kind;
+  let current = slice;
+
+  const fillSelect = (categories) => {
+    const known = new Map();
+    known.set(current, `${label.category} · ${label.mode}`);
+    for (const c of categories) {
+      const l = sliceLabel(c.slice);
+      known.set(c.slice, `${l.category} · ${l.mode} (${c.count})`);
+    }
+    select.innerHTML = [...known.entries()]
+      .map(([k, v]) => `<option value="${esc(k)}"${k === current ? ' selected' : ''}>${esc(v)}</option>`)
+      .join('');
+  };
+
+  const paint = async () => {
+    body.innerHTML = `<p class="muted">${esc(t('lb.loading'))}</p>`;
+    try {
+      const boards = await LB.fetchBoards(current, CONFIG.LEADERBOARD_FULL_N);
+      fillSelect(boards.categories);
+      const rows = boards[period] || [];
+      body.innerHTML = rows.length
+        ? leaderboardTable(rows, highlight)
+        : `<p class="muted">${esc(period === 'today' ? t('lb.emptyToday') : t('lb.empty'))}</p>`;
+    } catch {
+      body.innerHTML = `<p class="muted">${esc(t('lb.offline'))}</p>`;
+    }
+  };
+
+  panel.addEventListener('click', (e) => {
+    const p = e.target.closest('[data-period]');
+    if (!p) return;
+    period = p.dataset.period;
+    $$('[data-period]', panel).forEach((b) =>
+      b.setAttribute('aria-pressed', String(b.dataset.period === period)));
+    paint();
+  });
+  select.addEventListener('change', () => {
+    current = select.value;
+    paint();
+  });
+
+  paint();
 }
 
 /* ================================================================== */
-/* Старт партии: предзагрузка всех пяти треков                          */
+/* Старт партии: предзагрузка всех треков                               */
 /* ================================================================== */
 
 async function startGame() {
@@ -376,8 +515,9 @@ async function startGame() {
 
   let picked;
   let spares;
+  let recycled;
   try {
-    ({ picked, spares } = game.prepare());
+    ({ picked, spares, recycled } = game.prepare());
   } catch (err) {
     game.fail(err.message);
     return;
@@ -387,9 +527,13 @@ async function startGame() {
     picked, spares, (done, total) => game.setLoadProgress(done, total)
   );
 
-  // Партия стартует только когда все пять треков реально готовы.
   const missing = tracks.filter((tr) => !audio.isReady(tr.id));
-  game.begin(tracks, replaced > 0 || missing.length ? t('error.loadFailed') : null);
+  let note = null;
+  if (replaced > 0 || missing.length) note = t('error.loadFailed');
+  else if (recycled?.length) note = t('start.recycled', { levels: recycled.join(', ') });
+
+  // Партия стартует только когда все треки реально готовы.
+  game.begin(tracks, note);
 }
 
 function renderLoading() {
@@ -414,6 +558,7 @@ function renderLoading() {
 function renderRound() {
   pulse.clear();
   const n = game.roundIndex + 1;
+  const total = game.stepsTotal;
 
   app().innerHTML = `
     <section class="screen screen--round">
@@ -444,17 +589,7 @@ function renderRound() {
         </p>
       </div>
 
-      <div class="steps" role="img"
-           aria-label="${esc(t('a11y.stepMeter', { n: game.step + 1, points: game.stepValue }))}">
-        ${STEP_MS.map((ms, i) => `
-          <div class="steps__cell" data-state="${
-            i < game.step ? 'spent' : i === game.step ? 'now' : 'locked'
-          }">
-            <span class="steps__bar"><i></i></span>
-            <span class="steps__dur">${esc(formatStepDuration(ms))}</span>
-            <span class="steps__pts">${STEP_POINTS[i]}</span>
-          </div>`).join('')}
-      </div>
+      ${stepMeterMarkup()}
 
       <div class="answer">
         <div class="answer__field">
@@ -467,8 +602,8 @@ function renderRound() {
           <ul class="results" id="answer-results" role="listbox"
               aria-label="${esc(t('a11y.results'))}" hidden></ul>
         </div>
-        <button class="btn btn--ghost" data-skip type="button">
-          ${esc(game.isLastStep ? t('round.lastStep') : t('round.skip'))}
+        <button class="btn ${game.hasPending ? 'btn--primary' : 'btn--ghost'}" data-act type="button">
+          ${esc(game.hasPending ? t('round.check') : t('round.skip'))}
         </button>
       </div>
 
@@ -486,10 +621,40 @@ function renderRound() {
   }
 }
 
+/**
+ * Шкала ступеней БЕЗ цены каждой (блок E3).
+ *
+ * Раньше под каждой ступенью стояло число очков, и оно вводило в заблуждение:
+ * настоящий результат зависит ещё от времени ответа и режима, так что цифра
+ * с итогом не сходилась. Теперь убывание показано формой — столбик ниже с
+ * каждым шагом, — а точных чисел нет вовсе.
+ */
+function stepMeterMarkup() {
+  const total = game.stepsTotal;
+  const cells = [];
+  for (let i = 0; i < total; i++) {
+    const st = i === game.step ? 'now' : game.stepStates[i] || STEP_STATE.LOCKED;
+    // Высота столбика падает от 100% к 34% — это и есть «чем дальше, тем меньше».
+    const h = Math.round(100 - (i / (total - 1)) * 66);
+    cells.push(`
+      <div class="steps__cell" data-state="${st}" style="--h:${h}%">
+        <span class="steps__bar"><i></i></span>
+        <span class="steps__dur">${esc(formatStepDuration(stepDuration(game.filters.difficulty, i)))}</span>
+      </div>`);
+  }
+  return `
+    <div class="steps" style="--steps:${total}" role="img"
+         aria-label="${esc(t('a11y.stepMeter', { n: game.step + 1, total }))}">
+      ${cells.join('')}
+      <p class="steps__legend">${esc(t('round.stepsHint'))}</p>
+    </div>`;
+}
+
 function wireRound() {
   const playBtn = $('[data-play]');
   const input = $('#answer-input');
   const list = $('#answer-results');
+  const actBtn = $('[data-act]');
   const live = $('[data-live]');
   let activeIndex = -1;
   let results = [];
@@ -530,7 +695,7 @@ function wireRound() {
       playBtn.classList.remove('is-playing');
       $('[data-play-label]').textContent = t('round.playAgain');
       game.fragmentEnded();
-      input.focus();
+      if (canAutofocus()) input.focus();
     };
 
     try {
@@ -602,12 +767,19 @@ function wireRound() {
       list.innerHTML = `<li class="results__empty">${esc(t('round.noResults'))}</li>`;
       return;
     }
-    list.innerHTML = results.map((tr, i) => `
-      <li class="results__item" id="opt-${i}" role="option"
-          aria-selected="${i === activeIndex}" data-i="${i}" style="--i:${i}">
+    list.innerHTML = results.map((tr, i) => {
+      // Уже отвергнутый в этом раунде вариант виден, но выбрать его нельзя:
+      // так игрок не тратит попытку дважды на одно и то же (блок D3).
+      const rejected = game.rejectedIds.has(tr.id);
+      return `
+      <li class="results__item${rejected ? ' is-rejected' : ''}" id="opt-${i}" role="option"
+          aria-selected="${i === activeIndex}" aria-disabled="${rejected}"
+          data-i="${i}" style="--i:${i}"
+          ${rejected ? `title="${esc(t('a11y.rejected'))}"` : ''}>
         <span class="results__title">${highlight(tr.title, query)}</span>
         <span class="results__artist">${highlight(tr.artist, query)}</span>
-      </li>`).join('');
+      </li>`;
+    }).join('');
   }
 
   function setActive(i) {
@@ -627,7 +799,12 @@ function wireRound() {
     // вводом наравне с клавишей (SCORING.md §4.6).
     game.registerInput(input.value);
     const q = input.value.trim();
-    if (!q) return closeList();
+    if (!q) {
+      // Поле очищено — кнопка возвращается в «Өткізу» (блок D1).
+      if (game.hasPending) game.clearSelection();
+      else closeList();
+      return;
+    }
     results = catalog.search(q, CONFIG.SEARCH_RESULTS);
     activeIndex = -1;
     renderList(q);
@@ -635,6 +812,11 @@ function wireRound() {
 
   input.addEventListener('keydown', (e) => {
     if (list.hidden) {
+      if (e.key === 'Enter' && game.hasPending) {
+        e.preventDefault();
+        checkAnswer();
+        return;
+      }
       if (e.key === 'ArrowDown' && input.value.trim()) {
         results = catalog.search(input.value.trim(), CONFIG.SEARCH_RESULTS);
         renderList(input.value.trim());
@@ -652,7 +834,7 @@ function wireRound() {
     } else if (e.key === 'Enter') {
       e.preventDefault();
       const pick = results[activeIndex >= 0 ? activeIndex : 0];
-      if (pick) submitGuess(pick);
+      if (pick) selectTrack(pick);
     } else if (e.key === 'Escape') {
       closeList();
     }
@@ -663,30 +845,49 @@ function wireRound() {
     const item = e.target.closest('.results__item');
     if (!item) return;
     e.preventDefault();
-    submitGuess(results[Number(item.dataset.i)]);
+    selectTrack(results[Number(item.dataset.i)]);
   });
 
   input.addEventListener('blur', () => setTimeout(() => closeList(), 140));
 
-  function submitGuess(track) {
+  /**
+   * Выбор варианта. Ответ НЕ засчитывается: он только заряжает кнопку,
+   * которая превращается в «Тексеру» (блок D1).
+   */
+  function selectTrack(track) {
     if (!track) return;
+    if (game.rejectedIds.has(track.id)) {
+      toast(t('round.tried'));
+      return;
+    }
+    input.value = `${track.title} — ${track.artist}`;
+    closeList(false);
+    game.select(track);
+    // Перерисовка сменит подпись кнопки, поэтому фокус возвращаем осознанно.
+    if (canAutofocus()) $('#answer-input')?.focus();
+  }
+
+  function checkAnswer() {
     cancelPlayback();
     audio.stop(90);
-    const res = game.guess(track);
+    const res = game.check();
     if (res.correct) return; // game сам переключит экран
 
-    input.value = '';
-    closeList(false);
+    const fresh = $('#answer-input');
+    if (fresh) fresh.value = '';
+    flashWrong();
 
     const message = res.near === 'artist'
       ? t('round.nearArtist')
       : res.near === 'title' ? t('round.nearTitle') : t('round.wrong');
-    toast(message, res.near ? 'near' : 'neutral');
-    live.textContent = message;
-    if (!res.ended) input.focus();
+    toast(message, res.near ? 'near' : 'bad');
+    const liveNode = $('[data-live]');
+    if (liveNode) liveNode.textContent = message;
+    if (!res.ended && canAutofocus()) fresh?.focus();
   }
 
-  $('[data-skip]').addEventListener('click', () => {
+  actBtn.addEventListener('click', () => {
+    if (game.hasPending) return checkAnswer();
     cancelPlayback();
     audio.stop(90);
     game.skip();
@@ -701,7 +902,7 @@ function wireRound() {
       playStep();
     } else if (e.key.toLowerCase() === 's') {
       e.preventDefault();
-      $('[data-skip]')?.click();
+      $('[data-act]')?.click();
     }
   };
   // #screen переживает смену разметки, поэтому храним «отписку» на нём.
@@ -709,7 +910,22 @@ function wireRound() {
   app()._offKeys?.();
   app()._offKeys = () => document.removeEventListener('keydown', onKey);
 
-  input.focus();
+  // Клавиатура на телефоне открывается только по явному тапу в поле.
+  if (canAutofocus()) input.focus();
+}
+
+/**
+ * Заметная, но короткая вспышка на неверный ответ (блок D2).
+ * 400 мс с плавным затуханием; при prefers-reduced-motion не запускается.
+ */
+function flashWrong() {
+  if (reduceMotion()) return;
+  const root = document.body;
+  root.classList.remove('is-wrong');
+  // reflow, иначе повторная вспышка подряд не перезапустит анимацию
+  void root.offsetWidth;
+  root.classList.add('is-wrong');
+  setTimeout(() => root.classList.remove('is-wrong'), 460);
 }
 
 function showAudioError() {
@@ -731,6 +947,7 @@ function renderReveal() {
   const r = game.results[game.results.length - 1];
   const track = r.track;
   const last = game.roundIndex >= ROUNDS - 1;
+  const expert = r.mode === 'expert';
 
   app().innerHTML = `
     <section class="screen screen--reveal">
@@ -755,7 +972,7 @@ function renderReveal() {
               <p class="score__detail">
                 ${esc(t('reveal.stepBonus', { n: r.stepIndex + 1, base: r.base }))}${
                   r.bonus > 0 ? ` · ${esc(t('reveal.speedBonus', { bonus: r.bonus }))}` : ''
-                }
+                }${expert ? ` · ${esc(t('reveal.modeBonus'))}` : ''}
               </p>` : `<p class="score__detail">${esc(t('reveal.zero'))}</p>`}
           </div>
 
@@ -814,13 +1031,14 @@ function renderFinal() {
   pulse.clear();
 
   const total = game.totalScore;
-  const verdict = t(`final.verdict${verdictIndex(total)}`);
+  const verdict = t(`final.verdict${verdictIndex(total, game.filters.difficulty)}`);
+  const label = sliceLabel(game.sliceKey);
 
   app().innerHTML = `
     <section class="screen screen--final">
       <div class="final__top">
         <div>
-          <p class="eyebrow">${esc(t('final.title'))}</p>
+          <p class="eyebrow">${esc(t('final.title'))} · ${esc(label.mode)} · ${esc(label.category)}</p>
           <h1 class="final__verdict">${esc(verdict)}</h1>
         </div>
         <div class="final__total">
@@ -832,8 +1050,8 @@ function renderFinal() {
       <div class="final__grid" id="final-grid">
         ${game.results.map((r, i) => `
           <article class="fcard" data-i="${i}" data-track="${esc(r.track.id)}"
-                   style="--d:${i * 70}ms" tabindex="0"
-                   aria-label="${esc(`${r.track.title} — ${r.track.artist}`)}">
+                   style="--d:${i * 70}ms" tabindex="0" role="button"
+                   aria-label="${esc(`${r.track.title} — ${r.track.artist}. ${t('final.open')}`)}">
             <div class="fcard__inner">
               <div class="fcard__art">
                 <img src="${esc(r.track.art || '')}" alt="" loading="lazy">
@@ -842,10 +1060,13 @@ function renderFinal() {
               </div>
               <h2 class="fcard__title">${esc(r.track.title)}</h2>
               <p class="fcard__artist">${esc(r.track.artist)}</p>
-              <p class="fcard__score">
-                <b>${fmtNum(r.total)}</b>
-                <span>${esc(r.solved ? t('final.guessedAt', { n: r.stepIndex + 1 }) : t('final.notGuessed'))}</span>
-              </p>
+              <dl class="fcard__facts">
+                <div><dt>${esc(t('final.stepLabel'))}</dt><dd>${
+                  r.solved ? `${r.stepIndex + 1}/${r.stepsTotal}` : '—'
+                }</dd></div>
+                <div><dt>${esc(t('final.timeLabel'))}</dt><dd>${esc(fmtSeconds(r.elapsedMs))}</dd></div>
+                <div><dt>${esc(t('final.pointsLabel'))}</dt><dd><b>${fmtNum(r.total)}</b></dd></div>
+              </dl>
             </div>
           </article>`).join('')}
       </div>
@@ -853,16 +1074,17 @@ function renderFinal() {
       <div class="final__bottom">
         ${LB.enabled() ? `
           <form class="lb-form" novalidate>
-            <label class="visually-hidden" for="nick">${esc(t('lb.nick'))}</label>
+            <label class="field__label" for="nick">${esc(t('lb.nick'))}</label>
             <input class="input" id="nick" name="nick" maxlength="20" autocomplete="nickname"
+                   value="${esc(LB.savedNick())}"
                    placeholder="${esc(t('lb.nickPlaceholder'))}">
-            <button class="btn btn--ghost" type="submit">${esc(t('lb.submit'))}</button>
+            <button class="btn btn--primary" type="submit">${esc(t('lb.submit'))}</button>
             <span class="lb-status" role="status" data-lb-status></span>
           </form>` : `<p class="hint">${esc(t('final.hoverHint'))}</p>`}
 
         <div class="final__actions">
-          <button class="btn btn--primary" data-share type="button">${esc(t('final.share'))}</button>
-          <button class="btn btn--ghost" data-again type="button">${esc(t('final.again'))}</button>
+          <button class="btn btn--ghost" data-share type="button">${esc(t('final.share'))}</button>
+          <button class="btn ${LB.enabled() ? 'btn--ghost' : 'btn--primary'}" data-again type="button">${esc(t('final.again'))}</button>
         </div>
       </div>
     </section>`;
@@ -870,7 +1092,7 @@ function renderFinal() {
   animateCount($('[data-total]'), total, 1300);
   wireFinalCards();
 
-  $('[data-share]').addEventListener('click', () => showShare(total, verdict));
+  $('[data-share]').addEventListener('click', () => showShare(total, verdict, label));
   $('[data-again]').addEventListener('click', () => {
     audio.stop(160);
     pulse.clear();
@@ -879,7 +1101,10 @@ function renderFinal() {
     render();
   });
 
-  if (LB.enabled()) wireSubmit(total);
+  if (LB.enabled()) {
+    wireSubmit(total);
+    armSignPrompt();
+  }
 
   // Раскрытие: все карточки стартуют одновременно, stagger — сдвиг фазы.
   requestAnimationFrame(() => $('#final-grid')?.classList.add('is-open'));
@@ -926,6 +1151,20 @@ function wireFinalCards() {
     if (card && !card.contains(e.relatedTarget)) stopPreview(card);
   });
 
+  // Клик по карточке открывает ту же панель, что и после угадывания:
+  // обложка, название, артист, ссылки. Атрибуция обязана быть везде.
+  grid.addEventListener('click', (e) => {
+    const card = e.target.closest('.fcard');
+    if (card) showTrackSheet(card.dataset.track);
+  });
+  grid.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const card = e.target.closest('.fcard');
+    if (!card) return;
+    e.preventDefault();
+    showTrackSheet(card.dataset.track);
+  });
+
   // Клавиатура: фокус на карточке работает как наведение.
   grid.addEventListener('focusin', (e) => {
     const card = e.target.closest('.fcard');
@@ -954,6 +1193,40 @@ function wireFinalCards() {
   });
 }
 
+/** Панель трека — та же, что после угадывания. Открывается кликом с финала. */
+function showTrackSheet(id) {
+  const track = catalog.get(id);
+  if (!track) return;
+  const result = game.results.find((r) => r.track.id === id);
+
+  sheet({
+    title: track.title,
+    bodyHtml: `
+      <div class="tsheet">
+        <div class="card__art tsheet__art">
+          <img src="${esc(track.art || '')}" alt="${esc(
+            t('a11y.artwork', { title: track.title, artist: track.artist })
+          )}">
+        </div>
+        <div class="tsheet__meta">
+          <p class="card__artist">${esc(track.artist)}</p>
+          <p class="card__sub">${esc([track.album, track.year].filter(Boolean).join(' · '))}</p>
+          ${result ? `<p class="score__detail">${esc(
+            result.solved
+              ? `${t('final.guessedAt', { n: result.stepIndex + 1 })} · ${fmtSeconds(result.elapsedMs)} · ${fmtNum(result.total)} ${t('reveal.points')}`
+              : `${t('final.notGuessed')} · ${fmtSeconds(result.elapsedMs)}`
+          )}</p>` : ''}
+          <div class="links">
+            <span class="links__label">${esc(t('reveal.listenOn'))}</span>
+            ${streamingLinks(track).map((l) =>
+              `<a class="links__a" href="${esc(l.url)}" target="_blank" rel="noopener noreferrer">${esc(l.name)}</a>`
+            ).join('')}
+          </div>
+        </div>
+      </div>`,
+  });
+}
+
 function wireSubmit(total) {
   const form = $('.lb-form');
   if (!form) return;
@@ -966,31 +1239,37 @@ function wireSubmit(total) {
       return;
     }
     const btn = form.querySelector('button');
-    const nick = LB.sanitizeNick($('#nick').value);
-    if (nick.length < 2) {
+    const raw = $('#nick').value;
+    const nick = LB.sanitizeNick(raw);
+    // Пустое имя допустимо: сервер запишет игрока как Qonaq с номером.
+    if (nick.length === 1) {
       status.textContent = t('lb.nickTooShort');
       return;
     }
-    if (LB.hasProfanity(nick)) {
+    if (nick && LB.hasProfanity(nick)) {
       status.textContent = t('lb.nickBad');
       return;
     }
     btn.disabled = true;
     status.textContent = t('lb.sending');
     try {
-      await LB.submitScore({
+      const res = await LB.submitScore({
         nick,
         score: total,
         rounds: game.results.map((r) => ({
           level: r.level, step: r.stepIndex + 1, points: r.total, solved: r.solved,
         })),
+        slice: game.sliceKey,
         sessionHash: game.sessionId,
       });
       submittedThisGame = true;
-      status.textContent = t('lb.sent');
+      if (nick) LB.rememberNick(nick);
+      status.textContent = res.placeAllTime
+        ? t('lb.myPlace', { place: res.placeAllTime })
+        : t('lb.sent');
       btn.textContent = t('lb.sent');
-      boardsCache = await LB.fetchBoards().catch(() => boardsCache);
-      showFullBoard('allTime');
+      // Открываем срез, в котором игрок играл, и подсвечиваем его строку.
+      showFullBoard('allTime', game.sliceKey, res.nick || nick);
     } catch (err) {
       console.warn('leaderboard:', err);
       status.textContent = err.message === 'nick-bad' ? t('lb.nickBad') : t('lb.error');
@@ -999,34 +1278,97 @@ function wireSubmit(total) {
   });
 }
 
+/**
+ * Один ненавязчивый перехват «уходишь, не подписав результат» (блок H3).
+ *
+ * Не beforeunload: системное окно не объясняет причину и раздражает.
+ * Ловим намерение уйти — курсор ушёл вверх за пределы окна, к вкладкам и
+ * адресной строке. Показываем ровно один раз за сессию; отказ уважаем.
+ */
+function armSignPrompt() {
+  if (signPromptShown || submittedThisGame) return;
+
+  const onLeave = (e) => {
+    if (e.clientY > 8) return;
+    if (submittedThisGame || signPromptShown) return disarm();
+    if (game.screen !== SCREEN.FINAL) return;
+    signPromptShown = true;
+    disarm();
+    sheet({
+      title: t('lb.signTitle'),
+      bodyHtml: `
+        <p>${esc(t('lb.signBody'))}</p>
+        <div class="sheet__actions">
+          <button class="btn btn--primary" data-sign type="button" data-autofocus>${esc(t('lb.signYes'))}</button>
+          <button class="btn btn--ghost" data-close type="button">${esc(t('lb.signNo'))}</button>
+        </div>`,
+      onMount(panel) {
+        panel.querySelector('[data-sign]').addEventListener('click', () => {
+          closeSheet();
+          $('#nick')?.focus();
+        });
+      },
+    });
+  };
+
+  function disarm() {
+    document.removeEventListener('mouseout', onLeave);
+  }
+
+  document.addEventListener('mouseout', onLeave);
+}
+
 /* ================================================================== */
 /* Оверлеи                                                             */
 /* ================================================================== */
 
 function showRules() {
+  const modeRow = (id) => {
+    const m = MODES[id];
+    const steps = m.stepMs.map((ms) => formatStepDuration(ms)).join(' → ');
+    return `<tr>
+      <td>${esc(t(`difficulty.${id}`))}</td>
+      <td>${esc(steps)}</td>
+      <td class="num">×${String(m.multiplier).replace('.', ',')}</td>
+    </tr>`;
+  };
+
   sheet({
     title: t('rules.title'),
+    wide: true,
     bodyHtml: `
       <p>${esc(t('rules.body1'))}</p>
       <p>${esc(t('rules.body2'))}</p>
       <p>${esc(t('rules.body3'))}</p>
       <p>${esc(t('rules.body4'))}</p>
       <p>${esc(t('rules.body5'))}</p>
-      <h3 class="section-label">${esc(t('rules.steps'))}</h3>
+      <p>${esc(t('rules.body6'))}</p>
+      <h3 class="section-label">${esc(t('rules.modes'))}</h3>
       <table class="lb">
         <thead><tr>
-          <th scope="col">${esc(t('rules.colStep'))}</th>
-          <th scope="col" class="num">${esc(t('rules.colPoints'))}</th>
+          <th scope="col">${esc(t('rules.colMode'))}</th>
+          <th scope="col">${esc(t('rules.colSteps'))}</th>
+          <th scope="col" class="num">${esc(t('rules.colMult'))}</th>
         </tr></thead>
-        <tbody>${STEP_MS.map((ms, i) =>
-          `<tr><td>${esc(formatStepDuration(ms))}</td><td class="num">${STEP_POINTS[i]}</td></tr>`
-        ).join('')}</tbody>
+        <tbody>${modeRow('normal')}${modeRow('expert')}</tbody>
       </table>`,
   });
 }
 
-function showShare(total, verdict) {
-  const text = buildShareText(game.results, total, verdict);
+function showAbout() {
+  sheet({
+    title: t('about.title'),
+    bodyHtml: `
+      <p>${esc(t('about.p1'))}</p>
+      <p>${esc(t('about.p2'))}</p>
+      <p>${esc(t('about.p3'))}</p>
+      <p>${esc(t('about.p4'))}</p>
+      <p class="muted">${esc(t('legal.note'))}</p>`,
+  });
+}
+
+function showShare(total, verdict, label) {
+  const text = buildShareText(game.results, total, verdict, label);
   sheet({
     title: t('share.title'),
     bodyHtml: `
@@ -1074,16 +1416,16 @@ function renderRuntimeError() {
 
 /* ================================================================== */
 
-if (new URLSearchParams(location.search).has('debug')) window.__TAP_ANDA_DEBUG = true;
+if (new URLSearchParams(location.search).has('debug')) window.__OLENSIZ_DEBUG = true;
 
 boot();
 
 // Небольшая поверхность для ручной проверки и e2e-скрипта.
-window.__tapAnda = {
+window.__olensiz = {
   get game() { return game; },
   get catalog() { return catalog; },
   audio,
   get pulse() { return pulse; },
   buildGrid: () => buildGrid(game.results),
-  savedLocale, otherLocale, localeShort,
+  savedLocale, otherLocale, localeShort, stepCount,
 };

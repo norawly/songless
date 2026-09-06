@@ -1,7 +1,13 @@
 /**
  * Лидерборды через Google Apps Script Web App.
  *
- * Два топа приходят одним запросом: «за всё время» и «сегодня».
+ * Таблица считается не общей кучей, а по СРЕЗАМ (блок H2):
+ *   период   — за всё время / за сегодня
+ *   категория — Random или конкретный набор жанров, плюс режим подачи
+ *               и возрастной фильтр
+ * Ключ среза строит Game.sliceKey, например `random|expert|family`.
+ * Игрок после партии видит своё место именно в том срезе, в котором играл.
+ *
  * Если CONFIG.LEADERBOARD_ENDPOINT пуст — модуль отвечает `enabled() === false`,
  * UI не показывает лидерборды, и ни один сетевой запрос не уходит.
  * Игра обязана работать полностью без них.
@@ -20,6 +26,9 @@ import { CONFIG } from './config.js';
 import { MAX_GAME_SCORE, MAX_ROUND_SCORE, ROUNDS } from './scoring.js';
 
 export const enabled = () => Boolean(CONFIG.LEADERBOARD_ENDPOINT);
+
+/** Сколько ждём ответа, прежде чем показать «недоступно». */
+const TIMEOUT_MS = 9000;
 
 /**
  * Корни нецензурной лексики (рус./каз.) и типовые оскорбления.
@@ -77,49 +86,68 @@ export function isPlausible(payload) {
   return sum === payload.score;
 }
 
+/** fetch с таймаутом: висящий запрос хуже честной ошибки. */
+async function withTimeout(url, opts = {}) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
+  try {
+    return await fetch(url, { ...opts, signal: ctrl.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 /**
- * Оба топа одним запросом.
- * @returns {Promise<{allTime: object[], today: object[]}>}
+ * Оба топа одного среза одним запросом.
+ * @param {string} slice ключ среза, см. Game.sliceKey
+ * @returns {Promise<{allTime: object[], today: object[], categories: object[]}>}
  */
-export async function fetchBoards(limit = CONFIG.LEADERBOARD_PREVIEW_N) {
-  if (!enabled()) return { allTime: [], today: [] };
-  const url = `${CONFIG.LEADERBOARD_ENDPOINT}?action=top&limit=${encodeURIComponent(limit)}`;
-  const res = await fetch(url, { method: 'GET' });
+export async function fetchBoards(slice = 'random|normal|family', limit = CONFIG.LEADERBOARD_PREVIEW_N) {
+  if (!enabled()) return { allTime: [], today: [], categories: [] };
+  const q = new URLSearchParams({ action: 'top', slice, limit: String(limit) });
+  const res = await withTimeout(`${CONFIG.LEADERBOARD_ENDPOINT}?${q}`, { method: 'GET' });
   if (!res.ok) throw new Error(`лидерборд HTTP ${res.status}`);
   const data = await res.json();
   if (!data || data.ok !== true) throw new Error('лидерборд: неожиданный ответ');
   return {
     allTime: Array.isArray(data.allTime) ? data.allTime : [],
     today: Array.isArray(data.today) ? data.today : [],
+    // Какие срезы вообще существуют — нужно для переключателя в оверлее.
+    categories: Array.isArray(data.categories) ? data.categories : [],
   };
 }
 
 /**
  * @param {object} p
- * @param {string} p.nick
+ * @param {string} p.nick     пустая строка = гость, имя присвоит сервер
  * @param {number} p.score
  * @param {Array<{level:number, step:number, points:number, solved:boolean}>} p.rounds
+ * @param {string} p.slice
  * @param {string} p.sessionHash
+ * @returns {Promise<{ok:true, nick:string, placeAllTime:number, placeToday:number}>}
  */
 export async function submitScore(p) {
   if (!enabled()) throw new Error('лидерборд выключен');
   const nick = sanitizeNick(p.nick);
-  if (nick.length < 2) throw new Error('nick-too-short');
-  if (hasProfanity(nick)) throw new Error('nick-bad');
+  const guest = nick.length === 0;
+  if (!guest && nick.length < 2) throw new Error('nick-too-short');
+  if (!guest && hasProfanity(nick)) throw new Error('nick-bad');
 
   const body = {
     action: 'submit',
     nick,
+    guest,
     score: p.score,
     rounds: p.rounds,
+    slice: p.slice,
     sessionHash: p.sessionHash,
     date: new Date().toISOString(),
     tzOffset: new Date().getTimezoneOffset(),
-    v: 2,
+    v: 3,
   };
   if (!isPlausible(body)) throw new Error('implausible');
 
-  const res = await fetch(CONFIG.LEADERBOARD_ENDPOINT, {
+  const res = await withTimeout(CONFIG.LEADERBOARD_ENDPOINT, {
     method: 'POST',
     // text/plain → «простой» CORS-запрос, без preflight, который Apps Script не умеет
     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -129,4 +157,24 @@ export async function submitScore(p) {
   const data = await res.json();
   if (!data || data.ok !== true) throw new Error(data?.error || 'лидерборд отказал');
   return data;
+}
+
+/* ------------------------------------------------------------------ */
+/* Имя игрока (блок H3)                                                */
+/* ------------------------------------------------------------------ */
+
+export function savedNick() {
+  try {
+    return sanitizeNick(localStorage.getItem(CONFIG.NICK_KEY) || '');
+  } catch {
+    return '';
+  }
+}
+
+export function rememberNick(nick) {
+  try {
+    localStorage.setItem(CONFIG.NICK_KEY, sanitizeNick(nick));
+  } catch {
+    /* приватный режим */
+  }
 }

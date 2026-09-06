@@ -8,7 +8,6 @@
  *   ⬜ до этой ступени не дошло
  */
 
-import { STEPS } from './scoring.js';
 import { t } from './i18n.js';
 import { CONFIG } from './config.js';
 import { fmtNum } from './ui.js';
@@ -19,7 +18,8 @@ export function buildGrid(results) {
   return results
     .map((r, i) => {
       const cells = [];
-      for (let s = 0; s < STEPS; s++) {
+      const steps = r.stepsTotal || 7;
+      for (let s = 0; s < steps; s++) {
         if (r.solved && s === r.stepIndex) cells.push('🟩');
         else if (s <= r.stepIndex) cells.push('⬛');
         else cells.push('⬜');
@@ -29,14 +29,23 @@ export function buildGrid(results) {
     .join('\n');
 }
 
-/** Полный текст для буфера обмена / нативного шеринга. */
-export function buildShareText(results, total, verdict) {
+/**
+ * Полный текст для буфера обмена / нативного шеринга.
+ *
+ * Сетка не изменилась (блок K): та же раскладка эмодзи, названия песен не
+ * раскрываются. Добавлена одна строка — режим и категория, в которых играли:
+ * без неё два результата несопоставимы, потому что экспертный режим даёт
+ * очков в 1,8 раза больше.
+ *
+ * @param {{mode:string, category:string}} [slice]
+ */
+export function buildShareText(results, total, verdict, slice = null) {
   const lines = [
     `${t('app.title')} · ${fmtNum(total)} ${t('reveal.points')}`,
     verdict,
-    '',
-    buildGrid(results),
   ];
+  if (slice) lines.push(`${slice.mode} · ${slice.category}`);
+  lines.push('', buildGrid(results));
   if (CONFIG.SHARE_URL) lines.push('', `🎧 ${CONFIG.SHARE_URL}`);
   return lines.join('\n');
 }

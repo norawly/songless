@@ -1,0 +1,9 @@
+# Óleńsiz — olensiz.zhengisbay.com
+User-agent: *
+Allow: /
+
+# Собранный каталог и служебные файлы индексировать незачем.
+Disallow: /data/
+Disallow: /scripts/
+
+Sitemap: https://olensiz.zhengisbay.com/sitemap.xml
