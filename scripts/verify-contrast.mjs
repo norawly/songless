@@ -90,6 +90,10 @@ const CHECKS = [
   ['--color-border-strong', '--color-bg-primary', 3, 'сильная граница / UI-компонент'],
   ['--color-text-inverse', '--color-bg-inverse', 7, 'тост: текст на инверсном фоне'],
   ['--color-status-error', '--color-bg-primary', 4.5, 'ошибка'],
+  // Красный итерации 3: столбик неверной ступени (UI-компонент, 3:1) и текст
+  // тоста о промахе (обычный текст, 4.5:1 — поэтому он тёмный, а не белый).
+  ['--color-status-error-strong', '--color-bg-primary', 3, 'красная ступень (UI)'],
+  ['--color-accent-on', '--color-status-error-strong', 4.5, 'текст тоста на красном'],
   ['--color-status-success', '--color-bg-primary', 4.5, 'успех'],
 ];
 

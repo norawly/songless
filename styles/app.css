@@ -1239,8 +1239,10 @@ body.is-wrong::after { animation: wrong-flash 440ms var(--easing-out) both; }
 .toast[data-tone="near"], .toast[data-tone="good"] {
   background: var(--color-accent-primary); color: var(--color-accent-on);
 }
+/* Тёмный текст на красном, а не белый: белый даёт всего 3.76:1 и не проходит
+   AA для 13px. Тёмный — 5.30:1, и заодно совпадает с логикой акцентного тоста. */
 .toast[data-tone="bad"] {
-  background: var(--color-status-error-strong); color: var(--n-999);
+  background: var(--color-status-error-strong); color: var(--color-accent-on);
 }
 
 /* ===========================================================================
