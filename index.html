@@ -69,6 +69,22 @@
        реагирует на бит. Управляется src/pulse.js. -->
   <div class="song-bg" id="song-bg" aria-hidden="true"></div>
 
+  <!--
+    Постеризация фона: цвет квантуется по 10 уровней на канал, поэтому вместо
+    плавного градиента получаются заметные цветовые границы — как будто глубину
+    цвета уронили с 24 бит до девяти. feComponentTransfer с type="discrete" —
+    ровно эта операция и есть, никакого приближения.
+  -->
+  <svg class="fx-defs" width="0" height="0" aria-hidden="true" focusable="false">
+    <filter id="posterize" color-interpolation-filters="sRGB">
+      <feComponentTransfer>
+        <feFuncR type="discrete" values="0 .11 .22 .33 .44 .55 .66 .77 .88 1"/>
+        <feFuncG type="discrete" values="0 .11 .22 .33 .44 .55 .66 .77 .88 1"/>
+        <feFuncB type="discrete" values="0 .11 .22 .33 .44 .55 .66 .77 .88 1"/>
+      </feComponentTransfer>
+    </filter>
+  </svg>
+
   <a class="skip-link" href="#screen">Мазмұнға өту</a>
 
   <div class="shell">

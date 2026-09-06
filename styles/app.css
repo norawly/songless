@@ -90,8 +90,13 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
   z-index: 0;
   pointer-events: none;
   opacity: var(--song-opacity);
+  /* Размытые пятна собираются в композит, и уже он квантуется по уровням:
+     плавный переход превращается в набор цветовых ступеней. */
+  filter: url(#posterize);
   transition: opacity var(--duration-slower) var(--easing-default);
 }
+
+.fx-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
 
 /* Свет на удар. Медленный, окрашенный, с маленьким размахом. */
 .song-glow {
