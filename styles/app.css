@@ -94,6 +94,8 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
      смешение по шуму → насыщенность → квантование → смягчение границ.
      Цепочка описана в index.html над самим фильтром. */
   filter: url(#song-fx);
+  /* Слои внутри смешиваются между собой, но не с интерфейсом под ними. */
+  isolation: isolate;
   transition: opacity var(--duration-slower) var(--easing-default);
 }
 
@@ -137,6 +139,59 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
   left: 14%; bottom: -8%;
   width: calc(85% * var(--song-s3, 1)); height: calc(88% * var(--song-s3, 1));
   background: radial-gradient(circle at 50% 50%, var(--song-c3), transparent 68%);
+}
+
+/* --- Волновые слои -------------------------------------------------------
+   Три слоя поверх цветного поля, каждый со своим режимом наложения. Рисунок
+   и режим выбирает жанр трека (src/mood.js).
+
+   Главное правило: волны НИКОГДА не исчезают. На удар растёт --wave-p, то
+   есть расстояние между волнами, и они расходятся наружу. Ничего не
+   схлопывается и не мигает — отсюда и нет мельтешения острых краёв.
+
+   Все переходы внутри волны плавные (цвет на середине периода, прозрачность
+   по краям), сверху размытие: границы мягкие по построению.
+   ------------------------------------------------------------------------ */
+
+.song-wave {
+  position: absolute; inset: -30%;
+  display: block;
+  mix-blend-mode: var(--wave-blend, screen);
+  opacity: var(--wave-op, 0.4);
+  filter: blur(var(--wave-blur, 28px));
+  will-change: transform;
+  /* Шаг волны: базовый период жанра, растянутый ударом. */
+  --p: calc(var(--wave-period, 320px) * var(--wave-p, 1));
+  --ang: calc(14deg * var(--wave-p, 1));
+}
+.song-wave--1 { --c: var(--song-c1); }
+.song-wave--2 { --c: var(--song-c2); --p: calc(var(--wave-period, 320px) * var(--wave-p, 1) * 1.35); }
+.song-wave--3 { --c: var(--song-c3); --p: calc(var(--wave-period, 320px) * var(--wave-p, 1) * 0.72); }
+
+/* Кольца: расходящиеся круги. Спокойный, «водяной» характер. */
+[data-pattern="rings"] .song-wave {
+  background: repeating-radial-gradient(circle at 50% 50%,
+    transparent 0, var(--c) calc(var(--p) * 0.5), transparent var(--p));
+}
+/* Полосы эквалайзера: вертикальные, жёсткие. */
+[data-pattern="bars"] .song-wave {
+  background: repeating-linear-gradient(90deg,
+    transparent 0, var(--c) calc(var(--p) * 0.5), transparent var(--p));
+}
+/* Развёртка: широкие горизонтальные полосы, ретро-характер. */
+[data-pattern="scan"] .song-wave {
+  background: repeating-linear-gradient(0deg,
+    transparent 0, var(--c) calc(var(--p) * 0.5), transparent var(--p));
+}
+/* Косые полосы: движение и злость. */
+[data-pattern="diagonal"] .song-wave {
+  background: repeating-linear-gradient(38deg,
+    transparent 0, var(--c) calc(var(--p) * 0.5), transparent var(--p));
+}
+/* Лучи из центра: праздничный характер. */
+[data-pattern="rays"] .song-wave {
+  background: repeating-conic-gradient(from 0deg at 50% 50%,
+    transparent 0deg, var(--c) calc(var(--ang) * 0.5), transparent var(--ang));
 }
 
 /* ---------------------------------------------------------------------------
@@ -1364,6 +1419,7 @@ body.is-wrong::after { animation: wrong-flash 440ms var(--easing-out) both; }
   .card__art, .results, .results__item, .lang__hint { animation: none; }
   /* Фон не движется и не пульсирует — остаётся ровный градиент. */
   .song-bg__blob { transform: none !important; filter: blur(110px); opacity: .7; }
+  .song-wave { transform: none !important; opacity: calc(var(--wave-op, .4) * .6); }
   .song-glow { transform: none; filter: blur(120px); opacity: .2; }
   body.is-wrong::after { animation: none; }
 }

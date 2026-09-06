@@ -135,6 +135,16 @@ export class Pulse {
       this.blobs.push(blob);
     }
 
+    // Волновые слои поверх поля. Волны никогда не исчезают — на удар растёт
+    // расстояние между ними, и они расходятся, а не мигают.
+    this.waves = [];
+    for (let i = 1; i <= 3; i++) {
+      const w = document.createElement('i');
+      w.className = `song-wave song-wave--${i}`;
+      this.node.appendChild(w);
+      this.waves.push(w);
+    }
+
   }
 
   /**
@@ -297,6 +307,9 @@ export class Pulse {
       s.setProperty('--song-voice', this.air.toFixed(3));
       s.setProperty('--song-energy', ((this.beat + this.air) / 2).toFixed(3));
 
+      // Расстояние между волнами растёт на удар: волны расходятся, а не гаснут.
+      this.root.style.setProperty('--wave-p', (1 + this.beat * 0.55).toFixed(3));
+
       // Чем сильнее удар, тем быстрее движение.
       this.phase += dt * (BASE_SPEED + this.beat * BEAT_SPEED) * this.speed;
       this._move();
@@ -335,6 +348,18 @@ export class Pulse {
     orbit(this.blobs[0], p, 22, 18, p * 9, grow);
     orbit(this.blobs[1], -p * 0.78 + 2.1, 25, 20, -p * 7, grow * 0.96);
     orbit(this.blobs[2], p * 0.61 + 4.2, 20, 24, p * 5, grow * 1.05);
+
+    // Волновые слои медленно ползут и поворачиваются в разные стороны —
+    // рисунок наложения всё время меняется, но ни один слой не пропадает.
+    if (!this.waves) return;
+    const wave = (el, angle, r, rot) => {
+      el.style.transform =
+        `translate3d(${(Math.cos(angle) * r).toFixed(2)}%, ` +
+        `${(Math.sin(angle) * r).toFixed(2)}%, 0) rotate(${rot.toFixed(2)}deg)`;
+    };
+    wave(this.waves[0], p * 0.5, 7, p * 4);
+    wave(this.waves[1], -p * 0.37 + 1.4, 9, -p * 3);
+    wave(this.waves[2], p * 0.28 + 3.1, 6, p * 2);
   }
 
   stop() {
