@@ -40,7 +40,7 @@ const NOISE = 0.06;
 const GAIN = 1.6;
 
 /** Видимость слоя, когда играет трек. */
-const ACTIVE_OPACITY = 0.6;
+const ACTIVE_OPACITY = 0.62;
 
 const reduceMotion = () =>
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;

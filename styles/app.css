@@ -83,7 +83,7 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
   pointer-events: none;
   opacity: var(--song-opacity);
   filter: saturate(calc(1 + var(--song-energy) * 0.6))
-          brightness(calc(0.82 + var(--song-energy) * 0.55))
+          brightness(calc(0.72 + var(--song-energy) * 0.5))
           blur(46px);
   transform: scale(calc(1.02 + var(--song-energy) * 0.05));
   transition: opacity var(--duration-slower) var(--easing-default);
@@ -151,6 +151,26 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
   max-width: var(--max-width-page);
   margin-inline: auto;
   padding: 0 var(--pad-shell-h) var(--pad-shell-v);
+}
+
+/*
+  Вуаль между цветным фоном и контентом.
+
+  Без неё окрашенный обложкой фон побеждал текст: на зелёном пятне подпись
+  альбома (tertiary) переставала читаться совсем. Вуаль темнее всего там, где
+  живёт контент, и растворяется к краям — цвет остаётся событием, но перестаёт
+  спорить с типографикой. Появляется вместе с цветом и уходит вместе с ним.
+*/
+.shell::before {
+  content: "";
+  position: fixed; inset: 0; z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(130% 100% at 50% 45%,
+    rgba(8, 9, 10, 0.86) 0%,
+    rgba(8, 9, 10, 0.66) 46%,
+    rgba(8, 9, 10, 0.22) 100%);
+  opacity: var(--song-opacity);
+  transition: opacity var(--duration-slower) var(--easing-default);
 }
 
 .chrome {
