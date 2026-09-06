@@ -40,6 +40,9 @@ let pulse = null;
 let submittedThisGame = false;
 /** Проигрывание фрагмента идёт прямо сейчас. */
 let playing = false;
+/** Таймер окончания фрагмента и токен текущей разметки раунда. */
+let finishTimer = null;
+let roundToken = 0;
 /** Кэш загруженных топов, чтобы не дёргать сеть на каждую перерисовку. */
 let boardsCache = null;
 let boardsSlice = null;
@@ -234,10 +237,15 @@ function renderLevelRail(rail) {
   rail.setAttribute('aria-label', t('a11y.levelRail', {
     n: game.roundIndex + 1, level: levelName(game.roundIndex + 1),
   }));
-  rail.innerHTML = Array.from({ length: ROUNDS }, (_, i) => {
+  // Пять полосок без подписи читались как непонятный декор — теперь рядом
+  // прямо написано, какой это уровень.
+  const segs = Array.from({ length: ROUNDS }, (_, i) => {
     const state = i < game.roundIndex ? 'done' : i === game.roundIndex ? 'now' : 'todo';
     return `<span class="rail__seg" data-state="${state}"><i></i></span>`;
   }).join('');
+  rail.innerHTML =
+    `<span class="rail__label">${esc(t('round.levelOf', { n: game.roundIndex + 1 }))}</span>
+     <span class="rail__segs">${segs}</span>`;
 }
 
 /* ================================================================== */
@@ -623,23 +631,26 @@ function renderRound() {
 }
 
 /**
- * Шкала ступеней БЕЗ цены каждой (блок E3).
+ * Шкала ступеней: простая линия из отрезков, под каждым — длительность.
  *
- * Раньше под каждой ступенью стояло число очков, и оно вводило в заблуждение:
- * настоящий результат зависит ещё от времени ответа и режима, так что цифра
- * с итогом не сходилась. Теперь убывание показано формой — столбик ниже с
- * каждым шагом, — а точных чисел нет вовсе.
+ * Цены ступени здесь нет (блок E3): настоящий результат зависит ещё от времени
+ * и режима, и число с итогом не сходилось. Убывание показано не размером, а
+ * приглушением: чем дальше отрезок, тем он тусклее.
+ *
+ * Цвет несёт ровно один смысл:
+ *   серый   — ступень пропущена без попытки
+ *   красный — на ступени была попытка, и она неверна
+ *   лайм    — текущая ступень
  */
 function stepMeterMarkup() {
   const total = game.stepsTotal;
   const cells = [];
   for (let i = 0; i < total; i++) {
     const st = i === game.step ? 'now' : game.stepStates[i] || STEP_STATE.LOCKED;
-    // Высота столбика падает от 100% к 34% — это и есть «чем дальше, тем меньше».
-    const h = Math.round(100 - (i / (total - 1)) * 66);
+    const dim = (1 - (i / (total - 1)) * 0.55).toFixed(2);
     cells.push(`
-      <div class="steps__cell" data-state="${st}" style="--h:${h}%">
-        <span class="steps__bar"><i></i></span>
+      <div class="steps__cell" data-state="${st}" style="--dim:${dim}">
+        <span class="steps__bar"></span>
         <span class="steps__dur">${esc(formatStepDuration(stepDuration(game.filters.difficulty, i)))}</span>
       </div>`);
   }
@@ -647,7 +658,6 @@ function stepMeterMarkup() {
     <div class="steps" style="--steps:${total}" role="img"
          aria-label="${esc(t('a11y.stepMeter', { n: game.step + 1, total }))}">
       ${cells.join('')}
-      <p class="steps__legend">${esc(t('round.stepsHint'))}</p>
     </div>`;
 }
 
@@ -659,54 +669,83 @@ function wireRound() {
   const live = $('[data-live]');
   let activeIndex = -1;
   let results = [];
-  let finishTimer = null;
+  let raf = 0;
 
-  /** Отложенный finish() обязан отмениться при смене экрана, иначе он
-   *  пометит СЛЕДУЮЩИЙ раунд как «фрагмент дослушан» и подарит чужой бонус. */
-  function cancelPlayback() {
+  // Разметка раунда пересоздаётся на каждой ступени, а звук — нет. Токен
+  // отсекает таймеры и кадры, оставшиеся от прошлой разметки: без него
+  // отложенный finish пометил бы следующую ступень как «дослушанную»
+  // и подарил бы чужой бонус.
+  const token = ++roundToken;
+  const stale = () => token !== roundToken;
+
+  function stopVisuals() {
+    cancelAnimationFrame(raf);
+    raf = 0;
     clearTimeout(finishTimer);
     finishTimer = null;
     playing = false;
   }
 
-  async function playStep() {
-    if (playing) return;
+  /** Фрагмент текущей ступени доиграл. */
+  function finishFragment() {
+    if (stale()) return;
+    finishTimer = null;
+    playing = false;
+    cancelAnimationFrame(raf);
+    if (!playBtn.isConnected) return;
+    $('[data-ring]').style.strokeDashoffset = '295';
+    playBtn.classList.remove('is-playing');
+    $('[data-play-label]').textContent = t('round.playAgain');
+    game.fragmentEnded();
+    if (canAutofocus()) input.focus();
+  }
+
+  /** Индикация и таймер для фрагмента длиной durMs от начала сессии. */
+  function trackFragment(durMs) {
+    if (stale()) return;
     playing = true;
     playBtn.classList.add('is-playing');
     $('[data-play-label]').textContent = t('round.playing');
 
-    const durMs = game.stepMs;
     const ring = $('[data-ring]');
-    const started = performance.now();
-    let raf = 0;
+    cancelAnimationFrame(raf);
     const spin = () => {
-      const p = Math.min(1, (performance.now() - started) / Math.max(durMs, 200));
+      if (stale() || !ring.isConnected) return;
+      const elapsed = (audio.elapsedOf(game.track.id) ?? 0) * 1000;
+      const p = Math.min(1, elapsed / Math.max(durMs, 200));
       ring.style.strokeDashoffset = String(295 * (1 - p));
       if (p < 1) raf = requestAnimationFrame(spin);
     };
     raf = requestAnimationFrame(spin);
 
-    const finish = () => {
-      cancelAnimationFrame(raf);
-      finishTimer = null;
-      playing = false;
-      // Разметку могли заменить, пока играл фрагмент.
-      if (!playBtn.isConnected) return;
-      ring.style.strokeDashoffset = '295';
-      playBtn.classList.remove('is-playing');
-      $('[data-play-label]').textContent = t('round.playAgain');
-      game.fragmentEnded();
-      if (canAutofocus()) input.focus();
-    };
+    const left = Math.max(60, durMs - (audio.elapsedOf(game.track.id) ?? 0) * 1000);
+    clearTimeout(finishTimer);
+    // onended у коротких фрагментов приходит с задержкой планировщика,
+    // поэтому момент окончания берём по таймеру — он точнее для метрики.
+    finishTimer = setTimeout(finishFragment, left);
+  }
+
+  async function playStep() {
+    const durMs = game.stepMs;
+
+    // Песня этого раунда уже звучит — не начинаем заново, а продлеваем.
+    // «Өткізу» на четвёртой секунде не откатывает трек назад: он продолжает
+    // играть и теперь доиграет до шести.
+    if (audio.isLive(game.track.id) && audio.extendTo(game.track.id, durMs)) {
+      trackFragment(durMs);
+      return;
+    }
+
+    if (playing) return;
+    playing = true;
+    playBtn.classList.add('is-playing');
+    $('[data-play-label]').textContent = t('round.playing');
 
     try {
       await audio.play(game.track, durMs);
-      // onended у коротких фрагментов приходит с задержкой планировщика,
-      // поэтому момент окончания берём по таймеру — он точнее для метрики.
-      finishTimer = setTimeout(finish, Math.max(durMs, 80));
+      trackFragment(durMs);
     } catch {
-      cancelAnimationFrame(raf);
-      cancelPlayback();
+      stopVisuals();
       if (!playBtn.isConnected) return;
       playBtn.classList.remove('is-playing');
       $('[data-play-label]').textContent = t('round.play');
@@ -877,10 +916,15 @@ function wireRound() {
   }
 
   function checkAnswer() {
-    cancelPlayback();
-    audio.stop(90);
     const res = game.check();
-    if (res.correct) return; // game сам переключит экран
+    if (res.correct) {
+      // Раунд закончен: карточка результата играет превью с начала.
+      stopVisuals();
+      audio.stop(90);
+      return;
+    }
+    // Неверный ответ, как и пропуск, открывает следующую ступень — и песня
+    // продолжает играть, а не откатывается.
 
     const fresh = $('#answer-input');
     if (fresh) fresh.value = '';
@@ -897,8 +941,9 @@ function wireRound() {
 
   actBtn.addEventListener('click', () => {
     if (game.hasPending) return checkAnswer();
-    cancelPlayback();
-    audio.stop(90);
+    // Звук не останавливаем: следующая ступень просто продлит фрагмент.
+    clearTimeout(finishTimer);
+    finishTimer = null;
     game.skip();
   });
 
@@ -918,6 +963,10 @@ function wireRound() {
   document.addEventListener('keydown', onKey);
   app()._offKeys?.();
   app()._offKeys = () => document.removeEventListener('keydown', onKey);
+
+  // Разметка новая, а песня та же и всё ещё звучит: подхватываем её и
+  // продлеваем до длительности новой ступени.
+  if (audio.isLive(game.track.id)) playStep();
 
   // Клавиатура на телефоне открывается только по явному тапу в поле.
   if (canAutofocus()) input.focus();
@@ -1144,6 +1193,9 @@ function wireFinalCards() {
 
   const stopPreview = (card) => {
     card.classList.remove('is-sounding');
+    // Наклон живёт на самой карточке — уводя курсор, возвращаем её ровно.
+    card.style.setProperty('--tilt-x', '0deg');
+    card.style.setProperty('--tilt-y', '0deg');
     if (hovered === card.dataset.track) {
       hovered = null;
       audio.stop(300); // плавное затухание

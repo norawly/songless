@@ -206,7 +206,7 @@ export class AudioEngine {
       // попадал бы в один-два бина и пульсация была бы грубой).
       this.analyser = this.ctx.createAnalyser();
       this.analyser.fftSize = 2048;
-      this.analyser.smoothingTimeConstant = 0.75;
+      this.analyser.smoothingTimeConstant = 0.6;
       this.analyser.connect(this.ctx.destination);
     }
     if (this.ctx.state === 'suspended') this.ctx.resume().catch(() => {});
@@ -360,7 +360,13 @@ export class AudioEngine {
     gain.gain.linearRampToValueAtTime(0.0001, now + durS);
 
     source.start(now, offset, durS);
-    this.current = { source, gain, trackId: track.id };
+    // Сессия помнит, когда началась и когда должна кончиться: ступень можно
+    // продлить прямо на ходу, не начиная фрагмент заново (см. extendTo).
+    this.current = {
+      source, gain, trackId: track.id,
+      startTime: now, endTime: now + durS,
+      offset, maxTime: now + Math.max(0, buf.duration - offset),
+    };
 
     if (opts.onEnd) {
       source.onended = () => {
@@ -369,6 +375,52 @@ export class AudioEngine {
       };
     }
     return { offset, durationMs: durS * 1000 };
+  }
+
+  /**
+   * Продлевает УЖЕ ИДУЩИЙ фрагмент до новой длительности, не начиная заново.
+   *
+   * Это поведение «Өткізу» из блока: игрок нажал пропуск на четвёртой секунде —
+   * песня не откатывается назад, она продолжает играть и теперь доиграет до
+   * шести. Нажал ещё раз, не дослушав, — доиграет до десяти.
+   *
+   * @returns {boolean} удалось ли продлить (иначе вызывающий стартует заново)
+   */
+  extendTo(trackId, totalMs) {
+    const c = this.current;
+    if (!c || c.trackId !== trackId || !this.ctx) return false;
+    const now = this.ctx.currentTime;
+    if (now >= c.endTime) return false; // фрагмент уже кончился
+
+    const newEnd = Math.min(c.startTime + totalMs / 1000, c.maxTime);
+    if (newEnd <= c.endTime) return true; // короче не делаем, просто продолжаем
+
+    const fadeOut = 0.004;
+    const g = c.gain.gain;
+    g.cancelScheduledValues(now);
+    g.setValueAtTime(g.value, now);
+    g.setValueAtTime(1, Math.max(now, newEnd - fadeOut));
+    g.linearRampToValueAtTime(0.0001, newEnd);
+    try {
+      c.source.stop(newEnd + 0.01);
+    } catch {
+      /* источник мог уже завершиться — тогда вызывающий стартует заново */
+    }
+    c.endTime = newEnd;
+    return true;
+  }
+
+  /** Сколько секунд играет текущая сессия, или null. */
+  elapsedOf(trackId) {
+    const c = this.current;
+    if (!c || c.trackId !== trackId || !this.ctx) return null;
+    return Math.max(0, this.ctx.currentTime - c.startTime);
+  }
+
+  /** Звучит ли фрагмент этого трека прямо сейчас. */
+  isLive(trackId) {
+    const c = this.current;
+    return Boolean(c && c.trackId === trackId && this.ctx && this.ctx.currentTime < c.endTime);
   }
 
   /** Полное превью с начала файла — для карточки результата и финала. */

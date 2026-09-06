@@ -52,6 +52,7 @@
   "genre.qpop": "Q-pop",
   "genre.rock": "Рок",
   "round.label": "Раунд {n} / 5",
+  "round.levelOf": "Деңгей {n} / 5",
   "round.play": "Ойнату",
   "round.playAgain": "Қайта",
   "round.playing": "Ойнап тұр",

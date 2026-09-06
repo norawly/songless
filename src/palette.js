@@ -1,9 +1,16 @@
 /**
  * Извлечение доминирующих цветов из обложки альбома.
  *
- * Без внешних библиотек: обложка рисуется в canvas 48×48, пиксели
- * квантуются по 4 бита на канал (4096 корзин), берутся самые населённые
- * корзины, достаточно далёкие друг от друга.
+ * Без внешних библиотек: обложка рисуется в canvas 64×64, пиксели квантуются
+ * по 4 бита на канал (4096 корзин), корзины ранжируются по РЕАЛЬНОЙ ДОЛЕ
+ * пикселей.
+ *
+ * Итерация 3.1 — главное изменение: раньше белые, чёрные и серые пиксели
+ * выбрасывались как «ложное доминирование». На практике это врало: у обложки,
+ * где 70% белого и 3% розового, доминирующим объявлялся розовый, и фон
+ * становился розовым. Теперь считается ровно то, чего на картинке больше,
+ * а белое и чёрное — полноценные цвета. Вместе с цветом возвращается его доля,
+ * и фон рисует пятна тем крупнее, чем больше доля.
  *
  * CDN обложек Apple (is1-ssl.mzstatic.com) отдаёт `access-control-allow-origin: *`
  * — проверено, — поэтому canvas не «портится» и getImageData работает.
@@ -11,8 +18,8 @@
  * tainted, возвращаем null: фон просто останется нейтральным, игра не падает.
  */
 
-/** Размер, до которого ужимаем обложку. 48×48 = 2304 пикселя — этого хватает. */
-const SAMPLE = 48;
+/** Размер, до которого ужимаем обложку. 64×64 = 4096 пикселей. */
+const SAMPLE = 64;
 
 /** Сколько цветов возвращаем. */
 const COUNT = 3;
@@ -61,14 +68,16 @@ function hslToRgb(h, s, l) {
 }
 
 /**
- * Подгоняет цвет под тёмный фон: поднимает насыщенность и приводит светлоту
- * в диапазон, где цвет виден, но не слепит.
+ * Минимальная подгонка под фон.
+ *
+ * Насыщенность больше НЕ поднимается: именно из-за этого серо-белая обложка
+ * превращалась в кислотное пятно. Трогаем только крайности светлоты, чтобы
+ * совсем чёрное не исчезло, а совсем белое не выжигало экран. Белое остаётся
+ * белым, приглушённое — приглушённым.
  */
-function fitForDarkBg([r, g, b]) {
-  let [h, s, l] = rgbToHsl(r, g, b);
-  s = Math.min(1, Math.max(s, 0.45));
-  l = Math.min(0.62, Math.max(0.34, l));
-  return hslToRgb(h, s, l);
+function fitForBg([r, g, b]) {
+  const [h, s, l] = rgbToHsl(r, g, b);
+  return hslToRgb(h, Math.min(0.92, s), Math.min(0.90, Math.max(0.16, l)));
 }
 
 function distance(a, b) {
@@ -76,23 +85,22 @@ function distance(a, b) {
 }
 
 /**
+ * Считает корзины по всем видимым пикселям и ранжирует их по доле.
+ * Ничего не отсеивается: белое и чёрное — такие же цвета, как остальные.
+ *
  * @param {Uint8ClampedArray} data
- * @param {{minS:number, minL:number, maxL:number}} th пороги отсева
+ * @returns {Array<{rgb:number[], share:number}>}
  */
-function quantize(data, th) {
+function quantize(data) {
   const buckets = new Map();
+  let total = 0;
 
   for (let i = 0; i < data.length; i += 4) {
+    if (data[i + 3] < 200) continue;
     const r = data[i];
     const g = data[i + 1];
     const b = data[i + 2];
-    if (data[i + 3] < 200) continue;
-
-    const [, s, l] = rgbToHsl(r, g, b);
-    // Почти чёрные, почти белые и полностью серые пиксели дают ложное
-    // «доминирование»: у половины обложек фон чёрный.
-    if (l < th.minL || l > th.maxL) continue;
-    if (s < th.minS) continue;
+    total++;
 
     const key = ((r >> 4) << 8) | ((g >> 4) << 4) | (b >> 4);
     const cur = buckets.get(key);
@@ -102,43 +110,21 @@ function quantize(data, th) {
       buckets.set(key, { n: 1, r, g, b });
     }
   }
+  if (!total) return [];
 
   return [...buckets.values()]
     .sort((x, y) => y.n - x.n)
-    .map((x) => [
-      Math.round(x.r / x.n),
-      Math.round(x.g / x.n),
-      Math.round(x.b / x.n),
-    ]);
-}
-
-/**
- * Три прохода со всё более мягкими порогами.
- *
- * Строгий фильтр отсекает серое и почти чёрное — на цветной обложке это
- * правильно, но чёрно-белых и приглушённых обложек много, и на них строгий
- * проход не оставлял НИ ОДНОГО пикселя: фон тогда просто не включался.
- * Поэтому если строгий проход пуст, требования к насыщенности ослабляются,
- * а на последнем проходе берётся что угодно видимое — цвет всё равно будет
- * поднят под тёмный фон в fitForDarkBg.
- */
-function quantizeAdaptive(data) {
-  const passes = [
-    { minS: 0.12, minL: 0.12, maxL: 0.93 },
-    { minS: 0.05, minL: 0.08, maxL: 0.96 },
-    { minS: 0.00, minL: 0.03, maxL: 0.99 },
-  ];
-  for (const th of passes) {
-    const out = quantize(data, th);
-    if (out.length) return out;
-  }
-  return [];
+    .map((x) => ({
+      rgb: [Math.round(x.r / x.n), Math.round(x.g / x.n), Math.round(x.b / x.n)],
+      share: x.n / total,
+    }));
 }
 
 /**
  * @param {string} url обложка
  * @param {string} [cacheKey] обычно id трека
- * @returns {Promise<string[]|null>} массив CSS-цветов вида 'rgb(r g b)'
+ * @returns {Promise<Array<{css:string, share:number}>|null>}
+ *   цвета по убыванию доли; share — доля пикселей обложки (0..1)
  */
 export function extractPalette(url, cacheKey = url) {
   if (!url) return Promise.resolve(null);
@@ -164,25 +150,30 @@ export function extractPalette(url, cacheKey = url) {
         ctx.drawImage(img, 0, 0, SAMPLE, SAMPLE);
         const { data } = ctx.getImageData(0, 0, SAMPLE, SAMPLE);
 
-        const ranked = quantizeAdaptive(data);
+        const ranked = quantize(data);
         if (ranked.length === 0) return fail();
 
+        // Берём самые крупные корзины, но не три оттенка одного цвета:
+        // соседние корзины схлопываются в ту, что крупнее, и её доля растёт.
         const chosen = [];
         for (const c of ranked) {
           if (chosen.length >= COUNT) break;
-          if (chosen.every((p) => distance(p, c) >= MIN_DISTANCE)) chosen.push(c);
+          const near = chosen.find((p) => distance(p.rgb, c.rgb) < MIN_DISTANCE);
+          if (near) near.share += c.share;
+          else chosen.push({ rgb: c.rgb, share: c.share });
         }
-        // Если обложка почти монохромная — добираем ближайшими, лишь бы
-        // получить три точки для градиента.
-        while (chosen.length < COUNT && ranked.length) {
-          chosen.push(ranked[chosen.length % ranked.length]);
+        // Почти монохромная обложка: добираем тем же цветом, чтобы получить
+        // три точки для градиента.
+        while (chosen.length < COUNT && chosen.length) {
+          chosen.push({ ...chosen[chosen.length - 1] });
         }
 
-        const css = chosen
-          .map(fitForDarkBg)
-          .map(([r, g, b]) => `rgb(${r} ${g} ${b})`);
-        cache.set(cacheKey, css);
-        resolve(css);
+        const out = chosen.map((c) => {
+          const [r, g, b] = fitForBg(c.rgb);
+          return { css: `rgb(${r} ${g} ${b})`, share: Number(c.share.toFixed(3)) };
+        });
+        cache.set(cacheKey, out);
+        resolve(out);
       } catch {
         // canvas tainted или getImageData запрещён — фон останется нейтральным
         fail();

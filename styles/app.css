@@ -67,13 +67,17 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
 /* ---------------------------------------------------------------------------
    ЖИВОЙ ФОН (src/pulse.js)
 
-   Три пятна плывут по собственным траекториям с взаимно простыми периодами —
-   картинка не зацикливается на глаз и движется даже в тишине. Поверх них
-   белая вспышка, прозрачность которой ведёт энергия баса: на бите фон
-   светлеет к белому и чуть расширяется.
+   Три слоя с разными задачами:
+     .song-glow       — сам тёмный фон, загорается на БИТ
+     .song-bg__blob   — цветные пятна обложки, реагируют на ВЕРХ (голос)
+     .song-bg__flash  — короткая белая вспышка на сильный удар
 
-   Пульсация трогает только фильтр и масштаб — то есть композитор. Ни один
-   кадр не пересчитывает лейаут.
+   Движение пятен задаёт JS (transform), потому что его скорость зависит от
+   бита; CSS-анимации здесь нет намеренно — менять animation-duration на лету
+   значит дёргать фазу.
+
+   Всё, что меняется покадрово, — это filter, opacity и transform: композитор,
+   ни одного пересчёта лейаута.
    ------------------------------------------------------------------------ */
 
 .song-bg {
@@ -82,59 +86,53 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
   z-index: 0;
   pointer-events: none;
   opacity: var(--song-opacity);
-  filter: saturate(calc(1 + var(--song-energy) * 0.6))
-          brightness(calc(0.72 + var(--song-energy) * 0.5))
-          blur(46px);
-  transform: scale(calc(1.02 + var(--song-energy) * 0.05));
   transition: opacity var(--duration-slower) var(--easing-default);
-  will-change: transform, filter;
 }
 
+/* Свечение фона на бит: тёмное пятно под пятнами, которое разгорается. */
+.song-glow {
+  position: absolute; inset: 0;
+  display: block;
+  background: radial-gradient(75% 65% at 50% 55%,
+    var(--song-c1) 0%, transparent 78%);
+  opacity: calc(0.10 + var(--song-beat) * 0.55);
+  filter: blur(70px) brightness(calc(0.7 + var(--song-beat) * 0.9));
+  transform: scale(calc(1 + var(--song-beat) * 0.06));
+}
+
+/* Пятна: цвет и размер от обложки, яркость и резкость — от верхних частот. */
 .song-bg__blob {
   position: absolute;
   display: block;
-  width: 62%; height: 66%;
+  width: 58%; height: 62%;
   border-radius: 50%;
-  will-change: transform;
+  will-change: transform, filter;
+  filter: blur(44px)
+          saturate(calc(0.9 + var(--song-voice) * 0.8))
+          brightness(calc(0.72 + var(--song-voice) * 0.85));
 }
 .song-bg__blob--1 {
-  left: 2%; top: 4%;
+  left: 0%; top: 2%;
+  width: calc(58% * var(--song-s1, 1)); height: calc(62% * var(--song-s1, 1));
   background: radial-gradient(circle at 50% 50%, var(--song-c1), transparent 70%);
-  animation: drift-a 19s ease-in-out infinite alternate;
 }
 .song-bg__blob--2 {
   right: 0%; top: 0%;
+  width: calc(58% * var(--song-s2, 1)); height: calc(62% * var(--song-s2, 1));
   background: radial-gradient(circle at 50% 50%, var(--song-c2), transparent 70%);
-  animation: drift-b 23s ease-in-out infinite alternate;
 }
 .song-bg__blob--3 {
-  left: 22%; bottom: 0%;
+  left: 24%; bottom: 0%;
+  width: calc(58% * var(--song-s3, 1)); height: calc(62% * var(--song-s3, 1));
   background: radial-gradient(circle at 50% 50%, var(--song-c3), transparent 72%);
-  animation: drift-c 29s ease-in-out infinite alternate;
 }
 
-@keyframes drift-a {
-  from { transform: translate3d(0, 0, 0) scale(1); }
-  50%  { transform: translate3d(14%, 9%, 0) scale(1.14); }
-  to   { transform: translate3d(-6%, 16%, 0) scale(0.94); }
-}
-@keyframes drift-b {
-  from { transform: translate3d(0, 0, 0) scale(1.06); }
-  50%  { transform: translate3d(-16%, 12%, 0) scale(0.92); }
-  to   { transform: translate3d(-4%, -8%, 0) scale(1.18); }
-}
-@keyframes drift-c {
-  from { transform: translate3d(0, 0, 0) scale(0.96); }
-  50%  { transform: translate3d(12%, -14%, 0) scale(1.16); }
-  to   { transform: translate3d(-12%, -4%, 0) scale(1.02); }
-}
-
-/* Вспышка на бит: мягкое свечение к белому, без резких краёв. */
+/* Вспышка на удар: мягкое свечение к белому, без резких краёв. */
 .song-bg__flash {
   position: absolute; inset: 0;
   display: block;
   background: radial-gradient(58% 62% at 50% 52%, #fff, transparent 72%);
-  opacity: calc(var(--song-energy) * 0.34);
+  opacity: calc(var(--song-beat) * var(--song-beat) * 0.28);
   mix-blend-mode: screen;
 }
 
@@ -216,8 +214,21 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
 
 .chrome__nav { display: flex; gap: var(--s-4); justify-self: end; align-items: center; }
 
-/* Индикатор раундов: статус, не навигация. */
-.chrome__rail { display: flex; gap: var(--s-4); justify-self: center; }
+/* Индикатор раундов: статус, не навигация. Пять полосок без подписи читались
+   как декор, поэтому рядом стоит текст «Уровень N / 5». */
+.chrome__rail {
+  display: flex; align-items: center; gap: var(--s-12);
+  justify-self: center;
+}
+.rail__label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-wider);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+.rail__segs { display: flex; gap: var(--s-4); }
 /* display:flex перебивает браузерное [hidden]{display:none}, и вне партии
    счётчик раундов оставался бы висеть в шапке. */
 .chrome__rail[hidden] { display: none; }
@@ -732,9 +743,9 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
 }
 
 /* --- Шкала ступеней ------------------------------------------------------
-   Цены ступеней здесь больше нет (блок E3): она вводила в заблуждение, потому
-   что итог зависит ещё от времени и режима. Убывание показано формой —
-   столбик становится ниже с каждым шагом.
+   Просто линия из отрезков, под каждым — длительность фрагмента. Цены
+   ступени здесь нет (блок E3), убывание показано приглушением: чем дальше
+   отрезок, тем он тусклее.
 
    Цвет несёт ровно один смысл:
      серый    — ступень пропущена без попытки
@@ -747,47 +758,31 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
   display: grid;
   grid-template-columns: repeat(var(--steps, 7), 1fr);
   gap: var(--s-4);
-  align-items: end;
 }
-.steps__legend {
-  grid-column: 1 / -1;
-  margin-top: var(--s-4);
-  text-align: center;
-  font-size: var(--font-size-xs);
-  letter-spacing: var(--letter-spacing-wide);
-  text-transform: uppercase;
-  color: var(--color-text-tertiary);
-}
-.steps__cell { display: grid; gap: var(--s-4); justify-items: center; align-content: end; }
+.steps__cell { display: grid; gap: var(--s-4); justify-items: center; }
 .steps__bar {
-  display: flex; align-items: flex-end;
-  width: 100%; height: 28px;
-  background: linear-gradient(to top,
-    var(--color-bg-tertiary) 0,
-    var(--color-bg-tertiary) var(--h, 100%),
-    transparent var(--h, 100%));
-}
-.steps__bar i {
-  display: block; width: 100%; height: var(--h, 100%);
-  background: transparent;
+  display: block; width: 100%; height: 4px;
+  background: var(--color-bg-tertiary);
+  opacity: var(--dim, 1);
   transition: background var(--duration-normal) var(--easing-default);
 }
-.steps__cell[data-state="skipped"] .steps__bar i { background: var(--color-border-strong); }
-.steps__cell[data-state="wrong"] .steps__bar i { background: var(--color-status-error-strong); }
-.steps__cell[data-state="solved"] .steps__bar i { background: var(--color-accent-primary); }
-.steps__cell[data-state="now"] .steps__bar i { background: var(--color-accent-primary); }
+.steps__cell[data-state="skipped"] .steps__bar { background: var(--color-border-strong); }
+.steps__cell[data-state="wrong"] .steps__bar { background: var(--color-status-error-strong); }
+.steps__cell[data-state="solved"] .steps__bar,
+.steps__cell[data-state="now"] .steps__bar { background: var(--color-accent-primary); opacity: 1; }
 .steps__dur {
   font-family: var(--font-family-mono);
   font-size: var(--font-size-xs);
   color: var(--color-text-tertiary);
   letter-spacing: -.02em;
+  opacity: var(--dim, 1);
 }
 .steps__cell[data-state="now"] .steps__dur {
   color: var(--color-accent-primary);
   font-weight: var(--font-weight-bold);
+  opacity: 1;
 }
-.steps__cell[data-state="wrong"] .steps__dur { color: var(--color-status-error); }
-.steps__cell[data-state="skipped"] .steps__dur { opacity: .5; }
+.steps__cell[data-state="wrong"] .steps__dur { color: var(--color-status-error); opacity: 1; }
 
 /* --- Поиск ответа -------------------------------------------------------- */
 
@@ -884,7 +879,8 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
   box-shadow: inset 3px 0 0 var(--color-status-error);
 }
 
-.round__hint { min-height: 1.4em; text-align: center; max-width: 52ch; }
+/* Места по ширине хватает — подсказка живёт одной строкой. */
+.round__hint { min-height: 1.4em; text-align: center; white-space: nowrap; }
 
 /* Вспышка на неверный ответ (блок D2): заметно, коротко, с затуханием. */
 body::after {
@@ -1027,14 +1023,29 @@ body.is-wrong::after { animation: wrong-flash 440ms var(--easing-out) both; }
   min-height: 0;
 }
 
+/*
+   Карточка финала: два уровня движения, и это важно.
+
+   Наклон за курсором живёт на .fcard — почти без перехода, поэтому он
+   следует за мышью, а не догоняет её.
+   Подъём (выезд вперёд и увеличение) живёт на .fcard__inner с плавным
+   переходом.
+
+   Раскрытие сделано анимацией, а не переходом, и с fill-mode: backwards.
+   Раньше оно было переходом с задержкой var(--d), и эта задержка применялась
+   и к наведению тоже: карточка выпирала рывком, а возвращалась с опозданием.
+*/
 .fcard {
   display: grid;
   cursor: pointer;
   transform-style: preserve-3d;
   min-height: 0;
-  transition: opacity var(--duration-normal) var(--easing-default),
+  transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transition: transform 90ms linear,
+              opacity var(--duration-normal) var(--easing-default),
               filter var(--duration-normal) var(--easing-default);
 }
+
 .fcard__inner {
   display: grid;
   grid-template-rows: auto auto auto 1fr;
@@ -1042,36 +1053,32 @@ body.is-wrong::after { animation: wrong-flash 440ms var(--easing-out) both; }
   height: 100%;
   min-height: 0;
   transform-origin: left center;
-  /* Свёрнутое состояние: карточка как закрытый конверт пластинки. */
-  transform: rotateY(-78deg) rotateZ(-9deg) scale(.86);
-  opacity: 0;
-  transition:
-    transform var(--duration-slower) var(--easing-spring) var(--d, 0ms),
-    opacity var(--duration-slow) var(--easing-out) var(--d, 0ms),
-    box-shadow var(--duration-normal) var(--easing-out);
-}
-.final__grid.is-open .fcard__inner {
-  transform: rotateY(0) rotateZ(0) scale(1);
-  opacity: 1;
+  transition: transform 280ms cubic-bezier(0.2, 0.8, 0.25, 1),
+              box-shadow var(--duration-normal) var(--easing-out);
 }
 
-/* Наведённая карточка заметно выдвигается вперёд, соседние отступают
-   и притухают — так поднятая читается как выбранная. */
+/* Свёрнутое состояние: карточка как закрытый конверт пластинки. */
+.final__grid:not(.is-open) .fcard__inner {
+  transform: rotateY(-78deg) rotateZ(-9deg) scale(.86);
+  opacity: 0;
+}
+.final__grid.is-open .fcard__inner {
+  animation: unfurl var(--duration-slower) var(--easing-spring) var(--d, 0ms) backwards;
+}
+@keyframes unfurl {
+  from { transform: rotateY(-78deg) rotateZ(-9deg) scale(.86); opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}
+
+/* Наведённая карточка выдвигается вперёд, соседние отступают и притухают. */
 .final__grid.is-open:hover .fcard { opacity: .5; filter: saturate(.6); }
 .final__grid.is-open:hover .fcard:hover,
 .final__grid.is-open .fcard:focus-visible { opacity: 1; filter: none; }
 
 .final__grid.is-open .fcard:hover .fcard__inner,
 .final__grid.is-open .fcard:focus-visible .fcard__inner {
-  transform:
-    translateZ(90px)
-    rotateX(var(--tilt-x, 0deg))
-    rotateY(var(--tilt-y, 0deg))
-    scale(1.12);
+  transform: translateZ(90px) scale(1.1);
   box-shadow: var(--shadow-card-lift);
-  transition: transform var(--duration-fast) var(--easing-out),
-              box-shadow var(--duration-normal) var(--easing-out);
-  z-index: 3;
 }
 .final__grid.is-open .fcard:hover,
 .final__grid.is-open .fcard:focus-visible { z-index: 3; }
@@ -1285,11 +1292,6 @@ body.is-wrong::after { animation: wrong-flash 440ms var(--easing-out) both; }
    ======================================================================== */
 
 /* Уровень 1: декор и пояснения */
-[data-dense="1"] .steps__legend,
-[data-dense="2"] .steps__legend,
-[data-dense="3"] .steps__legend,
-[data-dense="4"] .steps__legend { display: none; }
-
 [data-dense="1"] .field__hint,
 [data-dense="2"] .field__hint,
 [data-dense="3"] .field__hint,
@@ -1345,8 +1347,10 @@ body.is-wrong::after { animation: wrong-flash 440ms var(--easing-out) both; }
    ======================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
+  .fcard { transform: none !important; }
   .fcard__inner {
     transform: none !important;
+    animation: none !important;
     opacity: 0;
     transition: opacity 200ms linear var(--d, 0ms);
   }
@@ -1356,8 +1360,8 @@ body.is-wrong::after { animation: wrong-flash 440ms var(--easing-out) both; }
   .fcard.is-sounding .fcard__eq i { animation: none; height: 9px; }
   .card__art, .results, .results__item, .lang__hint { animation: none; }
   /* Фон не движется и не пульсирует — остаётся ровный градиент. */
-  .song-bg { transform: none; }
-  .song-bg__blob { animation: none !important; }
+  .song-bg__blob { transform: none !important; filter: blur(44px); }
+  .song-glow { transform: none; filter: blur(70px); opacity: .22; }
   .song-bg__flash { opacity: 0; }
   body.is-wrong::after { animation: none; }
 }
