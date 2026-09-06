@@ -175,51 +175,49 @@ https://script.google.com/macros/s/.../exec?action=top&limit=5
 
 ---
 
-## 3. Деплой
+## 3. Деплой — как всё устроено сейчас
 
-Сайт статический. Собирать нечего — публикуется папка как есть.
+Сайт уже опубликован: **https://songless.zhengisbay.com**
 
-### GitHub Pages
+| Что | Где |
+| --- | --- |
+| Репозиторий | `norawly/songless` (публичный) |
+| Хостинг | GitHub Pages, ветка `main`, каталог `/` |
+| Домен | Cloudflare, зона `zhengisbay.com` |
+| DNS-запись | `CNAME songless → norawly.github.io`, **DNS only (серое облако)** |
+| TLS | сертификат GitHub Pages, HTTPS принудительный |
+
+**Публикация новой версии — это просто пуш:**
 
 ```bash
-git init
-git add .
-git commit -m "ТАП ӘНДІ"
-git branch -M main
-git remote add origin git@github.com:<user>/<repo>.git
-git push -u origin main
+git add -A && git commit -m "что изменилось" && git push
 ```
 
-Затем **Settings → Pages → Source: Deploy from a branch → Branch: `main` /
-`(root)` → Save**. Через минуту сайт будет на
-`https://<user>.github.io/<repo>/`.
+Через минуту-две изменения на сайте. Ничего собирать не нужно: репозиторий и
+есть сайт.
 
-Пути в проекте относительные, подпапка репозитория работает без правок.
+### Почему DNS-запись без прокси Cloudflare
 
-### Netlify
+Оранжевое облако выключено намеренно. GitHub Pages продлевает TLS-сертификат
+проверкой HTTP-01, и прокси Cloudflare эту проверку перехватывает — через
+90 дней сертификат бы не продлился и сайт перестал бы открываться по HTTPS.
 
-Перетащите папку на [app.netlify.com/drop](https://app.netlify.com/drop).
-Либо подключите репозиторий: **Build command** пустой,
-**Publish directory** — `.`.
+Прокси можно включить, но тогда TLS должен терминировать Cloudflare:
+режим SSL/TLS → **Full**, и полагаться на сертификат Cloudflare, а не GitHub.
+Это даёт CDN, аналитику и защиту от DDoS. Сейчас в этом нет нужды —
+GitHub Pages сам по себе на CDN, — поэтому оставлено проще и надёжнее.
 
-### Vercel / Cloudflare Pages
+### Файлы, от которых зависит публикация
 
-Framework preset — **Other** / **None**, build command пустой, output
-directory — корень.
+- `CNAME` — в нём домен. Удалите его, и Pages отвяжет домен.
+- `.nojekyll` — отключает обработку Jekyll, чтобы Pages отдавал файлы как есть.
 
-### После деплоя
+### Другие площадки
 
-Впишите публичный адрес в [`src/config.js`](src/config.js):
-
-```js
-SHARE_URL: 'https://<ваш-адрес>',
-```
-
-Он попадёт в текст, который игроки копируют кнопкой «Бөлісу». Заодно проверьте,
-что `og-image.png` отдаётся по адресу `https://<ваш-адрес>/og-image.png` —
-на него ссылается `<meta property="og:image">`.
-
----
+Если понадобится перенести: сайт статический, собирать нечего.
+Netlify — перетащить папку на [app.netlify.com/drop](https://app.netlify.com/drop);
+Vercel / Cloudflare Pages — framework preset **Other**, build command пустой,
+output directory — корень.
 
 ## 4. Обновление каталога песен
 
