@@ -47,7 +47,7 @@ const BASE_SPEED = 0.13;   // рад/с — движение есть всегд
 const BEAT_SPEED = 0.55;   // добавка при полном бите
 
 /** Видимость слоя, когда играет трек. */
-const ACTIVE_OPACITY = 0.62;
+const ACTIVE_OPACITY = 0.85;
 
 const reduceMotion = () =>
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;

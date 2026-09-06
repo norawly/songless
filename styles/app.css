@@ -98,9 +98,9 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
   position: absolute; inset: 0;
   display: block;
   background: radial-gradient(70% 60% at 50% 50%, var(--song-c1) 0%, transparent 75%);
-  opacity: calc(0.16 + var(--song-beat) * 0.20);
-  filter: blur(120px);
-  transform: scale(calc(1 + var(--song-beat) * 0.03));
+  opacity: calc(0.26 + var(--song-beat) * 0.38);
+  filter: blur(120px) brightness(calc(1 + var(--song-beat) * 0.45));
+  transform: scale(calc(1 + var(--song-beat) * 0.04));
   transition: opacity 120ms linear, transform 160ms linear;
 }
 
@@ -111,8 +111,10 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
   width: 85%; height: 88%;
   border-radius: 50%;
   will-change: transform;
-  filter: blur(110px);
-  opacity: calc(0.62 + var(--song-voice) * 0.22);
+  filter: blur(110px)
+          saturate(calc(1.1 + var(--song-voice) * 0.3))
+          brightness(calc(1 + var(--song-beat) * 0.30));
+  opacity: calc(0.82 + var(--song-voice) * 0.18);
   transition: opacity 200ms linear;
 }
 .song-bg__blob--1 {
@@ -159,9 +161,9 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
   position: fixed; inset: 0; z-index: -1;
   pointer-events: none;
   background: radial-gradient(130% 100% at 50% 45%,
-    rgba(8, 9, 10, 0.86) 0%,
-    rgba(8, 9, 10, 0.66) 46%,
-    rgba(8, 9, 10, 0.22) 100%);
+    rgba(8, 9, 10, 0.78) 0%,
+    rgba(8, 9, 10, 0.56) 46%,
+    rgba(8, 9, 10, 0.16) 100%);
   opacity: var(--song-opacity);
   transition: opacity var(--duration-slower) var(--easing-default);
 }
