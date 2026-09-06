@@ -122,9 +122,13 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
   filter: blur(110px)
           saturate(calc(1.1 + var(--song-voice) * 0.3))
           brightness(calc(1 + var(--song-beat) * 0.30));
-  opacity: calc(0.82 + var(--song-voice) * 0.18);
   transition: opacity 200ms linear;
 }
+/* Каждое пятно светится от своей полосы: низ, середина, воздух. */
+.song-bg__blob--1 { opacity: calc(0.78 + var(--song-b1, 0) * 0.22); }
+.song-bg__blob--2 { opacity: calc(0.78 + var(--song-b2, 0) * 0.22); }
+.song-bg__blob--3 { opacity: calc(0.78 + var(--song-b3, 0) * 0.22); }
+
 .song-bg__blob--1 {
   left: -6%; top: -4%;
   width: calc(85% * var(--song-s1, 1)); height: calc(88% * var(--song-s1, 1));
@@ -157,7 +161,8 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
   position: absolute; inset: -30%;
   display: block;
   mix-blend-mode: var(--wave-blend, screen);
-  opacity: var(--wave-op, 0.4);
+  /* На припеве и дропе волны становятся заметнее. */
+  opacity: calc(var(--wave-op, 0.4) * (0.8 + var(--song-lift, 0) * 0.5));
   filter: blur(var(--wave-blur, 28px));
   will-change: transform;
   /* Шаг волны: базовый период жанра, растянутый ударом. */

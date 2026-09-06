@@ -15,32 +15,38 @@
  * бита («громче — быстрее»), а менять `animation-duration` на лету значит
  * дёргать фазу. Здесь фаза копится сама, и её приращение зависит от энергии.
  *
- * ПОРОГОВ С КОНСТАНТАМИ ЗДЕСЬ НЕТ. Их не может быть: у одной песни бас всё
- * время на 0.8, у другой не поднимается выше 0.2, и любая фиксированная планка
- * либо горит всегда, либо не срабатывает никогда. Вместо неё две адаптивные
- * штуки:
+ * ПОРОГОВ С КОНСТАНТАМИ ЗДЕСЬ НЕТ, и скользящего среднего тоже. Спектр
+ * разбит на пять полос, и у каждой свои пол и пик с разной инерцией:
  *
- *   — AutoRange растягивает текущий диапазон сигнала в 0..1 и сам подстраивает
- *     границы под трек за пару секунд;
- *   — Excess сравнивает мгновенный уровень со СКОЛЬЗЯЩИМ СРЕДНИМ этого же
- *     трека, а не с константой. Поэтому «очень басистая песня» больше не
- *     превращается в равномерно горящий экран: на фоне её же громкого баса
- *     удары всё равно выделяются.
+ *   — пол идёт вниз быстро, вверх почти не идёт, поэтому громкое место не
+ *     имеет права поднять планку до себя;
+ *   — пик поднимается мгновенно и оседает медленно, поэтому достигнутая
+ *     вершина остаётся вершиной, пока не случится выше.
  *
- * И сам удар ищется не только в басу: параллельно считается спектральный поток
- * по всей полосе. Бочка даёт всплеск в басу, щелчок или атака гитары — в
- * потоке; берётся тот сигнал, который сильнее. Поэтому «бит» работает и там,
- * где баса почти нет.
+ * Наивное среднее вело себя ровно наоборот: оно ползло вверх вслед за
+ * повторяющимся битом, догоняло его, и через пару тактов бит переставал
+ * считаться битом. Здесь удар бьёт каждый раз. При этом припев и дроп планку
+ * поднимают (стало громче по-настоящему), а затихание опускает.
+ *
+ * Каждая полоса ведёт свой элемент фона: низ — удар и свет, середина и воздух
+ * — цветные пятна. Отдельная широкая полоса даёт --song-lift: насколько
+ * сейчас громче обычного, то есть где припев.
  *
  * При prefers-reduced-motion не работает ничего из этого — остаётся ровный
  * статичный градиент.
  */
 
-/** Полосы. Бас — удар, верх — голос и всё яркое. */
-const BASS_LO_HZ = 20;
-const BASS_HI_HZ = 160;
-const AIR_LO_HZ = 1800;
-const AIR_HI_HZ = 7000;
+/**
+ * Полосы спектра. Каждая живёт своей жизнью: у каждой свой пол, свой пик и
+ * свой онсет, и каждая ведёт свой элемент фона.
+ */
+const BANDS = [
+  { key: 'kick', lo: 20,   hi: 90 },    // бочка
+  { key: 'bass', lo: 90,   hi: 220 },   // бас
+  { key: 'body', lo: 220,  hi: 800 },   // тело барабанов, гитары
+  { key: 'mid',  lo: 800,  hi: 2500 },  // основа голоса
+  { key: 'air',  lo: 2500, hi: 9000 },  // воздух, тарелки, шипящие
+];
 
 /** Насколько быстро поле перетекает в тишине и насколько разгоняется на бите. */
 const BASE_SPEED = 0.13;   // рад/с — движение есть всегда
@@ -52,40 +58,51 @@ const ACTIVE_OPACITY = 0.85;
 const reduceMotion = () =>
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
+
 /**
- * Автоматический диапазон: держит наблюдаемые минимум и максимум и растягивает
- * сигнал между ними. Верхняя граница медленно оседает, нижняя медленно
- * поднимается — иначе один громкий всплеск задавил бы весь остальной трек.
+ * Одна полоса спектра.
+ *
+ * Главная идея — НЕ УСРЕДНЯТЬСЯ К ПИКУ. Наивное скользящее среднее ползёт
+ * вверх вслед за повторяющимся битом, планка догоняет удар, и через пару
+ * тактов бит перестаёт считаться битом вовсе. Поэтому здесь две границы
+ * с разной инерцией:
+ *
+ *   floor — «тихий уровень». Вниз идёт быстро, вверх почти не идёт: громкое
+ *           место не имеет права поднять пол. Это и есть «не усредняйся к
+ *           высокой точке».
+ *   peak  — удержание максимума. Пришло громче — планка мгновенно поднялась.
+ *           Не приходит — она оседает медленно, за несколько секунд. Значит
+ *           достигнутая вершина остаётся вершиной, пока не случится выше.
+ *
+ * Вместе это даёт ровно то, что нужно: припев и дроп поднимают планку (стало
+ * громче — верх поехал вверх), затихание её опускает, а повторяющийся удар
+ * бьёт каждый раз, а не растворяется в среднем.
  */
-class AutoRange {
+class Band {
   constructor() {
-    this.lo = 1;
-    this.hi = 0;
+    this.floor = 1;
+    this.peak = 0;
+    this.prev = 0;
+    this.norm = 0;
+    this.hit = 0;
   }
 
-  push(v) {
-    this.hi = v > this.hi ? v : this.hi * 0.9985 + v * 0.0015;
-    this.lo = v < this.lo ? v : this.lo + (v - this.lo) * 0.0015;
-    const span = Math.max(0.045, this.hi - this.lo);
-    return Math.min(1, Math.max(0, (v - this.lo) / span));
-  }
-}
+  push(v, dt) {
+    // Пол: вниз быстро, вверх еле-еле.
+    this.floor += (v - this.floor) * (v < this.floor ? 0.25 : 0.0012);
+    // Пик: вверх мгновенно, вниз медленным оседанием (≈4 с до половины).
+    this.peak = v > this.peak ? v : this.peak * 0.9985;
 
-/**
- * Превышение мгновенного уровня над скользящим средним — в долях самого
- * среднего. Никаких констант-порогов: планка едет вместе с треком.
- */
-class Excess {
-  constructor(window = 0.055, sens = 0.85) {
-    this.avg = 0;
-    this.window = window;
-    this.sens = sens;
-  }
+    const span = Math.max(0.03, this.peak - this.floor);
+    this.norm = clamp01((v - this.floor) / span);
 
-  push(v) {
-    this.avg += (v - this.avg) * this.window;
-    const e = (v - this.avg) / Math.max(0.04, this.avg * this.sens + 0.02);
-    return Math.min(1, Math.max(0, e));
+    // Онсет: прирост относительно того же размаха. Он не зависит от того,
+    // насколько громко играет вообще, поэтому тихий трек бьёт так же чётко.
+    const attack = clamp01((v - this.prev) / (span * 0.55));
+    this.prev = v;
+    this.hit = attack > this.hit ? attack : Math.max(0, this.hit - dt * 3.4);
+    return this;
   }
 }
 
@@ -98,15 +115,12 @@ export class Pulse {
     this.data = null;
     this.root = document.documentElement;
 
-    this.fluxRange = new AutoRange();
-    this.airRange = new AutoRange();
-    this.bassExcess = new Excess();
-    this.fluxExcess = new Excess(0.045, 0.7);
-    this.airExcess = new Excess(0.08, 0.55);
-    this.prev = null;
+    this.bands = Object.fromEntries(BANDS.map((b) => [b.key, new Band()]));
+    this.loud = new Band();   // весь спектр — для распознавания припева и дропа
 
     this.beat = 0;
     this.air = 0;
+    this.lift = 0;
     this.phase = 0;
     this.last = 0;
     /** Множители характера трека (src/mood.js). */
@@ -191,6 +205,7 @@ export class Pulse {
     s.setProperty('--song-opacity', '0');
     s.setProperty('--song-beat', '0');
     s.setProperty('--song-voice', '0');
+    s.setProperty('--song-lift', '0');
     s.setProperty('--song-energy', '0');
     this.beat = 0;
     this.air = 0;
@@ -202,12 +217,8 @@ export class Pulse {
    * @param {AnalyserNode} analyser
    */
   start(analyser) {
-    this.fluxRange = new AutoRange();
-    this.airRange = new AutoRange();
-    this.bassExcess = new Excess();
-    this.fluxExcess = new Excess(0.045, 0.7);
-    this.airExcess = new Excess(0.08, 0.55);
-    this.prev = null;
+    this.bands = Object.fromEntries(BANDS.map((b) => [b.key, new Band()]));
+    this.loud = new Band();
 
     if (!analyser || reduceMotion()) {
       this.analyser = null;
@@ -220,47 +231,17 @@ export class Pulse {
 
     this.analyser = analyser;
     this.data = new Uint8Array(analyser.frequencyBinCount);
-    this.prev = new Uint8Array(analyser.frequencyBinCount);
     const binHz = analyser.context.sampleRate / analyser.fftSize;
-    // Полоса для спектрального потока: от низа до «воздуха», где и живут
-    // перкуссия и атаки инструментов.
-    this.fluxBand = [
-      Math.max(1, Math.floor(40 / binHz)),
-      Math.min(this.data.length - 1, Math.ceil(9000 / binHz)),
-    ];
-    this.bass = [
-      Math.max(1, Math.floor(BASS_LO_HZ / binHz)),
-      Math.min(this.data.length - 1, Math.ceil(BASS_HI_HZ / binHz)),
-    ];
-    this.airBand = [
-      Math.max(1, Math.floor(AIR_LO_HZ / binHz)),
-      Math.min(this.data.length - 1, Math.ceil(AIR_HI_HZ / binHz)),
-    ];
+    const bin = (hz) => Math.max(1, Math.min(this.data.length - 1, Math.round(hz / binHz)));
+    this.ranges = BANDS.map((b) => ({ key: b.key, lo: bin(b.lo), hi: bin(b.hi) }));
+    this.fullRange = { lo: bin(30), hi: bin(11000) };
 
     if (!this.raf) this._loop();
   }
 
-  _band([lo, hi]) {
+  _band({ lo, hi }) {
     let sum = 0;
     for (let i = lo; i <= hi; i++) sum += this.data[i];
-    return sum / ((hi - lo + 1) * 255);
-  }
-
-  /**
-   * Спектральный поток: сумма приростов спектра между кадрами.
-   *
-   * Это и есть «бит — не обязательно бас». Удар барабана, щелчок сэмпла, атака
-   * гитары дают всплеск потока независимо от того, в какой полосе они лежат.
-   * У песни без выраженного баса удары всё равно видны.
-   */
-  _flux() {
-    const [lo, hi] = this.fluxBand;
-    let sum = 0;
-    for (let i = lo; i <= hi; i++) {
-      const d = this.data[i] - this.prev[i];
-      if (d > 0) sum += d;
-      this.prev[i] = this.data[i];
-    }
     return sum / ((hi - lo + 1) * 255);
   }
 
@@ -272,40 +253,41 @@ export class Pulse {
       if (this.analyser) {
         this.analyser.getByteFrequencyData(this.data);
 
-        // Удар ищем двумя способами сразу и берём тот, что сильнее:
-        // превышение баса над его же средним и всплеск спектрального потока.
-        // Первый ловит бочку, второй — всё остальное, что «бьёт».
-        const bassHit = this.bassExcess.push(this._band(this.bass));
-        const flux = this._flux();
-        const fluxHit = Math.max(this.fluxExcess.push(flux), this.fluxRange.push(flux) * 0.75);
-        const hit = Math.min(1, Math.max(bassHit, fluxHit));
-        // Приход быстрый, но не мгновенный, уход за ~600 мс: удар читается
-        // как волна света, а не как вспышка лампы.
+        for (const r of this.ranges) this.bands[r.key].push(this._band(r), dt);
+        this.loud.push(this._band(this.fullRange), dt);
+
+        const B = this.bands;
+        // Удар — низ. Берём онсет бочки и баса: он бьёт каждый раз, потому что
+        // считается от размаха полосы, а не от её среднего.
+        const hit = Math.max(B.kick.hit, B.bass.hit * 0.9, B.body.hit * 0.55);
         this.beat = hit > this.beat
-          ? this.beat + (hit - this.beat) * 0.35
+          ? this.beat + (hit - this.beat) * 0.45
           : Math.max(0, this.beat - dt * 1.7);
 
-        // Верх → голос. Ровный уровень задаёт «дыхание», а всплески на слогах
-        // и тарелках делают движение резким. Без второго слагаемого верх почти
-        // всё время упирался в потолок и пятна переставали реагировать.
-        const airRaw = this._band(this.airBand);
-        const target = Math.min(1, Math.max(
-          this.airRange.push(airRaw) * 0.6,
-          this.airExcess.push(airRaw)
-        ));
-        // Плавно в обе стороны: это дыхание поля, а не мигание. Резкость
-        // раньше давала стробоскопический эффект на вокале.
-        this.air += (target - this.air) * (target > this.air ? 0.10 : 0.05);
+        // Голос — середина и воздух, плавно.
+        const voice = Math.max(B.mid.norm * 0.9, B.air.norm);
+        this.air += (voice - this.air) * (voice > this.air ? 0.10 : 0.05);
+
+        // Подъём: насколько сейчас громче обычного. Припев и дроп поднимают
+        // его к единице, куплет держит около нуля.
+        this.lift += (this.loud.norm - this.lift) * 0.03;
       } else {
         // Тишина: всё гаснет, но движение остаётся — фон живой всегда.
         this.beat = Math.max(0, this.beat - dt * 1.2);
         this.air = Math.max(0, this.air - dt * 1.2);
+        this.lift = Math.max(0, this.lift - dt * 0.8);
       }
 
       const s = this.root.style;
+      const B = this.bands;
       s.setProperty('--song-beat', this.beat.toFixed(3));
       s.setProperty('--song-voice', this.air.toFixed(3));
+      s.setProperty('--song-lift', this.lift.toFixed(3));
       s.setProperty('--song-energy', ((this.beat + this.air) / 2).toFixed(3));
+      // Каждое пятно отвечает за свою полосу.
+      s.setProperty('--song-b1', B.bass.norm.toFixed(3));
+      s.setProperty('--song-b2', B.mid.norm.toFixed(3));
+      s.setProperty('--song-b3', B.air.norm.toFixed(3));
 
       // Расстояние между волнами растёт на удар: волны расходятся, а не гаснут.
       this.root.style.setProperty('--wave-p', (1 + this.beat * 0.55).toFixed(3));
@@ -333,7 +315,11 @@ export class Pulse {
     if (!this.blobs) return;
     const p = this.phase;
     const push = 1 + this.beat * 0.22;              // расхождение на удар
-    const grow = 1 + this.air * 0.10 + this.beat * 0.05;
+    const B = this.bands;
+    // Каждое пятно дышит своей полосой, а не общей энергией.
+    const g1 = 1 + B.bass.norm * 0.14 + this.beat * 0.06;
+    const g2 = 1 + B.mid.norm * 0.12;
+    const g3 = 1 + B.air.norm * 0.16;
 
     const orbit = (el, angle, rx, ry, rot, sc) => {
       const x = Math.cos(angle) * rx * push * this.radius;
@@ -345,9 +331,9 @@ export class Pulse {
 
     // По часовой, против часовой, по часовой — с разными периодами, чтобы
     // взаимное расположение всё время менялось.
-    orbit(this.blobs[0], p, 22, 18, p * 9, grow);
-    orbit(this.blobs[1], -p * 0.78 + 2.1, 25, 20, -p * 7, grow * 0.96);
-    orbit(this.blobs[2], p * 0.61 + 4.2, 20, 24, p * 5, grow * 1.05);
+    orbit(this.blobs[0], p, 22, 18, p * 9, g1);
+    orbit(this.blobs[1], -p * 0.78 + 2.1, 25, 20, -p * 7, g2 * 0.96);
+    orbit(this.blobs[2], p * 0.61 + 4.2, 20, 24, p * 5, g3 * 1.05);
 
     // Волновые слои медленно ползут и поворачиваются в разные стороны —
     // рисунок наложения всё время меняется, но ни один слой не пропадает.
