@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ТАП ӘНДІ — қазақ әндерін таны</title>
+<meta name="description" content="Қазақ әнін 0,1 секундтан таны. 5 раунд, 7 талпыныс.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#08090a">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="ТАП ӘНДІ">
+<meta property="og:description" content="Қазақ әнін 0,1 секундтан таны. 5 раунд, 7 талпыныс.">
+<meta property="og:url" content="https://songless.zhengisbay.com/">
+<meta property="og:image" content="https://songless.zhengisbay.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://songless.zhengisbay.com/og-image.png">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23ccff00'/><rect x='6' y='9' width='4' height='14' fill='%23000'/><rect x='14' y='5' width='4' height='22' fill='%23000'/><rect x='22' y='13' width='4' height='6' fill='%23000'/></svg>">
+
+<!-- Превью и обложки грузятся напрямую с CDN Apple; прогреваем соединения. -->
+<link rel="preconnect" href="https://audio-ssl.itunes.apple.com" crossorigin>
+<link rel="preconnect" href="https://is1-ssl.mzstatic.com" crossorigin>
+
+<link rel="stylesheet" href="styles/tokens.css">
+<link rel="stylesheet" href="styles/app.css">
+</head>
+<body>
+  <!-- Слой, окрашенный доминирующими цветами обложки и пульсирующий
+       под низкие частоты играющего трека. Управляется src/pulse.js. -->
+  <div class="song-bg" id="song-bg" aria-hidden="true"></div>
+
+  <a class="skip-link" href="#screen">Мазмұнға өту</a>
+
+  <div class="shell">
+    <header class="chrome" id="chrome-head"></header>
+    <main class="chrome__main" id="screen" tabindex="-1"></main>
+  </div>
+
+  <noscript>
+    <p style="padding:2rem;font:16px system-ui;color:#f6f7f8">
+      Бұл ойын JavaScript-сіз жұмыс істемейді. Браузер баптауларынан қосыңыз.
+    </p>
+  </noscript>
+
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>

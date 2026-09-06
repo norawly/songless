@@ -1,0 +1,205 @@
+/* ============================================================================
+   ТАП ӘНДІ — design tokens
+   Философия: Swiss / International Typographic.
+
+   Итерация 2:
+   — светлая тема удалена полностью, тема только тёмная;
+   — только десктоп, база 1440×900, мобильных брейкпоинтов нет;
+   — размеры выражены через clamp() от высоты вьюпорта, потому что главное
+     ограничение теперь не ширина, а высота: ни один экран не скроллится.
+
+   Обложки альбомов остаются единственным крупным цветовым пятном, поэтому
+   нейтральная шкала намеренно бесцветна. Единственное исключение — динамический
+   градиент, окрашенный доминирующими цветами обложки во время проигрывания
+   (см. src/palette.js и src/pulse.js); он живёт под контентом и управляется
+   переменными --song-c1/--song-c2/--song-c3/--song-energy.
+   ========================================================================= */
+
+:root {
+  color-scheme: dark;
+
+  /* --- Нейтральная шкала: холодный slate --------------------------------- */
+  --n-000: #000000;
+  --n-050: #08090a;
+  --n-100: #0e1012;
+  --n-150: #16181c;
+  --n-200: #1e2126;
+  --n-300: #2b2f36;
+  --n-400: #454b55;
+  --n-500: #6b727d;
+  --n-600: #949aa4;
+  --n-700: #c2c7ce;
+  --n-800: #e4e7ea;
+  --n-900: #f6f7f8;
+  --n-999: #ffffff;
+
+  /* Единственный акцент. Кислотный лайм читается как сигнал, а не как бренд,
+     и почти не встречается на обложках — потому с ними не спорит. */
+  --a-400: #b8e600;
+  --a-500: #ccff00;
+  --a-600: #d9ff4d;
+
+  /* --- Семантика: компоненты используют ТОЛЬКО это ----------------------- */
+  --color-bg-primary: var(--n-050);
+  --color-bg-secondary: var(--n-100);
+  --color-bg-tertiary: var(--n-150);
+  --color-bg-elevated: var(--n-200);
+  --color-bg-inverse: var(--n-900);
+
+  --color-text-primary: var(--n-900);
+  --color-text-secondary: var(--n-600);
+  --color-text-tertiary: var(--n-500);
+  --color-text-inverse: var(--n-050);
+  --color-text-link: var(--a-500);
+
+  /* border-primary рисует форму инпутов, кнопок и списка результатов —
+     обязан брать 3:1 к фону (WCAG 1.4.11). border-secondary — только
+     декоративные линейки, к ним требования нет. */
+  --color-border-primary: #646b75;
+  --color-border-secondary: var(--n-300);
+  --color-border-strong: var(--n-600);
+  --color-border-focus: var(--a-500);
+
+  --color-accent-primary: var(--a-500);
+  --color-accent-primary-hover: var(--a-600);
+  --color-accent-primary-active: var(--a-400);
+  --color-accent-on: var(--n-050);
+  --color-accent-secondary: var(--n-800);
+
+  --color-status-success: #4ade80;
+  --color-status-warning: #fbbf24;
+  --color-status-error: #f87171;
+  --color-status-info: var(--n-600);
+
+  --color-surface-overlay: rgba(0, 0, 0, 0.78);
+
+  /* --- Динамический фон под музыку ---------------------------------------
+     Значения перезаписываются из JS при проигрывании угаданного трека.
+     По умолчанию нейтральны — фон не виден. */
+  --song-c1: transparent;
+  --song-c2: transparent;
+  --song-c3: transparent;
+  --song-energy: 0;      /* 0..1, энергия низких частот */
+  --song-opacity: 0;     /* общая видимость слоя */
+
+  /* --- Спейсинг: база 4px ------------------------------------------------ */
+  --space-0: 0;
+  --space-1: 2px;
+  --space-2: 4px;
+  --space-3: 8px;
+  --space-4: 12px;
+  --space-5: 16px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 48px;
+  --space-9: 64px;
+  --space-10: 88px;
+
+  /* Вертикальный ритм, сжимающийся вместе с вьюпортом: главный инструмент
+     против скролла. На 900px высоты — привычные значения, на 700 — плотнее. */
+  --gap-v-sm: clamp(6px, 1vh, 12px);
+  --gap-v-md: clamp(10px, 2vh, 24px);
+  --gap-v-lg: clamp(14px, 3.2vh, 40px);
+  --pad-shell-v: clamp(10px, 2vh, 22px);
+  --pad-shell-h: clamp(20px, 3vw, 48px);
+
+  /* --- Типографика --------------------------------------------------------
+     Веб-шрифт не грузим: FOIT на первом экране игры дороже идеальной буквы
+     «Ә», а системные стеки покрывают казахскую кириллицу везде. */
+  --font-family-display: "Helvetica Neue", Inter, "Segoe UI", system-ui,
+    -apple-system, "Noto Sans", Arial, sans-serif;
+  --font-family-body: var(--font-family-display);
+  --font-family-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo,
+    Consolas, monospace;
+
+  --font-size-xs: 0.6875rem;   /* 11 — микро-лейблы капсом */
+  --font-size-sm: 0.8125rem;   /* 13 */
+  --font-size-base: 0.9375rem; /* 15 */
+  --font-size-md: 1.0625rem;   /* 17 */
+  --font-size-lg: clamp(1.05rem, 2.2vh, 1.375rem);
+  --font-size-xl: clamp(1.3rem, 3vh, 1.875rem);
+  --font-size-2xl: clamp(1.7rem, 4.4vh, 2.75rem);
+  --font-size-3xl: clamp(2.2rem, 6.4vh, 4rem);
+  --font-size-4xl: clamp(2.8rem, 9vh, 6.5rem);
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --line-height-tight: 1.02;
+  --line-height-snug: 1.2;
+  --line-height-normal: 1.45;
+  --line-height-relaxed: 1.6;
+
+  --letter-spacing-tighter: -0.04em;
+  --letter-spacing-tight: -0.02em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.08em;
+  --letter-spacing-wider: 0.18em;
+
+  /* --- Layout ------------------------------------------------------------- */
+  --max-width-content: 34rem;
+  --max-width-page: 1400px;
+  --grid-gutter: clamp(16px, 2vw, 32px);
+
+  /* Swiss: скругления почти нулевые. 2px — уступка рендерингу, не украшение. */
+  --border-radius-sm: 0;
+  --border-radius-md: 2px;
+  --border-radius-lg: 4px;
+  --border-radius-full: 999px;
+
+  --border-width-hair: 1px;
+  --border-width-rule: 2px;
+
+  --shadow-none: none;
+  --shadow-sheet: 0 24px 80px rgba(0, 0, 0, 0.7);
+  /* Единственная «объёмная» тень в проекте — под поднятой карточкой финала.
+     Там она несёт смысл: показывает, какая карточка выбрана. */
+  --shadow-card-lift: 0 32px 64px -12px rgba(0, 0, 0, 0.8),
+    0 0 0 1px rgba(255, 255, 255, 0.06);
+
+  /* --- Motion -------------------------------------------------------------- */
+  --duration-instant: 60ms;
+  --duration-fast: 150ms;
+  --duration-normal: 240ms;
+  --duration-slow: 400ms;
+  --duration-slower: 700ms;
+
+  --easing-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-in: cubic-bezier(0.4, 0, 1, 1);
+  --easing-out: cubic-bezier(0, 0, 0.2, 1);
+  --easing-spring: cubic-bezier(0.16, 1.32, 0.42, 1);
+
+  /* --- Компонентные токены ------------------------------------------------
+     Все завязаны на высоту вьюпорта: это и есть механизм «ноль скроллинга». */
+  --control-height: clamp(38px, 5vh, 48px);
+  --play-button-size: clamp(96px, 19vh, 168px);
+  --card-art-radius: var(--border-radius-md);
+  --rail-thickness: 3px;
+  --final-card-width: clamp(120px, 13vw, 190px);
+  --reveal-art-size: clamp(150px, 30vh, 280px);
+
+  /* --- Пороги адаптивной деградации по высоте (см. src/fit.js) ------------
+     Не media query по ширине: прятать надо при нехватке ВЫСОТЫ, в том числе
+     когда пользователь зумит страницу. */
+  --h-threshold-1: 820px;  /* прячем декоративные полоски */
+  --h-threshold-2: 720px;  /* прячем счётчик уровней в шапке */
+  --h-threshold-3: 640px;  /* прячем подписи под иконками */
+  --h-threshold-4: 560px;  /* прячем второй лидерборд */
+}
+
+/* ---------------------------------------------------------------------------
+   Уважение к prefers-reduced-motion объявлено на уровне токенов, чтобы ни один
+   компонент не мог случайно проигнорировать настройку.
+   ------------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-instant: 1ms;
+    --duration-fast: 1ms;
+    --duration-normal: 1ms;
+    --duration-slow: 1ms;
+    --duration-slower: 1ms;
+    --easing-spring: linear;
+  }
+}

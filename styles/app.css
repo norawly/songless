@@ -1,0 +1,1126 @@
+/* ============================================================================
+   ТАП ӘНДІ — компоненты. Итерация 2.
+
+   Правила этого файла:
+   1. Все значения берутся из styles/tokens.css. Хардкод цвета или отступа —
+      баг, а не стиль.
+   2. ТОЛЬКО десктоп (база 1440×900). Мобильных брейкпоинтов нет: мобильная
+      версия будет отдельным проектом с другой структурой.
+   3. ТОЛЬКО тёмная тема. Кода светлой темы здесь нет.
+   4. НОЛЬ СКРОЛЛИНГА: каждый экран помещается в один вьюпорт. Размеры завязаны
+      на высоту через clamp(), а нехватка высоты обрабатывается атрибутом
+      [data-dense] от src/fit.js — см. блок «Адаптивная деградация» внизу.
+   ========================================================================= */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  height: 100%;
+  /* Корень не скроллится никогда — это и есть жёсткое требование. */
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img { max-width: 100%; display: block; }
+button, input { font: inherit; color: inherit; }
+h1, h2, h3, p, ol, ul, figure { margin: 0; }
+
+::selection { background: var(--color-accent-primary); color: var(--color-accent-on); }
+
+:focus-visible {
+  outline: var(--border-width-rule) solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+:focus:not(:focus-visible) { outline: none; }
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0; border: 0;
+  clip-path: inset(50%);
+  overflow: hidden; white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute; left: var(--space-3); top: -100px; z-index: 100;
+  display: inline-flex; align-items: center;
+  padding: var(--space-3) var(--space-5);
+  background: var(--color-accent-primary); color: var(--color-accent-on);
+  font-weight: var(--font-weight-bold); text-decoration: none;
+}
+.skip-link:focus { top: var(--space-3); }
+
+.muted { color: var(--color-text-secondary); }
+.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* ---------------------------------------------------------------------------
+   Фон, окрашенный обложкой и пульсирующий под музыку (src/pulse.js)
+   ------------------------------------------------------------------------ */
+
+.song-bg {
+  position: fixed;
+  inset: -10%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: var(--song-opacity);
+  /* Яркость и масштаб ведёт энергия низких частот. Коэффициенты намеренно
+     маленькие: это дыхание, а не стробоскоп. */
+  filter: saturate(calc(1 + var(--song-energy) * 0.5))
+          brightness(calc(0.85 + var(--song-energy) * 0.4))
+          blur(40px);
+  transform: scale(calc(1.02 + var(--song-energy) * 0.05));
+  background:
+    radial-gradient(46% 52% at 22% 26%, var(--song-c1), transparent 68%),
+    radial-gradient(42% 48% at 78% 22%, var(--song-c2), transparent 68%),
+    radial-gradient(52% 46% at 52% 88%, var(--song-c3), transparent 70%);
+  transition:
+    opacity var(--duration-slower) var(--easing-default),
+    background var(--duration-slower) var(--easing-default);
+  will-change: transform, filter;
+}
+
+/* ---------------------------------------------------------------------------
+   Каркас: шапка + один экран, всегда ровно в высоту вьюпорта
+   ------------------------------------------------------------------------ */
+
+.shell {
+  position: relative;
+  z-index: 1;
+  height: 100dvh;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  max-width: var(--max-width-page);
+  margin-inline: auto;
+  padding: 0 var(--pad-shell-h) var(--pad-shell-v);
+}
+
+.chrome {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--space-4);
+  padding-block: var(--pad-shell-v);
+  border-bottom: var(--border-width-hair) solid var(--color-border-secondary);
+}
+
+.chrome__main {
+  min-height: 0;
+  padding-block: var(--gap-v-md);
+  outline: none;
+  /* Ровно одна строка на всю оставшуюся высоту: без явного minmax(0,1fr)
+     строка получилась бы auto, экран не растянулся бы и «прилип» к верху. */
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+}
+
+/* Базовое правило экрана. Без него модификаторы вроде .screen--start
+   задают grid-template-columns элементу, который гридом не является. */
+.screen { display: grid; min-height: 0; }
+
+/* Финальный экран идёт без логотипа — так требует задание. */
+.chrome[data-hide-brand="1"] .brand { visibility: hidden; }
+
+.brand {
+  display: inline-flex; align-items: center; gap: var(--space-3);
+  color: inherit; text-decoration: none;
+  justify-self: start;
+  padding: var(--space-2) 0;
+  background: none; border: 0; cursor: pointer;
+}
+.brand__mark { width: 13px; height: 13px; background: var(--color-accent-primary); }
+.brand__name {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-wider);
+  white-space: nowrap;
+}
+
+.chrome__nav { display: flex; gap: var(--space-2); justify-self: end; align-items: center; }
+
+/* Индикатор раундов: статус, не навигация. */
+.chrome__rail { display: flex; gap: var(--space-2); justify-self: center; }
+.rail__seg { display: block; width: 34px; }
+.rail__seg i {
+  display: block; height: var(--rail-thickness);
+  background: var(--color-border-secondary);
+  transition: background var(--duration-normal) var(--easing-default);
+}
+.rail__seg[data-state="done"] i { background: var(--color-text-secondary); }
+.rail__seg[data-state="now"] i { background: var(--color-accent-primary); }
+
+/* --- Переключатель языка (на месте бывшего переключателя темы) ----------- */
+
+/* Обёртка нужна, чтобы бейдж-подсказка не обрезался: у самого .lang
+   overflow: hidden ради скруглённых краёв сегментов. */
+.lang-wrap { position: relative; display: inline-flex; }
+.lang {
+  display: inline-flex; align-items: center; gap: 1px;
+  border: var(--border-width-hair) solid var(--color-border-primary);
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+}
+.lang__btn {
+  padding: 6px 10px;
+  background: transparent; border: 0; cursor: pointer;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-wide);
+  color: var(--color-text-secondary);
+  transition: background var(--duration-fast) var(--easing-default),
+              color var(--duration-fast) var(--easing-default);
+}
+.lang__btn[aria-pressed="true"] {
+  background: var(--color-accent-primary);
+  color: var(--color-accent-on);
+}
+.lang__btn:not([aria-pressed="true"]):hover { color: var(--color-text-primary); }
+
+/* Бейдж-подсказка для русскоязычных: заметный, но не навязчивый.
+   Показывается только до первого взаимодействия с переключателем. */
+.lang__hint {
+  position: absolute; top: calc(100% + 8px); right: 0;
+  display: flex; align-items: center; gap: 6px;
+  padding: 5px 9px;
+  background: var(--color-accent-primary);
+  color: var(--color-accent-on);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  white-space: nowrap;
+  border-radius: var(--border-radius-md);
+  animation: hint-in var(--duration-slow) var(--easing-spring) 700ms both;
+  pointer-events: none;
+}
+.lang__hint::before {
+  content: "";
+  position: absolute; bottom: 100%; right: 14px;
+  border: 5px solid transparent;
+  border-bottom-color: var(--color-accent-primary);
+}
+@keyframes hint-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ---------------------------------------------------------------------------
+   Кнопки
+   ------------------------------------------------------------------------ */
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: var(--space-3);
+  min-height: var(--control-height);
+  padding: 0 var(--space-6);
+  border: var(--border-width-rule) solid transparent;
+  border-radius: var(--border-radius-md);
+  background: transparent;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-tight);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--duration-fast) var(--easing-default),
+              color var(--duration-fast) var(--easing-default),
+              border-color var(--duration-fast) var(--easing-default);
+}
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+
+.btn--primary {
+  background: var(--color-accent-primary);
+  color: var(--color-accent-on);
+  border-color: var(--color-accent-primary);
+}
+.btn--primary:hover:not(:disabled) {
+  background: var(--color-accent-primary-hover);
+  border-color: var(--color-accent-primary-hover);
+}
+.btn--primary:active:not(:disabled) { background: var(--color-accent-primary-active); }
+
+.btn--ghost { border-color: var(--color-border-primary); color: var(--color-text-primary); }
+.btn--ghost:hover:not(:disabled) {
+  border-color: var(--color-border-strong);
+  background: var(--color-bg-secondary);
+}
+
+.btn--icon {
+  width: 36px; height: 36px;
+  min-height: 0; padding: 0;
+  color: var(--color-text-secondary);
+  border-color: var(--color-border-secondary);
+  border-width: var(--border-width-hair);
+}
+.btn--icon svg { width: 18px; height: 18px; }
+.btn--icon:hover { color: var(--color-text-primary); border-color: var(--color-border-primary); }
+
+.btn--xl {
+  min-height: clamp(48px, 6.5vh, 64px);
+  padding-inline: var(--space-9);
+  font-size: var(--font-size-lg);
+}
+
+/* ---------------------------------------------------------------------------
+   Общая типографика экранов
+   ------------------------------------------------------------------------ */
+
+.eyebrow {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-wider);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+.eyebrow--win { color: var(--color-accent-primary); }
+
+.section-label {
+  display: block;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-wider);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-3);
+}
+
+.hint {
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+}
+
+/* ===========================================================================
+   ЭКРАН: СТАРТ — две колонки, справа лидерборды
+   ======================================================================== */
+
+.screen--start {
+  grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.75fr);
+  gap: clamp(24px, 4vw, 72px);
+  align-content: center;
+  min-height: 0;
+}
+/* Лидерборды выключены (пустой LEADERBOARD_ENDPOINT) — правая зона не нужна. */
+.screen--start.is-solo { grid-template-columns: minmax(0, 1fr); }
+
+.start__left {
+  display: grid;
+  align-content: center;
+  gap: var(--gap-v-md);
+  min-height: 0;
+}
+
+.hero { display: grid; gap: var(--gap-v-sm); }
+.hero__title {
+  font-size: var(--font-size-4xl);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tighter);
+  font-weight: var(--font-weight-bold);
+}
+.hero__tagline {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
+  max-width: 26ch;
+}
+
+/* Факты о партии: три жёстких блока вместо текстовой подсказки про очки —
+   правила ушли в оверлей за иконкой «?». */
+.facts { display: flex; gap: var(--space-6); flex-wrap: wrap; }
+.facts__item { display: grid; gap: 2px; }
+.facts__n {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.facts__label {
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+
+/* --- Режим и жанры ------------------------------------------------------- */
+
+.modes { display: grid; gap: var(--gap-v-sm); }
+.modes__row { display: flex; align-items: center; gap: var(--space-4); flex-wrap: wrap; }
+
+.seg {
+  display: inline-flex;
+  border: var(--border-width-hair) solid var(--color-border-primary);
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+}
+.seg__btn {
+  padding: 7px 16px;
+  background: transparent; border: 0; cursor: pointer;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  transition: background var(--duration-fast) var(--easing-default),
+              color var(--duration-fast) var(--easing-default);
+}
+.seg__btn[aria-pressed="true"] {
+  background: var(--color-accent-primary);
+  color: var(--color-accent-on);
+}
+.seg__btn:not([aria-pressed="true"]):hover { color: var(--color-text-primary); }
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  padding: 5px 11px;
+  background: transparent;
+  border: var(--border-width-hair) solid var(--color-border-secondary);
+  border-radius: var(--border-radius-md);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--easing-default),
+              color var(--duration-fast) var(--easing-default),
+              background var(--duration-fast) var(--easing-default);
+}
+.chip:hover { color: var(--color-text-primary); border-color: var(--color-border-primary); }
+.chip[aria-pressed="true"] {
+  background: var(--color-accent-primary);
+  border-color: var(--color-accent-primary);
+  color: var(--color-accent-on);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Random: активен изначально, гаснет как только выбран любой жанр. */
+.chip--random {
+  border-color: var(--color-border-primary);
+  color: var(--color-text-primary);
+}
+.chip--random[aria-pressed="true"] {
+  background: transparent;
+  border-color: var(--color-accent-primary);
+  color: var(--color-accent-primary);
+  font-weight: var(--font-weight-bold);
+}
+.chip--random[aria-pressed="false"] { opacity: .5; }
+
+.start__cta { display: flex; align-items: center; gap: var(--space-5); flex-wrap: wrap; }
+.start__meta {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+.start__warn {
+  color: var(--color-status-warning);
+  font-size: var(--font-size-sm);
+}
+
+/* --- Правая колонка: два лидерборда ------------------------------------- */
+
+.start__right {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: var(--gap-v-md);
+  min-height: 0;
+  align-content: center;
+}
+
+.board { display: grid; grid-template-rows: auto minmax(0, 1fr); min-height: 0; }
+.board__head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: var(--space-4);
+  padding-bottom: var(--space-2);
+  border-bottom: var(--border-width-rule) solid var(--color-border-secondary);
+  margin-bottom: var(--space-3);
+}
+.board__title {
+  background: none; border: 0; padding: 0; cursor: pointer;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-wider);
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  text-align: left;
+}
+.board__title:hover { color: var(--color-accent-primary); }
+.board__more {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  background: none; border: 0; cursor: pointer;
+  white-space: nowrap;
+}
+.board__more:hover { color: var(--color-accent-primary); }
+.board__body { min-height: 0; overflow: hidden; }
+
+/* --- Таблица лидеров ----------------------------------------------------- */
+
+.lb { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.lb th, .lb td {
+  padding: 5px var(--space-2);
+  border-bottom: var(--border-width-hair) solid var(--color-border-secondary);
+  text-align: left;
+  font-size: var(--font-size-sm);
+}
+.lb th {
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  font-weight: var(--font-weight-semibold);
+}
+.lb td:first-child { color: var(--color-text-tertiary); width: 2.4em; }
+.lb__nick { max-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lb tr.is-me td { color: var(--color-accent-primary); font-weight: var(--font-weight-bold); }
+.lb--full { max-height: 62vh; }
+
+/* ===========================================================================
+   ЭКРАН: ЗАГРУЗКА ПАРТИИ
+   ======================================================================== */
+
+.screen--loading {
+  place-content: center;
+  justify-items: center;
+  gap: var(--gap-v-md);
+  text-align: center;
+}
+.loading__title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-tighter);
+}
+.loading__bar {
+  width: min(420px, 60vw); height: 4px;
+  background: var(--color-bg-tertiary);
+  overflow: hidden;
+}
+.loading__bar i {
+  display: block; height: 100%; width: 0;
+  background: var(--color-accent-primary);
+  transition: width var(--duration-normal) var(--easing-out);
+}
+.loading__count {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-md);
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ===========================================================================
+   ЭКРАН: РАУНД
+   ======================================================================== */
+
+.screen--round {
+  align-content: center;
+  justify-items: center;
+  gap: var(--gap-v-sm);
+  min-height: 0;
+  /* Резерв под выпадающую выдачу: с ним она почти всегда открывается вниз
+     и не закрывает ни кнопку воспроизведения, ни шкалу ступеней. */
+  padding-bottom: clamp(90px, 20vh, 240px);
+}
+
+.round__top {
+  width: min(760px, 100%);
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: var(--space-6);
+  padding-bottom: var(--gap-v-sm);
+}
+.round__head { display: grid; gap: 2px; }
+.round__level {
+  font-size: var(--font-size-2xl);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tighter);
+  font-weight: var(--font-weight-bold);
+}
+/* Текущий счёт — не прячется ни при какой плотности. */
+.round__score { display: grid; gap: 2px; justify-items: end; }
+.round__score b {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.player { display: grid; justify-items: center; gap: var(--gap-v-sm); }
+
+.play {
+  position: relative;
+  width: var(--play-button-size); height: var(--play-button-size);
+  border-radius: var(--border-radius-full);
+  border: var(--border-width-rule) solid var(--color-accent-primary);
+  background: var(--color-accent-primary);
+  color: var(--color-accent-on);
+  display: grid; place-items: center;
+  cursor: pointer;
+  transition: transform var(--duration-fast) var(--easing-default),
+              background var(--duration-fast) var(--easing-default);
+}
+.play:hover { background: var(--color-accent-primary-hover); }
+.play:active { transform: scale(.97); }
+.play:disabled { opacity: .5; cursor: wait; }
+
+.play__icon {
+  width: 0; height: 0;
+  border-left: calc(var(--play-button-size) * 0.2) solid currentColor;
+  border-top: calc(var(--play-button-size) * 0.13) solid transparent;
+  border-bottom: calc(var(--play-button-size) * 0.13) solid transparent;
+  margin-left: calc(var(--play-button-size) * 0.05);
+  transition: opacity var(--duration-fast) var(--easing-default);
+}
+.play.is-playing .play__icon { opacity: .25; }
+
+.play__ring {
+  position: absolute; inset: -9px;
+  width: calc(100% + 18px); height: calc(100% + 18px);
+  transform: rotate(-90deg);
+  pointer-events: none;
+}
+.play__ring circle { fill: none; stroke-width: 2; }
+.play__ring-bg { stroke: var(--color-border-secondary); }
+.play__ring-fg {
+  stroke: var(--color-accent-primary);
+  stroke-dasharray: 295; stroke-dashoffset: 295;
+}
+
+.player__caption { display: grid; justify-items: center; gap: 1px; }
+.player__label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-wider);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+.player__dur {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-lg);
+  color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Ступени: семь полос — самый «швейцарский» элемент интерфейса.
+   Индикатор ступени не прячется ни при какой плотности. */
+.steps {
+  width: min(760px, 100%);
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--space-2);
+}
+.steps__cell { display: grid; gap: 3px; justify-items: center; }
+.steps__bar {
+  display: block; width: 100%; height: 5px;
+  background: var(--color-bg-tertiary);
+  overflow: hidden;
+}
+.steps__bar i {
+  display: block; height: 100%; width: 0;
+  background: var(--color-border-strong);
+  transition: width var(--duration-normal) var(--easing-default);
+}
+.steps__cell[data-state="spent"] .steps__bar i { width: 100%; }
+.steps__cell[data-state="now"] .steps__bar { background: var(--color-accent-primary); }
+.steps__dur, .steps__pts {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  letter-spacing: -.02em;
+}
+.steps__cell[data-state="now"] .steps__pts {
+  color: var(--color-accent-primary);
+  font-weight: var(--font-weight-bold);
+}
+.steps__cell[data-state="spent"] .steps__dur,
+.steps__cell[data-state="spent"] .steps__pts { opacity: .4; }
+
+/* --- Поиск ответа -------------------------------------------------------- */
+
+.answer {
+  position: relative;
+  width: min(620px, 100%);
+  display: flex; gap: var(--space-3);
+}
+.answer__field { position: relative; flex: 1; }
+
+.input {
+  width: 100%;
+  min-height: var(--control-height);
+  padding: 0 var(--space-4);
+  background: var(--color-bg-secondary);
+  border: var(--border-width-hair) solid var(--color-border-primary);
+  border-radius: var(--border-radius-md);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-md);
+}
+.input::placeholder { color: var(--color-text-tertiary); }
+.input:focus { border-color: var(--color-border-focus); }
+
+/* Направление и высоту выдачи считает JS по реальному свободному месту
+   (wireRound → placeList): прокручивать экран нельзя, а перекрывать плеер
+   и шкалу ступеней не хочется. Вниз — предпочтительно, вверх — если снизу
+   места меньше. Высота всегда ограничена доступным зазором, поэтому список
+   не обрезается краем вьюпорта. */
+.results {
+  list-style: none; margin: 0; padding: 0;
+  position: absolute; left: 0; right: 0;
+  z-index: 20;
+  background: var(--color-bg-secondary);
+  border: var(--border-width-hair) solid var(--color-border-primary);
+  max-height: var(--results-max, 300px);
+  overflow-y: auto;
+  animation: results-in var(--duration-normal) var(--easing-out) both;
+}
+.results[data-dir="down"] { top: calc(100% + 6px); transform-origin: top center; }
+.results[data-dir="up"] { bottom: calc(100% + 6px); transform-origin: bottom center; }
+.results.is-closing { animation: results-out var(--duration-fast) var(--easing-in) both; }
+
+@keyframes results-in {
+  from { opacity: 0; transform: translateY(-6px) scaleY(.96); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes results-out {
+  from { opacity: 1; transform: none; }
+  to { opacity: 0; transform: translateY(-4px) scaleY(.97); }
+}
+
+.results__item {
+  display: grid; gap: 1px;
+  padding: 8px var(--space-4);
+  cursor: pointer;
+  border-bottom: var(--border-width-hair) solid var(--color-border-secondary);
+  /* Ступенчатое появление: задержка приходит инлайном как --i. */
+  animation: item-in var(--duration-normal) var(--easing-out) both;
+  animation-delay: calc(var(--i, 0) * 25ms);
+}
+@keyframes item-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+.results__item:last-child { border-bottom: 0; }
+.results__item:hover, .results__item.is-active {
+  background: var(--color-bg-tertiary);
+  box-shadow: inset 3px 0 0 var(--color-accent-primary);
+}
+.results__title { font-weight: var(--font-weight-semibold); font-size: var(--font-size-base); }
+.results__artist { font-size: var(--font-size-sm); color: var(--color-text-secondary); }
+/* Подсветка совпавшей подстроки. */
+.results mark {
+  background: transparent;
+  color: var(--color-accent-primary);
+  font-weight: var(--font-weight-bold);
+}
+.results__empty {
+  padding: var(--space-4);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.round__hint { min-height: 1.4em; text-align: center; }
+
+/* ===========================================================================
+   ЭКРАН: КАРТОЧКА РЕЗУЛЬТАТА РАУНДА
+   ======================================================================== */
+
+.screen--reveal { align-content: center; justify-items: center; gap: var(--gap-v-md); }
+
+.reveal__box {
+  width: min(860px, 100%);
+  display: grid;
+  grid-template-columns: var(--reveal-art-size) minmax(0, 1fr);
+  gap: clamp(20px, 3vw, 44px);
+  align-items: center;
+}
+
+.card__art {
+  width: var(--reveal-art-size);
+  aspect-ratio: 1;
+  background: var(--color-bg-tertiary);
+  border-radius: var(--card-art-radius);
+  overflow: hidden;
+  animation: card-in var(--duration-slow) var(--easing-out) both;
+}
+.card__art img { width: 100%; height: 100%; object-fit: cover; }
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(14px) scale(.97); }
+  to { opacity: 1; transform: none; }
+}
+
+.card__meta { display: grid; gap: var(--gap-v-sm); min-width: 0; }
+.card__title {
+  font-size: var(--font-size-xl);
+  line-height: var(--line-height-snug);
+  letter-spacing: var(--letter-spacing-tight);
+  font-weight: var(--font-weight-bold);
+}
+/* Имя артиста — обязательная атрибуция, не декоративная подпись. */
+.card__artist { font-size: var(--font-size-md); color: var(--color-text-primary); }
+.card__sub { font-size: var(--font-size-sm); color: var(--color-text-tertiary); }
+
+.score {
+  border-top: var(--border-width-rule) solid var(--color-border-primary);
+  padding-top: var(--gap-v-sm);
+  display: grid; gap: 2px;
+}
+.score__value {
+  font-size: var(--font-size-3xl);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tighter);
+  font-weight: var(--font-weight-bold);
+  font-variant-numeric: tabular-nums;
+}
+.score__value em {
+  font-style: normal;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-normal);
+  color: var(--color-text-secondary);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.score__detail { font-size: var(--font-size-sm); color: var(--color-text-secondary); }
+
+.links { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
+.links__label {
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--letter-spacing-wider);
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+.links__a {
+  display: inline-flex; align-items: center;
+  min-height: 34px;
+  padding-inline: var(--space-4);
+  border: var(--border-width-hair) solid var(--color-border-primary);
+  color: var(--color-text-primary);
+  text-decoration: none;
+  font-size: var(--font-size-sm);
+}
+.links__a:hover { border-color: var(--color-accent-primary); color: var(--color-accent-primary); }
+
+/* ===========================================================================
+   ЭКРАН: ФИНАЛ — компактно, без логотипа, всё в один вьюпорт
+   ======================================================================== */
+
+.screen--final {
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: var(--gap-v-sm);
+  align-content: stretch;
+  min-height: 0;
+}
+
+.final__top {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: var(--space-6);
+  padding-bottom: var(--gap-v-sm);
+  border-bottom: var(--border-width-rule) solid var(--color-border-secondary);
+}
+.final__verdict {
+  font-size: var(--font-size-2xl);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tighter);
+  font-weight: var(--font-weight-bold);
+}
+.final__total { display: grid; justify-items: end; gap: 0; }
+.final__number {
+  font-size: var(--font-size-3xl);
+  line-height: 1;
+  letter-spacing: var(--letter-spacing-tighter);
+  font-weight: var(--font-weight-bold);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Пять карточек в ряд, всегда без прокрутки. */
+.final__grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(10px, 1.4vw, 22px);
+  align-content: center;
+  perspective: 1300px;
+  min-height: 0;
+}
+
+.fcard {
+  display: grid;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  min-height: 0;
+  transition: opacity var(--duration-normal) var(--easing-default),
+              filter var(--duration-normal) var(--easing-default);
+}
+.fcard__inner {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  gap: 6px;
+  height: 100%;
+  min-height: 0;
+  transform-origin: left center;
+  /* Свёрнутое состояние: карточка как закрытый конверт пластинки. */
+  transform: rotateY(-78deg) rotateZ(-9deg) scale(.86);
+  opacity: 0;
+  transition:
+    transform var(--duration-slower) var(--easing-spring) var(--d, 0ms),
+    opacity var(--duration-slow) var(--easing-out) var(--d, 0ms),
+    box-shadow var(--duration-normal) var(--easing-out);
+}
+.final__grid.is-open .fcard__inner {
+  transform: rotateY(0) rotateZ(0) scale(1);
+  opacity: 1;
+}
+
+/* Наведённая карточка заметно выдвигается вперёд, соседние отступают
+   и притухают — так поднятая читается как выбранная. */
+.final__grid.is-open:hover .fcard { opacity: .55; filter: saturate(.7); }
+.final__grid.is-open:hover .fcard:hover,
+.final__grid.is-open .fcard:focus-visible { opacity: 1; filter: none; }
+
+.final__grid.is-open .fcard:hover .fcard__inner,
+.final__grid.is-open .fcard:focus-visible .fcard__inner {
+  transform:
+    translateZ(70px)
+    rotateX(var(--tilt-x, 0deg))
+    rotateY(var(--tilt-y, 0deg))
+    scale(1.09);
+  box-shadow: var(--shadow-card-lift);
+  transition: transform var(--duration-fast) var(--easing-out),
+              box-shadow var(--duration-normal) var(--easing-out);
+  z-index: 3;
+}
+.final__grid.is-open .fcard:hover,
+.final__grid.is-open .fcard:focus-visible { z-index: 3; }
+
+.fcard__art {
+  position: relative;
+  aspect-ratio: 1;
+  background: var(--color-bg-tertiary);
+  border-radius: var(--card-art-radius);
+  overflow: hidden;
+  min-height: 0;
+}
+.fcard__art img { width: 100%; height: 100%; object-fit: cover; }
+
+.fcard__badge {
+  position: absolute; left: 0; bottom: 0;
+  padding: 3px 7px;
+  background: var(--color-bg-primary);
+  color: var(--color-text-secondary);
+  font-size: 9px;
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+/* Эквалайзер — единственный индикатор «эта карточка звучит». */
+.fcard__eq {
+  position: absolute; right: 7px; bottom: 7px;
+  display: flex; align-items: flex-end; gap: 2px; height: 14px;
+  opacity: 0;
+  transition: opacity var(--duration-fast) var(--easing-default);
+}
+.fcard__eq i { width: 3px; height: 4px; background: var(--color-accent-primary); }
+.fcard.is-sounding .fcard__eq { opacity: 1; }
+.fcard.is-sounding .fcard__eq i { animation: eq .7s ease-in-out infinite alternate; }
+.fcard.is-sounding .fcard__eq i:nth-child(2) { animation-delay: .16s; }
+.fcard.is-sounding .fcard__eq i:nth-child(3) { animation-delay: .32s; }
+@keyframes eq { from { height: 3px; } to { height: 14px; } }
+
+.fcard__title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-snug);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+/* Артиста не обрезаем: атрибуция обязана читаться целиком. */
+.fcard__artist {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-snug);
+}
+.fcard__score {
+  display: flex; align-items: baseline; gap: var(--space-3);
+  align-self: end;
+  padding-top: 5px;
+  border-top: var(--border-width-hair) solid var(--color-border-secondary);
+}
+.fcard__score b { font-size: var(--font-size-md); font-variant-numeric: tabular-nums; }
+.fcard__score span { font-size: var(--font-size-xs); color: var(--color-text-tertiary); }
+
+.final__bottom {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--space-6);
+  padding-top: var(--gap-v-sm);
+  border-top: var(--border-width-rule) solid var(--color-border-secondary);
+  flex-wrap: wrap;
+}
+.final__actions { display: flex; gap: var(--space-3); }
+.lb-form { display: flex; gap: var(--space-3); align-items: center; }
+.lb-form .input { width: clamp(160px, 18vw, 240px); }
+.lb-status {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  min-width: 0;
+}
+
+/* ===========================================================================
+   Оверлей
+   ======================================================================== */
+
+.sheet-backdrop {
+  position: fixed; inset: 0; z-index: 50;
+  background: var(--color-surface-overlay);
+  display: grid; place-items: center;
+  padding: var(--space-6);
+  opacity: 0;
+  transition: opacity var(--duration-normal) var(--easing-default);
+}
+.sheet-backdrop.is-open { opacity: 1; }
+
+.sheet {
+  width: 100%; max-width: 36rem;
+  max-height: 86dvh;
+  display: grid; grid-template-rows: auto minmax(0, 1fr);
+  background: var(--color-bg-secondary);
+  border: var(--border-width-rule) solid var(--color-accent-primary);
+  box-shadow: var(--shadow-sheet);
+  padding: var(--space-6);
+  transform: translateY(16px) scale(.98);
+  transition: transform var(--duration-normal) var(--easing-out);
+}
+.sheet-backdrop.is-open .sheet { transform: none; }
+.sheet--wide { max-width: 44rem; }
+
+.sheet__head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+.sheet__title {
+  font-size: var(--font-size-lg);
+  letter-spacing: var(--letter-spacing-tight);
+  font-weight: var(--font-weight-bold);
+}
+/* Единственное место в игре, где скролл разрешён: полный список лидеров
+   и длинные правила физически не помещаются в экран. */
+.sheet__body { display: grid; gap: var(--space-4); overflow-y: auto; min-height: 0; }
+.sheet__body p { color: var(--color-text-secondary); line-height: var(--line-height-relaxed); }
+.sheet__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-2); }
+
+.share__grid {
+  margin: 0;
+  padding: var(--space-5);
+  background: var(--color-bg-primary);
+  border: var(--border-width-hair) solid var(--color-border-primary);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-sm);
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+/* ===========================================================================
+   Тост
+   ======================================================================== */
+
+.toast {
+  position: fixed; left: 50%; bottom: var(--space-7); z-index: 60;
+  transform: translate(-50%, 14px);
+  padding: var(--space-3) var(--space-6);
+  background: var(--color-bg-inverse);
+  color: var(--color-text-inverse);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--border-radius-md);
+  opacity: 0; pointer-events: none;
+  transition: opacity var(--duration-fast) var(--easing-default),
+              transform var(--duration-fast) var(--easing-out);
+}
+.toast.is-visible { opacity: 1; transform: translate(-50%, 0); }
+/* Близкий промах подсвечен акцентом, а не красным: это поощрение, не ошибка. */
+.toast[data-tone="near"], .toast[data-tone="good"] {
+  background: var(--color-accent-primary); color: var(--color-accent-on);
+}
+
+/* ===========================================================================
+   Ошибки
+   ======================================================================== */
+
+.screen--error { place-content: center; justify-items: start; gap: var(--gap-v-md); }
+.screen--error p { color: var(--color-text-secondary); max-width: 46ch; }
+.error__title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-tighter);
+}
+
+/* ===========================================================================
+   АДАПТИВНАЯ ДЕГРАДАЦИЯ ПО ВЫСОТЕ (атрибут ставит src/fit.js)
+
+   Порядок сокрытия строго такой:
+     1 → декоративные полоски и линейки
+     2 → счётчик уровней в шапке
+     3 → подписи под иконками и вторичные пояснения
+     4 → второй лидерборд
+
+   НИКОГДА не прячутся: кнопка воспроизведения, поле поиска, кнопка пропуска,
+   текущий счёт, индикатор ступени. Это проверяется scripts/verify-noscroll.mjs.
+   ======================================================================== */
+
+/* Уровень 1: декор */
+[data-dense="1"] .facts,
+[data-dense="2"] .facts,
+[data-dense="3"] .facts,
+[data-dense="4"] .facts { display: none; }
+
+[data-dense="1"] .steps__dur,
+[data-dense="2"] .steps__dur,
+[data-dense="3"] .steps__dur,
+[data-dense="4"] .steps__dur { display: none; }
+
+/* Уровень 2: счётчик уровней в шапке */
+[data-dense="2"] .chrome__rail,
+[data-dense="3"] .chrome__rail,
+[data-dense="4"] .chrome__rail { display: none; }
+
+[data-dense="2"] .round__hint,
+[data-dense="3"] .round__hint,
+[data-dense="4"] .round__hint { display: none; }
+
+/* Уровень 3: подписи и вторичные пояснения */
+[data-dense="3"] .player__label,
+[data-dense="4"] .player__label { display: none; }
+
+[data-dense="3"] .card__sub,
+[data-dense="4"] .card__sub { display: none; }
+
+[data-dense="3"] .start__meta,
+[data-dense="4"] .start__meta { display: none; }
+
+[data-dense="3"] .fcard__badge,
+[data-dense="4"] .fcard__badge { display: none; }
+
+/* Уровень 4: второй лидерборд */
+[data-dense="4"] .start__right { grid-template-rows: 1fr; }
+[data-dense="4"] .board--today { display: none; }
+[data-dense="4"] .hero__tagline { display: none; }
+
+/* Аварийный сценарий: деградация исчерпана, а высоты всё равно нет.
+   Только здесь разрешаем прокрутку — иначе контент был бы недоступен. */
+@media (max-height: 480px) {
+  .chrome__main { overflow-y: auto; }
+}
+
+/* ===========================================================================
+   prefers-reduced-motion
+   ======================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .fcard__inner {
+    transform: none !important;
+    opacity: 0;
+    transition: opacity 200ms linear var(--d, 0ms);
+  }
+  .final__grid.is-open .fcard__inner { opacity: 1; }
+  .final__grid.is-open:hover .fcard { opacity: 1; filter: none; }
+  .final__grid { perspective: none; }
+  .fcard.is-sounding .fcard__eq i { animation: none; height: 9px; }
+  .card__art, .results, .results__item, .lang__hint { animation: none; }
+  /* Фон не пульсирует — остаётся ровный градиент (см. src/pulse.js). */
+  .song-bg { transform: none; }
+}

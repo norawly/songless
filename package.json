@@ -1,0 +1,26 @@
+{
+  "name": "tap-anda",
+  "version": "2.0.0",
+  "description": "ТАП ӘНДІ — угадай казахскую песню за 0,1 секунды. Статичный сайт без бэкенда.",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "start": "node scripts/verify-scoring.mjs > /dev/null && node scripts/serve.mjs",
+    "dev": "node scripts/serve.mjs",
+    "verify": "node scripts/verify-scoring.mjs && node scripts/verify-search.mjs && node scripts/verify-contrast.mjs",
+    "verify:scoring": "node scripts/verify-scoring.mjs",
+    "verify:search": "node scripts/verify-search.mjs",
+    "verify:contrast": "node scripts/verify-contrast.mjs",
+    "verify:noscroll": "node scripts/verify-noscroll.mjs",
+    "build:catalog": "node scripts/build-catalog.mjs",
+    "build:catalog:fresh": "node scripts/build-catalog.mjs --fresh",
+    "screenshots": "node scripts/screenshots.mjs",
+    "og": "node scripts/make-og.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
