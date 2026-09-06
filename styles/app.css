@@ -90,9 +90,10 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
   z-index: 0;
   pointer-events: none;
   opacity: var(--song-opacity);
-  /* Размытые пятна собираются в композит, и уже он квантуется по уровням:
-     плавный переход превращается в набор цветовых ступеней. */
-  filter: url(#posterize);
+  /* Размытые пятна собираются в композит, и уже он проходит обработку:
+     смешение по шуму → насыщенность → квантование → смягчение границ.
+     Цепочка описана в index.html над самим фильтром. */
+  filter: url(#song-fx);
   transition: opacity var(--duration-slower) var(--easing-default);
 }
 

@@ -70,18 +70,35 @@
   <div class="song-bg" id="song-bg" aria-hidden="true"></div>
 
   <!--
-    Постеризация фона: цвет квантуется по 10 уровней на канал, поэтому вместо
-    плавного градиента получаются заметные цветовые границы — как будто глубину
-    цвета уронили с 24 бит до девяти. feComponentTransfer с type="discrete" —
-    ровно эта операция и есть, никакого приближения.
+    Обработка фона. Порядок важен, каждый шаг делает ровно одно:
+
+      1. feTurbulence  — фрактальный шум, карта искажения.
+      2. feDisplacementMap — поле смещается по этой карте: цвета затекают друг
+         в друга и перемешиваются, как краска в воде. Шум неподвижен, а пятна
+         под ним плывут по орбитам, поэтому рисунок смешения всё время новый.
+      3. feColorMatrix — немного насыщенности, иначе после смешения цвет вянет.
+      4. feComponentTransfer type="discrete" — квантование по 10 уровней на
+         канал: плавный градиент распадается на цветовые ступени, как будто
+         глубину цвета уронили до девяти бит.
+      5. feGaussianBlur — маленькое размытие ПОСЛЕ квантования: снимает
+         жёсткость границ между ступенями, оставляя сами ступени видимыми.
+
+    numOctaves=1 намеренно: турбулентность — самый дорогой примитив, а второй
+    октавы глаз здесь всё равно не различит.
   -->
   <svg class="fx-defs" width="0" height="0" aria-hidden="true" focusable="false">
-    <filter id="posterize" color-interpolation-filters="sRGB">
-      <feComponentTransfer>
+    <filter id="song-fx" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.004 0.007"
+                    numOctaves="1" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="170"
+                         xChannelSelector="R" yChannelSelector="G" result="mixed"/>
+      <feColorMatrix in="mixed" type="saturate" values="1.25" result="rich"/>
+      <feComponentTransfer in="rich" result="steps">
         <feFuncR type="discrete" tableValues="0 .11 .22 .33 .44 .55 .66 .77 .88 1"/>
         <feFuncG type="discrete" tableValues="0 .11 .22 .33 .44 .55 .66 .77 .88 1"/>
         <feFuncB type="discrete" tableValues="0 .11 .22 .33 .44 .55 .66 .77 .88 1"/>
       </feComponentTransfer>
+      <feGaussianBlur in="steps" stdDeviation="2.4"/>
     </filter>
   </svg>
 
