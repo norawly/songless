@@ -109,6 +109,9 @@ export class Pulse {
     this.air = 0;
     this.phase = 0;
     this.last = 0;
+    /** Множители характера трека (src/mood.js). */
+    this.speed = 1;
+    this.radius = 1;
 
     this._buildLayers();
   }
@@ -163,6 +166,12 @@ export class Pulse {
     s.setProperty('--song-opacity', String(ACTIVE_OPACITY));
 
     if (!this.raf) this._loop();
+  }
+
+  /** Характер трека: скорость и размах орбит зависят от жанра. */
+  setMood(mood) {
+    this.speed = mood?.speed ?? 1;
+    this.radius = mood?.radius ?? 1;
   }
 
   /** Плавно возвращает фон к нейтральному состоянию. */
@@ -289,7 +298,7 @@ export class Pulse {
       s.setProperty('--song-energy', ((this.beat + this.air) / 2).toFixed(3));
 
       // Чем сильнее удар, тем быстрее движение.
-      this.phase += dt * (BASE_SPEED + this.beat * BEAT_SPEED);
+      this.phase += dt * (BASE_SPEED + this.beat * BEAT_SPEED) * this.speed;
       this._move();
 
       this.raf = requestAnimationFrame(tick);
@@ -314,8 +323,8 @@ export class Pulse {
     const grow = 1 + this.air * 0.10 + this.beat * 0.05;
 
     const orbit = (el, angle, rx, ry, rot, sc) => {
-      const x = Math.cos(angle) * rx * push;
-      const y = Math.sin(angle) * ry * push;
+      const x = Math.cos(angle) * rx * push * this.radius;
+      const y = Math.sin(angle) * ry * push * this.radius;
       el.style.transform =
         `translate3d(${x.toFixed(2)}%, ${y.toFixed(2)}%, 0) ` +
         `rotate(${rot.toFixed(2)}deg) scale(${sc.toFixed(3)})`;

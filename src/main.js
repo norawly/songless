@@ -17,6 +17,7 @@ import { loadCatalog, streamingLinks } from './catalog.js';
 import { AudioEngine } from './audio.js';
 import { Pulse } from './pulse.js';
 import { extractPalette } from './palette.js';
+import { moodFor, applyFilter } from './mood.js';
 import { watchViewportHeight } from './fit.js';
 import { Game, SCREEN, STEP_STATE } from './game.js';
 import {
@@ -1068,6 +1069,10 @@ function renderReveal() {
 /** Красит фон цветами обложки, запускает трек и пульсацию. */
 async function paintAndPlay(track) {
   const token = paintToken;
+  // Характер фона под жанр трека: жёсткость, смешение, скорость орбит.
+  const mood = moodFor(track);
+  applyFilter(mood);
+  pulse.setMood(mood);
   try {
     await audio.playFull(track);
     if (token !== paintToken) return;
@@ -1179,6 +1184,9 @@ function wireFinalCards() {
     if (!track || hovered === id) return;
     hovered = id;
     const token = paintToken;
+    const mood = moodFor(track);
+    applyFilter(mood);
+    pulse.setMood(mood);
     card.classList.add('is-sounding');
     try {
       await audio.playFull(track);
