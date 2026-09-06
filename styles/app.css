@@ -67,73 +67,68 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
 /* ---------------------------------------------------------------------------
    ЖИВОЙ ФОН (src/pulse.js)
 
-   Три слоя с разными задачами:
-     .song-glow       — сам тёмный фон, загорается на БИТ
-     .song-bg__blob   — цветные пятна обложки, реагируют на ВЕРХ (голос)
-     .song-bg__flash  — короткая белая вспышка на сильный удар
+   Одно мягкое поле, а не три различимых пятна. Пятна намеренно больше экрана
+   и сильно размыты: по отдельности их не видно, видно только то, как они
+   перетекают друг в друга.
 
-   Движение пятен задаёт JS (transform), потому что его скорость зависит от
-   бита; CSS-анимации здесь нет намеренно — менять animation-duration на лету
-   значит дёргать фазу.
+   Кто на что реагирует:
+     .song-glow      — свет самого фона, ведёт БАС (удар). Окрашен цветом
+                       обложки, не белый.
+     .song-bg__blob  — цветное поле, ведёт ВЕРХ (голос). Медленно, как дыхание.
 
-   Всё, что меняется покадрово, — это filter, opacity и transform: композитор,
-   ни одного пересчёта лейаута.
+   Белой вспышки нет намеренно: она мигала в такт с полем, и фон вспыхивал
+   целиком. Амплитуды всех изменений намеренно маленькие — фон обязан быть
+   спокойным, в том числе для людей с фотосенситивностью.
+
+   Всё покадровое — только filter, opacity и transform: композитор, ни одного
+   пересчёта лейаута.
    ------------------------------------------------------------------------ */
 
 .song-bg {
   position: fixed;
-  inset: -12%;
+  inset: -25%;
   z-index: 0;
   pointer-events: none;
   opacity: var(--song-opacity);
   transition: opacity var(--duration-slower) var(--easing-default);
 }
 
-/* Свечение фона на бит: тёмное пятно под пятнами, которое разгорается. */
+/* Свет на удар. Медленный, окрашенный, с маленьким размахом. */
 .song-glow {
   position: absolute; inset: 0;
   display: block;
-  background: radial-gradient(75% 65% at 50% 55%,
-    var(--song-c1) 0%, transparent 78%);
-  opacity: calc(0.10 + var(--song-beat) * 0.55);
-  filter: blur(70px) brightness(calc(0.7 + var(--song-beat) * 0.9));
-  transform: scale(calc(1 + var(--song-beat) * 0.06));
+  background: radial-gradient(70% 60% at 50% 50%, var(--song-c1) 0%, transparent 75%);
+  opacity: calc(0.16 + var(--song-beat) * 0.20);
+  filter: blur(120px);
+  transform: scale(calc(1 + var(--song-beat) * 0.03));
+  transition: opacity 120ms linear, transform 160ms linear;
 }
 
-/* Пятна: цвет и размер от обложки, яркость и резкость — от верхних частот. */
+/* Цветное поле. Пятна перекрываются и размыты так, что границ не видно. */
 .song-bg__blob {
   position: absolute;
   display: block;
-  width: 58%; height: 62%;
+  width: 85%; height: 88%;
   border-radius: 50%;
-  will-change: transform, filter;
-  filter: blur(44px)
-          saturate(calc(0.9 + var(--song-voice) * 0.8))
-          brightness(calc(0.72 + var(--song-voice) * 0.85));
+  will-change: transform;
+  filter: blur(110px);
+  opacity: calc(0.62 + var(--song-voice) * 0.22);
+  transition: opacity 200ms linear;
 }
 .song-bg__blob--1 {
-  left: 0%; top: 2%;
-  width: calc(58% * var(--song-s1, 1)); height: calc(62% * var(--song-s1, 1));
-  background: radial-gradient(circle at 50% 50%, var(--song-c1), transparent 70%);
+  left: -6%; top: -4%;
+  width: calc(85% * var(--song-s1, 1)); height: calc(88% * var(--song-s1, 1));
+  background: radial-gradient(circle at 50% 50%, var(--song-c1), transparent 66%);
 }
 .song-bg__blob--2 {
-  right: 0%; top: 0%;
-  width: calc(58% * var(--song-s2, 1)); height: calc(62% * var(--song-s2, 1));
-  background: radial-gradient(circle at 50% 50%, var(--song-c2), transparent 70%);
+  right: -8%; top: 2%;
+  width: calc(85% * var(--song-s2, 1)); height: calc(88% * var(--song-s2, 1));
+  background: radial-gradient(circle at 50% 50%, var(--song-c2), transparent 66%);
 }
 .song-bg__blob--3 {
-  left: 24%; bottom: 0%;
-  width: calc(58% * var(--song-s3, 1)); height: calc(62% * var(--song-s3, 1));
-  background: radial-gradient(circle at 50% 50%, var(--song-c3), transparent 72%);
-}
-
-/* Вспышка на удар: мягкое свечение к белому, без резких краёв. */
-.song-bg__flash {
-  position: absolute; inset: 0;
-  display: block;
-  background: radial-gradient(58% 62% at 50% 52%, #fff, transparent 72%);
-  opacity: calc(var(--song-beat) * var(--song-beat) * 0.28);
-  mix-blend-mode: screen;
+  left: 14%; bottom: -8%;
+  width: calc(85% * var(--song-s3, 1)); height: calc(88% * var(--song-s3, 1));
+  background: radial-gradient(circle at 50% 50%, var(--song-c3), transparent 68%);
 }
 
 /* ---------------------------------------------------------------------------
@@ -1360,8 +1355,7 @@ body.is-wrong::after { animation: wrong-flash 440ms var(--easing-out) both; }
   .fcard.is-sounding .fcard__eq i { animation: none; height: 9px; }
   .card__art, .results, .results__item, .lang__hint { animation: none; }
   /* Фон не движется и не пульсирует — остаётся ровный градиент. */
-  .song-bg__blob { transform: none !important; filter: blur(44px); }
-  .song-glow { transform: none; filter: blur(70px); opacity: .22; }
-  .song-bg__flash { opacity: 0; }
+  .song-bg__blob { transform: none !important; filter: blur(110px); opacity: .7; }
+  .song-glow { transform: none; filter: blur(120px); opacity: .2; }
   body.is-wrong::after { animation: none; }
 }

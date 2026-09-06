@@ -6,7 +6,10 @@
  *   1. СВЕЧЕНИЕ (.song-glow) — сам тёмный фон. Загорается на БИТ.
  *   2. ПЯТНА (.song-bg__blob) — цветные градиенты из обложки. Реагируют на
  *      ВЕРХНИЕ частоты: голос, гитары, тарелки. Быстро и резко.
- *   3. ВСПЫШКА (.song-bg__flash) — короткий белый всполох на сильный удар.
+ *
+ * Белой вспышки здесь больше нет намеренно: она мигала в такт с пятнами, и
+ * весь фон вспыхивал целиком. Свет на удар даёт только свечение, и он
+ * окрашен цветом обложки, а не белый.
  *
  * Движение пятен считает JS, а не CSS-анимация: скорость должна зависеть от
  * бита («громче — быстрее»), а менять `animation-duration` на лету значит
@@ -39,9 +42,9 @@ const BASS_HI_HZ = 160;
 const AIR_LO_HZ = 1800;
 const AIR_HI_HZ = 7000;
 
-/** Насколько быстро пятна дрейфуют в тишине и насколько разгоняются на бите. */
-const BASE_SPEED = 0.10;   // рад/с
-const BEAT_SPEED = 1.15;   // добавка при полном бите
+/** Насколько быстро поле перетекает в тишине и насколько разгоняется на бите. */
+const BASE_SPEED = 0.13;   // рад/с — движение есть всегда
+const BEAT_SPEED = 0.55;   // добавка при полном бите
 
 /** Видимость слоя, когда играет трек. */
 const ACTIVE_OPACITY = 0.62;
@@ -129,9 +132,6 @@ export class Pulse {
       this.blobs.push(blob);
     }
 
-    const flash = document.createElement('i');
-    flash.className = 'song-bg__flash';
-    this.node.appendChild(flash);
   }
 
   /**
@@ -260,8 +260,11 @@ export class Pulse {
         const flux = this._flux();
         const fluxHit = Math.max(this.fluxExcess.push(flux), this.fluxRange.push(flux) * 0.75);
         const hit = Math.min(1, Math.max(bassHit, fluxHit));
-        // Приход мгновенный, уход за ~350 мс: удар «повисает», не размазываясь.
-        this.beat = hit > this.beat ? hit : Math.max(0, this.beat - dt * 2.9);
+        // Приход быстрый, но не мгновенный, уход за ~600 мс: удар читается
+        // как волна света, а не как вспышка лампы.
+        this.beat = hit > this.beat
+          ? this.beat + (hit - this.beat) * 0.35
+          : Math.max(0, this.beat - dt * 1.7);
 
         // Верх → голос. Ровный уровень задаёт «дыхание», а всплески на слогах
         // и тарелках делают движение резким. Без второго слагаемого верх почти
@@ -271,8 +274,9 @@ export class Pulse {
           this.airRange.push(airRaw) * 0.6,
           this.airExcess.push(airRaw)
         ));
-        // Быстро вверх, чуть медленнее вниз, но без «повисания».
-        this.air += (target - this.air) * (target > this.air ? 0.6 : 0.18);
+        // Плавно в обе стороны: это дыхание поля, а не мигание. Резкость
+        // раньше давала стробоскопический эффект на вокале.
+        this.air += (target - this.air) * (target > this.air ? 0.10 : 0.05);
       } else {
         // Тишина: всё гаснет, но движение остаётся — фон живой всегда.
         this.beat = Math.max(0, this.beat - dt * 1.2);
@@ -293,18 +297,23 @@ export class Pulse {
     this.raf = requestAnimationFrame(tick);
   }
 
-  /** Три траектории с разными периодами — картинка не зацикливается на глаз. */
+  /**
+   * Три пятна ходят по своим траекториям и медленно вращаются. Периоды
+   * несоизмеримы, поэтому пятна постоянно оказываются в новых сочетаниях —
+   * поле перетекает и перемешивается, а не мигает на месте.
+   */
   _move() {
     if (!this.blobs) return;
     const p = this.phase;
-    const grow = 1 + this.air * 0.22 + this.beat * 0.14;
-    const set = (el, x, y, s) => {
+    const grow = 1 + this.air * 0.10 + this.beat * 0.05;
+    const set = (el, x, y, rot, sc) => {
       el.style.transform =
-        `translate3d(${x.toFixed(2)}%, ${y.toFixed(2)}%, 0) scale(${s.toFixed(3)})`;
+        `translate3d(${x.toFixed(2)}%, ${y.toFixed(2)}%, 0) ` +
+        `rotate(${rot.toFixed(2)}deg) scale(${sc.toFixed(3)})`;
     };
-    set(this.blobs[0], Math.sin(p * 0.71) * 11, Math.cos(p * 0.53) * 9, grow);
-    set(this.blobs[1], Math.cos(p * 0.61) * -13, Math.sin(p * 0.47) * 10, grow * 0.94);
-    set(this.blobs[2], Math.sin(p * 0.43 + 2) * 12, Math.cos(p * 0.67 + 1) * -8, grow * 1.06);
+    set(this.blobs[0], Math.sin(p * 0.71) * 20, Math.cos(p * 0.53) * 17, p * 9, grow);
+    set(this.blobs[1], Math.cos(p * 0.61) * -23, Math.sin(p * 0.47) * 19, -p * 7, grow * 0.96);
+    set(this.blobs[2], Math.sin(p * 0.43 + 2) * 21, Math.cos(p * 0.67 + 1) * -16, p * 5, grow * 1.05);
   }
 
   stop() {
