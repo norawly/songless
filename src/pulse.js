@@ -1,11 +1,14 @@
 /**
- * Живой фон: зелёное свечение снизу, которое дышит под музыку.
+ * Живой фон. Два режима, и переключаются они по смыслу экрана.
  *
- * Раньше фон красился доминирующими цветами обложки и проходил через цепочку
- * SVG-фильтров. От этого отказались сознательно: цвет обложки спорил с
- * интерфейсом, а фильтры давали резкие границы. Теперь фон один и всегда
- * один и тот же — лаймовый градиент от нижнего края, ровно как эквалайзер:
- * громче — выше и ярче, тише — ниже и глуше. Никаких эффектов сверх этого.
+ *   'glow'  — кислотное свечение снизу. Играет, пока песня ЗАГАДАНА: на
+ *             стартовом экране и весь раунд. Работает как эквалайзер:
+ *             громче — выше и ярче, тише — ниже и глуше. Цвет обложки тут
+ *             нельзя показывать даже намёком, это была бы подсказка.
+ *   'cover' — цвета обложки: три пятна на орбитах под цепочкой SVG-фильтров
+ *             (смешение по шуму, квантование, смягчение краёв). Включается
+ *             ровно там, где обложка уже открыта, — на карточке ответа и на
+ *             финальном экране.
  *
  * ПОРОГОВ С КОНСТАНТАМИ ЗДЕСЬ НЕТ, и скользящего среднего тоже. Спектр
  * разбит на полосы, и у каждой свои пол и пик с разной инерцией:
@@ -33,6 +36,10 @@ const BANDS = [
 
 /** Видимость слоя, когда звучит музыка. */
 const ACTIVE_OPACITY = 1;
+
+/** Насколько быстро поле перетекает в тишине и насколько разгоняется на бите. */
+const BASE_SPEED = 0.13;   // рад/с — движение есть всегда
+const BEAT_SPEED = 0.95;   // добавка при полном бите
 
 const reduceMotion = () =>
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -81,19 +88,94 @@ export class Pulse {
     this.beat = 0;
     this.air = 0;
     this.lift = 0;
+    this.phase = 0;
     this.last = 0;
+    this.mode = 'glow';
+    /** Множители характера трека (src/mood.js) — только для режима обложки. */
+    this.speed = 1;
+    this.radius = 1;
 
     this._buildLayers();
   }
 
-  /** Два слоя свечения: нижний ведёт удар, верхний — голос. */
+  /**
+   * Оба набора слоёв строятся сразу и живут постоянно: показывается тот,
+   * что соответствует режиму. Строить их на лету значило бы получать рывок
+   * ровно в тот момент, когда открывается ответ.
+   */
   _buildLayers() {
     if (!this.node || this.node.childElementCount) return;
+
+    // Кислотное свечение снизу.
     for (const cls of ['song-glow', 'song-glow song-glow--air']) {
       const el = document.createElement('i');
       el.className = cls;
       this.node.appendChild(el);
     }
+
+    // Цвета обложки: обёртка нужна затем, что цепочка SVG-фильтров вешается
+    // на неё одну и не должна трогать кислотное свечение.
+    const cover = document.createElement('i');
+    cover.className = 'song-cover';
+    const coverGlow = document.createElement('i');
+    coverGlow.className = 'song-cover__glow';
+    cover.appendChild(coverGlow);
+
+    this.blobs = [];
+    for (let i = 1; i <= 3; i++) {
+      const blob = document.createElement('i');
+      blob.className = `song-bg__blob song-bg__blob--${i}`;
+      cover.appendChild(blob);
+      this.blobs.push(blob);
+    }
+    this.node.appendChild(cover);
+
+    // Вуаль поверх цветного фона. Без неё окрашенный обложкой фон побеждал
+    // текст: на светлом пятне подпись исполнителя переставала читаться.
+    // Она темнее всего там, где живёт контент, и растворяется к краям.
+    // Кислотного свечения не касается — там душить нечего.
+    const veil = document.createElement('i');
+    veil.className = 'song-veil';
+    this.node.appendChild(veil);
+
+    this.node.dataset.mode = this.mode;
+  }
+
+  /**
+   * Переключает режим фона.
+   * @param {'glow'|'cover'} mode
+   */
+  setMode(mode) {
+    this.mode = mode === 'cover' ? 'cover' : 'glow';
+    if (this.node) this.node.dataset.mode = this.mode;
+  }
+
+  /**
+   * Красит фон цветами обложки. Порядок важен: первый цвет — самый частый на
+   * картинке, и пятно под него самое большое.
+   *
+   * @param {Array<{css:string, share:number}>|string[]|null} colors
+   */
+  setColors(colors) {
+    if (!colors || colors.length === 0) return;
+    const s = this.root.style;
+    const list = colors.map((c) =>
+      (typeof c === 'string' ? { css: c, share: 1 / colors.length } : c));
+
+    for (let i = 0; i < 3; i++) {
+      const c = list[Math.min(i, list.length - 1)];
+      s.setProperty(`--song-c${i + 1}`, c.css);
+      // Доля цвета управляет размером пятна: чего на обложке больше, то и
+      // занимает больше экрана. 0.42 — минимум, чтобы третий цвет не исчезал.
+      const size = 0.42 + Math.min(1, c.share * 2.2) * 0.62;
+      s.setProperty(`--song-s${i + 1}`, size.toFixed(3));
+    }
+  }
+
+  /** Характер трека: скорость и размах орбит зависят от жанра. */
+  setMood(mood) {
+    this.speed = mood?.speed ?? 1;
+    this.radius = mood?.radius ?? 1;
   }
 
   /** Показывает слой. Цвет один и тот же всегда — он от обложки не зависит. */
@@ -182,9 +264,50 @@ export class Pulse {
       s.setProperty('--song-lift', this.lift.toFixed(3));
       s.setProperty('--song-energy', ((this.beat + this.air) / 2).toFixed(3));
 
+      if (this.mode === 'cover') {
+        const B = this.bands;
+        // В режиме обложки каждое пятно отвечает за свою полосу.
+        s.setProperty('--song-b1', B.bass.norm.toFixed(3));
+        s.setProperty('--song-b2', B.mid.norm.toFixed(3));
+        s.setProperty('--song-b3', B.air.norm.toFixed(3));
+        // Чем сильнее удар, тем быстрее ход по орбите.
+        this.phase += dt * (BASE_SPEED + this.beat * BEAT_SPEED) * this.speed;
+        this._move();
+      }
+
       this.raf = requestAnimationFrame(tick);
     };
     this.raf = requestAnimationFrame(tick);
+  }
+
+  /**
+   * Пятна не блуждают, а ходят по орбитам.
+   *
+   * У каждого свой круг, свой радиус и своя сторона вращения: первое и третье
+   * идут по часовой, второе — против. Общая угловая скорость одна и зависит
+   * от удара. Поэтому движение читается как ход по кругу под музыку, а не как
+   * случайное всплывание точек. На удар орбиты слегка расходятся наружу.
+   */
+  _move() {
+    if (!this.blobs) return;
+    const p = this.phase;
+    const push = 1 + this.beat * 0.22;
+    const B = this.bands;
+    const g1 = 1 + B.bass.norm * 0.14 + this.beat * 0.06;
+    const g2 = 1 + B.mid.norm * 0.12;
+    const g3 = 1 + B.air.norm * 0.16;
+
+    const orbit = (el, angle, rx, ry, rot, sc) => {
+      const x = Math.cos(angle) * rx * push * this.radius;
+      const y = Math.sin(angle) * ry * push * this.radius;
+      el.style.transform =
+        `translate3d(${x.toFixed(2)}%, ${y.toFixed(2)}%, 0) ` +
+        `rotate(${rot.toFixed(2)}deg) scale(${sc.toFixed(3)})`;
+    };
+
+    orbit(this.blobs[0], p, 22, 18, p * 9, g1);
+    orbit(this.blobs[1], -p * 0.78 + 2.1, 25, 20, -p * 7, g2 * 0.96);
+    orbit(this.blobs[2], p * 0.61 + 4.2, 20, 24, p * 5, g3 * 1.05);
   }
 
   stop() {

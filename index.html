@@ -65,9 +65,54 @@
 </script>
 </head>
 <body>
-  <!-- Зелёное свечение снизу: работает как эквалайзер под звук.
-       Управляется src/pulse.js. -->
+  <!-- Фон под музыку: кислотное свечение снизу, пока песня загадана, и цвета
+       обложки, когда ответ открыт. Режим переключает src/pulse.js. -->
   <div class="song-bg" id="song-bg" aria-hidden="true"></div>
+
+  <!--
+    Обработка фона. Порядок важен, каждый шаг делает ровно одно:
+
+      1. feTurbulence  — фрактальный шум, карта искажения.
+      2. feDisplacementMap — поле смещается по этой карте: цвета затекают друг
+         в друга и перемешиваются, как краска в воде. Шум неподвижен, а пятна
+         под ним плывут по орбитам, поэтому рисунок смешения всё время новый.
+      3. feColorMatrix — немного насыщенности, иначе после смешения цвет вянет.
+      4. feComponentTransfer type="discrete" — квантование по 10 уровней на
+         канал: плавный градиент распадается на цветовые ступени, как будто
+         глубину цвета уронили до девяти бит.
+      5. feGaussianBlur — маленькое размытие ПОСЛЕ квантования: снимает
+         жёсткость границ между ступенями, оставляя сами ступени видимыми.
+
+    numOctaves=1 намеренно: турбулентность — самый дорогой примитив, а второй
+    октавы глаз здесь всё равно не различит.
+
+    Фильтр висит только на слое обложки (.song-cover) и работает лишь там,
+    где обложка уже открыта: на карточке ответа и на финале.
+
+    Все значения этих примитивов переставляются на лету под жанр трека —
+    см. src/mood.js. У рэпа мало ступеней и высокий контраст, у джаза и фолка
+    ступеней не видно вовсе. Трек с несколькими тегами получает среднее.
+  -->
+  <svg class="fx-defs" width="0" height="0" aria-hidden="true" focusable="false">
+    <filter id="song-fx" color-interpolation-filters="sRGB">
+      <feTurbulence id="fx-noise" type="fractalNoise" baseFrequency="0.005 0.008"
+                    numOctaves="1" seed="7" result="noise"/>
+      <feDisplacementMap id="fx-disp" in="SourceGraphic" in2="noise" scale="170"
+                         xChannelSelector="R" yChannelSelector="G" result="mixed"/>
+      <feColorMatrix id="fx-sat" in="mixed" type="saturate" values="1.25" result="rich"/>
+      <feComponentTransfer id="fx-contrast" in="rich" result="punchy">
+        <feFuncR type="linear" slope="1.1" intercept="-0.05"/>
+        <feFuncG type="linear" slope="1.1" intercept="-0.05"/>
+        <feFuncB type="linear" slope="1.1" intercept="-0.05"/>
+      </feComponentTransfer>
+      <feComponentTransfer id="fx-steps" in="punchy" result="steps">
+        <feFuncR type="discrete" tableValues="0 .11 .22 .33 .44 .55 .66 .77 .88 1"/>
+        <feFuncG type="discrete" tableValues="0 .11 .22 .33 .44 .55 .66 .77 .88 1"/>
+        <feFuncB type="discrete" tableValues="0 .11 .22 .33 .44 .55 .66 .77 .88 1"/>
+      </feComponentTransfer>
+      <feGaussianBlur id="fx-soft" in="steps" stdDeviation="2.4"/>
+    </filter>
+  </svg>
 
   <a class="skip-link" href="#screen">Мазмұнға өту</a>
 

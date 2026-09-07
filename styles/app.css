@@ -67,14 +67,19 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
 /* ---------------------------------------------------------------------------
    ЖИВОЙ ФОН (src/pulse.js)
 
-   Зелёное свечение от нижнего края — и всё. Никаких цветов обложки, никаких
-   SVG-фильтров, никаких пятен на орбитах: цвет обложки спорил с интерфейсом,
-   а фильтры давали резкие границы. Фон работает как эквалайзер: громче —
-   выше и ярче, тише — ниже и глуше.
+   Два режима, переключает src/pulse.js через data-mode на .song-bg.
 
-   Два слоя, чтобы движение не было одноклеточным:
+   [data-mode="glow"] — кислотное свечение снизу. Пока песня загадана (старт и
+   весь раунд), фон обязан быть нейтральным: цвет обложки был бы подсказкой.
+   Работает как эквалайзер: громче — выше и ярче.
      .song-glow        — широкое поле снизу, ведёт УДАР;
      .song-glow--air   — узкое пятно слева, ведёт ГОЛОС, дышит медленнее.
+
+   [data-mode="cover"] — цвета обложки: три пятна на орбитах под цепочкой
+   SVG-фильтров (см. index.html). Включается там, где обложка уже открыта: на
+   карточке ответа и на финальном экране.
+     .song-cover__glow — свет на удар, окрашенный самым частым цветом;
+     .song-bg__blob    — сами пятна, каждое от своей полосы спектра.
 
    Всё покадровое — только transform и opacity: композитор, ни одного
    пересчёта лейаута. Амплитуды намеренно небольшие: фон обязан быть
@@ -102,9 +107,9 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
   display: block;
   transform-origin: 50% 100%;
   background: radial-gradient(58% 100% at 50% 100%,
-    rgba(204, 255, 0, 0.42) 0%,
-    rgba(150, 230, 60, 0.20) 42%,
-    rgba(80, 180, 90, 0.06) 68%,
+    rgba(170, 255, 30, 0.46) 0%,
+    rgba(86, 240, 120, 0.22) 40%,
+    rgba(30, 190, 130, 0.07) 68%,
     transparent 100%);
   filter: blur(50px);
   opacity: calc(0.34 + var(--song-beat, 0) * 0.46 + var(--song-lift, 0) * 0.12);
@@ -120,13 +125,88 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
   height: 46vh;
   bottom: -10vh;
   background: radial-gradient(50% 100% at 40% 100%,
-    rgba(230, 255, 140, 0.30) 0%,
-    rgba(140, 220, 90, 0.14) 45%,
+    rgba(215, 255, 90, 0.32) 0%,
+    rgba(60, 235, 150, 0.16) 45%,
     transparent 100%);
   filter: blur(70px);
   opacity: calc(0.18 + var(--song-voice, 0) * 0.42);
   transform: scaleY(calc(0.7 + var(--song-voice, 0) * 0.4));
   transition: opacity 200ms linear, transform 260ms linear;
+}
+
+/* Переключение режимов. Оба набора слоёв существуют всегда — строить их в
+   момент показа ответа значило бы получить рывок ровно на этом переходе. */
+.song-bg[data-mode="cover"] .song-glow { opacity: 0; }
+.song-bg[data-mode="glow"] .song-cover { opacity: 0; }
+
+/* Вуаль между цветным фоном и контентом: см. комментарий в src/pulse.js. */
+.song-veil {
+  position: absolute; inset: 0;
+  display: block;
+  pointer-events: none;
+  background: radial-gradient(130% 100% at 50% 45%,
+    rgba(8, 9, 10, 0.72) 0%,
+    rgba(8, 9, 10, 0.5) 46%,
+    rgba(8, 9, 10, 0.14) 100%);
+  opacity: 0;
+  transition: opacity var(--duration-slow) var(--easing-default);
+}
+.song-bg[data-mode="cover"] .song-veil { opacity: 1; }
+
+/* --- Режим обложки ------------------------------------------------------- */
+
+.song-cover {
+  position: absolute;
+  inset: -25%;
+  display: block;
+  opacity: 1;
+  /* Размытые пятна собираются в композит, и уже он проходит обработку:
+     смешение по шуму → насыщенность → квантование → смягчение границ.
+     Цепочка описана в index.html над самим фильтром. */
+  filter: url(#song-fx);
+  transition: opacity var(--duration-slow) var(--easing-default);
+}
+
+.song-cover__glow {
+  position: absolute; inset: 0;
+  display: block;
+  background: radial-gradient(70% 60% at 50% 50%, var(--song-c1) 0%, transparent 75%);
+  opacity: calc(0.26 + var(--song-beat) * 0.38);
+  filter: blur(120px) brightness(calc(1 + var(--song-beat) * 0.45));
+  transform: scale(calc(1 + var(--song-beat) * 0.04));
+  transition: opacity 120ms linear, transform 160ms linear;
+}
+
+.song-bg__blob {
+  position: absolute;
+  display: block;
+  width: 85%; height: 88%;
+  border-radius: 50%;
+  will-change: transform;
+  filter: blur(110px)
+          saturate(calc(1.1 + var(--song-voice) * 0.3))
+          brightness(calc(1 + var(--song-beat) * 0.30));
+  transition: opacity 200ms linear;
+}
+/* Каждое пятно светится от своей полосы: низ, середина, воздух. */
+.song-bg__blob--1 { opacity: calc(0.78 + var(--song-b1, 0) * 0.22); }
+.song-bg__blob--2 { opacity: calc(0.78 + var(--song-b2, 0) * 0.22); }
+.song-bg__blob--3 { opacity: calc(0.78 + var(--song-b3, 0) * 0.22); }
+
+.song-bg__blob--1 {
+  left: -6%; top: -4%;
+  width: calc(85% * var(--song-s1, 1)); height: calc(88% * var(--song-s1, 1));
+  background: radial-gradient(circle at 50% 50%, var(--song-c1), transparent 66%);
+}
+.song-bg__blob--2 {
+  right: -8%; top: 2%;
+  width: calc(85% * var(--song-s2, 1)); height: calc(88% * var(--song-s2, 1));
+  background: radial-gradient(circle at 50% 50%, var(--song-c2), transparent 66%);
+}
+.song-bg__blob--3 {
+  left: 14%; bottom: -8%;
+  width: calc(85% * var(--song-s3, 1)); height: calc(88% * var(--song-s3, 1));
+  background: radial-gradient(circle at 50% 50%, var(--song-c3), transparent 68%);
 }
 
 /* ---------------------------------------------------------------------------
@@ -198,11 +278,18 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
   white-space: nowrap;
 }
 
-.chrome__nav { display: flex; gap: var(--s-4); justify-self: end; align-items: center; }
+/* grid-column проставлены явно: индикатор раундов вне игры стоит hidden, а
+   display:none выкидывает элемент из раскладки — автоплейсмент клал навигацию
+   в среднюю колонку, и на стартовом экране она оказывалась по центру. */
+.chrome__nav {
+  grid-column: 3;
+  display: flex; gap: var(--s-4); justify-self: end; align-items: center;
+}
 
 /* Индикатор раундов: статус, не навигация. Пять полосок без подписи читались
    как декор, поэтому рядом стоит текст «Уровень N / 5». */
 .chrome__rail {
+  grid-column: 2;
   display: flex; align-items: center; gap: var(--s-12);
   justify-self: center;
 }
@@ -1348,5 +1435,7 @@ body.is-wrong::after { animation: wrong-flash 440ms var(--easing-out) both; }
   /* Фон не движется и не пульсирует — остаётся ровный градиент. */
   .song-glow { transform: none !important; opacity: .22; }
   .song-glow--air { opacity: .12; }
+  .song-bg__blob { transform: none !important; filter: blur(110px); opacity: .7; }
+  .song-cover__glow { transform: none; filter: blur(120px); opacity: .2; }
   body.is-wrong::after { animation: none; }
 }

@@ -70,12 +70,19 @@ function saveOffsetCache(cache) {
 
 const VOLUME_KEY = 'olensiz:volume';
 
+/** Громкость по умолчанию: три четверти, а не «на всю». */
+const DEFAULT_VOLUME = 0.75;
+
 function loadVolume() {
   try {
-    const v = Number(localStorage.getItem(VOLUME_KEY));
-    return Number.isFinite(v) && v >= 0 && v <= 1 ? v : 0.8;
+    const raw = localStorage.getItem(VOLUME_KEY);
+    const v = Number(raw);
+    // Пустое значение — не ноль: раньше отсутствующая запись превращалась в
+    // Number(null) === 0, и звук стартовал на минимуме.
+    if (raw === null || raw === '' || !Number.isFinite(v)) return DEFAULT_VOLUME;
+    return v >= 0 && v <= 1 ? v : DEFAULT_VOLUME;
   } catch {
-    return 0.8;
+    return DEFAULT_VOLUME;
   }
 }
 

@@ -52,7 +52,8 @@ export class Game {
     /**
      * Фильтры партии — два независимых измерения выбора плюс жанры.
      * difficulty: 'normal' | 'expert' — длина фрагментов и цена ступеней.
-     * age: 'family' — только семейное; '18plus' — семейное И взрослое.
+     * age: 'family' — только семейное; '18plus' — только взрослое;
+     *      'both' — и то и другое.
      * genres: пустой массив = все категории (режим Random).
      */
     this.filters = { difficulty: DEFAULT_MODE, age: 'family', genres: [] };
@@ -122,7 +123,7 @@ export class Game {
   }
 
   setAge(age) {
-    this.filters.age = age === '18plus' ? '18plus' : 'family';
+    this.filters.age = age === '18plus' || age === 'both' ? age : 'family';
     this._emit();
   }
 

@@ -155,12 +155,18 @@ export class Catalog {
   /* ---------------------------------------------------------------- */
 
   /**
-   * @param {{ age?: 'family'|'18plus', genres?: string[] }} filters
-   *   age 'family' — только семейные; '18plus' — семейные И взрослые
-   *   (18+ это расширение каталога, а не отдельная его часть).
+   * @param {{ age?: 'family'|'18plus'|'both', genres?: string[] }} filters
+   *   'family' — только семейные;
+   *   '18plus' — ТОЛЬКО взрослые (мат, тяжёлые темы);
+   *   'both'   — весь каталог целиком.
+   *
+   * Раньше '18plus' означал «семейные И взрослые», и отдельно послушать
+   * только взрослое было нельзя. Теперь каждая из трёх кнопок делает ровно
+   * то, что на ней написано.
    */
   matches(track, filters) {
     if (filters.age === 'family' && track.age !== 'family') return false;
+    if (filters.age === '18plus' && track.age !== '18plus') return false;
     if (filters.genres && filters.genres.length) {
       const has = (track.genres || []).some((g) => filters.genres.includes(g));
       if (!has) return false;

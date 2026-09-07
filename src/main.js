@@ -17,6 +17,8 @@ import { loadCatalog, streamingLinks } from './catalog.js';
 import { AudioEngine } from './audio.js';
 import { Pulse } from './pulse.js';
 import { Ambient, ambientAllowed, rememberAmbient } from './ambient.js';
+import { extractPalette } from './palette.js';
+import { moodFor, applyFilter } from './mood.js';
 import { watchViewportHeight } from './fit.js';
 import { Game, SCREEN, STEP_STATE } from './game.js';
 import {
@@ -107,7 +109,8 @@ async function boot() {
  * анализатором. Вызывается после каждого запуска звука: полосы калибруются
  * заново под новую музыку.
  */
-function liveBg() {
+function liveBg(mode = 'glow') {
+  pulse.setMode(mode);
   pulse.show();
   pulse.start(audio.analyser);
 }
@@ -325,6 +328,7 @@ function renderLevelRail(rail) {
 
 function renderStart() {
   audio.stop(200);
+  pulse.setMode('glow');
 
   const av = game.availability;
   const genres = catalog.availableGenres();
@@ -365,12 +369,13 @@ function renderStart() {
         <div class="field">
           <span class="field__label" id="lbl-age">${esc(t('start.audience'))}</span>
           <div class="seg" role="group" aria-labelledby="lbl-age">
-            ${['family', '18plus'].map((id) => `
+            ${['family', '18plus', 'both'].map((id) => `
               <button class="seg__btn" data-age="${id}" type="button"
                       aria-pressed="${game.filters.age === id}"
                       title="${esc(t(`age.${id}Hint`))}">${esc(t(`age.${id}`))}</button>
             `).join('')}
           </div>
+          <span class="field__hint">${esc(t(`age.${game.filters.age}Hint`))}</span>
         </div>
 
         <div class="field field--wide">
@@ -634,6 +639,8 @@ function renderLoading() {
 /* ================================================================== */
 
 function renderRound() {
+  // Песня загадана: фон обязан быть нейтральным, цвет обложки был бы подсказкой.
+  pulse.setMode('glow');
   const n = game.roundIndex + 1;
   const total = game.stepsTotal;
 
@@ -817,7 +824,7 @@ function wireRound() {
 
     try {
       await audio.play(game.track, durMs);
-      liveBg();
+      liveBg('glow');
       trackFragment(durMs);
     } catch {
       stopVisuals();
@@ -1139,17 +1146,25 @@ function renderReveal() {
   next.focus();
 }
 
-/** Запускает превью и свечение фона под него. */
+/**
+ * Карточка ответа: обложка уже открыта, поэтому фон переходит в режим цвета
+ * обложки — пятна на орбитах под фильтром, характер по жанру трека.
+ */
 async function paintAndPlay(track) {
   const token = paintToken;
+  const mood = moodFor(track);
+  applyFilter(mood);
+  pulse.setMood(mood);
   try {
     await audio.playFull(track);
     if (token !== paintToken) return;
-    pulse.show();
-    pulse.start(audio.analyser);
+    liveBg('cover');
   } catch {
     /* звук не критичен для показа карточки */
   }
+  const colors = await extractPalette(track.art, track.id);
+  // Экран мог смениться, пока считалась палитра.
+  if (colors && token === paintToken) pulse.setColors(colors);
 }
 
 /* ================================================================== */
@@ -1158,6 +1173,8 @@ async function paintAndPlay(track) {
 
 function renderFinal() {
   audio.stop(220);
+  // Обложки открыты, но пока курсор ни на одной — фон нейтральный.
+  pulse.setMode('glow');
 
   const total = game.totalScore;
   const verdict = t(`final.verdict${verdictIndex(total, game.filters.difficulty)}`);
@@ -1249,12 +1266,16 @@ function wireFinalCards() {
     if (!track || hovered === id) return;
     hovered = id;
     const token = paintToken;
+    const mood = moodFor(track);
+    applyFilter(mood);
+    pulse.setMood(mood);
     card.classList.add('is-sounding');
     try {
       await audio.playFull(track);
       if (hovered !== id || token !== paintToken) return; // курсор ушёл или сменился экран
-      pulse.show();
-      pulse.start(audio.analyser);
+      liveBg('cover');
+      const colors = await extractPalette(track.art, track.id);
+      if (colors && hovered === id && token === paintToken) pulse.setColors(colors);
     } catch {
       /* тишина не ломает финал */
     }

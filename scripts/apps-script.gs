@@ -249,7 +249,7 @@ function normalizeSlice(raw) {
   var parts = s.split('|');
   var cat = parts[0] || 'random';
   var mode = MODES[parts[1]] ? parts[1] : 'normal';
-  var age = parts[2] === '18plus' ? '18plus' : 'family';
+  var age = (parts[2] === '18plus' || parts[2] === 'both') ? parts[2] : 'family';
   return cat + '|' + mode + '|' + age;
 }
 
