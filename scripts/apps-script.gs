@@ -67,8 +67,14 @@ var TIMEZONE = 'Asia/Almaty';
 /** Не чаще одной отправки в N секунд с одного sessionHash. */
 var RATE_LIMIT_SECONDS = 20;
 
-/** Одна сессия = одна запись. Поставь false, чтобы разрешить несколько партий. */
-var ONE_SUBMIT_PER_SESSION = true;
+/** Одна сессия = одна запись. false: человек играет несколько партий подряд,
+ *  и каждая имеет право попасть в таблицу — от спама защищает лимит ниже. */
+var ONE_SUBMIT_PER_SESSION = false;
+
+/** Потолок записей за сутки. Защита от заливки таблицы мусором: клиентский
+ *  sessionHash подделывается, а этот предел — нет. Обычной игре он не мешает:
+ *  это тысячи партий в день. */
+var MAX_ROWS_PER_DAY = 3000;
 
 /** Корни нецензурной лексики. Дублируют список из src/leaderboard.js:
  *  клиенту доверять нельзя, фильтр обязан работать и на сервере. */
@@ -101,7 +107,10 @@ function doGet(e) {
     }
     return json({ ok: false, error: 'unknown-action' });
   } catch (err) {
-    return json({ ok: false, error: String(err) });
+    // Наружу — только код. Текст исключения Apps Script может содержать имя
+    // листа, диапазон и прочие внутренности, посторонним они ни к чему.
+    console.error('doGet', err);
+    return json({ ok: false, error: 'server-error' });
   }
 }
 
@@ -134,7 +143,10 @@ function doPost(e) {
     var sheet = getSheet();
     var sessionHash = String(body.sessionHash || '').slice(0, 64);
 
-    var recent = findRecentBySession(sheet, sessionHash);
+    var tail = scanTail(sheet, sessionHash);
+    if (tail.today >= MAX_ROWS_PER_DAY) return json({ ok: false, error: 'daily-limit' });
+
+    var recent = tail.recent;
     if (recent) {
       if (ONE_SUBMIT_PER_SESSION) return json({ ok: false, error: 'already-submitted' });
       var ageSec = (new Date().getTime() - recent.getTime()) / 1000;
@@ -165,7 +177,8 @@ function doPost(e) {
       placeToday: places.today
     });
   } catch (err) {
-    return json({ ok: false, error: String(err) });
+    console.error('doPost', err);
+    return json({ ok: false, error: 'server-error' });
   } finally {
     lock.releaseLock();
   }
@@ -314,16 +327,26 @@ function getSheet() {
   return sheet;
 }
 
-function findRecentBySession(sheet, sessionHash) {
-  if (!sessionHash) return null;
+/**
+ * Один проход по хвосту таблицы: когда эта сессия писала в последний раз и
+ * сколько записей уже сделано сегодня. Два ответа за одно чтение — обращения
+ * к таблице самая дорогая часть скрипта.
+ */
+function scanTail(sheet, sessionHash) {
+  var out = { recent: null, today: 0 };
   var last = sheet.getLastRow();
-  if (last < 2) return null;
-  var n = Math.min(500, last - 1); // смотрим только хвост — этого достаточно
+  if (last < 2) return out;
+  var n = Math.min(4000, last - 1);
   var values = sheet.getRange(last - n + 1, 1, n, 5).getValues();
+  var todayKey = dayKey(new Date());
   for (var i = values.length - 1; i >= 0; i--) {
-    if (String(values[i][4]) === sessionHash) return new Date(values[i][0]);
+    var when = values[i][0] ? new Date(values[i][0]) : null;
+    if (when && dayKey(when) === todayKey) out.today++;
+    if (!out.recent && sessionHash && String(values[i][4]) === sessionHash) {
+      out.recent = when;
+    }
   }
-  return null;
+  return out;
 }
 
 /** Строка «сегодня» в часовом поясе TIMEZONE. */

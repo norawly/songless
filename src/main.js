@@ -49,6 +49,8 @@ let roundToken = 0;
 /** Кэш загруженных топов, чтобы не дёргать сеть на каждую перерисовку. */
 let boardsCache = null;
 let boardsSlice = null;
+/** Строк в компактной таблице на телефоне: экран не прокручивается. */
+const MOBILE_BOARD_ROWS = 3;
 /** Перехват «уходишь без имени» показывается ровно один раз за сессию. */
 let signPromptShown = false;
 /**
@@ -513,9 +515,7 @@ function renderStart() {
           <span class="setup-line__value">${esc(setupSummary())}</span>
           <svg class="setup-line__chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-        ${LB.enabled()
-          ? `<button class="btn btn--ghost" data-open-board="allTime" type="button">${esc(t('start.records'))}</button>`
-          : ''}
+        ${LB.enabled() ? boardMarkup('allTime', t('start.records'), MOBILE_BOARD_ROWS) : ''}
       </div>
     </section>`
     : `
@@ -530,7 +530,7 @@ function renderStart() {
     </section>`;
 
   wireStart();
-  if (LB.enabled() && !mobile()) loadBoards();
+  if (LB.enabled()) loadBoards();
 }
 
 /** Текущий выбор одной строкой: «Обычный · Family · Всё вперемешку». */
@@ -653,17 +653,31 @@ function howToMarkup() {
     </section>`;
 }
 
-function boardMarkup(kind, title) {
+/**
+ * Компактная таблица на стартовом экране.
+ *
+ * Под заголовком стоит подпись среза: таблица считается по срезам, и без неё
+ * непонятно, чей это топ — «всё вперемешку в обычном режиме» или «рэп 18+
+ * в экспертном». Пока данные едут, показываем скелет строк, а не слово
+ * «загружаем»: список не прыгает, когда они приедут.
+ */
+function boardMarkup(kind, title, rows = CONFIG.LEADERBOARD_PREVIEW_N) {
+  const label = sliceLabel(game.sliceKey);
   return `
     <section class="board board--${kind === 'today' ? 'today' : 'all'}">
       <div class="board__head">
         <button class="board__title" data-open-board="${kind}" type="button">${esc(title)}</button>
-        <button class="board__more" data-open-board="${kind}" type="button">${esc(t('lb.openFull'))}</button>
+        <button class="board__more" data-open-board="${kind}" type="button">${esc(t('lb.openFull'))} →</button>
       </div>
-      <div class="board__body" data-board="${kind}">
-        <p class="muted">${esc(t('lb.loading'))}</p>
-      </div>
+      <p class="board__slice">${esc(label.full)}</p>
+      <div class="board__body" data-board="${kind}">${skeletonRows(rows)}</div>
     </section>`;
+}
+
+function skeletonRows(n) {
+  return `<div class="lb-skeleton" aria-hidden="true">${
+    Array.from({ length: n }, (_, i) => `<i style="--i:${i}"></i>`).join('')
+  }</div>`;
 }
 
 function wireStart() {
@@ -689,19 +703,25 @@ async function loadBoards() {
   const boxes = $$('[data-board]');
   if (!boxes.length) return;
   const slice = game.sliceKey;
+  const limit = mobile() ? MOBILE_BOARD_ROWS : CONFIG.LEADERBOARD_PREVIEW_N;
   try {
-    boardsCache = await LB.fetchBoards(slice);
+    boardsCache = await LB.fetchBoards(slice, limit);
     boardsSlice = slice;
+    // Экран мог смениться, пока шёл запрос: Apps Script отвечает секундами.
+    if (!$('[data-board]')) return;
     paintBoard('allTime');
     paintBoard('today');
   } catch (err) {
     console.warn('leaderboard:', err);
     // Лидерборд необязателен: показываем честное состояние, игру не трогаем.
-    for (const box of boxes) {
+    for (const box of $$('[data-board]')) {
       box.innerHTML = `<p class="muted">${esc(t('lb.offline'))}</p>
         <button class="btn btn--ghost btn--sm" data-retry-board type="button">${esc(t('lb.retry'))}</button>`;
     }
-    $('[data-retry-board]')?.addEventListener('click', () => loadBoards());
+    $('[data-retry-board]')?.addEventListener('click', () => {
+      for (const box of $$('[data-board]')) box.innerHTML = skeletonRows(3);
+      loadBoards();
+    });
   }
 }
 
@@ -714,26 +734,45 @@ function paintBoard(kind, highlight = null) {
     : `<p class="muted">${esc(kind === 'today' ? t('lb.emptyToday') : t('lb.empty'))}</p>`;
 }
 
-function leaderboardTable(rows, highlightNick = null) {
+function leaderboardTable(rows, highlightNick = null, { head = false } = {}) {
   return `
     <table class="lb">
-      <tbody>${rows.map((r, i) => `
-        <tr${highlightNick && r.nick === highlightNick ? ' class="is-me"' : ''}>
-          <td class="num">${i + 1}</td>
-          <td class="lb__nick">${esc(r.nick)}</td>
+      ${head ? `<thead><tr>
+        <th scope="col" class="lb__rank">${esc(t('lb.place'))}</th>
+        <th scope="col">${esc(t('lb.player'))}</th>
+        <th scope="col" class="num">${esc(t('lb.score'))}</th>
+      </tr></thead>` : ''}
+      <tbody>${rows.map((r, i) => {
+        const me = highlightNick && r.nick === highlightNick;
+        return `
+        <tr${me ? ' class="is-me"' : ''} data-rank="${i + 1}">
+          <td class="lb__rank">${i + 1}</td>
+          <td class="lb__nick">${esc(r.nick)}${me ? ` <span class="lb__you">${esc(t('lb.you'))}</span>` : ''}</td>
           <td class="num">${fmtNum(Number(r.score || 0))}</td>
-        </tr>`).join('')}
+        </tr>`;
+      }).join('')}
       </tbody>
     </table>`;
 }
 
-/** Человекочитаемое имя среза для переключателя и шеринга. */
+/**
+ * Человекочитаемое имя среза. Возраст возвращается отдельным полем: в
+ * лидерборде он обязателен (иначе «рэп 18+» и «рэп Family» выглядят одной и
+ * той же строкой в списке категорий), а в тексте шеринга его нет — там по
+ * заданию только режим и категория.
+ */
 function sliceLabel(slice) {
-  const [cat, diff] = slice.split('|');
+  const [cat, diff, age] = slice.split('|');
   const category = cat === 'random'
     ? t('lb.sliceRandom')
     : cat.slice(2).split('+').map((g) => genreName(g)).join(' + ');
-  return { category, mode: t(`difficulty.${diff === 'expert' ? 'expert' : 'normal'}`) };
+  const ageId = age === '18plus' || age === 'both' ? age : 'family';
+  return {
+    category,
+    mode: t(`difficulty.${diff === 'expert' ? 'expert' : 'normal'}`),
+    age: t(`age.${ageId}`),
+    full: `${category} · ${t(`difficulty.${diff === 'expert' ? 'expert' : 'normal'}`)} · ${t(`age.${ageId}`)}`,
+  };
 }
 
 /**
@@ -747,18 +786,21 @@ async function showFullBoard(kind = 'allTime', slice = game.sliceKey, highlight 
     wide: true,
     bodyHtml: `
       <div class="lb-controls">
-        <div class="seg" role="group" aria-label="${esc(t('lb.period'))}">
-          <button class="seg__btn" data-period="allTime" type="button"
-                  aria-pressed="${kind === 'allTime'}">${esc(t('lb.allTime'))}</button>
-          <button class="seg__btn" data-period="today" type="button"
-                  aria-pressed="${kind === 'today'}">${esc(t('lb.today'))}</button>
+        <div class="field">
+          <span class="field__label" id="lbl-period">${esc(t('lb.period'))}</span>
+          <div class="seg" role="group" aria-labelledby="lbl-period">
+            <button class="seg__btn" data-period="allTime" type="button"
+                    aria-pressed="${kind === 'allTime'}">${esc(t('lb.allTime'))}</button>
+            <button class="seg__btn" data-period="today" type="button"
+                    aria-pressed="${kind === 'today'}">${esc(t('lb.today'))}</button>
+          </div>
         </div>
-        <label class="lb-controls__cat">
+        <label class="field lb-controls__cat">
           <span class="field__label">${esc(t('lb.category'))}</span>
           <select class="input" data-slice></select>
         </label>
       </div>
-      <div data-full><p class="muted">${esc(t('lb.loading'))}</p></div>`,
+      <div class="lb-full" data-full>${skeletonRows(8)}</div>`,
   });
 
   const body = panel.querySelector('[data-full]');
@@ -768,27 +810,42 @@ async function showFullBoard(kind = 'allTime', slice = game.sliceKey, highlight 
 
   const fillSelect = (categories) => {
     const known = new Map();
-    known.set(current, `${label.category} · ${label.mode}`);
+    known.set(current, label.full);
     for (const c of categories) {
-      const l = sliceLabel(c.slice);
-      known.set(c.slice, `${l.category} · ${l.mode} (${c.count})`);
+      known.set(c.slice, `${sliceLabel(c.slice).full} (${c.count})`);
     }
     select.innerHTML = [...known.entries()]
       .map(([k, v]) => `<option value="${esc(k)}"${k === current ? ' selected' : ''}>${esc(v)}</option>`)
       .join('');
   };
 
+  const paintRows = (rows) => {
+    body.innerHTML = rows.length
+      ? leaderboardTable(rows, highlight, { head: true })
+      : `<p class="muted">${esc(period === 'today' ? t('lb.emptyToday') : t('lb.empty'))}</p>`;
+    // Своя строка может быть далеко внизу — подводим к ней сразу.
+    body.querySelector('tr.is-me')?.scrollIntoView({ block: 'center' });
+  };
+
+  // Топ этого среза уже загружен для стартового экрана — показываем сразу,
+  // не заставляя человека смотреть на «загружаем» лишние три секунды.
+  if (boardsCache && boardsSlice === current) {
+    fillSelect(boardsCache.categories || []);
+    paintRows(boardsCache[period] || []);
+  }
+
   const paint = async () => {
-    body.innerHTML = `<p class="muted">${esc(t('lb.loading'))}</p>`;
+    if (!body.querySelector('.lb')) body.innerHTML = skeletonRows(8);
     try {
       const boards = await LB.fetchBoards(current, CONFIG.LEADERBOARD_FULL_N);
+      if (!body.isConnected) return;
       fillSelect(boards.categories);
-      const rows = boards[period] || [];
-      body.innerHTML = rows.length
-        ? leaderboardTable(rows, highlight)
-        : `<p class="muted">${esc(period === 'today' ? t('lb.emptyToday') : t('lb.empty'))}</p>`;
+      paintRows(boards[period] || []);
     } catch {
-      body.innerHTML = `<p class="muted">${esc(t('lb.offline'))}</p>`;
+      if (!body.isConnected) return;
+      if (!body.querySelector('.lb')) {
+        body.innerHTML = `<p class="muted">${esc(t('lb.offline'))}</p>`;
+      }
     }
   };
 

@@ -616,13 +616,21 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
 
 /* --- Правая колонка: лидерборды ----------------------------------------- */
 
-.board { display: grid; grid-template-rows: auto auto; min-height: 0; align-content: start; }
+/* ---------------------------------------------------------------------------
+   ЛИДЕРБОРД
+
+   Таблица считается по срезам (категория + режим + возраст), поэтому под
+   заголовком всегда написано, чей это топ. Первое место выделено акцентом,
+   второе и третье — просто ярче остальных: медалей в швейцарской сетке нет,
+   иерархия делается весом и цветом.
+   ------------------------------------------------------------------------ */
+
+.board { display: grid; grid-template-rows: auto auto auto; min-height: 0; align-content: start; }
 .board__head {
   display: flex; align-items: baseline; justify-content: space-between;
   gap: var(--s-16);
   padding-bottom: var(--s-4);
   border-bottom: var(--border-width-rule) solid var(--color-border-secondary);
-  margin-bottom: var(--s-8);
 }
 .board__title {
   background: none; border: 0; padding: 0; cursor: pointer;
@@ -642,7 +650,31 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
   white-space: nowrap;
 }
 .board__more:hover { color: var(--color-accent-primary); }
+/* Чей это топ. Без подписи «за всё время» ничего не значит: у каждого среза
+   своя таблица. */
+.board__slice {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  padding: var(--s-4) 0;
+}
 .board__body { min-height: 0; overflow: hidden; }
+
+/* Скелет вместо слова «загружаем»: список не прыгает, когда данные приедут.
+   Apps Script отвечает секундами — это его нормальная скорость. */
+.lb-skeleton { display: grid; gap: var(--s-4); }
+.lb-skeleton i {
+  display: block; height: 26px;
+  background: linear-gradient(90deg,
+    var(--color-bg-tertiary) 0%, var(--color-bg-elevated) 50%, var(--color-bg-tertiary) 100%);
+  background-size: 200% 100%;
+  animation: lb-shimmer 1.4s linear infinite;
+  animation-delay: calc(var(--i) * 90ms);
+  opacity: calc(1 - var(--i) * 0.12);
+}
+@keyframes lb-shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
 
 /* Правая колонка, когда лидерборды выключены. */
 .howto {
@@ -672,7 +704,7 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
 
 .lb { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
 .lb th, .lb td {
-  padding: 5px var(--s-4);
+  padding: 6px var(--s-4);
   border-bottom: var(--border-width-hair) solid var(--color-border-secondary);
   text-align: left;
   font-size: var(--font-size-sm);
@@ -682,50 +714,33 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
   letter-spacing: var(--letter-spacing-wide);
   text-transform: uppercase;
   color: var(--color-text-tertiary);
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-medium);
 }
-.lb td:first-child { color: var(--color-text-tertiary); width: 2.4em; }
-.lb__nick { max-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lb__rank { color: var(--color-text-tertiary); width: 2.6em; text-align: right; padding-right: var(--s-8); }
+.lb__nick { overflow: hidden; text-overflow: ellipsis; max-width: 1px; width: 99%; white-space: nowrap; }
+/* Первое место — акцентом, второе и третье просто ярче остальных. */
+.lb tr[data-rank="1"] td { color: var(--color-accent-primary); font-weight: var(--font-weight-bold); }
+.lb tr[data-rank="2"] td,
+.lb tr[data-rank="3"] td { color: var(--color-text-primary); }
 .lb tr.is-me td { color: var(--color-accent-primary); font-weight: var(--font-weight-bold); }
+.lb__you {
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  color: var(--color-accent-on);
+  background: var(--color-accent-primary);
+  padding: 1px var(--s-4);
+  margin-left: var(--s-4);
+}
+.lb-full { min-height: 0; }
 
 .lb-controls {
-  display: flex; align-items: end; justify-content: space-between;
-  gap: var(--s-16); flex-wrap: wrap;
+  display: flex; flex-wrap: wrap; align-items: flex-end;
+  gap: var(--s-16) var(--s-24);
+  padding-bottom: var(--s-16);
 }
-.lb-controls__cat { display: grid; gap: var(--s-4); min-width: 0; flex: 1; max-width: 22rem; }
-.lb-controls select { min-height: var(--control-height); }
-
-/* ===========================================================================
-   ЭКРАН: ЗАГРУЗКА ПАРТИИ
-   ======================================================================== */
-
-.screen--loading {
-  place-content: center;
-  justify-items: center;
-  gap: var(--gap-v-md);
-  text-align: center;
-}
-.loading__title {
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
-  letter-spacing: var(--letter-spacing-tighter);
-}
-.loading__bar {
-  width: min(420px, 60vw); height: 4px;
-  background: var(--color-bg-tertiary);
-  overflow: hidden;
-}
-.loading__bar i {
-  display: block; height: 100%; width: 0;
-  background: var(--color-accent-primary);
-  transition: width var(--duration-normal) var(--easing-out);
-}
-.loading__count {
-  font-family: var(--font-family-mono);
-  font-size: var(--font-size-md);
-  color: var(--color-text-secondary);
-  font-variant-numeric: tabular-nums;
-}
+.lb-controls__cat { min-width: 0; flex: 1; max-width: 24rem; }
+.lb-controls select { min-height: var(--control-height); width: 100%; }
 
 /* ===========================================================================
    ЭКРАН: РАУНД — одна центральная колонка сетки (7 из 12)
@@ -1670,11 +1685,29 @@ body.is-wrong::after { animation: wrong-flash 440ms var(--easing-out) both; }
     letter-spacing: var(--letter-spacing-wide);
     text-transform: uppercase;
   }
+  /* Совсем низкий экран: строки финала уплотняются. Прячем только воздух —
+     ни обложка, ни имя артиста, ни очки не исчезают. */
+  [data-dense="2"] .fcard__inner,
+  [data-dense="3"] .fcard__inner,
+  [data-dense="4"] .fcard__inner {
+    line-height: 1.15;
+    grid-template-columns: 40px minmax(0, 1fr);
+    padding: 2px 0;
+  }
+  [data-dense="2"] .fcard__art,
+  [data-dense="3"] .fcard__art,
+  [data-dense="4"] .fcard__art { width: 40px; }
+
   .final__bottom { flex-direction: column; align-items: stretch; gap: var(--s-8); }
   .final__bottom .hint { display: none; }
-  .lb-form { flex-wrap: wrap; }
-  .lb-form .input { width: 100%; flex: 1 1 100%; }
-  .lb-form .btn { flex: 1; }
+  /* Форма имени — одна строка: поле и кнопка. Подпись прячем, плейсхолдер
+     говорит то же самое, а каждая лишняя строка здесь стоит карточки. */
+  .lb-form { flex-wrap: nowrap; gap: var(--s-8); }
+  .lb-form .field__label { display: none; }
+  .lb-form .input { width: auto; flex: 1 1 auto; min-width: 0; }
+  .lb-form .btn { flex: 0 0 auto; }
+  .lb-status { flex: 0 0 100%; order: 3; }
+  .lb-status:empty { display: none; }
   .final__actions { display: flex; gap: var(--s-8); }
   .final__actions .btn { flex: 1; }
 
@@ -1719,7 +1752,20 @@ body.is-wrong::after { animation: wrong-flash 440ms var(--easing-out) both; }
   }
   .menu__item:last-child { border-bottom: 0; }
 
-  .lb-controls { grid-template-columns: 1fr; gap: var(--s-12); }
+  /* Переключатели лидерборда в столбик: в строку на 360px они не встают. */
+  .lb-controls { flex-direction: column; align-items: stretch; gap: var(--s-12); }
+  .lb-controls__cat { max-width: none; }
+  .lb-controls .seg { width: 100%; }
+  .lb-controls .seg__btn { flex: 1; }
+
+  /* Подпись среза под заголовком таблицы дублирует строку настроек прямо
+     над ней — на телефоне она лишняя. */
+  .board__slice { display: none; }
+  /* Низкий экран: компактная таблица уходит первой. Кнопка «весь список»
+     в заголовке остаётся, так что добраться до рекордов всё равно можно. */
+  [data-dense="2"] .start__foot .board__body,
+  [data-dense="3"] .start__foot .board__body,
+  [data-dense="4"] .start__foot .board__body { display: none; }
   .tsheet { grid-template-columns: 1fr; justify-items: center; text-align: center; }
 }
 

@@ -12,7 +12,7 @@ export const CONFIG = {
    *
    * Пример: 'https://script.google.com/macros/s/AKfycb.../exec'
    */
-  LEADERBOARD_ENDPOINT: '',
+  LEADERBOARD_ENDPOINT: 'https://script.google.com/macros/s/AKfycbwAIgOrpKeIRzlZBdxPCgztyixs5loj2N3yWGN8HwZ8MrEiSGs0NifMj6K1Sa4rAcPz/exec',
 
   /** Сколько строк показывать в компактной таблице на стартовом экране. */
   LEADERBOARD_PREVIEW_N: 7,
