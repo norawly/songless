@@ -123,10 +123,16 @@ console.log('\n— Фильтры режима —');
   console.log(`${famOnly.every((t) => t.age === 'family') ? '  ok  ' : ' FAIL '} Family не пускает 18+ (${famOnly.length} треков)`);
   if (!famOnly.every((t) => t.age === 'family')) failed++;
 
+  // С И4 кнопок возраста три, и каждая означает ровно себя.
   const adult = cat.filtered({ age: '18plus' });
-  const ok18 = adult.length >= famOnly.length;
-  console.log(`${ok18 ? '  ok  ' : ' FAIL '} 18+ расширяет каталог, а не заменяет (${adult.length} ≥ ${famOnly.length})`);
-  if (!ok18) failed++;
+  const onlyAdult = adult.length > 0 && adult.every((t) => t.age === '18plus');
+  console.log(`${onlyAdult ? '  ok  ' : ' FAIL '} 18+ отдаёт только взрослое (${adult.length} треков)`);
+  if (!onlyAdult) failed++;
+
+  const both = cat.filtered({ age: 'both' });
+  const okBoth = both.length === famOnly.length + adult.length;
+  console.log(`${okBoth ? '  ok  ' : ' FAIL '} «обе» = весь каталог (${both.length} = ${famOnly.length} + ${adult.length})`);
+  if (!okBoth) failed++;
 
   // Категории проверяем те, что каталог реально показывает игроку.
   for (const g of cat.genres) {
