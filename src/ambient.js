@@ -1,55 +1,50 @@
 /**
  * Музыка на стартовом экране.
  *
- * Играют настоящие песни из каталога — поп, R&B, ретро и патриотика: спокойные
- * жанры, под которые можно читать экран. Не рэп и не андеграунд: они требуют
- * внимания, а это фон.
+ * Играют настоящие песни из каталога — те же, во что человек собрался играть:
+ * выбрал «ретро и 18+» — фоном идёт ретро и 18+. Пока ничего не выбрано,
+ * звучат спокойные жанры (поп, R&B, ретро, патриотика): под них можно читать
+ * экран, а рэп и андеграунд требуют внимания.
  *
  * Раньше здесь был синтезированный пад. Он никого не нарушал, но звучал как
  * гудение, а не как музыка. Настоящие превью уже лежат в каталоге, играются с
  * CDN Apple и ничего не стоят: тот же источник, что и в самой игре.
  *
  * Что важно в поведении:
- *   — играет только на стартовом экране и только с разрешения (кнопка звука
- *     в шапке помнит отказ);
- *   — тише игры вдвое: это фон, а не прослушивание;
+ *   — играет только на стартовом экране;
+ *   — заметно тише игры, а на телефоне тише вдвое против десктопа: там
+ *     динамик у лица, и тот же уровень слышится громче;
  *   — треки сменяются с перекрёстным затуханием, без пауз и щелчков;
  *   — сыгранное в фоне НЕ попадает в партию: услышать ответ до раунда было бы
  *     подсказкой, поэтому id отыгранного отдаётся наружу через usedIds.
  *
  * Автозапуск невозможен до жеста пользователя (политика браузеров), поэтому
  * музыка заводится по первому касанию страницы.
+ *
+ * Включён ли звук вообще — решает не этот модуль: кнопка динамика в шапке
+ * гасит общий узел в AudioEngine, и фон замолкает вместе со всем остальным.
  */
 
-const KEY = 'olensiz:ambient';
-
-/** Жанры, которые годятся в фон. */
-const GENRES = ['pop', 'rnb', 'retro', 'patriotic'];
+/**
+ * Жанры по умолчанию — когда игрок не выбрал ничего своего.
+ * Спокойные: под них можно читать экран.
+ */
+const CALM_GENRES = ['pop', 'rnb', 'retro', 'patriotic'];
 
 /** Сколько играть один трек, прежде чем уйти в следующий. */
 const SEGMENT_S = 24;
 
-/** Длительность перекрёстного затухания между треками. */
-const CROSSFADE_S = 2.5;
+/** Переход между треками. Секунда — ровно чтобы срез превью не резал ухо. */
+const CROSSFADE_S = 1.1;
 
-/** Громкость фона относительно общей. */
-const LEVEL = 0.45;
-
-export function ambientAllowed() {
-  try {
-    return localStorage.getItem(KEY) !== 'off';
-  } catch {
-    return true;
-  }
-}
-
-export function rememberAmbient(on) {
-  try {
-    localStorage.setItem(KEY, on ? 'on' : 'off');
-  } catch {
-    /* приватный режим */
-  }
-}
+/**
+ * Громкость фона относительно общей. На телефоне заметно тише: там динамик у
+ * лица, и тот же уровень воспринимается вдвое громче.
+ */
+const LEVEL_DESKTOP = 0.30;
+const LEVEL_MOBILE = 0.12;
+const level = () =>
+  (window.matchMedia('(max-width: 760px)').matches ? LEVEL_MOBILE : LEVEL_DESKTOP);
 
 export class Ambient {
   /** @param {import('./audio.js').AudioEngine} engine */
@@ -59,6 +54,8 @@ export class Ambient {
     this.queue = [];
     this.playing = false;
     this.timer = 0;
+    this.filters = null;
+    this.filtersKey = '';
     /** @type {{source: AudioBufferSourceNode, gain: GainNode}|null} */
     this.node = null;
     /** Что уже звучало в фоне — партия эти треки не берёт. */
@@ -71,11 +68,23 @@ export class Ambient {
     this.queue = [];
   }
 
-  /** Спокойные треки семейного рейтинга, вперемешку. */
+  /**
+   * Очередь под текущие фильтры игрока.
+   *
+   * Выбрал «ретро и 18+» — фоном играет ретро и 18+. Ничего не выбрал —
+   * спокойные жанры семейного рейтинга: фон не должен требовать внимания,
+   * пока человек читает стартовый экран.
+   */
   _refill() {
     if (!this.catalog) return;
-    const pool = this.catalog.tracks.filter((t) =>
-      t.age === 'family' && (t.genres || []).some((g) => GENRES.includes(g)));
+    const f = this.filters || {};
+    const genres = (f.genres && f.genres.length) ? f.genres : CALM_GENRES;
+    const age = f.age || 'family';
+    const pool = this.catalog.tracks.filter((t) => {
+      if (age === 'family' && t.age !== 'family') return false;
+      if (age === '18plus' && t.age !== '18plus') return false;
+      return (t.genres || []).some((g) => genres.includes(g));
+    });
     for (let i = pool.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [pool[i], pool[j]] = [pool[j], pool[i]];
@@ -88,7 +97,20 @@ export class Ambient {
     return this.queue.pop() || null;
   }
 
-  async start() {
+  /**
+   * @param {{genres?: string[], age?: string}} [filters] выбор игрока на
+   *   стартовом экране: фон играет ровно то, во что человек собрался играть.
+   */
+  async start(filters = null) {
+    const key = filters ? `${(filters.genres || []).join('+')}|${filters.age}` : '';
+    if (this.playing && key === this.filtersKey) return;
+    // Фильтры сменились — очередь пересобираем, текущий трек доигрывает и
+    // уходит в затухание сам.
+    if (key !== this.filtersKey) {
+      this.filters = filters;
+      this.filtersKey = key;
+      this.queue = [];
+    }
     if (this.playing) return;
     this.playing = true;
     this._cycle();
@@ -129,8 +151,9 @@ export class Ambient {
 
     const now = ctx.currentTime + 0.02;
     gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.linearRampToValueAtTime(LEVEL, now + CROSSFADE_S);
-    gain.gain.setValueAtTime(LEVEL, now + dur - CROSSFADE_S);
+    const vol = level();
+    gain.gain.linearRampToValueAtTime(vol, now + CROSSFADE_S);
+    gain.gain.setValueAtTime(vol, now + dur - CROSSFADE_S);
     gain.gain.linearRampToValueAtTime(0.0001, now + dur);
     source.start(now, offset);
     try {

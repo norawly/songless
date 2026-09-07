@@ -53,6 +53,7 @@
   "genre.patriotic": "Патриоттық",
   "genre.qpop": "Q-pop",
   "genre.rock": "Рок",
+  "genre.memes": "Мемдер",
   "round.label": "Раунд {n} / 5",
   "round.levelOf": "Деңгей {n} / 5",
   "round.play": "Ойнату",
@@ -193,5 +194,7 @@
   "lb.guestSent": "Нәтиже қонақ ретінде жазылды",
   "lb.scope": "Есеп",
   "round.hintOtherArtist": "Ән аты дұрыс — орындаушысы басқа",
-  "round.hintOtherPerformer": "Бұл орындаушыны байқап көрдің — басқасын ал"
+  "round.hintOtherPerformer": "Бұл орындаушыны байқап көрдің — басқасын ал",
+  "round.stop": "Тоқтату",
+  "a11y.seek": "Үзінді ішінде айналдыру"
 }

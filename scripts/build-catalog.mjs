@@ -69,7 +69,7 @@ export const LEVEL_TIERS_EXPERT = {
  */
 const CANON_GENRES = [
   'toi', 'retro', 'pop', 'rnb', 'rap', 'underground',
-  'indie', 'folk', 'patriotic', 'qpop', 'rock',
+  'indie', 'folk', 'patriotic', 'qpop', 'rock', 'memes',
 ];
 
 const GENRE_ALIASES = {
@@ -79,8 +79,8 @@ const GENRE_ALIASES = {
   ethno: 'folk',
   instrumental: 'folk',
   soul: 'rnb',
-  comedy: 'rap',
-  meme: 'rap',
+  comedy: 'memes',
+  meme: 'memes',
   remix: 'pop',
   jazz: 'rnb',
   electronic: 'pop',
@@ -92,6 +92,13 @@ const GENRE_ALIASES = {
  * пустой фильтр обманывает игрока сильнее, чем его отсутствие.
  */
 const GENRE_MIN_TRACKS = 25;
+
+/**
+ * Мемы собираются вручную (data/memes.csv), а не приходят жанром от Apple.
+ * Треки оттуда получают тег `memes` и ВОЗРАСТ 18+: мемные песни в детскую
+ * подборку попадать не должны ни при каких условиях.
+ */
+const MEMES_CSV = join(ROOT, 'data', 'memes.csv');
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -129,8 +136,11 @@ function parseCsv(text) {
   row.push(field);
   if (row.some((f) => f.trim() !== '')) rows.push(row);
 
-  const head = rows.shift().map((h) => h.trim());
-  return rows.map((r) => {
+  // Строки, начинающиеся с #, — комментарии. В data/memes.csv они несут
+  // правила категории, и парсер обязан их пропускать, а не считать данными.
+  const clean = rows.filter((r) => !String(r[0] ?? '').trim().startsWith('#'));
+  const head = clean.shift().map((h) => h.trim());
+  return clean.map((r) => {
     const o = {};
     head.forEach((h, i) => { o[h] = (r[i] ?? '').trim(); });
     return o;
@@ -587,15 +597,29 @@ function applyOverride(track, ov) {
     if (!out.genres.length) out.genres = track.genres;
   }
   if (ov.age === 'family' || ov.age === '18plus') out.age = ov.age;
+  // Мемы остаются 18+ даже если в переопределении стоит family: это правило
+  // каталога, а не предпочтение.
+  if ((out.genres || []).includes('memes')) out.age = '18plus';
   if (typeof ov.note === 'string' && ov.note.trim()) out.note = ov.note.trim();
   if (ov.hidden === true) out.hidden = true;
   out.edited = true;
   return out;
 }
 
+/** id → пометка «это мем». Файла может не быть — тогда категория пустая. */
+async function loadMemes() {
+  try {
+    const rows = parseCsv(await readFile(MEMES_CSV, 'utf8'));
+    return new Set(rows.map((r) => String(r.id || '').trim()).filter(Boolean));
+  } catch {
+    return new Set();
+  }
+}
+
 async function main() {
   await mkdir(CACHE, { recursive: true });
   const all = parseCsv(await readFile(CSV, 'utf8'));
+  const memes = await loadMemes();
 
   const report = {
     csvRows: all.length,
@@ -680,6 +704,12 @@ async function main() {
         // глазами. Не исключаем, но помечаем: редактор умеет фильтровать.
         ...(english ? { flagEnglish: true } : {}),
       };
+      // Мем — это не жанр от Apple, а ручная пометка. Она добавляется к
+      // существующим тегам и всегда тянет за собой 18+.
+      if (memes.has(String(base.id))) {
+        base.genres = [...new Set([...(base.genres || []), 'memes'])];
+        base.age = '18plus';
+      }
       tracks.push(applyOverride(base, overrides[base.id]));
     }
 

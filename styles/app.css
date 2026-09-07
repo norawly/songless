@@ -758,6 +758,60 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
 .lb-controls select { min-height: var(--control-height); width: 100%; }
 
 /* ===========================================================================
+   ЭКРАН: ЗАГРУЗКА ПАРТИИ
+
+   Стилей у него не было вовсе: полоска прогресса рисовалась пустым <i> без
+   высоты, и человек видел только цифры «2 из 5». Пять треков декодируются
+   несколько секунд — всё это время экран обязан показывать, что идёт работа.
+   ======================================================================== */
+
+.screen--loading {
+  align-content: center;
+  justify-items: center;
+  gap: var(--gap-v-md);
+  text-align: center;
+}
+.loading__title {
+  font-size: var(--font-size-3xl);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tighter);
+  font-weight: var(--font-weight-bold);
+}
+.loading__bar {
+  width: min(420px, 100%);
+  height: 6px;
+  background: var(--color-bg-elevated);
+  border-radius: var(--border-radius-full);
+  overflow: hidden;
+  position: relative;
+}
+.loading__bar i {
+  display: block;
+  height: 100%;
+  background: var(--color-accent-primary);
+  border-radius: inherit;
+  transition: width var(--duration-slow) var(--easing-out);
+}
+/* Бегущий блик поверх заливки: показывает, что процесс живой, даже когда
+   очередной трек качается долго и проценты стоят на месте. */
+.loading__bar::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg,
+    transparent 0%, rgba(255, 255, 255, 0.18) 50%, transparent 100%);
+  transform: translateX(-100%);
+  animation: loading-sheen 1.6s var(--easing-default) infinite;
+}
+@keyframes loading-sheen {
+  to { transform: translateX(100%); }
+}
+.loading__count {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ===========================================================================
    ЭКРАН: РАУНД — одна центральная колонка сетки (7 из 12)
    ======================================================================== */
 
@@ -820,7 +874,56 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
   margin-left: calc(var(--play-button-size) * 0.05);
   transition: opacity var(--duration-fast) var(--easing-default);
 }
-.play.is-playing .play__icon { opacity: .25; }
+/* Играет — на кнопке квадрат «стоп»: нажатие останавливает фрагмент, и это
+   должно быть видно до нажатия, а не после. Треугольник превращается в
+   квадрат одними границами, без второй иконки в разметке. */
+.play.is-playing .play__icon {
+  width: calc(var(--play-button-size) * 0.22);
+  height: calc(var(--play-button-size) * 0.22);
+  border: 0;
+  margin-left: 0;
+  background: currentColor;
+  border-radius: 2px;
+  opacity: .9;
+  transition: width var(--duration-fast) var(--easing-out),
+              height var(--duration-fast) var(--easing-out),
+              opacity var(--duration-fast) var(--easing-default);
+}
+
+/* Полоса перемотки внутри ступени (только десктоп). */
+.seek {
+  width: min(var(--col-answer), 100%);
+  height: 22px;
+  position: relative;
+  cursor: pointer;
+  display: grid;
+  align-items: center;
+  touch-action: none;
+}
+.seek::before {
+  content: "";
+  position: absolute; left: 0; right: 0; height: 4px;
+  background: var(--color-bg-elevated);
+  border-radius: var(--border-radius-full);
+}
+.seek__fill {
+  position: absolute; left: 0; right: 0; height: 4px;
+  background: var(--color-accent-primary);
+  border-radius: var(--border-radius-full);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+.seek__head {
+  position: absolute; top: 50%; left: 0;
+  width: 10px; height: 10px; margin: -5px 0 0 -5px;
+  border-radius: 50%;
+  background: var(--color-accent-primary);
+  opacity: 0;
+  transition: opacity var(--duration-fast) var(--easing-default);
+}
+.seek:hover .seek__head,
+.seek:focus-visible .seek__head { opacity: 1; }
+.seek:focus-visible { outline: var(--border-width-rule) solid var(--color-border-focus); outline-offset: 4px; }
 
 .play__ring {
   position: absolute; inset: -9px;
@@ -1923,6 +2026,7 @@ body.is-wrong::after { animation: wrong-flash 440ms var(--easing-out) both; }
   .final__grid { perspective: none; }
   .fcard.is-sounding .fcard__eq i { animation: none; height: 9px; }
   .card__art, .results, .results__item, .lang__hint { animation: none; }
+  .loading__bar::after { animation: none; opacity: 0; }
   /* Ни одно появление не анимируется: элементы просто на месте. */
   .screen,
   .screen--start .hero > *, .screen--start .start__cta,

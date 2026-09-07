@@ -16,7 +16,7 @@ import {
 import { loadCatalog, streamingLinks } from './catalog.js';
 import { AudioEngine } from './audio.js';
 import { Pulse } from './pulse.js';
-import { Ambient, ambientAllowed, rememberAmbient } from './ambient.js';
+import { Ambient } from './ambient.js';
 import { extractPalette } from './palette.js';
 import { moodFor, applyFilter } from './mood.js';
 import { watchViewportHeight } from './fit.js';
@@ -213,7 +213,7 @@ function wireFirstGesture() {
     audio.ensureContext();
     audio.unlock();
     liveBg();
-    if (ambientAllowed() && game && game.screen === SCREEN.START) ambient.start();
+    if (!audio.muted && game && game.screen === SCREEN.START) ambient.start(game.filters);
   };
   document.addEventListener('pointerdown', go, { once: false });
   document.addEventListener('keydown', go, { once: false });
@@ -233,13 +233,12 @@ function wireFirstGesture() {
 /** Фон играет только на стартовом экране — в партии звучит сама игра. */
 function syncAmbient() {
   if (!game) return;
-  if (game.screen === SCREEN.START && ambientAllowed()) {
-    if (audio.ctx) ambient.start();
+  if (game.screen === SCREEN.START && !audio.muted) {
+    if (audio.ctx) ambient.start(game.filters);
   } else {
     ambient.stop();
   }
-  const btn = document.querySelector('[data-sound]');
-  if (btn) btn.setAttribute('aria-pressed', String(ambientAllowed()));
+  syncSoundButtons();
 }
 
 /** Режим подачи запоминается между партиями — это выбор, а не настройка. */
@@ -317,7 +316,7 @@ function soundMarkup() {
   return `
     <div class="sound" role="group" aria-label="${esc(t('nav.volume'))}">
       <button class="btn btn--icon" data-sound type="button"
-              aria-pressed="${ambientAllowed()}"
+              aria-pressed="${!audio.muted}"
               aria-label="${esc(t('nav.sound'))}" title="${esc(t('nav.sound'))}">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.4L12 5.5v13l-4.6-4H4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path class="sound__waves" d="M16 9.2a4 4 0 0 1 0 5.6M18.6 6.6a7.6 7.6 0 0 1 0 10.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path class="sound__off" d="M16 9.5l5 5m0-5l-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
@@ -372,8 +371,7 @@ function showMenu() {
       const install = p.querySelector('[data-install]');
       if (install) install.hidden = standalone() || (!installPrompt && !isIOS());
       p.addEventListener('click', (e) => {
-        const sound = e.target.closest('[data-sound]');
-        if (sound) return toggleAmbient(sound);
+        if (e.target.closest('[data-sound]')) return toggleAmbient();
         if (e.target.closest('[data-rules]')) return showRules();
         if (e.target.closest('[data-about]')) return showAbout();
         if (e.target.closest('[data-install]')) return showInstall();
@@ -383,16 +381,27 @@ function showMenu() {
   return panel;
 }
 
-/** Фоновая музыка — вкус, а не настройка звука игры: выбор запоминается. */
-function toggleAmbient(btn) {
-  const on = !ambientAllowed();
-  rememberAmbient(on);
-  for (const b of $$('[data-sound]')) b.setAttribute('aria-pressed', String(on));
+/**
+ * Кнопка звука выключает ВЕСЬ звук сайта, а не только музыку на старте.
+ *
+ * Раньше она гасила один фон, и во время раунда от неё ничего не менялось:
+ * превью продолжало играть, хотя динамик на кнопке был перечёркнут. Теперь
+ * это общий выключатель — и заодно способ сыграть «на глаз», по одному
+ * рисунку фона.
+ */
+function toggleAmbient() {
+  const on = audio.muted;                 // было выключено — включаем
+  audio.setMuted(!on);
+  syncSoundButtons();
   if (on) {
     audio.ensureContext();
     liveBg();
-    if (game?.screen === SCREEN.START) ambient.start();
+    if (game?.screen === SCREEN.START) ambient.start(game.filters);
   } else ambient.stop(0.4);
+}
+
+function syncSoundButtons() {
+  for (const b of $$('[data-sound]')) b.setAttribute('aria-pressed', String(!audio.muted));
 }
 
 function onChromeClick(e) {
@@ -402,8 +411,7 @@ function onChromeClick(e) {
     setLocale(langBtn.dataset.locale);
     return;
   }
-  const sound = e.target.closest('[data-sound]');
-  if (sound) return toggleAmbient(sound);
+  if (e.target.closest('[data-sound]')) return toggleAmbient();
   if (e.target.closest('[data-menu]')) return showMenu();
   if (e.target.closest('[data-install]')) return showInstall();
   if (e.target.closest('[data-rules]')) return showRules();
@@ -737,6 +745,15 @@ async function loadBoards() {
     // Экран мог смениться, пока шёл запрос: Apps Script отвечает секундами.
     if (!$('[data-board]')) return;
     for (const box of $$('[data-board]')) paintBoard(box.dataset.board);
+
+    // Старый скрипт в таблице не считает общий зачёт — собираем его на
+    // клиенте из категорий. Отдельно и после отрисовки: он самый медленный.
+    if (boardsCache.global === null && $('[data-board="global"]')) {
+      const rows = await LB.fetchGlobalFallback(boardsCache.categories, limit);
+      if (boardsSlice !== slice || !boardsCache) return;
+      boardsCache.global = rows;
+      paintBoard('global');
+    }
   } catch (err) {
     console.warn('leaderboard:', err);
     // Лидерборд необязателен: показываем честное состояние, игру не трогаем.
@@ -755,12 +772,9 @@ function paintBoard(kind, highlight = null) {
   const host = $(`[data-board="${kind}"]`);
   if (!host || !boardsCache) return;
   const rows = boardsCache[kind];
-  // global === null означает старую версию скрипта в таблице: третьего
-  // зачёта она не отдаёт, и показывать пустую доску честнее нечем.
-  if (kind === 'global' && rows === null) {
-    host.closest('.board')?.remove();
-    return;
-  }
+  // global === null означает старую версию скрипта: он этот зачёт не считает,
+  // и его собирает клиент (loadBoards). Пока считает — оставляем скелет.
+  if (kind === 'global' && rows === null) return;
   host.innerHTML = (rows && rows.length)
     ? leaderboardTable(rows, highlight)
     : `<p class="muted">${esc(kind === 'today' ? t('lb.emptyToday') : t('lb.empty'))}</p>`;
@@ -889,10 +903,12 @@ async function showFullBoard(kind = 'allTime', slice = game.sliceKey, highlight 
       fillSelect(boards.categories);
       // Общий зачёт отдаёт только свежая версия скрипта в таблице. Со старой
       // прячем сам переключатель, чтобы он не вёл в пустоту.
-      const globalBtn = panel.querySelector('[data-period="global"]');
-      if (globalBtn && boards.global === null) {
-        globalBtn.hidden = true;
-        if (period === 'global') period = 'allTime';
+      if (boards.global === null && period === 'global') {
+        // Старый скрипт: собираем общий зачёт из категорий на месте.
+        const rows = await LB.fetchGlobalFallback(boards.categories, CONFIG.LEADERBOARD_FULL_N);
+        if (!body.isConnected) return;
+        paintRows(rows);
+        return;
       }
       paintRows(boards[period] || []);
     } catch {
@@ -1020,6 +1036,16 @@ function renderRound() {
           <span class="player__label" data-play-label>${esc(t('round.play'))}</span>
           <span class="player__dur">${esc(formatStepDuration(game.stepMs))}</span>
         </p>
+        ${mobile() ? '' : `
+        <!-- Перемотка внутри ступени: на двадцатисекундном фрагменте ждать
+             конца ради последних секунд бессмысленно. На телефоне её нет —
+             там нет места, и палец промахивается по такой полосе. -->
+        <div class="seek" data-seek role="slider" tabindex="0"
+             aria-label="${esc(t('a11y.seek'))}" aria-valuemin="0"
+             aria-valuemax="${Math.round(game.stepMs / 1000)}" aria-valuenow="0">
+          <i class="seek__fill" data-seek-fill></i>
+          <i class="seek__head" data-seek-head></i>
+        </div>`}
       </div>
 
       ${stepMeterMarkup()}
@@ -1144,6 +1170,7 @@ function wireRound() {
       const elapsed = (audio.elapsedOf(game.track.id) ?? 0) * 1000;
       const p = Math.min(1, elapsed / Math.max(durMs, 200));
       ring.style.strokeDashoffset = String(295 * (1 - p));
+      setSeek(p);
       if (p < 1) raf = requestAnimationFrame(spin);
     };
     raf = requestAnimationFrame(spin);
@@ -1155,24 +1182,57 @@ function wireRound() {
     finishTimer = setTimeout(finishFragment, left);
   }
 
-  async function playStep() {
+  /** Останавливает фрагмент. Пауза не нужна: ступень начинается заново. */
+  function stopFragment() {
+    audio.stop(120);
+    stopVisuals();
+    if (!playBtn.isConnected) return;
+    playBtn.classList.remove('is-playing');
+    $('[data-play-label]').textContent = t('round.play');
+    const ring = $('[data-ring]');
+    if (ring) ring.style.strokeDashoffset = '295';
+    setSeek(0);
+  }
+
+  /** Заливка полосы перемотки: 0..1 от длины ступени. */
+  function setSeek(p) {
+    const fill = $('[data-seek-fill]');
+    const head = $('[data-seek-head]');
+    const seek = $('[data-seek]');
+    if (!fill) return;
+    const v = Math.max(0, Math.min(1, p));
+    fill.style.transform = `scaleX(${v.toFixed(4)})`;
+    if (head) head.style.left = `${(v * 100).toFixed(2)}%`;
+    if (seek) seek.setAttribute('aria-valuenow', String(Math.round(v * game.stepMs / 1000)));
+  }
+
+  /**
+   * @param {number} [fromMs] с какой секунды ступени начать. По умолчанию —
+   *   продолжить то, что уже звучит, или начать сначала.
+   */
+  async function playStep(fromMs = null) {
     const durMs = game.stepMs;
+
+    // Нажали, пока играет, и не выбирали точку — значит, «стоп».
+    if (fromMs === null && playing && audio.isLive(game.track.id)) {
+      stopFragment();
+      return;
+    }
 
     // Песня этого раунда уже звучит — не начинаем заново, а продлеваем.
     // «Өткізу» на четвёртой секунде не откатывает трек назад: он продолжает
     // играть и теперь доиграет до шести.
-    if (audio.isLive(game.track.id) && audio.extendTo(game.track.id, durMs)) {
+    if (fromMs === null && audio.isLive(game.track.id) && audio.extendTo(game.track.id, durMs)) {
       trackFragment(durMs);
       return;
     }
 
-    if (playing) return;
     playing = true;
     playBtn.classList.add('is-playing');
     $('[data-play-label]').textContent = t('round.playing');
 
     try {
-      await audio.play(game.track, durMs);
+      await audio.play(game.track, durMs, fromMs ? { fromMs } : {});
       liveBg('glow');
       trackFragment(durMs);
     } catch {
@@ -1184,7 +1244,43 @@ function wireRound() {
     }
   }
 
-  playBtn.addEventListener('click', playStep);
+  // Перемотка: клик и перетаскивание по полосе задают точку старта.
+  const seek = $('[data-seek]');
+  if (seek) {
+    const seekTo = (clientX) => {
+      const r = seek.getBoundingClientRect();
+      const p = Math.max(0, Math.min(0.98, (clientX - r.left) / r.width));
+      setSeek(p);
+      playStep(Math.round(p * game.stepMs));
+    };
+    seek.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      try {
+        seek.setPointerCapture(e.pointerId);
+      } catch {
+        /* синтетическое событие без pointerId — перемотке это не мешает */
+      }
+      seekTo(e.clientX);
+    });
+    // Тянем — точка старта едет за пальцем/курсором, но фрагмент не
+    // перезапускаем на каждом пикселе: только когда отпустили.
+    seek.addEventListener('pointermove', (e) => {
+      if (e.buttons !== 1) return;
+      const r = seek.getBoundingClientRect();
+      setSeek((e.clientX - r.left) / r.width);
+    });
+    seek.addEventListener('pointerup', (e) => seekTo(e.clientX));
+    seek.addEventListener('keydown', (e) => {
+      const step = game.stepMs / 10;
+      const cur = (audio.elapsedOf(game.track.id) ?? 0) * 1000;
+      if (e.key === 'ArrowRight') playStep(Math.min(game.stepMs - 200, cur + step));
+      else if (e.key === 'ArrowLeft') playStep(Math.max(0, cur - step));
+      else return;
+      e.preventDefault();
+    });
+  }
+
+  playBtn.addEventListener('click', () => playStep());
 
   /* --- поиск --- */
 

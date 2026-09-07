@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-07T01:07:38.492Z",
+ "generatedAt": "2026-09-07T17:58:08.834Z",
  "source": "iTunes lookup by artistId (whitelist: data/artists-v2.csv)",
  "note": "Треки собраны строго по одному artistId из whitelist. Свободный текстовый поиск по названиям не используется. Только метаданные и ссылки на официальные 30-секундные превью Apple; аудиофайлы не хранятся.",
  "levelTiers": {
@@ -67,21 +67,23 @@
   "folk",
   "patriotic",
   "qpop",
-  "rock"
+  "rock",
+  "memes"
  ],
  "genreMinTracks": 25,
- "count": 648,
+ "count": 647,
  "edited": 65,
  "byTier": {
   "1": 85,
-  "2": 171,
+  "2": 170,
   "3": 260,
   "4": 128,
   "5": 4
  },
  "byGenre": {
-  "toi": 131,
+  "toi": 130,
   "pop": 366,
+  "memes": 14,
   "rap": 125,
   "underground": 28,
   "rnb": 145,
@@ -89,12 +91,12 @@
   "retro": 109,
   "folk": 31,
   "indie": 75,
-  "rock": 28,
+  "rock": 27,
   "patriotic": 21
  },
  "byAge": {
-  "family": 551,
-  "18plus": 97
+  "family": 546,
+  "18plus": 101
  },
  "tracks": [
   {
@@ -136,13 +138,14 @@
    "tier": 1,
    "genres": [
     "toi",
-    "pop"
+    "pop",
+    "memes"
    ],
    "tags": [
     "toi",
     "pop"
    ],
-   "age": "family",
+   "age": "18plus",
    "era": "2010s-now"
   },
   {
@@ -358,6 +361,7 @@
    "tier": 1,
    "genres": [
     "rap",
+    "memes",
     "underground"
    ],
    "tags": [
@@ -383,6 +387,7 @@
    "tier": 2,
    "genres": [
     "rap",
+    "memes",
     "underground"
    ],
    "tags": [
@@ -409,6 +414,7 @@
    "tier": 2,
    "genres": [
     "rap",
+    "memes",
     "underground"
    ],
    "tags": [
@@ -435,6 +441,7 @@
    "tier": 1,
    "genres": [
     "rap",
+    "memes",
     "underground"
    ],
    "tags": [
@@ -442,7 +449,7 @@
     "comedy",
     "underground"
    ],
-   "age": "family",
+   "age": "18plus",
    "era": "2018-now",
    "edited": true
   },
@@ -461,6 +468,7 @@
    "tier": 1,
    "genres": [
     "rap",
+    "memes",
     "underground"
    ],
    "tags": [
@@ -468,7 +476,7 @@
     "comedy",
     "underground"
    ],
-   "age": "family",
+   "age": "18plus",
    "era": "2018-now",
    "edited": true
   },
@@ -487,6 +495,7 @@
    "tier": 2,
    "genres": [
     "rap",
+    "memes",
     "underground"
    ],
    "tags": [
@@ -513,6 +522,7 @@
    "tier": 3,
    "genres": [
     "rap",
+    "memes",
     "underground"
    ],
    "tags": [
@@ -539,6 +549,7 @@
    "tier": 3,
    "genres": [
     "rap",
+    "memes",
     "underground"
    ],
    "tags": [
@@ -565,6 +576,7 @@
    "tier": 3,
    "genres": [
     "rap",
+    "memes",
     "underground"
    ],
    "tags": [
@@ -591,6 +603,7 @@
    "tier": 2,
    "genres": [
     "rap",
+    "memes",
     "underground"
    ],
    "tags": [
@@ -4201,30 +4214,6 @@
    "era": "2000s-now"
   },
   {
-   "id": "1684940318",
-   "title": "Ұшты",
-   "artist": "QARAKESEK",
-   "artistId": 1565181639,
-   "artistKey": "qarakesek",
-   "album": "Ұшты - Single",
-   "year": 2023,
-   "durationMs": 126784,
-   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/e8/bc/ec/e8bcec26-826c-8ac6-9d54-7527c55c732c/mzaf_13301786194529877697.plus.aac.p.m4a",
-   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/43/2b/3b/432b3be6-6db7-b892-962c-b04f992c0743/7422404430413.jpg/600x600bb.jpg",
-   "appleUrl": "https://music.apple.com/kz/album/%D2%B1%D1%88%D1%82%D1%8B/1684940317?i=1684940318&uo=4",
-   "tier": 2,
-   "genres": [
-    "rock",
-    "toi"
-   ],
-   "tags": [
-    "rock",
-    "toi"
-   ],
-   "age": "family",
-   "era": "2000s-now"
-  },
-  {
    "id": "1674664782",
    "title": "Киін",
    "artist": "QARAKESEK",
@@ -5569,13 +5558,14 @@
    "tier": 2,
    "genres": [
     "toi",
-    "pop"
+    "pop",
+    "memes"
    ],
    "tags": [
     "toi",
     "pop"
    ],
-   "age": "family",
+   "age": "18plus",
    "era": "2010s-now"
   },
   {
@@ -8289,7 +8279,8 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BC%D0%B0%D2%93%D0%B0%D0%BD-pohu/1806380659?i=1806380900&uo=4",
    "tier": 5,
    "genres": [
-    "rap"
+    "rap",
+    "memes"
    ],
    "tags": [
     "rap",
@@ -8312,7 +8303,8 @@
    "appleUrl": "https://music.apple.com/kz/album/%D0%BC%D0%B5%D0%BD-%D2%9B%D0%B0%D0%B7%D0%B0%D2%9B%D0%BF%D1%8B%D0%BD/1818592369?i=1818592376&uo=4",
    "tier": 5,
    "genres": [
-    "rap"
+    "rap",
+    "memes"
    ],
    "tags": [
     "rap",

@@ -129,6 +129,35 @@ export async function fetchBoards(slice = 'random|normal|family', limit = CONFIG
 }
 
 /**
+ * Общий зачёт «все категории» для СТАРОГО развёртывания скрипта.
+ *
+ * Свежий скрипт считает его сам и отдаёт полем `global` в том же ответе —
+ * это один запрос и правильные места. Пока в таблице лежит старая версия,
+ * собираем то же самое на клиенте: просим топ каждой известной категории и
+ * склеиваем. Запросов столько, сколько категорий, поэтому берём не больше
+ * десяти самых населённых и делаем это только по требованию — когда человек
+ * открыл вкладку «Все категории».
+ *
+ * @param {Array<{slice:string,count:number}>} categories
+ */
+export async function fetchGlobalFallback(categories = [], limit = 20) {
+  if (!enabled() || categories.length === 0) return [];
+  const top = categories.slice(0, 10);
+  const lists = await Promise.all(top.map(async (c) => {
+    try {
+      const boards = await fetchBoards(c.slice, Math.min(limit, 25));
+      return (boards.allTime || []).map((r) => ({ ...r, slice: c.slice }));
+    } catch {
+      return [];
+    }
+  }));
+  return lists
+    .flat()
+    .sort((a, b) => b.score - a.score || (a.date < b.date ? -1 : 1))
+    .slice(0, limit);
+}
+
+/**
  * @param {object} p
  * @param {string} p.nick     пустая строка = гость, имя присвоит сервер
  * @param {number} p.score

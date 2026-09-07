@@ -70,8 +70,24 @@ function saveOffsetCache(cache) {
 
 const VOLUME_KEY = 'olensiz:volume';
 
-/** Громкость по умолчанию: три четверти, а не «на всю». */
-const DEFAULT_VOLUME = 0.75;
+/**
+ * Громкость по умолчанию — треть шкалы.
+ *
+ * Человек заходит на сайт, и первое, что он слышит, — фоновая музыка. Громко
+ * это пугает, а не приглашает; треть даёт слышимый, но фоновый уровень, и
+ * дальше он сам решает.
+ */
+const DEFAULT_VOLUME = 0.35;
+
+const MUTE_KEY = 'olensiz:muted';
+
+function loadMuted() {
+  try {
+    return localStorage.getItem(MUTE_KEY) === '1';
+  } catch {
+    return false;
+  }
+}
 
 function loadVolume() {
   try {
@@ -223,6 +239,8 @@ export class AudioEngine {
     /** Общая громкость 0..1, переживает перезагрузку. */
     this.master = null;
     this.volume = loadVolume();
+    /** Полная тишина. Выключает ВСЁ: и фон, и превью в раунде. */
+    this.muted = loadMuted();
   }
 
   ensureContext() {
@@ -240,7 +258,7 @@ export class AudioEngine {
       // ПЕРЕД ним — картинка фона не должна тускнеть от того, что человек
       // сделал тише; она отражает музыку, а не настройку.
       this.master = this.ctx.createGain();
-      this.master.gain.value = this.volume;
+      this.master.gain.value = this.muted ? 0.0001 : this.volume;
       this.analyser.connect(this.master);
       this.master.connect(this.ctx.destination);
     }
@@ -294,12 +312,35 @@ export class AudioEngine {
     const val = Math.max(0, Math.min(1, Number(v) || 0));
     this.volume = val;
     saveVolume(val);
-    if (this.master && this.ctx) {
-      const now = this.ctx.currentTime;
-      this.master.gain.cancelScheduledValues(now);
-      this.master.gain.setValueAtTime(this.master.gain.value, now);
-      this.master.gain.linearRampToValueAtTime(Math.max(0.0001, val), now + 0.08);
+    // Двинули ползунок — значит, звук нужен: снимаем тишину.
+    if (val > 0) this.muted = false;
+    this._applyGain();
+  }
+
+  /**
+   * Тишина на весь сайт.
+   *
+   * Кнопка звука раньше выключала только фоновую музыку стартового экрана, и
+   * во время раунда от неё ничего не менялось — превью продолжало играть.
+   * Теперь она гасит общий узел, через который проходит ВЕСЬ звук.
+   */
+  setMuted(on) {
+    this.muted = Boolean(on);
+    try {
+      localStorage.setItem(MUTE_KEY, this.muted ? '1' : '0');
+    } catch {
+      /* приватный режим */
     }
+    this._applyGain();
+  }
+
+  _applyGain() {
+    if (!this.master || !this.ctx) return;
+    const now = this.ctx.currentTime;
+    const target = this.muted ? 0.0001 : Math.max(0.0001, this.volume);
+    this.master.gain.cancelScheduledValues(now);
+    this.master.gain.setValueAtTime(this.master.gain.value, now);
+    this.master.gain.linearRampToValueAtTime(target, now + 0.12);
   }
 
   /** Куда подключать посторонние источники (фоновая музыка стартового экрана). */
@@ -427,6 +468,8 @@ export class AudioEngine {
    * @param {number|null} durationMs  длительность ступени; null = до конца превью
    * @param {object} [opts]
    * @param {boolean} [opts.fromZero]  играть с начала файла, а не от startOffset
+   * @param {number}  [opts.fromMs]    сдвиг ВНУТРИ фрагмента: с какой его
+   *   секунды начать. Ступень при этом не удлиняется — конец там же, где был.
    * @param {number}  [opts.fadeInMs]
    * @param {function} [opts.onEnd]
    */
@@ -438,9 +481,12 @@ export class AudioEngine {
     if (ctx && ctx.state !== 'running') await this.resumeIfNeeded();
     const buf = await this.load(track);
 
-    const offset = opts.fromZero ? 0 : this.startOffsetOf(track);
+    const fromS = Math.max(0, (opts.fromMs || 0) / 1000);
+    const offset = (opts.fromZero ? 0 : this.startOffsetOf(track)) + fromS;
     const available = Math.max(0, buf.duration - offset);
-    const durS = durationMs == null ? available : Math.min(durationMs / 1000, available);
+    const durS = durationMs == null
+      ? available
+      : Math.max(0.2, Math.min(durationMs / 1000 - fromS, available));
 
     const source = ctx.createBufferSource();
     source.buffer = buf;
@@ -473,6 +519,10 @@ export class AudioEngine {
     this.current = {
       source, gain, trackId: track.id,
       startTime: now, endTime: now + durS,
+      // basis — сколько фрагмента осталось позади, когда его завели с
+      // середины. Всё, что снаружи спрашивает «сколько сыграно», должно
+      // получать позицию в ступени, а не в этом запуске.
+      basis: fromS,
       offset, maxTime: now + Math.max(0, buf.duration - offset),
     };
 
@@ -500,7 +550,7 @@ export class AudioEngine {
     const now = this.ctx.currentTime;
     if (now >= c.endTime) return false; // фрагмент уже кончился
 
-    const newEnd = Math.min(c.startTime + totalMs / 1000, c.maxTime);
+    const newEnd = Math.min(c.startTime + totalMs / 1000 - (c.basis || 0), c.maxTime);
     if (newEnd <= c.endTime) return true; // короче не делаем, просто продолжаем
 
     const fadeOut = 0.004;
@@ -522,7 +572,7 @@ export class AudioEngine {
   elapsedOf(trackId) {
     const c = this.current;
     if (!c || c.trackId !== trackId || !this.ctx) return null;
-    return Math.max(0, this.ctx.currentTime - c.startTime);
+    return Math.max(0, (c.basis || 0) + this.ctx.currentTime - c.startTime);
   }
 
   /** Звучит ли фрагмент этого трека прямо сейчас. */
