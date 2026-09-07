@@ -66,11 +66,84 @@ let paintToken = 0;
 const canAutofocus = () => window.matchMedia('(pointer: fine)').matches;
 
 /* ================================================================== */
+/* Установка на домашний экран                                         */
+/* ================================================================== */
+
+/**
+ * Событие Chrome, которым браузер разрешает предложить установку.
+ * Ловим его до первой отрисовки шапки, поэтому слушатель стоит на модуле, а
+ * не внутри функции: браузер стреляет им один раз и очень рано.
+ */
+let installPrompt = null;
+
+const standalone = () =>
+  window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+
+const isIOS = () =>
+  /iphone|ipad|ipod/i.test(navigator.userAgent)
+  || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  installPrompt = e;
+  syncInstallButton();
+});
+window.addEventListener('appinstalled', () => {
+  installPrompt = null;
+  syncInstallButton();
+});
+
+/**
+ * Кнопка показывается, только если установка реально возможна: Chrome дал
+ * событие, либо это iOS, где такого события нет вовсе и человеку нужно
+ * показать, куда нажимать. Уже установленное приложение кнопку не показывает.
+ */
+function syncInstallButton() {
+  const btn = document.querySelector('[data-install]');
+  if (!btn) return;
+  btn.hidden = standalone() || (!installPrompt && !isIOS());
+}
+
+function showInstall() {
+  // На Android отдаём управление системному диалогу — он честнее любого
+  // нашего объяснения.
+  if (installPrompt) {
+    installPrompt.prompt();
+    installPrompt.userChoice?.finally?.(() => {
+      installPrompt = null;
+      syncInstallButton();
+    });
+    return;
+  }
+  sheet({
+    title: t('install.title'),
+    bodyHtml: `<p>${esc(isIOS() ? t('install.ios') : t('install.android'))}</p>
+      <div class="sheet__actions">
+        <button class="btn btn--primary" data-close type="button" data-autofocus>${esc(t('nav.close'))}</button>
+      </div>`,
+  });
+}
+
+/**
+ * Оболочка игры работает офлайн — см. sw.js. Регистрируем после загрузки,
+ * чтобы не конкурировать за сеть с каталогом и первым треком.
+ */
+function registerServiceWorker() {
+  if (!('serviceWorker' in navigator)) return;
+  // file:// и http на чужом хосте service worker не принимает — молча выходим.
+  if (location.protocol !== 'https:' && location.hostname !== 'localhost') return;
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+
+/* ================================================================== */
 /* Загрузка                                                            */
 /* ================================================================== */
 
 async function boot() {
   watchViewportHeight();
+  registerServiceWorker();
   pulse = new Pulse(document.getElementById('song-bg'));
   wireFirstGesture();
 
@@ -190,6 +263,11 @@ function renderChrome() {
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17v.01M12 14c0-2 2.5-2.2 2.5-4.3A2.6 2.6 0 0 0 12 7a2.6 2.6 0 0 0-2.5 2.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="2"/></svg>
       </button>
 
+      <button class="btn btn--icon" data-install type="button" hidden
+              aria-label="${esc(t('nav.install'))}" title="${esc(t('nav.install'))}">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 19h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+
       <div class="sound" role="group" aria-label="${esc(t('nav.volume'))}">
         <button class="btn btn--icon" data-sound type="button"
                 aria-pressed="${ambientAllowed()}"
@@ -216,6 +294,7 @@ function renderChrome() {
     </nav>`;
 
   header.addEventListener('click', onChromeClick);
+  syncInstallButton();
   header.querySelector('[data-volume]')?.addEventListener('input', (e) => {
     audio.setVolume(Number(e.target.value) / 100);
   });
@@ -242,6 +321,7 @@ function onChromeClick(e) {
     } else ambient.stop(0.4);
     return;
   }
+  if (e.target.closest('[data-install]')) return showInstall();
   if (e.target.closest('[data-rules]')) return showRules();
   if (e.target.closest('[data-about]')) return showAbout();
   if (e.target.closest('[data-home]')) return goHome();
@@ -872,11 +952,19 @@ function wireRound() {
   function placeList() {
     const r = input.getBoundingClientRect();
     const margin = 16;
-    const below = window.innerHeight - r.bottom - margin;
+    // Считаем по ВИДИМОЙ высоте: на телефоне клавиатура забирает низ экрана,
+    // и по innerHeight выдача открывалась бы прямо под ней.
+    const viewH = window.visualViewport?.height ?? window.innerHeight;
+    const below = viewH - r.bottom - margin;
     const above = r.top - margin;
     const down = below >= Math.min(above, 220) || below >= 220;
     list.dataset.dir = down ? 'down' : 'up';
-    list.style.setProperty('--results-max', `${Math.max(120, Math.floor(down ? below : above))}px`);
+    // На телефоне выдача открывается вверх и, если её не ограничить, закрывает
+    // весь экран вместе с плеером и шкалой. Больше 42% видимой высоты она не
+    // занимает никогда — шесть строк, дальше прокрутка внутри списка.
+    const room = Math.floor(down ? below : above);
+    const cap = window.innerWidth <= 760 ? Math.round(viewH * 0.42) : room;
+    list.style.setProperty('--results-max', `${Math.max(120, Math.min(room, cap))}px`);
   }
 
   function renderList(query) {
@@ -1206,7 +1294,7 @@ function renderFinal() {
               </div>
               <h2 class="fcard__title">${esc(r.track.title)}</h2>
               <p class="fcard__artist">${esc(r.track.artist)}</p>
-              <dl class="fcard__facts">
+              <dl class="fcard__facts" data-level="${esc(levelName(r.level))}">
                 <div><dt>${esc(t('final.stepLabel'))}</dt><dd>${
                   r.solved ? `${r.stepIndex + 1}/${r.stepsTotal}` : '—'
                 }</dd></div>

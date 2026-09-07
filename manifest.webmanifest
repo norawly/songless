@@ -1,0 +1,21 @@
+{
+  "name": "Óleńsiz — қазақша ән ойыны",
+  "short_name": "Óleńsiz",
+  "description": "Қазақ әнін бірнеше секундтан таны. Угадай казахскую песню по короткому фрагменту.",
+  "lang": "kk",
+  "dir": "ltr",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait",
+  "background_color": "#08090a",
+  "theme_color": "#08090a",
+  "categories": ["games", "music", "entertainment"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

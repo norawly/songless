@@ -17,6 +17,7 @@
     "build:catalog:fresh": "node scripts/build-catalog.mjs --fresh",
     "screenshots": "node scripts/screenshots.mjs",
     "og": "node scripts/make-og.mjs",
+    "icons": "node scripts/make-icons.mjs",
     "editor": "node scripts/editor-server.mjs"
   },
   "engines": {

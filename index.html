@@ -2,7 +2,9 @@
 <html lang="kk">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- viewport-fit=cover — чтобы фон уходил под вырез и «дом-бар», а контент
+     отступал от них через env(safe-area-inset-*). -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
 <title>Óleńsiz — қазақша ән ойыны · угадай казахскую песню</title>
 <meta name="description" content="Óleńsiz (Olensiz) — қазақ әнін бірнеше секундтан танитын онлайн ойын. 600-ден астам ән, 5 раунд, екі режим. Игра: угадай казахскую песню по короткому фрагменту.">
@@ -33,6 +35,15 @@
 <meta name="twitter:title" content="Óleńsiz — қазақша ән ойыны">
 <meta name="twitter:description" content="Угадай казахскую песню по короткому фрагменту. Қазақ әнін бірнеше секундтан таны.">
 <meta name="twitter:image" content="https://olensiz.zhengisbay.com/og-image.png">
+
+<!-- Установка на домашний экран. Manifest читает Android/Chrome, apple-*
+     теги — iOS: она манифест почти игнорирует и берёт своё. -->
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Óleńsiz">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23ccff00'/><rect x='6' y='9' width='4' height='14' fill='%23000'/><rect x='14' y='5' width='4' height='22' fill='%23000'/><rect x='22' y='13' width='4' height='6' fill='%23000'/></svg>">
 
