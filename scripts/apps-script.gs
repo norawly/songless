@@ -102,6 +102,9 @@ function doGet(e) {
         slice: slice,
         allTime: boards.allTime,
         today: boards.today,
+        // Общий зачёт: лучшие очки за всё время без деления на категории.
+        // Отдаём тем же ответом — лишний запрос к таблице стоит секунды.
+        global: boards.global,
         categories: boards.categories
       });
     }
@@ -362,13 +365,14 @@ function dayKey(date) {
 function readBoards(limit, slice) {
   var sheet = getSheet();
   var last = sheet.getLastRow();
-  if (last < 2) return { allTime: [], today: [], categories: [] };
+  if (last < 2) return { allTime: [], today: [], global: [], categories: [] };
 
   // A..H: время, ник, счёт, раунды, сессия, дата клиента, версия, срез
   var values = sheet.getRange(2, 1, last - 1, 8).getValues();
   var todayKey = dayKey(new Date());
   var all = [];
   var today = [];
+  var global = [];   // все категории вместе, за всё время
   var counts = {};
 
   for (var i = 0; i < values.length; i++) {
@@ -380,14 +384,16 @@ function readBoards(limit, slice) {
     // потерялись бы совсем.
     var rowSlice = normalizeSlice(values[i][7] || 'random|normal|family');
     counts[rowSlice] = (counts[rowSlice] || 0) + 1;
-    if (slice && rowSlice !== slice) continue;
 
     var when = values[i][0] ? new Date(values[i][0]) : null;
     var row = {
       nick: String(values[i][1]),
       score: score,
-      date: when ? when.toISOString() : ''
+      date: when ? when.toISOString() : '',
+      slice: rowSlice
     };
+    global.push(row);
+    if (slice && rowSlice !== slice) continue;
     all.push(row);
     if (when && dayKey(when) === todayKey) today.push(row);
   }
@@ -398,6 +404,7 @@ function readBoards(limit, slice) {
   };
   all.sort(byScore);
   today.sort(byScore);
+  global.sort(byScore);
 
   var categories = [];
   for (var key in counts) {
@@ -408,6 +415,7 @@ function readBoards(limit, slice) {
   return {
     allTime: all.slice(0, limit),
     today: today.slice(0, limit),
+    global: global.slice(0, limit),
     categories: categories.slice(0, 40)
   };
 }

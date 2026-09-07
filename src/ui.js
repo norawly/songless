@@ -91,9 +91,11 @@ export function sheet({ title, bodyHtml, onMount, wide = false }) {
     if (e.target === backdrop || e.target.closest('[data-close]')) closeSheet();
   });
   document.addEventListener('keydown', onKey);
+  wireSwipeToClose(panel);
 
   openSheet = {
     node: backdrop,
+    panel,
     cleanup() {
       document.removeEventListener('keydown', onKey);
       document.body.classList.remove('is-locked');
@@ -112,10 +114,79 @@ export function sheet({ title, bodyHtml, onMount, wide = false }) {
   return panel;
 }
 
+/**
+ * Закрытие с обратной анимацией. Панель уезжает вниз (на телефоне) или гаснет
+ * (на десктопе), и только потом снимается со страницы — иначе шторка
+ * исчезает рывком, а появлялась плавно.
+ */
 export function closeSheet() {
   if (!openSheet) return;
-  openSheet.cleanup();
+  const { node, cleanup } = openSheet;
   openSheet = null;
+  if (reduceMotion()) {
+    cleanup();
+    return;
+  }
+  node.classList.remove('is-open');
+  node.classList.add('is-closing');
+  let done = false;
+  const finish = () => {
+    if (done) return;
+    done = true;
+    cleanup();
+  };
+  node.addEventListener('transitionend', finish, { once: true });
+  setTimeout(finish, 320);
+}
+
+/**
+ * Смахивание вниз закрывает шторку — так их закрывают на телефоне.
+ *
+ * Тянуть можно только когда содержимое прокручено к самому верху: иначе жест
+ * означает «прокрути список», и перехватывать его нельзя. Порог — треть
+ * высоты панели или резкий рывок вниз; всё, что меньше, возвращается на место.
+ */
+function wireSwipeToClose(panel) {
+  if (!window.matchMedia('(max-width: 760px)').matches) return;
+  const body = panel.querySelector('.sheet__body');
+  let startY = 0;
+  let startT = 0;
+  let dy = 0;
+  let dragging = false;
+
+  panel.addEventListener('touchstart', (e) => {
+    if (e.touches.length !== 1) return;
+    if (body && body.scrollTop > 0) return;
+    startY = e.touches[0].clientY;
+    startT = Date.now();
+    dy = 0;
+    dragging = true;
+    panel.style.transition = 'none';
+  }, { passive: true });
+
+  panel.addEventListener('touchmove', (e) => {
+    if (!dragging) return;
+    dy = e.touches[0].clientY - startY;
+    if (dy < 0) dy = 0;
+    panel.style.transform = `translateY(${dy}px)`;
+    const back = panel.parentElement;
+    if (back) back.style.setProperty('--sheet-dim', String(Math.max(0, 1 - dy / 400)));
+  }, { passive: true });
+
+  const end = () => {
+    if (!dragging) return;
+    dragging = false;
+    panel.style.transition = '';
+    const fast = dy > 40 && Date.now() - startT < 260;
+    if (dy > panel.offsetHeight * 0.3 || fast) {
+      closeSheet();
+      return;
+    }
+    panel.style.transform = '';
+    panel.parentElement?.style.removeProperty('--sheet-dim');
+  };
+  panel.addEventListener('touchend', end, { passive: true });
+  panel.addEventListener('touchcancel', end, { passive: true });
 }
 
 /* ------------------------------------------------------------------ */

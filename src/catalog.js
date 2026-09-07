@@ -233,8 +233,10 @@ export class Catalog {
    * Дополнительно возвращает запасные треки на каждый уровень — ими
    * подменяются те, что не смогли загрузиться (см. src/audio.js).
    */
-  pickGame(filters = {}, rounds = ROUNDS) {
-    const used = new Set();
+  pickGame(filters = {}, rounds = ROUNDS, exclude = null) {
+    // Трек, который только что играл фоном на стартовом экране, в партию не
+    // берём: услышать ответ до раунда — это подсказка.
+    const used = new Set(exclude ? [...exclude] : []);
     const picked = [];
     const spares = [];
     /** Уровни, для которых пришлось сбросить историю (блок I3). */

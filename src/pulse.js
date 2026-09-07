@@ -291,7 +291,11 @@ export class Pulse {
         this.loud.push(this._band(this.fullRange), dt);
 
         const B = this.bands;
-        const hit = Math.max(B.kick.hit, B.bass.hit * 0.9, B.body.hit * 0.55);
+        let hit = Math.max(B.kick.hit, B.bass.hit * 0.9, B.body.hit * 0.55);
+        // В облегчённом режиме кадры идут в три раза реже, и атака удара
+        // между ними попросту теряется. Поэтому там к онсету подмешивается
+        // сам уровень низов: фон дышит громкостью, даже когда не поймал удар.
+        if (this.light) hit = Math.max(hit, B.kick.norm * 0.8, B.bass.norm * 0.65);
         this.beat = hit > this.beat
           ? this.beat + (hit - this.beat) * 0.45
           : Math.max(0, this.beat - dt * 1.7);

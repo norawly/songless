@@ -244,8 +244,46 @@ export class AudioEngine {
       this.analyser.connect(this.master);
       this.master.connect(this.ctx.destination);
     }
-    if (this.ctx.state === 'suspended') this.ctx.resume().catch(() => {});
+    this.resumeIfNeeded();
     return this.ctx;
+  }
+
+  /**
+   * Возвращает контекст к жизни.
+   *
+   * iOS усыпляет AudioContext сам: после звонка, при переключении приложений,
+   * при возврате из фона. Состояние при этом бывает не только 'suspended', но
+   * и нестандартное 'interrupted' (только Safari). Пока контекст спит,
+   * source.start() отрабатывает молча — узел играет в тишину, и это ровно тот
+   * симптом «первый раунд звучал, дальше нет».
+   *
+   * Поэтому будим контекст на КАЖДОМ жесте и перед каждым воспроизведением, а
+   * не один раз при старте.
+   */
+  resumeIfNeeded() {
+    const ctx = this.ctx;
+    if (!ctx) return Promise.resolve(false);
+    if (ctx.state === 'running') return Promise.resolve(true);
+    return ctx.resume().then(() => ctx.state === 'running').catch(() => false);
+  }
+
+  /**
+   * Беззвучный «разблокирующий» щелчок. На iOS контекст считается живым
+   * только после того, как через него хоть раз что-то проиграли внутри
+   * пользовательского жеста.
+   */
+  unlock() {
+    const ctx = this.ensureContext();
+    if (!ctx) return;
+    try {
+      const buf = ctx.createBuffer(1, 1, 22050);
+      const src = ctx.createBufferSource();
+      src.buffer = buf;
+      src.connect(ctx.destination);
+      src.start(0);
+    } catch {
+      /* не получилось — не страшно */
+    }
   }
 
   /**
@@ -394,8 +432,11 @@ export class AudioEngine {
    */
   async play(track, durationMs, opts = {}) {
     this.stop();
-    const buf = await this.load(track);
+    // Контекст будим ПЕРВЫМ делом и дожидаемся: если он спит, планировщик
+    // примет узел, но звука не будет.
     const ctx = this.ensureContext();
+    if (ctx && ctx.state !== 'running') await this.resumeIfNeeded();
+    const buf = await this.load(track);
 
     const offset = opts.fromZero ? 0 : this.startOffsetOf(track);
     const available = Math.max(0, buf.duration - offset);

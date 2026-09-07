@@ -105,7 +105,7 @@ async function withTimeout(url, opts = {}) {
  * @returns {Promise<{allTime: object[], today: object[], categories: object[]}>}
  */
 export async function fetchBoards(slice = 'random|normal|family', limit = CONFIG.LEADERBOARD_PREVIEW_N) {
-  if (!enabled()) return { allTime: [], today: [], categories: [] };
+  if (!enabled()) return { allTime: [], today: [], global: [], categories: [] };
   const q = new URLSearchParams({
     action: 'top', slice, limit: String(limit),
     // Apps Script отдаёт ответы через кэширующий фронт Google; параметр
@@ -119,6 +119,10 @@ export async function fetchBoards(slice = 'random|normal|family', limit = CONFIG
   return {
     allTime: Array.isArray(data.allTime) ? data.allTime : [],
     today: Array.isArray(data.today) ? data.today : [],
+    // Общий зачёт: лучшие очки за всё время без деления на категории.
+    // Старое развёртывание скрипта его не отдаёт — тогда просто пусто, и
+    // третья таблица не показывается.
+    global: Array.isArray(data.global) ? data.global : null,
     // Какие срезы вообще существуют — нужно для переключателя в оверлее.
     categories: Array.isArray(data.categories) ? data.categories : [],
   };

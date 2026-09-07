@@ -1,37 +1,39 @@
 /**
- * Фоновая музыка стартового экрана.
+ * Музыка на стартовом экране.
  *
- * Музыка СИНТЕЗИРУЕТСЯ прямо в браузере, а не берётся файлом. Причины две, и
- * обе жёсткие: в репозитории не должно быть аудиофайлов, а чужой трек с
- * какого-нибудь CDN — это чужие права на сайте, который индексируется.
- * Осциллятор ничьих прав не нарушает и весит ноль байт.
+ * Играют настоящие песни из каталога — поп, R&B, ретро и патриотика: спокойные
+ * жанры, под которые можно читать экран. Не рэп и не андеграунд: они требуют
+ * внимания, а это фон.
  *
- * Звучание намеренно не казахское и никак не связано с каталогом: это не
- * подсказка и не часть игры, а воздух в комнате. Медленный пад из трёх
- * расстроенных пил через низкий фильтр, мягкий пульс раз в такт и редкие
- * капли поверх. Аккорды идут по кругу из четырёх — минорный колор, который
- * не спорит с лаймовым акцентом интерфейса.
+ * Раньше здесь был синтезированный пад. Он никого не нарушал, но звучал как
+ * гудение, а не как музыка. Настоящие превью уже лежат в каталоге, играются с
+ * CDN Apple и ничего не стоят: тот же источник, что и в самой игре.
  *
- * Играет через тот же анализатор, что и превью треков, поэтому фон-эквалайзер
- * на стартовом экране движется под неё, а не стоит мёртвым.
+ * Что важно в поведении:
+ *   — играет только на стартовом экране и только с разрешения (кнопка звука
+ *     в шапке помнит отказ);
+ *   — тише игры вдвое: это фон, а не прослушивание;
+ *   — треки сменяются с перекрёстным затуханием, без пауз и щелчков;
+ *   — сыгранное в фоне НЕ попадает в партию: услышать ответ до раунда было бы
+ *     подсказкой, поэтому id отыгранного отдаётся наружу через usedIds.
  *
- * Автозапуск: браузеры не дают завести AudioContext до жеста пользователя,
- * поэтому мы ждём первого касания страницы. Кнопка звука в шапке помнит
- * выбор — выключил один раз, больше не услышит.
+ * Автозапуск невозможен до жеста пользователя (политика браузеров), поэтому
+ * музыка заводится по первому касанию страницы.
  */
 
 const KEY = 'olensiz:ambient';
 
-/** Am — F — C — G, четыре такта по восемь секунд. Ноты в Гц. */
-const CHORDS = [
-  [220.00, 261.63, 329.63],   // Am
-  [174.61, 220.00, 261.63],   // F
-  [261.63, 329.63, 392.00],   // C
-  [196.00, 246.94, 293.66],   // G
-];
+/** Жанры, которые годятся в фон. */
+const GENRES = ['pop', 'rnb', 'retro', 'patriotic'];
 
-const CHORD_S = 8;
-const PULSE_S = 1.5;
+/** Сколько играть один трек, прежде чем уйти в следующий. */
+const SEGMENT_S = 24;
+
+/** Длительность перекрёстного затухания между треками. */
+const CROSSFADE_S = 2.5;
+
+/** Громкость фона относительно общей. */
+const LEVEL = 0.45;
 
 export function ambientAllowed() {
   try {
@@ -53,127 +55,133 @@ export class Ambient {
   /** @param {import('./audio.js').AudioEngine} engine */
   constructor(engine) {
     this.engine = engine;
-    this.nodes = null;
-    this.timer = 0;
-    this.chord = 0;
+    this.catalog = null;
+    this.queue = [];
     this.playing = false;
+    this.timer = 0;
+    /** @type {{source: AudioBufferSourceNode, gain: GainNode}|null} */
+    this.node = null;
+    /** Что уже звучало в фоне — партия эти треки не берёт. */
+    this.usedIds = new Set();
   }
 
-  /** Пад, фильтр и общий гейн. Строятся один раз на весь сеанс. */
-  _build(ctx, dest) {
-    const out = ctx.createGain();
-    out.gain.value = 0.0001;
-    out.connect(dest);
+  /** Каталог приходит позже самого объекта — игра грузит его асинхронно. */
+  setCatalog(catalog) {
+    this.catalog = catalog;
+    this.queue = [];
+  }
 
-    const filter = ctx.createBiquadFilter();
-    filter.type = 'lowpass';
-    filter.frequency.value = 700;
-    filter.Q.value = 0.6;
-    filter.connect(out);
+  /** Спокойные треки семейного рейтинга, вперемешку. */
+  _refill() {
+    if (!this.catalog) return;
+    const pool = this.catalog.tracks.filter((t) =>
+      t.age === 'family' && (t.genres || []).some((g) => GENRES.includes(g)));
+    for (let i = pool.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [pool[i], pool[j]] = [pool[j], pool[i]];
+    }
+    this.queue = pool.slice(0, 40);
+  }
 
-    // Медленное движение среза — от него пад «дышит», и эквалайзер фона
-    // шевелится даже там, где нот не меняется.
-    const lfo = ctx.createOscillator();
-    const lfoGain = ctx.createGain();
-    lfo.frequency.value = 0.05;
-    lfoGain.gain.value = 260;
-    lfo.connect(lfoGain).connect(filter.frequency);
-    lfo.start();
+  _next() {
+    if (this.queue.length === 0) this._refill();
+    return this.queue.pop() || null;
+  }
 
-    // Три голоса пада: слегка расстроены между собой, оттого звук живой.
-    const voices = [];
-    for (let i = 0; i < 3; i++) {
-      const osc = ctx.createOscillator();
-      osc.type = 'sawtooth';
-      osc.detune.value = (i - 1) * 7;
-      const g = ctx.createGain();
-      g.gain.value = 0.16;
-      osc.connect(g).connect(filter);
-      osc.start();
-      voices.push({ osc, gain: g });
+  async start() {
+    if (this.playing) return;
+    this.playing = true;
+    this._cycle();
+  }
+
+  /** Один трек: завести, дать ему отыграть отрезок, уйти в следующий. */
+  async _cycle() {
+    if (!this.playing) return;
+
+    const track = this._next();
+    if (!track) {
+      this.playing = false;
+      return;
     }
 
-    return { out, filter, voices, lfo };
-  }
+    let buf;
+    try {
+      buf = await this.engine.load(track, { timeoutMs: 12000 });
+    } catch {
+      // Не загрузился — молча берём следующий, фон не повод для ошибки.
+      if (this.playing) this._cycle();
+      return;
+    }
+    if (!this.playing) return;
 
-  /** Мягкий низкий пульс: даёт эквалайзеру удар, по которому он дышит. */
-  _pulse(ctx, dest, t) {
-    const osc = ctx.createOscillator();
-    const g = ctx.createGain();
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(110, t);
-    osc.frequency.exponentialRampToValueAtTime(48, t + 0.16);
-    g.gain.setValueAtTime(0.0001, t);
-    g.gain.linearRampToValueAtTime(0.5, t + 0.012);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.5);
-    osc.connect(g).connect(dest);
-    osc.start(t);
-    osc.stop(t + 0.6);
-  }
-
-  /** Редкая «капля» в верхнем регистре — чтобы фон не был совсем плоским. */
-  _drop(ctx, dest, t, hz) {
-    const osc = ctx.createOscillator();
-    const g = ctx.createGain();
-    osc.type = 'triangle';
-    osc.frequency.value = hz;
-    g.gain.setValueAtTime(0.0001, t);
-    g.gain.linearRampToValueAtTime(0.09, t + 0.02);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + 1.6);
-    osc.connect(g).connect(dest);
-    osc.start(t);
-    osc.stop(t + 1.7);
-  }
-
-  /** Переставляет пад на следующий аккорд круга. */
-  _next(ctx) {
-    const t = ctx.currentTime;
-    const chord = CHORDS[this.chord % CHORDS.length];
-    this.chord++;
-    this.nodes.voices.forEach((v, i) => {
-      v.osc.frequency.setTargetAtTime(chord[i % chord.length], t, 1.2);
-    });
-    // Капля берёт ноту аккорда двумя октавами выше — всегда «в тональности».
-    this._drop(ctx, this.nodes.filter, t + 1.2, chord[(this.chord + 1) % chord.length] * 4);
-  }
-
-  start() {
-    if (this.playing) return;
     const ctx = this.engine.ensureContext();
     const dest = this.engine.busIn;
     if (!ctx || !dest) return;
+    await this.engine.resumeIfNeeded();
 
-    if (!this.nodes) this.nodes = this._build(ctx, dest);
-    this.playing = true;
+    const offset = Math.min(this.engine.startOffsetOf(track), Math.max(0, buf.duration - 5));
+    const dur = Math.min(SEGMENT_S, Math.max(4, buf.duration - offset));
 
-    const now = ctx.currentTime;
-    this.nodes.out.gain.cancelScheduledValues(now);
-    this.nodes.out.gain.setValueAtTime(Math.max(0.0001, this.nodes.out.gain.value), now);
-    this.nodes.out.gain.linearRampToValueAtTime(0.5, now + 2.5);
+    const source = ctx.createBufferSource();
+    source.buffer = buf;
+    const gain = ctx.createGain();
+    source.connect(gain).connect(dest);
 
-    this._next(ctx);
-    let beat = 0;
-    this.timer = setInterval(() => {
-      if (!this.playing) return;
-      const t = this.engine.ctx.currentTime + 0.05;
-      this._pulse(this.engine.ctx, this.nodes.filter, t);
-      beat++;
-      if (beat % Math.round(CHORD_S / PULSE_S) === 0) this._next(this.engine.ctx);
-    }, PULSE_S * 1000);
+    const now = ctx.currentTime + 0.02;
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.linearRampToValueAtTime(LEVEL, now + CROSSFADE_S);
+    gain.gain.setValueAtTime(LEVEL, now + dur - CROSSFADE_S);
+    gain.gain.linearRampToValueAtTime(0.0001, now + dur);
+    source.start(now, offset);
+    try {
+      source.stop(now + dur + 0.05);
+    } catch {
+      /* реализация без stop(when) — доиграет гейном */
+    }
+
+    this._fadeOutPrevious();
+    this.node = { source, gain };
+    this.usedIds.add(track.id);
+
+    // Следующий заводим чуть раньше конца — затухания накладываются, паузы нет.
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => this._cycle(), Math.max(2000, (dur - CROSSFADE_S) * 1000));
   }
 
-  /** Уводит фон в тишину. Узлы остаются — включить обратно дешевле, чем строить. */
+  _fadeOutPrevious() {
+    const prev = this.node;
+    if (!prev || !this.engine.ctx) return;
+    const now = this.engine.ctx.currentTime;
+    const g = prev.gain.gain;
+    try {
+      g.cancelScheduledValues(now);
+      g.setValueAtTime(g.value, now);
+      g.linearRampToValueAtTime(0.0001, now + CROSSFADE_S);
+      prev.source.stop(now + CROSSFADE_S + 0.1);
+    } catch {
+      /* уже кончился */
+    }
+  }
+
+  /** Уводит фон в тишину. */
   stop(fadeS = 1.2) {
-    if (!this.playing) return;
+    if (!this.playing && !this.node) return;
     this.playing = false;
-    clearInterval(this.timer);
+    clearTimeout(this.timer);
     this.timer = 0;
+
     const ctx = this.engine.ctx;
-    if (!ctx || !this.nodes) return;
+    const cur = this.node;
+    this.node = null;
+    if (!ctx || !cur) return;
     const now = ctx.currentTime;
-    const g = this.nodes.out.gain;
-    g.cancelScheduledValues(now);
-    g.setValueAtTime(g.value, now);
-    g.linearRampToValueAtTime(0.0001, now + fadeS);
+    try {
+      cur.gain.gain.cancelScheduledValues(now);
+      cur.gain.gain.setValueAtTime(cur.gain.gain.value, now);
+      cur.gain.gain.linearRampToValueAtTime(0.0001, now + fadeS);
+      cur.source.stop(now + fadeS + 0.1);
+    } catch {
+      /* уже остановлен */
+    }
   }
 }

@@ -17,6 +17,13 @@ import {
   ROUNDS, roundScore, stepPoints, stepDuration, stepCount, nearMissKind,
   DEFAULT_MODE, modeOf,
 } from './scoring.js';
+import { foldKey } from './normalize.js';
+
+/**
+ * Название без скобок: «Космос (feat. Чарусша)» и «Космос» — для игрока одна
+ * и та же песня по названию, различаются они исполнителем.
+ */
+const bareTitle = (s) => foldKey(String(s || '').replace(/\([^)]*\)/g, ' '));
 
 export const SCREEN = {
   START: 'start',
@@ -166,8 +173,8 @@ export class Game {
    * Готовит партию. Треки выбираются сразу, но экран переключается на
    * LOADING: игра не стартует, пока все пять не декодированы.
    */
-  prepare() {
-    const { picked, spares, recycled } = this.catalog.pickGame(this.filters, ROUNDS);
+  prepare(exclude = null) {
+    const { picked, spares, recycled } = this.catalog.pickGame(this.filters, ROUNDS, exclude);
     this.tracks = picked;
     this.spares = spares;
     this.recycled = recycled;
@@ -315,13 +322,35 @@ export class Game {
     this.guesses.push(track);
     this.rejectedIds.add(track.id);
     const near = nearMissKind(track, answer);
+    const hint = this._hintFor(track, answer);
 
     // Неверный ответ открывает следующую ступень — как «Өткізу».
     // Это делает N ступеней = N попыток и закрывает перебор каталога.
     this.bonusVoid = true;
     this.stepStates[this.step] = STEP_STATE.WRONG;
     const ended = this._advanceStep();
-    return { correct: false, near, ended, track };
+    return { correct: false, near, hint, ended, track };
+  }
+
+  /**
+   * Подсказка после неверного ответа — ТОЛЬКО в обычном режиме.
+   *
+   * Обычный режим и есть облегчённый: он должен помогать, когда человек
+   * очевидно рядом. В экспертном подсказок нет вообще — это его смысл.
+   *
+   *   'other-artist'    — название совпало с загаданным, а исполнитель нет.
+   *                       Значит, песню человек знает: в каталоге просто два
+   *                       «Космоса» у разных артистов.
+   *   'other-performer' — второй раз подряд тот же исполнитель. Дальше
+   *                       перебирать его альбом бессмысленно.
+   */
+  _hintFor(track, answer) {
+    if (this.filters.difficulty !== 'normal') return null;
+    if (bareTitle(track.title) === bareTitle(answer.title)) return 'other-artist';
+    const sameArtist = this.guesses.filter(
+      (g) => g && foldKey(g.artist) === foldKey(track.artist)).length;
+    if (sameArtist >= 2) return 'other-performer';
+    return null;
   }
 
   /** «Өткізу»: открыть следующую ступень, попытки не было. */

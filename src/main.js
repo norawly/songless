@@ -174,6 +174,7 @@ async function boot() {
     return;
   }
 
+  ambient.setCatalog(catalog);
   game = new Game(catalog);
   restoreMode();
   game.onChange(render);
@@ -210,11 +211,23 @@ function wireFirstGesture() {
     document.removeEventListener('pointerdown', go);
     document.removeEventListener('keydown', go);
     audio.ensureContext();
+    audio.unlock();
     liveBg();
     if (ambientAllowed() && game && game.screen === SCREEN.START) ambient.start();
   };
   document.addEventListener('pointerdown', go, { once: false });
   document.addEventListener('keydown', go, { once: false });
+
+  // Дальше будим контекст на каждом касании и при возврате на вкладку: iOS
+  // усыпляет его сам — после звонка, при переключении приложений, при
+  // возврате из фона, — и тогда звук просто перестаёт быть, хотя всё
+  // «играет». Разбудить можно только внутри жеста, поэтому слушаем всегда.
+  const wake = () => audio.resumeIfNeeded();
+  document.addEventListener('pointerdown', wake, { passive: true });
+  document.addEventListener('touchend', wake, { passive: true });
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) audio.resumeIfNeeded();
+  });
 }
 
 /** Фон играет только на стартовом экране — в партии звучит сама игра. */
@@ -423,6 +436,7 @@ function goHome() {
 }
 
 function resetToStart() {
+  if (game?.screen === SCREEN.FINAL) autoSubmitGuest();
   audio.stop(160);
   submittedThisGame = false;
   game.reset();
@@ -515,7 +529,11 @@ function renderStart() {
           <span class="setup-line__value">${esc(setupSummary())}</span>
           <svg class="setup-line__chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-        ${LB.enabled() ? boardMarkup('allTime', t('start.records'), MOBILE_BOARD_ROWS) : ''}
+        ${LB.enabled()
+          // На телефоне одна таблица — сегодняшняя. Остальные два зачёта
+          // открываются из неё: место на экране дороже.
+          ? boardMarkup('today', t('lb.today'), sliceLabel(game.sliceKey).full, MOBILE_BOARD_ROWS)
+          : ''}
       </div>
     </section>`
     : `
@@ -523,14 +541,24 @@ function renderStart() {
       ${hero}
       <div class="start__setup panel">${settingsFieldsMarkup()}</div>
       <aside class="start__side">
-        ${LB.enabled()
-          ? boardMarkup('allTime', t('lb.allTime')) + boardMarkup('today', t('lb.today'))
-          : howToMarkup()}
+        ${LB.enabled() ? boardsMarkup() : howToMarkup()}
       </aside>
     </section>`;
 
   wireStart();
   if (LB.enabled()) loadBoards();
+}
+
+/**
+ * Три зачёта на десктопе:
+ *   за всё время и сегодня — по выбранной категории (у каждой свой топ);
+ *   все категории — общий рекорд по очкам, безотносительно фильтров.
+ */
+function boardsMarkup() {
+  const slice = sliceLabel(game.sliceKey).full;
+  return boardMarkup('allTime', t('lb.allTime'), `${t('lb.byCategory')}: ${slice}`)
+    + boardMarkup('today', t('lb.today'), `${t('lb.byCategory')}: ${slice}`)
+    + boardMarkup('global', t('lb.global'), t('lb.globalHint'));
 }
 
 /** Текущий выбор одной строкой: «Обычный · Family · Всё вперемешку». */
@@ -661,15 +689,14 @@ function howToMarkup() {
  * в экспертном». Пока данные едут, показываем скелет строк, а не слово
  * «загружаем»: список не прыгает, когда они приедут.
  */
-function boardMarkup(kind, title, rows = CONFIG.LEADERBOARD_PREVIEW_N) {
-  const label = sliceLabel(game.sliceKey);
+function boardMarkup(kind, title, subtitle, rows = CONFIG.LEADERBOARD_PREVIEW_N) {
   return `
-    <section class="board board--${kind === 'today' ? 'today' : 'all'}">
+    <section class="board board--${esc(kind)}">
       <div class="board__head">
         <button class="board__title" data-open-board="${kind}" type="button">${esc(title)}</button>
         <button class="board__more" data-open-board="${kind}" type="button">${esc(t('lb.openFull'))} →</button>
       </div>
-      <p class="board__slice">${esc(label.full)}</p>
+      <p class="board__slice">${esc(subtitle)}</p>
       <div class="board__body" data-board="${kind}">${skeletonRows(rows)}</div>
     </section>`;
 }
@@ -709,8 +736,7 @@ async function loadBoards() {
     boardsSlice = slice;
     // Экран мог смениться, пока шёл запрос: Apps Script отвечает секундами.
     if (!$('[data-board]')) return;
-    paintBoard('allTime');
-    paintBoard('today');
+    for (const box of $$('[data-board]')) paintBoard(box.dataset.board);
   } catch (err) {
     console.warn('leaderboard:', err);
     // Лидерборд необязателен: показываем честное состояние, игру не трогаем.
@@ -728,18 +754,25 @@ async function loadBoards() {
 function paintBoard(kind, highlight = null) {
   const host = $(`[data-board="${kind}"]`);
   if (!host || !boardsCache) return;
-  const rows = boardsCache[kind] || [];
-  host.innerHTML = rows.length
+  const rows = boardsCache[kind];
+  // global === null означает старую версию скрипта в таблице: третьего
+  // зачёта она не отдаёт, и показывать пустую доску честнее нечем.
+  if (kind === 'global' && rows === null) {
+    host.closest('.board')?.remove();
+    return;
+  }
+  host.innerHTML = (rows && rows.length)
     ? leaderboardTable(rows, highlight)
     : `<p class="muted">${esc(kind === 'today' ? t('lb.emptyToday') : t('lb.empty'))}</p>`;
 }
 
-function leaderboardTable(rows, highlightNick = null, { head = false } = {}) {
+function leaderboardTable(rows, highlightNick = null, { head = false, slice = false } = {}) {
   return `
     <table class="lb">
       ${head ? `<thead><tr>
         <th scope="col" class="lb__rank">${esc(t('lb.place'))}</th>
         <th scope="col">${esc(t('lb.player'))}</th>
+        ${slice ? `<th scope="col" class="lb__cat">${esc(t('lb.category'))}</th>` : ''}
         <th scope="col" class="num">${esc(t('lb.score'))}</th>
       </tr></thead>` : ''}
       <tbody>${rows.map((r, i) => {
@@ -748,6 +781,7 @@ function leaderboardTable(rows, highlightNick = null, { head = false } = {}) {
         <tr${me ? ' class="is-me"' : ''} data-rank="${i + 1}">
           <td class="lb__rank">${i + 1}</td>
           <td class="lb__nick">${esc(r.nick)}${me ? ` <span class="lb__you">${esc(t('lb.you'))}</span>` : ''}</td>
+          ${slice ? `<td class="lb__cat">${esc(r.slice ? sliceLabel(r.slice).full : '—')}</td>` : ''}
           <td class="num">${fmtNum(Number(r.score || 0))}</td>
         </tr>`;
       }).join('')}
@@ -787,12 +821,14 @@ async function showFullBoard(kind = 'allTime', slice = game.sliceKey, highlight 
     bodyHtml: `
       <div class="lb-controls">
         <div class="field">
-          <span class="field__label" id="lbl-period">${esc(t('lb.period'))}</span>
+          <span class="field__label" id="lbl-period">${esc(t('lb.scope'))}</span>
           <div class="seg" role="group" aria-labelledby="lbl-period">
-            <button class="seg__btn" data-period="allTime" type="button"
-                    aria-pressed="${kind === 'allTime'}">${esc(t('lb.allTime'))}</button>
             <button class="seg__btn" data-period="today" type="button"
                     aria-pressed="${kind === 'today'}">${esc(t('lb.today'))}</button>
+            <button class="seg__btn" data-period="allTime" type="button"
+                    aria-pressed="${kind === 'allTime'}">${esc(t('lb.allTime'))}</button>
+            <button class="seg__btn" data-period="global" type="button"
+                    aria-pressed="${kind === 'global'}">${esc(t('lb.global'))}</button>
           </div>
         </div>
         <label class="field lb-controls__cat">
@@ -800,6 +836,7 @@ async function showFullBoard(kind = 'allTime', slice = game.sliceKey, highlight 
           <select class="input" data-slice></select>
         </label>
       </div>
+      <p class="lb-hint" data-lb-hint></p>
       <div class="lb-full" data-full>${skeletonRows(8)}</div>`,
   });
 
@@ -819,9 +856,19 @@ async function showFullBoard(kind = 'allTime', slice = game.sliceKey, highlight 
       .join('');
   };
 
+  const hint = panel.querySelector('[data-lb-hint]');
+  const cat = panel.querySelector('.lb-controls__cat');
+
   const paintRows = (rows) => {
-    body.innerHTML = rows.length
-      ? leaderboardTable(rows, highlight, { head: true })
+    // В общем зачёте категория ни при чём — переключатель прячем, чтобы он
+    // не выглядел сломанным.
+    const global = period === 'global';
+    cat.hidden = global;
+    hint.textContent = global
+      ? t('lb.globalHint')
+      : `${t('lb.byCategory')}: ${sliceLabel(current).full}`;
+    body.innerHTML = (rows && rows.length)
+      ? leaderboardTable(rows, highlight, { head: true, slice: global })
       : `<p class="muted">${esc(period === 'today' ? t('lb.emptyToday') : t('lb.empty'))}</p>`;
     // Своя строка может быть далеко внизу — подводим к ней сразу.
     body.querySelector('tr.is-me')?.scrollIntoView({ block: 'center' });
@@ -840,6 +887,13 @@ async function showFullBoard(kind = 'allTime', slice = game.sliceKey, highlight 
       const boards = await LB.fetchBoards(current, CONFIG.LEADERBOARD_FULL_N);
       if (!body.isConnected) return;
       fillSelect(boards.categories);
+      // Общий зачёт отдаёт только свежая версия скрипта в таблице. Со старой
+      // прячем сам переключатель, чтобы он не вёл в пустоту.
+      const globalBtn = panel.querySelector('[data-period="global"]');
+      if (globalBtn && boards.global === null) {
+        globalBtn.hidden = true;
+        if (period === 'global') period = 'allTime';
+      }
       paintRows(boards[period] || []);
     } catch {
       if (!body.isConnected) return;
@@ -877,7 +931,7 @@ async function startGame() {
   let spares;
   let recycled;
   try {
-    ({ picked, spares, recycled } = game.prepare());
+    ({ picked, spares, recycled } = game.prepare(ambient.usedIds));
   } catch (err) {
     game.fail(err.message);
     return;
@@ -1315,9 +1369,15 @@ function wireRound() {
     if (fresh) fresh.value = '';
     flashWrong();
 
-    const message = res.near === 'artist'
-      ? t('round.nearArtist')
-      : res.near === 'title' ? t('round.nearTitle') : t('round.wrong');
+    // Подсказка (только обычный режим) важнее общего «не она»: она объясняет,
+    // куда двигаться дальше.
+    const message = res.hint === 'other-artist'
+      ? t('round.hintOtherArtist')
+      : res.hint === 'other-performer'
+        ? t('round.hintOtherPerformer')
+        : res.near === 'artist'
+          ? t('round.nearArtist')
+          : res.near === 'title' ? t('round.nearTitle') : t('round.wrong');
     toast(message, res.near ? 'near' : 'bad');
     const liveNode = $('[data-live]');
     if (liveNode) liveNode.textContent = message;
@@ -1564,7 +1624,9 @@ function renderFinal() {
   $('[data-share]').addEventListener('click', () => showShare(total, verdict, label));
   $('[data-again]').addEventListener('click', () => {
     audio.stop(160);
-      submittedThisGame = false;
+    // Не подписался — уходит в таблицу гостем, а не в никуда.
+    autoSubmitGuest();
+    submittedThisGame = false;
     game.reset();
     render();
   });
@@ -1633,7 +1695,12 @@ function wireFinalCards() {
   // обложка, название, артист, ссылки. Атрибуция обязана быть везде.
   grid.addEventListener('click', (e) => {
     const card = e.target.closest('.fcard');
-    if (card) showTrackSheet(card.dataset.track);
+    if (!card) return;
+    // Звук первым, панель следом. Раньше сначала строилась и анимировалась
+    // панель, и музыка догоняла её через полсекунды — на телефоне это
+    // читалось как «сайт задумался».
+    startPreview(card);
+    showTrackSheet(card.dataset.track);
   });
   grid.addEventListener('keydown', (e) => {
     if (e.key !== 'Enter' && e.key !== ' ') return;
@@ -1754,6 +1821,31 @@ function wireSubmit(total) {
       btn.disabled = false;
     }
   });
+}
+
+/**
+ * Игрок уходит с финала, не подписав результат.
+ *
+ * Раньше результат в этом случае просто пропадал: человек сыграл, увидел
+ * очки, нажал «ещё партию» — и в таблице ничего. Теперь партия записывается
+ * гостем: сервер сам присвоит «Qonaq N». Отправляем молча и не ждём ответа —
+ * это не должно задерживать переход на новый экран.
+ */
+function autoSubmitGuest() {
+  if (!LB.enabled() || submittedThisGame) return;
+  if (!game.results || game.results.length !== ROUNDS) return;
+  submittedThisGame = true;
+  LB.submitScore({
+    nick: '',
+    score: game.totalScore,
+    rounds: game.results.map((r) => ({
+      level: r.level, step: r.stepIndex + 1, points: r.total, solved: r.solved,
+    })),
+    slice: game.sliceKey,
+    sessionHash: game.sessionId,
+  })
+    .then((res) => toast(res?.nick ? `${t('lb.guestSent')}: ${res.nick}` : t('lb.guestSent')))
+    .catch(() => { submittedThisGame = false; });
 }
 
 /**

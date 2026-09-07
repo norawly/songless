@@ -186,5 +186,12 @@
   "nav.menu": "Ещё",
   "start.settings": "Настройки",
   "start.records": "Рекорды",
-  "menu.sound": "Звук"
+  "menu.sound": "Звук",
+  "lb.global": "Все категории",
+  "lb.globalHint": "Лучшие очки за всё время, любая категория",
+  "lb.byCategory": "по выбранной категории",
+  "lb.guestSent": "Результат записан как гость",
+  "lb.scope": "Зачёт",
+  "round.hintOtherArtist": "Название верное — исполнитель другой",
+  "round.hintOtherPerformer": "Этого исполнителя уже пробовал — возьми другого"
 }

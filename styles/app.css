@@ -91,6 +91,21 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
    спокойным, в том числе для людей с фотосенситивностью.
    ------------------------------------------------------------------------ */
 
+/* Цвета фона объявлены через @property, иначе их нельзя анимировать: обычная
+   CSS-переменная меняется скачком, и при переходе с карточки на карточку фон
+   моргал новым цветом. Полсекунды перехода — и цвет перетекает. */
+@property --song-c1 { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --song-c2 { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --song-c3 { syntax: "<color>"; inherits: true; initial-value: transparent; }
+
+/* Переход объявлен на :root, потому что именно там JS меняет значения
+   (src/pulse.js → setColors); дети получают уже анимированный цвет. */
+:root {
+  transition: --song-c1 var(--duration-slower) var(--easing-default),
+              --song-c2 var(--duration-slower) var(--easing-default),
+              --song-c3 var(--duration-slower) var(--easing-default);
+}
+
 .song-bg {
   position: fixed;
   inset: 0;
@@ -1274,7 +1289,10 @@ body.is-wrong::after { animation: wrong-flash 440ms var(--easing-out) both; }
   opacity: 0;
   transition: opacity var(--duration-normal) var(--easing-default);
 }
-.sheet-backdrop.is-open { opacity: 1; }
+/* --sheet-dim ставит JS, пока шторку тянут вниз пальцем: фон светлеет вместе
+   с уезжающей панелью, и жест читается как «отпустишь — закроется». */
+.sheet-backdrop.is-open { opacity: var(--sheet-dim, 1); }
+.sheet-backdrop.is-closing { opacity: 0; }
 
 .sheet {
   width: 100%; max-width: 36rem;
@@ -1288,6 +1306,7 @@ body.is-wrong::after { animation: wrong-flash 440ms var(--easing-out) both; }
   transition: transform var(--duration-normal) var(--easing-out);
 }
 .sheet-backdrop.is-open .sheet { transform: none; }
+.sheet-backdrop.is-closing .sheet { transform: translateY(16px) scale(.98); }
 .sheet--wide { max-width: 44rem; }
 
 .sheet__head {
@@ -1434,6 +1453,103 @@ body.is-wrong::after { animation: wrong-flash 440ms var(--easing-out) both; }
 @media (max-height: 480px) {
   .chrome__main { overflow-y: auto; }
 }
+
+/* ===========================================================================
+   ДВИЖЕНИЕ
+
+   Правило одно: движение объясняет, откуда взялся элемент, и ничего больше.
+   Ничего не «летает» просто так, длительности короткие (0.2–0.4 с), кривые
+   выходные — быстрый старт, мягкая остановка.
+
+   Экраны пересоздаются целиком на каждом переходе, поэтому появление —
+   не переход, а анимация: она запускается сама, когда узел попадает в DOM.
+   Дети появляются со сдвигом фазы (--i), но не больше пяти шагов: дальше
+   ожидание начинает раздражать.
+
+   Всё это выключается при prefers-reduced-motion — см. конец файла.
+   ======================================================================== */
+
+@keyframes screen-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes pop-in {
+  from { opacity: 0; transform: translateY(8px) scale(.96); }
+  to { opacity: 1; transform: none; }
+}
+
+.screen { animation: screen-in var(--duration-normal) var(--easing-out) both; }
+
+/* Стартовый экран собирается по частям: надзаголовок, имя, строка, кнопка. */
+.screen--start .hero > *,
+.screen--start .start__cta,
+.screen--start .start__foot > *,
+.screen--start .start__setup,
+.screen--start .start__side > * {
+  animation: rise-in var(--duration-slow) var(--easing-out) both;
+}
+.screen--start .hero > *:nth-child(1) { animation-delay: 40ms; }
+.screen--start .hero > *:nth-child(2) { animation-delay: 90ms; }
+.screen--start .hero > *:nth-child(3) { animation-delay: 140ms; }
+.screen--start .start__cta { animation-delay: 190ms; }
+.screen--start .start__setup,
+.screen--start .start__foot > *:first-child { animation-delay: 240ms; }
+.screen--start .start__foot > *:nth-child(2) { animation-delay: 290ms; }
+.screen--start .start__side > *:nth-child(1) { animation-delay: 240ms; }
+.screen--start .start__side > *:nth-child(2) { animation-delay: 300ms; }
+.screen--start .start__side > *:nth-child(3) { animation-delay: 360ms; }
+
+/* Раунд: сначала плеер, потом шкала и поле — в том порядке, в каком с ними
+   работают. */
+.screen--round .player { animation: pop-in var(--duration-slow) var(--easing-spring) both 60ms; }
+.screen--round .steps { animation: rise-in var(--duration-normal) var(--easing-out) both 140ms; }
+.screen--round .answer { animation: rise-in var(--duration-normal) var(--easing-out) both 190ms; }
+
+/* Карточка ответа: обложка и текст приходят с одной стороны, не вразнобой. */
+.screen--reveal .card__meta > * {
+  animation: rise-in var(--duration-slow) var(--easing-out) both;
+}
+.screen--reveal .card__meta > *:nth-child(1) { animation-delay: 60ms; }
+.screen--reveal .card__meta > *:nth-child(2) { animation-delay: 110ms; }
+.screen--reveal .card__meta > *:nth-child(3) { animation-delay: 160ms; }
+.screen--reveal .card__meta > *:nth-child(4) { animation-delay: 210ms; }
+.screen--reveal .card__meta > *:nth-child(5) { animation-delay: 260ms; }
+.screen--reveal .card__meta > *:nth-child(6) { animation-delay: 310ms; }
+
+/* Строки таблицы лидеров: короткая волна сверху вниз, не больше восьми. */
+.lb tbody tr { animation: rise-in var(--duration-normal) var(--easing-out) both; }
+.lb tbody tr:nth-child(1) { animation-delay: 20ms; }
+.lb tbody tr:nth-child(2) { animation-delay: 50ms; }
+.lb tbody tr:nth-child(3) { animation-delay: 80ms; }
+.lb tbody tr:nth-child(4) { animation-delay: 110ms; }
+.lb tbody tr:nth-child(5) { animation-delay: 140ms; }
+.lb tbody tr:nth-child(6) { animation-delay: 170ms; }
+.lb tbody tr:nth-child(7) { animation-delay: 200ms; }
+.lb tbody tr:nth-child(n+8) { animation-delay: 230ms; }
+
+/* Нажатие. Кнопка должна отвечать пальцу и курсору одинаково быстро. */
+.btn { transition:
+  background var(--duration-fast) var(--easing-default),
+  color var(--duration-fast) var(--easing-default),
+  border-color var(--duration-fast) var(--easing-default),
+  transform var(--duration-fast) var(--easing-out); }
+.btn:active { transform: translateY(1px) scale(.985); }
+.chip, .seg__btn, .setup-line, .menu__item, .board__title, .board__more {
+  transition: background var(--duration-fast) var(--easing-default),
+              color var(--duration-fast) var(--easing-default),
+              border-color var(--duration-fast) var(--easing-default),
+              transform var(--duration-fast) var(--easing-out);
+}
+.chip:active, .seg__btn:active, .setup-line:active, .menu__item:active { transform: scale(.98); }
+
+/* Плеер: обод и сама кнопка отвечают на нажатие, но не прыгают. */
+.play { transition: transform var(--duration-fast) var(--easing-out),
+                    box-shadow var(--duration-normal) var(--easing-default); }
+.play:active { transform: scale(.97); }
 
 /* ===========================================================================
    ТЕЛЕФОН
@@ -1725,6 +1841,19 @@ body.is-wrong::after { animation: wrong-flash 440ms var(--easing-out) both; }
     padding-bottom: max(var(--s-24), env(safe-area-inset-bottom));
   }
   .sheet__body { overscroll-behavior: contain; }
+  /* Шторка выезжает снизу и туда же уезжает — в том числе от смахивания
+     пальцем (src/ui.js → wireSwipeToClose). */
+  .sheet { transform: translateY(100%); }
+  .sheet-backdrop.is-closing .sheet { transform: translateY(100%); }
+  /* Ручка сверху: без неё непонятно, что панель можно стянуть вниз. */
+  .sheet__head::before {
+    content: "";
+    position: absolute; top: 8px; left: 50%;
+    width: 40px; height: 4px; margin-left: -20px;
+    border-radius: 999px;
+    background: var(--color-border-strong);
+  }
+  .sheet__head { position: relative; padding-top: var(--s-16); }
   /* Шторка настроек: три поля и ничего больше. Подсказки под ними убраны —
      «Обычный / Экспертный» и «Family / 18+ / Обе» объясняют себя сами, а
      шторка от них вырастала на треть. */
@@ -1794,6 +1923,17 @@ body.is-wrong::after { animation: wrong-flash 440ms var(--easing-out) both; }
   .final__grid { perspective: none; }
   .fcard.is-sounding .fcard__eq i { animation: none; height: 9px; }
   .card__art, .results, .results__item, .lang__hint { animation: none; }
+  /* Ни одно появление не анимируется: элементы просто на месте. */
+  .screen,
+  .screen--start .hero > *, .screen--start .start__cta,
+  .screen--start .start__foot > *, .screen--start .start__setup,
+  .screen--start .start__side > *,
+  .screen--round .player, .screen--round .steps, .screen--round .answer,
+  .screen--reveal .card__meta > *,
+  .lb tbody tr { animation: none !important; opacity: 1; transform: none; }
+  .btn:active, .chip:active, .seg__btn:active,
+  .setup-line:active, .menu__item:active, .play:active { transform: none; }
+  :root { transition: none; }
   /* Фон не движется и не пульсирует — остаётся ровный градиент. */
   .song-glow { transform: none !important; opacity: .22; }
   .song-glow--air { opacity: .12; }

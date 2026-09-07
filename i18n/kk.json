@@ -186,5 +186,12 @@
   "nav.menu": "Тағы",
   "start.settings": "Баптаулар",
   "start.records": "Рекордтар",
-  "menu.sound": "Дыбыс"
+  "menu.sound": "Дыбыс",
+  "lb.global": "Барлық санат",
+  "lb.globalHint": "Бүкіл уақыттағы ең жоғары ұпай, кез келген санат",
+  "lb.byCategory": "таңдалған санат бойынша",
+  "lb.guestSent": "Нәтиже қонақ ретінде жазылды",
+  "lb.scope": "Есеп",
+  "round.hintOtherArtist": "Ән аты дұрыс — орындаушысы басқа",
+  "round.hintOtherPerformer": "Бұл орындаушыны байқап көрдің — басқасын ал"
 }
