@@ -1423,186 +1423,203 @@ body.is-wrong::after { animation: wrong-flash 440ms var(--easing-out) both; }
 /* ===========================================================================
    ТЕЛЕФОН
 
-   Полноценная версия, а не «десктоп, ужатый по ширине». Правила игры те же,
-   меняется способ подачи:
+   Правила ровно те же, что на десктопе, и главное из них — НИ ОДИН ЭКРАН НЕ
+   ПРОКРУЧИВАЕТСЯ. На телефоне это стоит дороже: экран уже и ниже, поэтому
+   лишнее не ужимается, а убирается совсем.
 
-     — шапка в две строки: бренд и управление сверху, индикатор раундов под
-       ними во всю ширину;
-     — стартовый экран и финал становятся одной колонкой и ПРОКРУЧИВАЮТСЯ.
-       Это единственное отступление от «ноль скроллинга», и оно осознанное:
-       на 360×640 фильтры, кнопка и таблица лидеров физически не помещаются
-       рядом, а прятать половину настроек хуже, чем позволить смахнуть экран;
-     — экран раунда прокрутки НЕ получает: там нужно видеть плеер, шкалу и
-       поле ответа одновременно, и всё это подогнано, чтобы влезть;
-     — панели (правила, лидерборд, карточка трека) превращаются в нижние
-       шторки во всю ширину — так их берут пальцем;
-     — учтены вырезы и «дом-бар» (env(safe-area-inset-*)) и вечно меняющаяся
-       высота вьюпорта (100dvh + visualViewport в JS).
+   Что убрано и куда:
+     — счётчик раундов из шапки: то же самое написано в самом раунде;
+     — «Об игре», правила, звук, громкость и установка — в шторку «Ещё»;
+     — панель настроек — в шторку, на экране от неё одна строка с текущим
+       выбором: «Обычный · Family · Всё вперемешку»;
+     — подсказки под полями и подпись под кнопкой воспроизведения.
+
+   Отступы сверху и снизу намеренно большие. Верх и низ телефона — слепые
+   зоны: там вырез, строка состояния, полоса «домой» и палец, которым
+   держат аппарат. Контент туда не заходит никогда.
+
+   Экран раунда собран так, чтобы поле ответа было ВЫШЕ середины: выдача
+   открывается вниз, и под неё внизу оставлено пустое место. Иначе список
+   вариантов открывался бы вверх поверх плеера или упирался в клавиатуру.
    ======================================================================== */
 
 @media (max-width: 760px) {
-  /* Высота берётся у ВИДИМОЙ части вьюпорта (--vvh пишет src/fit.js), а не у
-     100dvh: когда открыта клавиатура, dvh её не замечает, и поле ответа
-     оказывалось бы под ней. 100dvh — запасной вариант, если visualViewport
-     недоступен. */
   .shell {
+    /* Высота — у ВИДИМОЙ части вьюпорта (--vvh пишет src/fit.js): 100dvh не
+       замечает открытую клавиатуру, и поле ответа уезжало бы под неё. */
     height: var(--vvh, 100dvh);
-    padding-left: max(var(--pad-shell-h), env(safe-area-inset-left));
-    padding-right: max(var(--pad-shell-h), env(safe-area-inset-right));
-    padding-bottom: max(var(--pad-shell-v), env(safe-area-inset-bottom));
+    padding-left: max(20px, env(safe-area-inset-left));
+    padding-right: max(20px, env(safe-area-inset-right));
+    padding-bottom: max(24px, env(safe-area-inset-bottom));
   }
 
-  /* Пружинистая прокрутка страницы целиком на телефоне выглядит поломкой:
-     фон уезжает, шапка прыгает. Скроллятся только внутренние области. */
   body { overscroll-behavior: none; -webkit-tap-highlight-color: transparent; }
 
-  /* --- Шапка --------------------------------------------------------- */
+  /* --- Шапка: имя, язык, «Ещё». Больше в неё ничего не помещается ---- */
   .chrome {
     grid-template-columns: auto 1fr;
     gap: var(--s-8);
-    padding-top: max(var(--pad-shell-v), env(safe-area-inset-top));
+    padding-top: max(20px, env(safe-area-inset-top));
+    padding-bottom: var(--s-12);
   }
-  .brand { grid-column: 1; grid-row: 1; }
-  .chrome__nav { grid-column: 2; grid-row: 1; gap: 0; }
-  .chrome__rail {
-    grid-column: 1 / -1; grid-row: 2;
-    justify-self: stretch;
-    justify-content: space-between;
-    gap: var(--s-8);
-  }
-  .rail__segs { flex: 1; gap: var(--s-4); }
-  .rail__seg { flex: 1; width: auto; }
+  .brand { grid-column: 1; }
+  .chrome__nav { grid-column: 2; gap: var(--s-8); }
+  /* Счётчик раундов не дублируем: он написан в самом раунде словами. */
+  .chrome__rail { display: none; }
+  .btn--icon { min-width: 40px; }
 
-  /* Шапка на 360px — задача про сантиметры. Порядок жертв:
-     1) «Об игре» уходит: тот же текст лежит прямо на стартовом экране
-        и на about.html, а правила («?») остаются;
-     2) кнопки и ползунок ужимаются до предела, за которым в них
-        перестаёт попадать палец (36px — этот предел). */
-  .chrome__nav [data-about] { display: none; }
-  .sound { gap: var(--s-4); }
-  .sound__range { width: 44px; }
-  .btn--icon { min-width: 36px; padding-inline: 6px; }
-  .lang__btn { padding-inline: var(--s-8); }
+  .chrome__main { padding-block: var(--gap-v-md); }
 
-  /* --- Стартовый экран: одна колонка, прокрутка ----------------------
-     Здесь именно flex, а не grid в одну колонку, и это принципиально.
-     У грида с заданной высотой строки `auto` ужимаются, когда содержимое
-     не влезает, а у блоков стоит min-height: 0 (нужный на десктопе) — их
-     минимум становится нулём, и блоки наезжают друг на друга. Флексу с
-     flex: 0 0 auto сжимать нечего: содержимое остаётся своего размера,
-     а лишнее уезжает в прокрутку — ровно то, что нужно на телефоне. */
+  /* --- Стартовый экран: заголовок, кнопка, строка настроек. Всё ------- */
   .screen--start {
     display: flex;
     flex-direction: column;
-    gap: var(--gap-v-md);
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: var(--s-24);
+    justify-content: center;
+    gap: var(--gap-v-lg);
+    /* Оптический центр выше геометрического: блок, посаженный ровно по
+       середине, читается как съехавший вниз. */
+    padding-bottom: 7vh;
   }
-  .start__main, .start__setup, .start__side {
-    flex: 0 0 auto;
-    min-height: auto;
-  }
+  .start__main { flex: 0 0 auto; display: grid; gap: var(--gap-v-md); min-height: auto; }
   .hero__tagline { max-width: none; }
-  .start__cta { gap: var(--s-12); }
-  .start__cta .btn--xl { flex: 1; min-width: 60%; }
-  .start__setup { grid-template-columns: 1fr; gap: var(--s-16); }
-  .start__side { align-content: start; align-self: start; gap: var(--gap-v-md); }
-  /* На телефоне оба топа никогда не влезут рядом — второй уходит в оверлей,
-     который открывается тапом по заголовку. */
-  .start__side .board--today { display: none; }
-  .seg { width: 100%; }
-  .seg__btn { flex: 1; }
-  .chips { gap: var(--s-8); }
+  .start__cta { flex-direction: column; align-items: stretch; gap: var(--s-8); }
+  .start__cta .btn--xl { width: 100%; }
+  .start__meta { text-align: center; }
+  .start__foot { display: grid; gap: var(--s-8); }
 
-  /* --- Раунд: без прокрутки, всё видно сразу ------------------------- */
-  .screen--round {
-    gap: var(--gap-v-sm);
-    padding-bottom: 0;
-    align-content: space-between;
+  /* Строка настроек: что сейчас выбрано, тап — шторка с полями. */
+  .setup-line {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--s-12);
+    width: 100%;
+    min-height: var(--control-height);
+    padding: var(--s-8) var(--s-12);
+    background: var(--color-bg-secondary);
+    border: var(--border-width-hair) solid var(--color-border-secondary);
+    border-radius: var(--border-radius-md);
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
   }
-  .round__top { width: 100%; gap: var(--s-12); }
+  .setup-line__label {
+    font-size: var(--font-size-xs);
+    letter-spacing: var(--letter-spacing-wider);
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+  }
+  .setup-line__value {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-primary);
+    text-align: right;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .setup-line__chevron { width: 18px; height: 18px; color: var(--color-text-tertiary); }
+
+  /* --- Раунд: шапка, плеер, шкала, поле. Низ пустой — под выдачу ------ */
+  .screen--round {
+    display: flex;
+    flex-direction: column;
+    align-content: start;
+    justify-content: flex-start;
+    gap: var(--gap-v-sm);
+    /* Пустое место под выдачу поиска: она открывается вниз и не закрывает
+       ни плеер, ни шкалу ступеней. */
+    padding-bottom: 30vh;
+  }
+  .screen--round > * { flex: 0 0 auto; }
+  .round__top { width: 100%; gap: var(--s-12); padding-bottom: var(--s-8); }
   .round__level { font-size: var(--font-size-xl); }
-  .player { gap: var(--s-4); }
+  /* Слово «Слушать/Играет» под кнопкой — шум: то же говорит сама кнопка.
+     Секунды остаются, это единственное, что здесь важно. */
+  .player__label { display: none; }
   .steps { width: 100%; }
-  /* Секунды под шкалой на телефоне остаются: место под них есть, а без них
-     шкала снова превращается в непонятные полоски. Прячет их только
-     клавиатура — ниже. */
-  /* Селектор с [data-dense] намеренно: у правила деградации выше
-     специфичность, простым .steps__dur его не перебить. */
   [data-dense] .steps__dur { font-size: 10px; display: block; }
   .answer { width: 100%; }
-  .answer .btn { padding-inline: var(--s-12); }
-  /* Подсказка внизу — единственное место, где перенос строки допустим:
-     в одну строку она на 360px не помещается никогда. */
-  .round__hint { white-space: normal; font-size: var(--font-size-xs); }
-  /* Выдача поиска: высоту считает JS по видимой части вьюпорта, чтобы
-     клавиатура её не накрывала (main.js → placeList). */
+  .answer .btn { padding-inline: var(--s-16); }
+  /* Правила игры живут под «?» в меню, а не строкой под каждым экраном. */
+  .round__hint { display: none; }
   .results__item { padding-block: var(--s-12); }
 
-  /* --- Карточка ответа ----------------------------------------------- */
+  /* Клавиатура открыта: экран стал вдвое ниже. Жертвуем шапкой раунда и
+     уменьшаем кнопку — плеер, шкала и поле ответа остаются видны. */
+  [data-kb="1"] { --play-button-size: 84px; }
+  [data-kb="1"] .round__top { display: none; }
+  [data-kb="1"] .screen--round { padding-bottom: 0; gap: var(--gap-v-sm); }
+  [data-kb="1"][data-dense] .steps__dur { display: none; }
+
+  /* --- Карточка ответа ------------------------------------------------ */
   .screen--reveal {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    padding-bottom: var(--s-16);
+    gap: var(--gap-v-md);
   }
-  .reveal__box { flex: 0 0 auto; }
   .reveal__box {
+    flex: 0 0 auto;
     grid-template-columns: 1fr;
     justify-items: center;
     gap: var(--gap-v-md);
     text-align: center;
   }
   .card__art { width: var(--reveal-art-size); }
-  .card__meta { justify-items: center; text-align: center; }
+  .card__meta { justify-items: center; text-align: center; gap: var(--s-8); }
   .links { justify-content: center; }
-  .links .btn { width: 100%; margin-top: var(--s-8); }
+  /* Слово «слушать» перед кнопками Apple Music / Spotify / Deezer ничего
+     не добавляет — кнопки называют себя сами. */
+  .links__label { display: none; }
+  .links .btn { width: 100%; margin-top: var(--s-4); }
 
-  /* --- Финал: карточки в строку каждая, экран прокручивается --------- */
-  /* По той же причине, что и стартовый экран: flex вместо грида. */
+  /* --- Финал: пять строк вместо пяти колонок -------------------------- */
   .screen--final {
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
-    overscroll-behavior: contain;
+    justify-content: center;
     gap: var(--gap-v-md);
-    padding-bottom: var(--s-16);
   }
   .final__top, .final__grid, .final__bottom { flex: 0 0 auto; min-height: auto; }
-  /* Вердикт длинный, «всего» коротко: в строку они не помещаются никогда. */
+  /* Вердикт длинный, «всего» короткое: в строку они не помещаются. */
   .final__top { flex-direction: column; align-items: flex-start; gap: var(--s-4); }
-  .final__total { justify-items: start; }
+  /* Убираем только строку «итог · режим · категория»: она нужна для шеринга,
+     а не для чтения с экрана. Подпись «всего» у счёта остаётся — без неё
+     число висит в воздухе. */
+  .final__top > div:first-child .eyebrow { display: none; }
+  .final__verdict { font-size: var(--font-size-xl); }
+  .final__total {
+    display: flex; align-items: baseline; gap: var(--s-8);
+    justify-items: start;
+  }
+  .final__number { font-size: var(--font-size-2xl); }
   .final__grid {
     grid-template-columns: 1fr;
-    gap: var(--s-8);
+    gap: var(--s-4);
     perspective: none;
   }
-  /* Наклона и подъёма на телефоне нет: пальцем «навести» нельзя, а тап
-     открывает панель трека — она и есть подробности. */
+  /* Наклона и подъёма нет: пальцем не наводят, а тап открывает панель трека. */
   .fcard { transform: none !important; }
   .fcard__inner {
-    grid-template-columns: 56px minmax(0, 1fr);
+    grid-template-columns: 48px minmax(0, 1fr);
     grid-template-rows: auto auto auto;
     column-gap: var(--s-12);
-    row-gap: 2px;
+    row-gap: 0;
     align-items: center;
-    padding: var(--s-8);
+    padding: var(--s-4) 0;
     transform: none !important;
   }
-  .fcard__art { grid-column: 1; grid-row: 1 / span 3; width: 56px; }
+  .fcard__art { grid-column: 1; grid-row: 1 / span 3; width: 48px; }
   .fcard__title, .fcard__artist, .fcard__facts { grid-column: 2; }
+  /* Имя артиста не прячем нигде и никогда: это атрибуция, а не подпись. */
+  .fcard__artist { font-size: var(--font-size-xs); }
   .fcard__facts {
     display: flex; gap: var(--s-12);
-    border-top: 0; padding-top: 0; margin-top: 2px;
+    border-top: 0; padding-top: 0; margin-top: 0;
   }
   .fcard__facts div { display: flex; gap: var(--s-4); align-items: baseline; }
-  /* Бейдж уровня поверх обложки 56px не помещается — уровень переезжает
-     в строку фактов, к шагу, времени и очкам. Значение берётся из
-     data-level того же элемента: разметка одна на обе версии. */
+  .fcard__facts dt { display: none; }
+  /* Бейдж уровня поверх обложки 48px не помещается — уровень уходит в строку
+     фактов. Значение берётся из data-level того же элемента, разметка одна
+     на обе версии. */
   .fcard__badge { display: none; }
   .fcard__facts::before {
     content: attr(data-level);
@@ -1612,40 +1629,55 @@ body.is-wrong::after { animation: wrong-flash 440ms var(--easing-out) both; }
     text-transform: uppercase;
   }
   .final__bottom { flex-direction: column; align-items: stretch; gap: var(--s-8); }
+  .final__bottom .hint { display: none; }
   .lb-form { flex-wrap: wrap; }
   .lb-form .input { width: 100%; flex: 1 1 100%; }
   .lb-form .btn { flex: 1; }
   .final__actions { display: flex; gap: var(--s-8); }
   .final__actions .btn { flex: 1; }
 
-  /* Клавиатура открыта: экран стал вдвое ниже. Жертвуем по порядку —
-     подсказка, подпись под кнопкой, размер самой кнопки. Плеер, шкала
-     ступеней и поле ответа остаются видимыми всегда. */
-  [data-kb="1"] .round__hint,
-  [data-kb="1"] .player__caption,
-  [data-kb="1"] .round__top { display: none; }
-  /* Оба атрибута висят на <html>, поэтому селектор составной, а не
-     вложенный: [data-kb="1"] [data-dense] искал бы потомка. */
-  [data-kb="1"][data-dense] .steps__dur { display: none; }
-
-  /* --- Шторки --------------------------------------------------------- */
+  /* --- Шторки: единственное место, где прокрутка разрешена ------------ */
   .sheet-backdrop { align-items: flex-end; padding: 0; }
   .sheet {
     width: 100%;
     max-width: none;
-    max-height: 88dvh;
+    max-height: 86dvh;
+    /* Лаймовая рамка по кругу читалась как рамка окна. У шторки, которая
+       выезжает снизу, акцент нужен только на верхней кромке. */
+    border: 0;
+    border-top: var(--border-width-rule) solid var(--color-accent-primary);
     border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
-    padding-bottom: max(var(--s-16), env(safe-area-inset-bottom));
+    padding-bottom: max(var(--s-24), env(safe-area-inset-bottom));
   }
   .sheet__body { overscroll-behavior: contain; }
+  .settings-sheet { display: grid; gap: var(--s-24); }
+  /* В шторке место есть — подсказки под полями остаются даже там, где
+     деградация по высоте прячет их на самом экране. */
+  [data-dense] .settings-sheet .field__hint { display: block; }
+  .settings-sheet .seg { width: 100%; }
+  .settings-sheet .seg__btn { flex: 1; }
+
+  /* Меню «Ещё»: список крупных строк, а не панель приборов. */
+  .menu { display: grid; gap: var(--s-4); }
+  .menu__sound {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: var(--s-16);
+    padding: var(--s-8) 0 var(--s-16);
+    border-bottom: var(--border-width-hair) solid var(--color-border-secondary);
+  }
+  .menu__sound .sound__range { flex: 1; width: auto; max-width: 180px; }
+  .menu__item {
+    display: block; width: 100%;
+    padding: var(--s-16) 0;
+    background: none; border: 0;
+    border-bottom: var(--border-width-hair) solid var(--color-border-secondary);
+    color: inherit; text-align: left; cursor: pointer;
+    font-size: var(--font-size-md);
+  }
+  .menu__item:last-child { border-bottom: 0; }
+
   .lb-controls { grid-template-columns: 1fr; gap: var(--s-12); }
   .tsheet { grid-template-columns: 1fr; justify-items: center; text-align: center; }
-}
-
-/* Совсем узкие телефоны: 360px и меньше. */
-@media (max-width: 380px) {
-  .sound__range { display: none; }
-  .start__meta { font-size: var(--font-size-xs); }
 }
 
 /* Нет курсора — нечему наводиться. Убираем ховер-состояния, чтобы они не

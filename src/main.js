@@ -65,6 +65,14 @@ let paintToken = 0;
  */
 const canAutofocus = () => window.matchMedia('(pointer: fine)').matches;
 
+/**
+ * Телефон — не «узкий десктоп», а другая подача: другая шапка, настройки в
+ * шторке вместо панели, меньше слоёв на экране. Поэтому разметка местами
+ * своя, и одного CSS тут не хватает.
+ */
+const MOBILE_QUERY = '(max-width: 760px)';
+const mobile = () => window.matchMedia(MOBILE_QUERY).matches;
+
 /* ================================================================== */
 /* Установка на домашний экран                                         */
 /* ================================================================== */
@@ -245,6 +253,36 @@ function renderChrome() {
   const header = document.getElementById('chrome-head');
   const showHint = !localeHintSeen() && locale() === 'kk';
 
+  // На телефоне в шапке остаётся только самое нужное: имя, язык и «Ещё».
+  // Звук, громкость, правила и установка уехали в шторку — шесть контролов
+  // в строке шириной 360 px читались как панель приборов, а не как шапка.
+  const nav = mobile()
+    ? `
+      <nav class="chrome__nav">
+        ${langMarkup(showHint)}
+        <button class="btn btn--icon" data-menu type="button"
+                aria-label="${esc(t('nav.menu'))}" title="${esc(t('nav.menu'))}">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.9" fill="currentColor"/><circle cx="12" cy="12" r="1.9" fill="currentColor"/><circle cx="19" cy="12" r="1.9" fill="currentColor"/></svg>
+        </button>
+      </nav>`
+    : `
+      <nav class="chrome__nav">
+        <button class="btn btn--icon" data-about type="button"
+                aria-label="${esc(t('nav.about'))}" title="${esc(t('nav.about'))}">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 11v6M12 7.6v.01" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <button class="btn btn--icon" data-rules type="button"
+                aria-label="${esc(t('nav.rules'))}" title="${esc(t('nav.rules'))}">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17v.01M12 14c0-2 2.5-2.2 2.5-4.3A2.6 2.6 0 0 0 12 7a2.6 2.6 0 0 0-2.5 2.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+        </button>
+        <button class="btn btn--icon" data-install type="button" hidden
+                aria-label="${esc(t('nav.install'))}" title="${esc(t('nav.install'))}">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 19h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        ${soundMarkup()}
+        ${langMarkup(showHint)}
+      </nav>`;
+
   header.innerHTML = `
     <button class="brand" data-home type="button" title="${esc(t('app.title'))}">
       <span class="brand__mark" aria-hidden="true"></span>
@@ -252,52 +290,94 @@ function renderChrome() {
     </button>
 
     <div class="chrome__rail" id="level-rail" hidden></div>
-
-    <nav class="chrome__nav">
-      <button class="btn btn--icon" data-about type="button"
-              aria-label="${esc(t('nav.about'))}" title="${esc(t('nav.about'))}">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 11v6M12 7.6v.01" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-      </button>
-      <button class="btn btn--icon" data-rules type="button"
-              aria-label="${esc(t('nav.rules'))}" title="${esc(t('nav.rules'))}">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17v.01M12 14c0-2 2.5-2.2 2.5-4.3A2.6 2.6 0 0 0 12 7a2.6 2.6 0 0 0-2.5 2.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-      </button>
-
-      <button class="btn btn--icon" data-install type="button" hidden
-              aria-label="${esc(t('nav.install'))}" title="${esc(t('nav.install'))}">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 19h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-
-      <div class="sound" role="group" aria-label="${esc(t('nav.volume'))}">
-        <button class="btn btn--icon" data-sound type="button"
-                aria-pressed="${ambientAllowed()}"
-                aria-label="${esc(t('nav.sound'))}" title="${esc(t('nav.sound'))}">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.4L12 5.5v13l-4.6-4H4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path class="sound__waves" d="M16 9.2a4 4 0 0 1 0 5.6M18.6 6.6a7.6 7.6 0 0 1 0 10.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path class="sound__off" d="M16 9.5l5 5m0-5l-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        </button>
-        <input class="sound__range" type="range" min="0" max="100" step="1"
-               value="${Math.round(audio.volume * 100)}" data-volume
-               aria-label="${esc(t('nav.volume'))}" title="${esc(t('nav.volume'))}">
-      </div>
-
-      <div class="lang-wrap">
-        <div class="lang" role="group" aria-label="${esc(t('nav.language'))}">
-          <button class="lang__btn" data-locale="kk" type="button"
-                  aria-pressed="${locale() === 'kk'}">KK</button>
-          <button class="lang__btn" data-locale="ru" type="button"
-                  aria-pressed="${locale() === 'ru'}">RU</button>
-        </div>
-        ${showHint
-          // Подсказка всегда по-русски: она адресована именно тем, кто не
-          // читает по-казахски и иначе не поймёт, куда нажимать.
-          ? `<span class="lang__hint" aria-hidden="true">↑ Русский</span>` : ''}
-      </div>
-    </nav>`;
+    ${nav}`;
 
   header.addEventListener('click', onChromeClick);
+  wireVolume(header);
   syncInstallButton();
-  header.querySelector('[data-volume]')?.addEventListener('input', (e) => {
+}
+
+/** Кнопка фоновой музыки и общая громкость — один блок в шапке и в шторке. */
+function soundMarkup() {
+  return `
+    <div class="sound" role="group" aria-label="${esc(t('nav.volume'))}">
+      <button class="btn btn--icon" data-sound type="button"
+              aria-pressed="${ambientAllowed()}"
+              aria-label="${esc(t('nav.sound'))}" title="${esc(t('nav.sound'))}">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.4L12 5.5v13l-4.6-4H4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path class="sound__waves" d="M16 9.2a4 4 0 0 1 0 5.6M18.6 6.6a7.6 7.6 0 0 1 0 10.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path class="sound__off" d="M16 9.5l5 5m0-5l-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <input class="sound__range" type="range" min="0" max="100" step="1"
+             value="${Math.round(audio.volume * 100)}" data-volume
+             aria-label="${esc(t('nav.volume'))}" title="${esc(t('nav.volume'))}">
+    </div>`;
+}
+
+function langMarkup(showHint) {
+  return `
+    <div class="lang-wrap">
+      <div class="lang" role="group" aria-label="${esc(t('nav.language'))}">
+        <button class="lang__btn" data-locale="kk" type="button"
+                aria-pressed="${locale() === 'kk'}">KK</button>
+        <button class="lang__btn" data-locale="ru" type="button"
+                aria-pressed="${locale() === 'ru'}">RU</button>
+      </div>
+      ${showHint
+        // Подсказка всегда по-русски: она адресована именно тем, кто не
+        // читает по-казахски и иначе не поймёт, куда нажимать.
+        ? `<span class="lang__hint" aria-hidden="true">↑ Русский</span>` : ''}
+    </div>`;
+}
+
+/** Ползунок громкости живёт и в шапке, и в шторке — вешаем на оба. */
+function wireVolume(root) {
+  root.querySelector('[data-volume]')?.addEventListener('input', (e) => {
     audio.setVolume(Number(e.target.value) / 100);
   });
+}
+
+/**
+ * Шторка «Ещё» — всё, что на телефоне не влезло в шапку.
+ * Один список, крупные строки: это меню, а не панель управления.
+ */
+function showMenu() {
+  const panel = sheet({
+    title: t('nav.menu'),
+    bodyHtml: `
+      <div class="menu">
+        <div class="menu__sound">
+          <span class="field__label">${esc(t('menu.sound'))}</span>
+          ${soundMarkup()}
+        </div>
+        <button class="menu__item" data-rules type="button">${esc(t('nav.rules'))}</button>
+        <button class="menu__item" data-about type="button">${esc(t('nav.about'))}</button>
+        <button class="menu__item" data-install type="button" hidden>${esc(t('nav.install'))}</button>
+      </div>`,
+    onMount(p) {
+      wireVolume(p);
+      const install = p.querySelector('[data-install]');
+      if (install) install.hidden = standalone() || (!installPrompt && !isIOS());
+      p.addEventListener('click', (e) => {
+        const sound = e.target.closest('[data-sound]');
+        if (sound) return toggleAmbient(sound);
+        if (e.target.closest('[data-rules]')) return showRules();
+        if (e.target.closest('[data-about]')) return showAbout();
+        if (e.target.closest('[data-install]')) return showInstall();
+      });
+    },
+  });
+  return panel;
+}
+
+/** Фоновая музыка — вкус, а не настройка звука игры: выбор запоминается. */
+function toggleAmbient(btn) {
+  const on = !ambientAllowed();
+  rememberAmbient(on);
+  for (const b of $$('[data-sound]')) b.setAttribute('aria-pressed', String(on));
+  if (on) {
+    audio.ensureContext();
+    liveBg();
+    if (game?.screen === SCREEN.START) ambient.start();
+  } else ambient.stop(0.4);
 }
 
 function onChromeClick(e) {
@@ -308,19 +388,8 @@ function onChromeClick(e) {
     return;
   }
   const sound = e.target.closest('[data-sound]');
-  if (sound) {
-    // Фоновая музыка — вкус, а не настройка звука игры: выключил один раз,
-    // больше не услышит, даже завтра.
-    const on = !ambientAllowed();
-    rememberAmbient(on);
-    sound.setAttribute('aria-pressed', String(on));
-    if (on) {
-      audio.ensureContext();
-      liveBg();
-      if (game?.screen === SCREEN.START) ambient.start();
-    } else ambient.stop(0.4);
-    return;
-  }
+  if (sound) return toggleAmbient(sound);
+  if (e.target.closest('[data-menu]')) return showMenu();
   if (e.target.closest('[data-install]')) return showInstall();
   if (e.target.closest('[data-rules]')) return showRules();
   if (e.target.closest('[data-about]')) return showAbout();
@@ -411,67 +480,48 @@ function renderStart() {
   pulse.setMode('glow');
 
   const av = game.availability;
-  const genres = catalog.availableGenres();
 
-  app().innerHTML = `
+  const hero = `
+    <div class="start__main">
+      <div class="hero">
+        <p class="eyebrow">${esc(t('app.subtitle'))}</p>
+        <h1 class="hero__title">${esc(t('app.title'))}</h1>
+        <p class="hero__tagline">${esc(t('app.tagline'))}</p>
+      </div>
+
+      <div class="start__cta">
+        <button class="btn btn--primary btn--xl" data-start type="button"
+                ${av.ok ? '' : 'disabled'}>${esc(t('start.play'))}</button>
+        ${av.ok
+          ? `<span class="start__meta">${esc(t('start.catalogCount', {
+              count: fmtNum(av.total), artists: av.artists,
+            }))}</span>`
+          : `<span class="start__warn">${esc(t('start.notEnough'))}</span>`}
+      </div>
+    </div>`;
+
+  // На телефоне вместо панели настроек — одна строка с текущим выбором.
+  // Панель с тремя полями, подписями и десятью чипами занимала весь экран и
+  // спорила с кнопкой «Играть», хотя меняют её раз в несколько партий.
+  app().innerHTML = mobile()
+    ? `
     <section class="screen screen--start">
-      <div class="start__main">
-        <div class="hero">
-          <p class="eyebrow">${esc(t('app.subtitle'))}</p>
-          <h1 class="hero__title">${esc(t('app.title'))}</h1>
-          <p class="hero__tagline">${esc(t('app.tagline'))}</p>
-        </div>
-
-        <div class="start__cta">
-          <button class="btn btn--primary btn--xl" data-start type="button"
-                  ${av.ok ? '' : 'disabled'}>${esc(t('start.play'))}</button>
-          ${av.ok
-            ? `<span class="start__meta">${esc(t('start.catalogCount', {
-                count: fmtNum(av.total), artists: av.artists,
-              }))}</span>`
-            : `<span class="start__warn">${esc(t('start.notEnough'))}</span>`}
-        </div>
+      ${hero}
+      <div class="start__foot">
+        <button class="setup-line" data-settings type="button">
+          <span class="setup-line__label">${esc(t('start.settings'))}</span>
+          <span class="setup-line__value">${esc(setupSummary())}</span>
+          <svg class="setup-line__chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        ${LB.enabled()
+          ? `<button class="btn btn--ghost" data-open-board="allTime" type="button">${esc(t('start.records'))}</button>`
+          : ''}
       </div>
-
-      <div class="start__setup panel">
-        <div class="field">
-          <span class="field__label" id="lbl-diff">${esc(t('start.difficulty'))}</span>
-          <div class="seg" role="group" aria-labelledby="lbl-diff">
-            ${['normal', 'expert'].map((id) => `
-              <button class="seg__btn" data-diff="${id}" type="button"
-                      aria-pressed="${game.filters.difficulty === id}"
-                      title="${esc(t(`difficulty.${id}Hint`))}">${esc(t(`difficulty.${id}`))}</button>
-            `).join('')}
-          </div>
-          <span class="field__hint">${esc(t(`difficulty.${game.filters.difficulty}Hint`))}</span>
-        </div>
-
-        <div class="field">
-          <span class="field__label" id="lbl-age">${esc(t('start.audience'))}</span>
-          <div class="seg" role="group" aria-labelledby="lbl-age">
-            ${['family', '18plus', 'both'].map((id) => `
-              <button class="seg__btn" data-age="${id}" type="button"
-                      aria-pressed="${game.filters.age === id}"
-                      title="${esc(t(`age.${id}Hint`))}">${esc(t(`age.${id}`))}</button>
-            `).join('')}
-          </div>
-          <span class="field__hint">${esc(t(`age.${game.filters.age}Hint`))}</span>
-        </div>
-
-        <div class="field field--wide">
-          <span class="field__label" id="lbl-genre">${esc(t('start.genres'))}</span>
-          <div class="chips" role="group" aria-labelledby="lbl-genre">
-            <button class="chip chip--random" data-random type="button"
-                    aria-pressed="${game.isRandom}"
-                    title="${esc(t('start.randomHint'))}">${esc(t('start.random'))}</button>
-            ${genres.map((g) => `
-              <button class="chip" data-genre="${esc(g)}" type="button"
-                      aria-pressed="${game.filters.genres.includes(g)}">${esc(genreName(g))}</button>
-            `).join('')}
-          </div>
-        </div>
-      </div>
-
+    </section>`
+    : `
+    <section class="screen screen--start">
+      ${hero}
+      <div class="start__setup panel">${settingsFieldsMarkup()}</div>
       <aside class="start__side">
         ${LB.enabled()
           ? boardMarkup('allTime', t('lb.allTime')) + boardMarkup('today', t('lb.today'))
@@ -480,7 +530,107 @@ function renderStart() {
     </section>`;
 
   wireStart();
-  if (LB.enabled()) loadBoards();
+  if (LB.enabled() && !mobile()) loadBoards();
+}
+
+/** Текущий выбор одной строкой: «Обычный · Family · Всё вперемешку». */
+function setupSummary() {
+  const genres = game.isRandom
+    ? t('start.random')
+    : game.filters.genres.map((g) => genreName(g)).join(', ');
+  return [
+    t(`difficulty.${game.filters.difficulty}`),
+    t(`age.${game.filters.age}`),
+    genres,
+  ].join(' · ');
+}
+
+/** Три поля настроек. Одна разметка на панель десктопа и на шторку телефона. */
+function settingsFieldsMarkup() {
+  const genres = catalog.availableGenres();
+  return `
+    <div class="field">
+      <span class="field__label" id="lbl-diff">${esc(t('start.difficulty'))}</span>
+      <div class="seg" role="group" aria-labelledby="lbl-diff">
+        ${['normal', 'expert'].map((id) => `
+          <button class="seg__btn" data-diff="${id}" type="button"
+                  aria-pressed="${game.filters.difficulty === id}"
+                  title="${esc(t(`difficulty.${id}Hint`))}">${esc(t(`difficulty.${id}`))}</button>
+        `).join('')}
+      </div>
+      <span class="field__hint">${esc(t(`difficulty.${game.filters.difficulty}Hint`))}</span>
+    </div>
+
+    <div class="field">
+      <span class="field__label" id="lbl-age">${esc(t('start.audience'))}</span>
+      <div class="seg" role="group" aria-labelledby="lbl-age">
+        ${['family', '18plus', 'both'].map((id) => `
+          <button class="seg__btn" data-age="${id}" type="button"
+                  aria-pressed="${game.filters.age === id}"
+                  title="${esc(t(`age.${id}Hint`))}">${esc(t(`age.${id}`))}</button>
+        `).join('')}
+      </div>
+      <span class="field__hint">${esc(t(`age.${game.filters.age}Hint`))}</span>
+    </div>
+
+    <div class="field field--wide">
+      <span class="field__label" id="lbl-genre">${esc(t('start.genres'))}</span>
+      <div class="chips" role="group" aria-labelledby="lbl-genre">
+        <button class="chip chip--random" data-random type="button"
+                aria-pressed="${game.isRandom}"
+                title="${esc(t('start.randomHint'))}">${esc(t('start.random'))}</button>
+        ${genres.map((g) => `
+          <button class="chip" data-genre="${esc(g)}" type="button"
+                  aria-pressed="${game.filters.genres.includes(g)}">${esc(genreName(g))}</button>
+        `).join('')}
+      </div>
+    </div>`;
+}
+
+/** Настройки на телефоне живут в шторке и обновляются на месте. */
+function showSettings() {
+  sheet({
+    title: t('start.settings'),
+    bodyHtml: `<div class="settings-sheet">${settingsFieldsMarkup()}</div>`,
+    onMount(panel) {
+      panel.addEventListener('click', (e) => {
+        if (!handleFilterClick(e)) return;
+        // Экран под шторкой перерисовался сам (game.onChange), а её
+        // содержимое нужно обновить здесь: иначе нажатая кнопка не выглядит
+        // нажатой.
+        const box = panel.querySelector('.settings-sheet');
+        if (box) box.innerHTML = settingsFieldsMarkup();
+      });
+    },
+  });
+}
+
+/**
+ * Клик по фильтру. Общий для панели десктопа и шторки телефона.
+ * @returns {boolean} был ли клик по фильтру
+ */
+function handleFilterClick(e) {
+  const diff = e.target.closest('[data-diff]');
+  if (diff) {
+    rememberMode(diff.dataset.diff);
+    game.setDifficulty(diff.dataset.diff);
+    return true;
+  }
+  const age = e.target.closest('[data-age]');
+  if (age) {
+    game.setAge(age.dataset.age);
+    return true;
+  }
+  if (e.target.closest('[data-random]')) {
+    game.resetGenres();
+    return true;
+  }
+  const g = e.target.closest('[data-genre]');
+  if (g) {
+    game.toggleGenre(g.dataset.genre);
+    return true;
+  }
+  return false;
 }
 
 /**
@@ -520,19 +670,9 @@ function wireStart() {
   const screen = $('.screen--start');
 
   screen.addEventListener('click', (e) => {
-    const diff = e.target.closest('[data-diff]');
-    if (diff) {
-      rememberMode(diff.dataset.diff);
-      return game.setDifficulty(diff.dataset.diff);
-    }
+    if (handleFilterClick(e)) return;
 
-    const age = e.target.closest('[data-age]');
-    if (age) return game.setAge(age.dataset.age);
-
-    if (e.target.closest('[data-random]')) return game.resetGenres();
-
-    const g = e.target.closest('[data-genre]');
-    if (g) return game.toggleGenre(g.dataset.genre);
+    if (e.target.closest('[data-settings]')) return showSettings();
 
     const board = e.target.closest('[data-open-board]');
     if (board) return showFullBoard(board.dataset.openBoard);
