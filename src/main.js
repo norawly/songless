@@ -835,8 +835,26 @@ async function startGame() {
   if (replaced > 0 || missing.length) note = t('error.loadFailed');
   else if (recycled?.length) note = t('start.recycled', { levels: recycled.join(', ') });
 
+  // Обложки тянем заранее, пока идёт раунд. Иначе первая же карточка ответа
+  // ждёт 600×600 JPEG: на телефоне это полсекунды загрузки и декодирования
+  // ровно в момент показа, и экран выглядит зависшим.
+  warmCovers(tracks);
+
   // Партия стартует только когда все треки реально готовы.
   game.begin(tracks, note);
+}
+
+/** Заранее прогревает обложки партии: сеть и декодирование — не в момент показа. */
+function warmCovers(tracks) {
+  for (const track of tracks) {
+    if (!track.art) continue;
+    const img = new Image();
+    img.decoding = 'async';
+    // Тот же режим, что у картинок на экране: иначе браузер сходит за файлом
+    // второй раз, а палитре достанется «испорченный» canvas.
+    img.crossOrigin = 'anonymous';
+    img.src = track.art;
+  }
 }
 
 function renderLoading() {
@@ -1323,7 +1341,7 @@ function renderReveal() {
         <div class="card__art">
           <img src="${esc(track.art || '')}" alt="${esc(
             t('a11y.artwork', { title: track.title, artist: track.artist })
-          )}" width="600" height="600">
+          )}" width="600" height="600" decoding="async" crossorigin="anonymous">
         </div>
 
         <div class="card__meta">
@@ -1380,9 +1398,12 @@ function renderReveal() {
  */
 async function paintAndPlay(track) {
   const token = paintToken;
-  const mood = moodFor(track);
-  applyFilter(mood);
-  pulse.setMood(mood);
+  // На телефоне цепочки фильтров нет вовсе — и настраивать нечего.
+  if (!mobile()) {
+    const mood = moodFor(track);
+    applyFilter(mood);
+    pulse.setMood(mood);
+  }
   try {
     await audio.playFull(track);
     if (token !== paintToken) return;
@@ -1390,9 +1411,25 @@ async function paintAndPlay(track) {
   } catch {
     /* звук не критичен для показа карточки */
   }
-  const colors = await extractPalette(track.art, track.id);
-  // Экран мог смениться, пока считалась палитра.
-  if (colors && token === paintToken) pulse.setColors(colors);
+  // Палитра считается ПОСЛЕ того, как экран нарисован и звук пошёл.
+  // Раньше она попадала ровно в момент перехода: декодирование обложки и
+  // проход по пикселям складывались в одну длинную задачу, и на телефоне
+  // карточка ответа появлялась рывком. Теперь фон подкрашивается чуть позже
+  // и никого не держит.
+  whenIdle(async () => {
+    // Пиксели берём из той обложки, что уже показана на экране: второй
+    // раз декодировать тот же JPEG незачем.
+    const shown = $('.card__art img');
+    const colors = await extractPalette(track.art, track.id, shown);
+    // Экран мог смениться, пока считалась палитра.
+    if (colors && token === paintToken) pulse.setColors(colors);
+  });
+}
+
+/** Отложить работу до свободного момента. Без rIC — просто следующий кадр. */
+function whenIdle(fn) {
+  if (typeof requestIdleCallback === 'function') requestIdleCallback(fn, { timeout: 700 });
+  else setTimeout(fn, 120);
 }
 
 /* ================================================================== */
@@ -1428,7 +1465,8 @@ function renderFinal() {
                    aria-label="${esc(`${r.track.title} — ${r.track.artist}. ${t('final.open')}`)}">
             <div class="fcard__inner">
               <div class="fcard__art">
-                <img src="${esc(r.track.art || '')}" alt="" loading="lazy">
+                <img src="${esc(r.track.art || '')}" alt="" loading="lazy" decoding="async"
+                     crossorigin="anonymous">
                 <span class="fcard__badge">${esc(levelName(r.level))}</span>
                 <span class="fcard__eq" aria-hidden="true"><i></i><i></i><i></i></span>
               </div>
@@ -1494,16 +1532,21 @@ function wireFinalCards() {
     if (!track || hovered === id) return;
     hovered = id;
     const token = paintToken;
-    const mood = moodFor(track);
-    applyFilter(mood);
-    pulse.setMood(mood);
+    if (!mobile()) {
+      const mood = moodFor(track);
+      applyFilter(mood);
+      pulse.setMood(mood);
+    }
     card.classList.add('is-sounding');
     try {
       await audio.playFull(track);
       if (hovered !== id || token !== paintToken) return; // курсор ушёл или сменился экран
       liveBg('cover');
-      const colors = await extractPalette(track.art, track.id);
-      if (colors && hovered === id && token === paintToken) pulse.setColors(colors);
+      whenIdle(async () => {
+        const shown = card.querySelector('.fcard__art img');
+        const colors = await extractPalette(track.art, track.id, shown);
+        if (colors && hovered === id && token === paintToken) pulse.setColors(colors);
+      });
     } catch {
       /* тишина не ломает финал */
     }

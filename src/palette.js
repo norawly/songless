@@ -142,25 +142,32 @@ function quantize(data) {
 /**
  * @param {string} url обложка
  * @param {string} [cacheKey] обычно id трека
+ * @param {HTMLImageElement} [ready] уже отрисованная на экране обложка.
+ *   Если она есть — берём пиксели прямо из неё. Свой `new Image()` с тем же
+ *   адресом заставляет браузер декодировать JPEG второй раз: на телефоне это
+ *   отдельная задача на полторы сотни миллисекунд ровно в момент показа
+ *   карточки ответа.
  * @returns {Promise<Array<{css:string, share:number}>|null>}
  *   цвета по убыванию доли; share — доля пикселей обложки (0..1)
  */
-export function extractPalette(url, cacheKey = url) {
+export function extractPalette(url, cacheKey = url, ready = null) {
   if (!url) return Promise.resolve(null);
   if (cache.has(cacheKey)) return Promise.resolve(cache.get(cacheKey));
 
   return new Promise((resolve) => {
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.decoding = 'async';
+    const usable = ready && ready.complete && ready.naturalWidth > 0;
+    const img = usable ? ready : new Image();
+    if (!usable) {
+      img.crossOrigin = 'anonymous';
+      img.decoding = 'async';
+    }
 
     const fail = () => {
       cache.set(cacheKey, null);
       resolve(null);
     };
 
-    img.onerror = fail;
-    img.onload = () => {
+    const run = () => {
       try {
         const canvas = document.createElement('canvas');
         canvas.width = SAMPLE;
@@ -199,6 +206,12 @@ export function extractPalette(url, cacheKey = url) {
       }
     };
 
+    if (usable) {
+      run();
+      return;
+    }
+    img.onerror = fail;
+    img.onload = run;
     img.src = url;
   });
 }

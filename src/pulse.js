@@ -37,6 +37,23 @@ const BANDS = [
 /** Видимость слоя, когда звучит музыка. */
 const ACTIVE_OPACITY = 1;
 
+/**
+ * ОБЛЕГЧЁННЫЙ РЕЖИМ ДЛЯ ТЕЛЕФОНА.
+ *
+ * Десктопная картинка стоит дорого: полноэкранный слой под цепочкой
+ * SVG-фильтров, три пятна с blur(110px) и запись семи CSS-переменных
+ * каждый кадр. На телефоне это буквально греет аппарат: при 3x плотности
+ * размытый слой размером в полтора экрана — текстура на десятки мегапикселей,
+ * и она пересчитывается на каждом кадре, потому что пятна под фильтром едут.
+ *
+ * Поэтому на узких экранах остаётся один слой без фильтров и без движения,
+ * а цикл идёт втрое реже. Разница на глаз почти незаметна — фон и так
+ * дышит медленно, — а телефон перестаёт греться.
+ */
+const LIGHT_QUERY = '(max-width: 760px)';
+/** Кадров в секунду в облегчённом режиме. */
+const LIGHT_FPS = 20;
+
 /** Насколько быстро поле перетекает в тишине и насколько разгоняется на бите. */
 const BASE_SPEED = 0.13;   // рад/с — движение есть всегда
 const BEAT_SPEED = 0.95;   // добавка при полном бите
@@ -91,6 +108,8 @@ export class Pulse {
     this.phase = 0;
     this.last = 0;
     this.mode = 'glow';
+    this.light = window.matchMedia(LIGHT_QUERY).matches;
+    this.lastWrite = 0;
     /** Множители характера трека (src/mood.js) — только для режима обложки. */
     this.speed = 1;
     this.radius = 1;
@@ -106,11 +125,32 @@ export class Pulse {
   _buildLayers() {
     if (!this.node || this.node.childElementCount) return;
 
-    // Кислотное свечение снизу.
-    for (const cls of ['song-glow', 'song-glow song-glow--air']) {
+    // Кислотное свечение снизу. На телефоне слой ровно один: второй давал
+    // ещё одну полноэкранную размытую текстуру ради едва заметного оттенка.
+    const glows = this.light ? ['song-glow'] : ['song-glow', 'song-glow song-glow--air'];
+    for (const cls of glows) {
       const el = document.createElement('i');
       el.className = cls;
       this.node.appendChild(el);
+    }
+
+    if (this.light) {
+      // Режим обложки на телефоне — одно мягкое пятно её цветом. Ни пятен на
+      // орбитах, ни фильтров: именно они подвешивали экран ответа.
+      const cover = document.createElement('i');
+      cover.className = 'song-cover';
+      const coverGlow = document.createElement('i');
+      coverGlow.className = 'song-cover__glow';
+      cover.appendChild(coverGlow);
+      this.node.appendChild(cover);
+
+      const veilLight = document.createElement('i');
+      veilLight.className = 'song-veil';
+      this.node.appendChild(veilLight);
+
+      this.blobs = null;
+      this.node.dataset.mode = this.mode;
+      return;
     }
 
     // Цвета обложки: обёртка нужна затем, что цепочка SVG-фильтров вешается
@@ -233,9 +273,17 @@ export class Pulse {
   }
 
   _loop() {
+    const minStep = this.light ? 1000 / LIGHT_FPS : 0;
     const tick = (now) => {
+      // В облегчённом режиме считаем и пишем реже: на глаз то же самое,
+      // а работы втрое меньше.
+      if (minStep && now - this.lastWrite < minStep) {
+        this.raf = requestAnimationFrame(tick);
+        return;
+      }
       const dt = this.last ? Math.min(0.05, (now - this.last) / 1000) : 0.016;
       this.last = now;
+      this.lastWrite = now;
 
       if (this.analyser) {
         this.analyser.getByteFrequencyData(this.data);
@@ -260,6 +308,12 @@ export class Pulse {
 
       const s = this.root.style;
       s.setProperty('--song-beat', this.beat.toFixed(3));
+      if (this.light) {
+        // Больше на телефоне ничего не нужно: остальные переменные читает
+        // только то, чего в облегчённом режиме нет.
+        this.raf = requestAnimationFrame(tick);
+        return;
+      }
       s.setProperty('--song-voice', this.air.toFixed(3));
       s.setProperty('--song-lift', this.lift.toFixed(3));
       s.setProperty('--song-energy', ((this.beat + this.air) / 2).toFixed(3));
