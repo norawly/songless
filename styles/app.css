@@ -67,80 +67,66 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
 /* ---------------------------------------------------------------------------
    ЖИВОЙ ФОН (src/pulse.js)
 
-   Одно мягкое поле, а не три различимых пятна. Пятна намеренно больше экрана
-   и сильно размыты: по отдельности их не видно, видно только то, как они
-   перетекают друг в друга.
+   Зелёное свечение от нижнего края — и всё. Никаких цветов обложки, никаких
+   SVG-фильтров, никаких пятен на орбитах: цвет обложки спорил с интерфейсом,
+   а фильтры давали резкие границы. Фон работает как эквалайзер: громче —
+   выше и ярче, тише — ниже и глуше.
 
-   Кто на что реагирует:
-     .song-glow      — свет самого фона, ведёт БАС (удар). Окрашен цветом
-                       обложки, не белый.
-     .song-bg__blob  — цветное поле, ведёт ВЕРХ (голос). Медленно, как дыхание.
+   Два слоя, чтобы движение не было одноклеточным:
+     .song-glow        — широкое поле снизу, ведёт УДАР;
+     .song-glow--air   — узкое пятно слева, ведёт ГОЛОС, дышит медленнее.
 
-   Белой вспышки нет намеренно: она мигала в такт с полем, и фон вспыхивал
-   целиком. Амплитуды всех изменений намеренно маленькие — фон обязан быть
+   Всё покадровое — только transform и opacity: композитор, ни одного
+   пересчёта лейаута. Амплитуды намеренно небольшие: фон обязан быть
    спокойным, в том числе для людей с фотосенситивностью.
-
-   Всё покадровое — только filter, opacity и transform: композитор, ни одного
-   пересчёта лейаута.
    ------------------------------------------------------------------------ */
 
 .song-bg {
   position: fixed;
-  inset: -25%;
+  inset: 0;
   z-index: 0;
+  overflow: hidden;
   pointer-events: none;
   opacity: var(--song-opacity);
-  /* Размытые пятна собираются в композит, и уже он проходит обработку:
-     смешение по шуму → насыщенность → квантование → смягчение границ.
-     Цепочка описана в index.html над самим фильтром. */
-  filter: url(#song-fx);
   transition: opacity var(--duration-slower) var(--easing-default);
 }
 
 .fx-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
 
-/* Свет на удар. Медленный, окрашенный, с маленьким размахом. */
 .song-glow {
-  position: absolute; inset: 0;
-  display: block;
-  background: radial-gradient(70% 60% at 50% 50%, var(--song-c1) 0%, transparent 75%);
-  opacity: calc(0.26 + var(--song-beat) * 0.38);
-  filter: blur(120px) brightness(calc(1 + var(--song-beat) * 0.45));
-  transform: scale(calc(1 + var(--song-beat) * 0.04));
-  transition: opacity 120ms linear, transform 160ms linear;
-}
-
-/* Цветное поле. Пятна перекрываются и размыты так, что границ не видно. */
-.song-bg__blob {
   position: absolute;
+  left: -20%;
+  bottom: -14vh;
+  width: 140%;
+  height: 62vh;
   display: block;
-  width: 85%; height: 88%;
-  border-radius: 50%;
-  will-change: transform;
-  filter: blur(110px)
-          saturate(calc(1.1 + var(--song-voice) * 0.3))
-          brightness(calc(1 + var(--song-beat) * 0.30));
-  transition: opacity 200ms linear;
+  transform-origin: 50% 100%;
+  background: radial-gradient(58% 100% at 50% 100%,
+    rgba(204, 255, 0, 0.42) 0%,
+    rgba(150, 230, 60, 0.20) 42%,
+    rgba(80, 180, 90, 0.06) 68%,
+    transparent 100%);
+  filter: blur(50px);
+  opacity: calc(0.34 + var(--song-beat, 0) * 0.46 + var(--song-lift, 0) * 0.12);
+  transform: scaleY(calc(0.62 + var(--song-beat, 0) * 0.5 + var(--song-lift, 0) * 0.12));
+  transition: opacity 110ms linear, transform 140ms linear;
 }
-/* Каждое пятно светится от своей полосы: низ, середина, воздух. */
-.song-bg__blob--1 { opacity: calc(0.78 + var(--song-b1, 0) * 0.22); }
-.song-bg__blob--2 { opacity: calc(0.78 + var(--song-b2, 0) * 0.22); }
-.song-bg__blob--3 { opacity: calc(0.78 + var(--song-b3, 0) * 0.22); }
 
-.song-bg__blob--1 {
-  left: -6%; top: -4%;
-  width: calc(85% * var(--song-s1, 1)); height: calc(88% * var(--song-s1, 1));
-  background: radial-gradient(circle at 50% 50%, var(--song-c1), transparent 66%);
-}
-.song-bg__blob--2 {
-  right: -8%; top: 2%;
-  width: calc(85% * var(--song-s2, 1)); height: calc(88% * var(--song-s2, 1));
-  background: radial-gradient(circle at 50% 50%, var(--song-c2), transparent 66%);
-}
-.song-bg__blob--3 {
-  left: 14%; bottom: -8%;
-  width: calc(85% * var(--song-s3, 1)); height: calc(88% * var(--song-s3, 1));
-  background: radial-gradient(circle at 50% 50%, var(--song-c3), transparent 68%);
+/* Голосовой слой: уже, левее и медленнее — от него свечение не выглядит
+   одним куском, который целиком мигает. */
+.song-glow--air {
+  left: -10%;
+  width: 80%;
+  height: 46vh;
+  bottom: -10vh;
+  background: radial-gradient(50% 100% at 40% 100%,
+    rgba(230, 255, 140, 0.30) 0%,
+    rgba(140, 220, 90, 0.14) 45%,
+    transparent 100%);
+  filter: blur(70px);
+  opacity: calc(0.18 + var(--song-voice, 0) * 0.42);
+  transform: scaleY(calc(0.7 + var(--song-voice, 0) * 0.4));
+  transition: opacity 200ms linear, transform 260ms linear;
 }
 
 /* ---------------------------------------------------------------------------
@@ -158,25 +144,18 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
   padding: 0 var(--pad-shell-h) var(--pad-shell-v);
 }
 
-/*
-  Вуаль между цветным фоном и контентом.
-
-  Без неё окрашенный обложкой фон побеждал текст: на зелёном пятне подпись
-  альбома (tertiary) переставала читаться совсем. Вуаль темнее всего там, где
-  живёт контент, и растворяется к краям — цвет остаётся событием, но перестаёт
-  спорить с типографикой. Появляется вместе с цветом и уходит вместе с ним.
-*/
-.shell::before {
-  content: "";
-  position: fixed; inset: 0; z-index: -1;
-  pointer-events: none;
-  background: radial-gradient(130% 100% at 50% 45%,
-    rgba(8, 9, 10, 0.78) 0%,
-    rgba(8, 9, 10, 0.56) 46%,
-    rgba(8, 9, 10, 0.16) 100%);
-  opacity: var(--song-opacity);
-  transition: opacity var(--duration-slower) var(--easing-default);
+/* Звук в шапке: кнопка фоновой музыки и общая громкость. Ползунок узкий и
+   без подписи — это не настройка, а ручка, к которой тянутся раз в сеанс. */
+.sound { display: flex; align-items: center; gap: var(--s-8); }
+.sound__range {
+  width: 84px; height: 18px;
+  accent-color: var(--color-accent-primary);
+  background: transparent; cursor: pointer;
 }
+.sound__range:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: 3px; }
+[data-sound][aria-pressed="true"] .sound__off,
+[data-sound][aria-pressed="false"] .sound__waves { display: none; }
+[data-sound][aria-pressed="false"] { color: var(--color-text-tertiary); }
 
 .chrome {
   display: grid;
@@ -1367,7 +1346,7 @@ body.is-wrong::after { animation: wrong-flash 440ms var(--easing-out) both; }
   .fcard.is-sounding .fcard__eq i { animation: none; height: 9px; }
   .card__art, .results, .results__item, .lang__hint { animation: none; }
   /* Фон не движется и не пульсирует — остаётся ровный градиент. */
-  .song-bg__blob { transform: none !important; filter: blur(110px); opacity: .7; }
-  .song-glow { transform: none; filter: blur(120px); opacity: .2; }
+  .song-glow { transform: none !important; opacity: .22; }
+  .song-glow--air { opacity: .12; }
   body.is-wrong::after { animation: none; }
 }

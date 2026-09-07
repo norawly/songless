@@ -20,6 +20,7 @@
 
 import { createServer } from 'node:http';
 import { readFile, writeFile } from 'node:fs/promises';
+import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -97,6 +98,9 @@ async function readBody(req, limit = 1_000_000) {
   return JSON.parse(Buffer.concat(chunks).toString('utf8') || '{}');
 }
 
+/** Пересборка каталога идёт в одном экземпляре: два сборщика подерутся за файл. */
+let rebuilding = false;
+
 const server = createServer(async (req, res) => {
   // Сервер локальный и пишет в репозиторий, поэтому принимает запросы
   // только с этой же машины.
@@ -143,6 +147,25 @@ const server = createServer(async (req, res) => {
 
       await saveOverrides(store);
       json(res, 200, { ok: true, id, saved: store[id] || null, count: Object.keys(store).length });
+      return;
+    }
+
+    if (req.method === 'POST' && url.pathname === '/api/apply') {
+      // «Применить» — та самая кнопка, которой не хватало: правки уже лежат в
+      // overrides.json, но в игру они попадают только после пересборки
+      // каталога. Здесь она запускается прямо из редактора, чтобы не лезть в
+      // терминал. Сборщик работает по кэшу .cache/, поэтому это быстро.
+      if (rebuilding) return json(res, 409, { ok: false, error: 'сборка уже идёт' });
+      rebuilding = true;
+      const log = [];
+      const child = spawn(process.execPath, ['scripts/build-catalog.mjs'], { cwd: ROOT });
+      child.stdout.on('data', (d) => log.push(String(d)));
+      child.stderr.on('data', (d) => log.push(String(d)));
+      child.on('close', (code) => {
+        rebuilding = false;
+        const tail = log.join('').trim().split('\n').slice(-14).join('\n');
+        json(res, 200, { ok: code === 0, code, log: tail });
+      });
       return;
     }
 

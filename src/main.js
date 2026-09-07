@@ -16,8 +16,7 @@ import {
 import { loadCatalog, streamingLinks } from './catalog.js';
 import { AudioEngine } from './audio.js';
 import { Pulse } from './pulse.js';
-import { extractPalette } from './palette.js';
-import { moodFor, applyFilter } from './mood.js';
+import { Ambient, ambientAllowed, rememberAmbient } from './ambient.js';
 import { watchViewportHeight } from './fit.js';
 import { Game, SCREEN, STEP_STATE } from './game.js';
 import {
@@ -35,6 +34,7 @@ const app = () => document.getElementById('screen');
 let catalog = null;
 let game = null;
 const audio = new AudioEngine();
+const ambient = new Ambient(audio);
 let pulse = null;
 
 /** Отправляли ли уже результат этой партии — клиентский rate-limit. */
@@ -70,6 +70,7 @@ const canAutofocus = () => window.matchMedia('(pointer: fine)').matches;
 async function boot() {
   watchViewportHeight();
   pulse = new Pulse(document.getElementById('song-bg'));
+  wireFirstGesture();
 
   try {
     await loadStrings();
@@ -99,6 +100,47 @@ async function boot() {
   });
 
   render();
+}
+
+/**
+ * Свечение фона живёт всё время, пока что-то звучит, и питается общим
+ * анализатором. Вызывается после каждого запуска звука: полосы калибруются
+ * заново под новую музыку.
+ */
+function liveBg() {
+  pulse.show();
+  pulse.start(audio.analyser);
+}
+
+/**
+ * Фоновая музыка стартового экрана.
+ *
+ * Браузер не даст завести звук до первого жеста — поэтому ждём любой клик или
+ * клавишу и только тогда заводим. Один раз: дальше состоянием управляет
+ * кнопка звука в шапке.
+ */
+function wireFirstGesture() {
+  const go = () => {
+    document.removeEventListener('pointerdown', go);
+    document.removeEventListener('keydown', go);
+    audio.ensureContext();
+    liveBg();
+    if (ambientAllowed() && game && game.screen === SCREEN.START) ambient.start();
+  };
+  document.addEventListener('pointerdown', go, { once: false });
+  document.addEventListener('keydown', go, { once: false });
+}
+
+/** Фон играет только на стартовом экране — в партии звучит сама игра. */
+function syncAmbient() {
+  if (!game) return;
+  if (game.screen === SCREEN.START && ambientAllowed()) {
+    if (audio.ctx) ambient.start();
+  } else {
+    ambient.stop();
+  }
+  const btn = document.querySelector('[data-sound]');
+  if (btn) btn.setAttribute('aria-pressed', String(ambientAllowed()));
 }
 
 /** Режим подачи запоминается между партиями — это выбор, а не настройка. */
@@ -145,6 +187,17 @@ function renderChrome() {
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17v.01M12 14c0-2 2.5-2.2 2.5-4.3A2.6 2.6 0 0 0 12 7a2.6 2.6 0 0 0-2.5 2.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="2"/></svg>
       </button>
 
+      <div class="sound" role="group" aria-label="${esc(t('nav.volume'))}">
+        <button class="btn btn--icon" data-sound type="button"
+                aria-pressed="${ambientAllowed()}"
+                aria-label="${esc(t('nav.sound'))}" title="${esc(t('nav.sound'))}">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.4L12 5.5v13l-4.6-4H4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path class="sound__waves" d="M16 9.2a4 4 0 0 1 0 5.6M18.6 6.6a7.6 7.6 0 0 1 0 10.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path class="sound__off" d="M16 9.5l5 5m0-5l-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <input class="sound__range" type="range" min="0" max="100" step="1"
+               value="${Math.round(audio.volume * 100)}" data-volume
+               aria-label="${esc(t('nav.volume'))}" title="${esc(t('nav.volume'))}">
+      </div>
+
       <div class="lang-wrap">
         <div class="lang" role="group" aria-label="${esc(t('nav.language'))}">
           <button class="lang__btn" data-locale="kk" type="button"
@@ -160,6 +213,9 @@ function renderChrome() {
     </nav>`;
 
   header.addEventListener('click', onChromeClick);
+  header.querySelector('[data-volume]')?.addEventListener('input', (e) => {
+    audio.setVolume(Number(e.target.value) / 100);
+  });
 }
 
 function onChromeClick(e) {
@@ -167,6 +223,20 @@ function onChromeClick(e) {
   if (langBtn) {
     markLocaleHintSeen();
     setLocale(langBtn.dataset.locale);
+    return;
+  }
+  const sound = e.target.closest('[data-sound]');
+  if (sound) {
+    // Фоновая музыка — вкус, а не настройка звука игры: выключил один раз,
+    // больше не услышит, даже завтра.
+    const on = !ambientAllowed();
+    rememberAmbient(on);
+    sound.setAttribute('aria-pressed', String(on));
+    if (on) {
+      audio.ensureContext();
+      liveBg();
+      if (game?.screen === SCREEN.START) ambient.start();
+    } else ambient.stop(0.4);
     return;
   }
   if (e.target.closest('[data-rules]')) return showRules();
@@ -200,7 +270,6 @@ function goHome() {
 
 function resetToStart() {
   audio.stop(160);
-  pulse.clear();
   submittedThisGame = false;
   game.reset();
   render();
@@ -222,6 +291,7 @@ function render() {
     .dataset.hideBrand = game.screen === SCREEN.FINAL ? '1' : '0';
 
   paintToken++; // всё, что красило фон для прошлого экрана, теперь недействительно
+  syncAmbient();
 
   switch (game.screen) {
     case SCREEN.START: renderStart(); break;
@@ -255,7 +325,6 @@ function renderLevelRail(rail) {
 
 function renderStart() {
   audio.stop(200);
-  pulse.clear();
 
   const av = game.availability;
   const genres = catalog.availableGenres();
@@ -565,7 +634,6 @@ function renderLoading() {
 /* ================================================================== */
 
 function renderRound() {
-  pulse.clear();
   const n = game.roundIndex + 1;
   const total = game.stepsTotal;
 
@@ -678,6 +746,11 @@ function wireRound() {
   // и подарил бы чужой бонус.
   const token = ++roundToken;
   const stale = () => token !== roundToken;
+  // Флаг «идёт фрагмент» живёт дольше разметки: если прошлый раунд закончился
+  // пропуском последней ступени, он оставался поднятым, и в следующем раунде
+  // playStep выходил на первой же строке — кнопка «Слушать» переставала
+  // работать до конца партии. Каждая новая разметка начинает с чистого листа.
+  playing = audio.isLive(game.track.id);
 
   function stopVisuals() {
     cancelAnimationFrame(raf);
@@ -744,6 +817,7 @@ function wireRound() {
 
     try {
       await audio.play(game.track, durMs);
+      liveBg();
       trackFragment(durMs);
     } catch {
       stopVisuals();
@@ -1060,29 +1134,22 @@ function renderReveal() {
   const next = $('[data-next]');
   next.addEventListener('click', () => {
     audio.stop(220);
-    pulse.clear();
-    game.next();
+      game.next();
   });
   next.focus();
 }
 
-/** Красит фон цветами обложки, запускает трек и пульсацию. */
+/** Запускает превью и свечение фона под него. */
 async function paintAndPlay(track) {
   const token = paintToken;
-  // Характер фона под жанр трека: жёсткость, смешение, скорость орбит.
-  const mood = moodFor(track);
-  applyFilter(mood);
-  pulse.setMood(mood);
   try {
     await audio.playFull(track);
     if (token !== paintToken) return;
+    pulse.show();
     pulse.start(audio.analyser);
   } catch {
     /* звук не критичен для показа карточки */
   }
-  const colors = await extractPalette(track.art, track.id);
-  // Экран мог смениться, пока считалась палитра.
-  if (colors && token === paintToken) pulse.setColors(colors);
 }
 
 /* ================================================================== */
@@ -1091,7 +1158,6 @@ async function paintAndPlay(track) {
 
 function renderFinal() {
   audio.stop(220);
-  pulse.clear();
 
   const total = game.totalScore;
   const verdict = t(`final.verdict${verdictIndex(total, game.filters.difficulty)}`);
@@ -1158,8 +1224,7 @@ function renderFinal() {
   $('[data-share]').addEventListener('click', () => showShare(total, verdict, label));
   $('[data-again]').addEventListener('click', () => {
     audio.stop(160);
-    pulse.clear();
-    submittedThisGame = false;
+      submittedThisGame = false;
     game.reset();
     render();
   });
@@ -1184,16 +1249,12 @@ function wireFinalCards() {
     if (!track || hovered === id) return;
     hovered = id;
     const token = paintToken;
-    const mood = moodFor(track);
-    applyFilter(mood);
-    pulse.setMood(mood);
     card.classList.add('is-sounding');
     try {
       await audio.playFull(track);
       if (hovered !== id || token !== paintToken) return; // курсор ушёл или сменился экран
+      pulse.show();
       pulse.start(audio.analyser);
-      const colors = await extractPalette(track.art, track.id);
-      if (colors && hovered === id && token === paintToken) pulse.setColors(colors);
     } catch {
       /* тишина не ломает финал */
     }
@@ -1207,8 +1268,7 @@ function wireFinalCards() {
     if (hovered === card.dataset.track) {
       hovered = null;
       audio.stop(300); // плавное затухание
-      pulse.clear();
-    }
+        }
   };
 
   grid.addEventListener('mouseover', (e) => {

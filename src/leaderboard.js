@@ -91,7 +91,9 @@ async function withTimeout(url, opts = {}) {
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
   try {
-    return await fetch(url, { ...opts, signal: ctrl.signal });
+    // no-store обязателен: владелец чистит строки прямо в таблице, и
+    // закэшированный браузером ответ показывал бы удалённые ники ещё сутки.
+    return await fetch(url, { cache: 'no-store', ...opts, signal: ctrl.signal });
   } finally {
     clearTimeout(timer);
   }
@@ -104,7 +106,12 @@ async function withTimeout(url, opts = {}) {
  */
 export async function fetchBoards(slice = 'random|normal|family', limit = CONFIG.LEADERBOARD_PREVIEW_N) {
   if (!enabled()) return { allTime: [], today: [], categories: [] };
-  const q = new URLSearchParams({ action: 'top', slice, limit: String(limit) });
+  const q = new URLSearchParams({
+    action: 'top', slice, limit: String(limit),
+    // Apps Script отдаёт ответы через кэширующий фронт Google; параметр
+    // делает каждый запрос уникальным, и таблица читается всегда свежая.
+    _: String(Date.now()),
+  });
   const res = await withTimeout(`${CONFIG.LEADERBOARD_ENDPOINT}?${q}`, { method: 'GET' });
   if (!res.ok) throw new Error(`лидерборд HTTP ${res.status}`);
   const data = await res.json();

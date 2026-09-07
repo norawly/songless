@@ -52,6 +52,43 @@ export function foldKey(input) {
   return s;
 }
 
+/**
+ * Согласный скелет строки: то, что остаётся, если убрать гласные и свести
+ * все способы записать один и тот же звук к одной букве.
+ *
+ * Он нужен ровно для одного случая: имя написано не на том алфавите, на
+ * котором его ищут. «Ninety One» ищут как «найнти уан», «Скриптонит» — как
+ * «Scriptonit», «Кайрат Нуртас» — как «Qairat Nurtas». Транслитерация букву
+ * в букву тут не спасает: гласные при переносе между языками плывут сильнее
+ * всего, а согласные держатся. Выкидываем гласные — и обе записи сходятся:
+ *
+ *   ninety one   → nntn
+ *   найнти уан   → nntn
+ *   scriptonit   → skrptnt
+ *   скриптонит   → skrptnt
+ *
+ * Совпадение по скелету намеренно весит меньше обычного: он грубый и способен
+ * склеить далёкие слова, поэтому годится как подстраховка, а не как основа.
+ */
+export function skeleton(input) {
+  let s = norm(input);
+  s = s
+    .replace(/dzh|sch|ch|sh|zh|kh|ph|th|ck|ts/g, (m) => ({
+      dzh: 'z', sch: 's', ch: 'c', sh: 's', zh: 'z', kh: 'h',
+      ph: 'f', th: 't', ck: 'k', ts: 'c',
+    }[m]))
+    .replace(/[cqx]/g, 'k')
+    .replace(/w/g, 'v')
+    .replace(/j/g, 'z')
+    .replace(/g/g, 'k')
+    .replace(/d/g, 't')
+    .replace(/b/g, 'p')
+    .replace(/[aeiouy]/g, '')
+    .replace(/(.)\1+/g, '$1')
+    .replace(/[^a-z0-9]/g, '');
+  return s;
+}
+
 /** Ключ без пробелов — для сравнения «одним куском». */
 export function tightKey(input) {
   return foldKey(input).replace(/ /g, '');

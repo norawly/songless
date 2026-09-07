@@ -68,6 +68,25 @@ function saveOffsetCache(cache) {
   }
 }
 
+const VOLUME_KEY = 'olensiz:volume';
+
+function loadVolume() {
+  try {
+    const v = Number(localStorage.getItem(VOLUME_KEY));
+    return Number.isFinite(v) && v >= 0 && v <= 1 ? v : 0.8;
+  } catch {
+    return 0.8;
+  }
+}
+
+function saveVolume(v) {
+  try {
+    localStorage.setItem(VOLUME_KEY, String(v));
+  } catch {
+    /* приватный режим */
+  }
+}
+
 function avg(arr, from, to) {
   if (to <= from) return 0;
   let s = 0;
@@ -194,6 +213,9 @@ export class AudioEngine {
     this.offsets = loadOffsetCache();
     /** Активный источник — одновременно звучит ровно один трек. */
     this.current = null;
+    /** Общая громкость 0..1, переживает перезагрузку. */
+    this.master = null;
+    this.volume = loadVolume();
   }
 
   ensureContext() {
@@ -207,10 +229,38 @@ export class AudioEngine {
       this.analyser = this.ctx.createAnalyser();
       this.analyser.fftSize = 2048;
       this.analyser.smoothingTimeConstant = 0.6;
-      this.analyser.connect(this.ctx.destination);
+      // Общая громкость сайта: один узел на всё, что звучит. Анализатор стоит
+      // ПЕРЕД ним — картинка фона не должна тускнеть от того, что человек
+      // сделал тише; она отражает музыку, а не настройку.
+      this.master = this.ctx.createGain();
+      this.master.gain.value = this.volume;
+      this.analyser.connect(this.master);
+      this.master.connect(this.ctx.destination);
     }
     if (this.ctx.state === 'suspended') this.ctx.resume().catch(() => {});
     return this.ctx;
+  }
+
+  /**
+   * Общая громкость. Меняется плавно: скачок гейна слышен щелчком.
+   * @param {number} v 0..1
+   */
+  setVolume(v) {
+    const val = Math.max(0, Math.min(1, Number(v) || 0));
+    this.volume = val;
+    saveVolume(val);
+    if (this.master && this.ctx) {
+      const now = this.ctx.currentTime;
+      this.master.gain.cancelScheduledValues(now);
+      this.master.gain.setValueAtTime(this.master.gain.value, now);
+      this.master.gain.linearRampToValueAtTime(Math.max(0.0001, val), now + 0.08);
+    }
+  }
+
+  /** Куда подключать посторонние источники (фоновая музыка стартового экрана). */
+  get busIn() {
+    this.ensureContext();
+    return this.analyser;
   }
 
   /** Загружает и декодирует превью. Повторные вызовы бесплатны. */
@@ -359,7 +409,17 @@ export class AudioEngine {
     gain.gain.setValueAtTime(1, now + Math.max(fadeIn, durS - fadeOut));
     gain.gain.linearRampToValueAtTime(0.0001, now + durS);
 
-    source.start(now, offset, durS);
+    // ВАЖНО: третий аргумент start() (duration) здесь не передаётся намеренно.
+    // Он планирует жёсткую остановку, которую потом уже нельзя отодвинуть, и
+    // продление ступени (extendTo) молча не работало: звук обрывался на
+    // старой границе. Конец фрагмента задаём отдельным stop(), его можно
+    // перенести на ходу.
+    source.start(now, offset);
+    try {
+      source.stop(now + durS + 0.02);
+    } catch {
+      /* реализация без stop(when) — фрагмент закончит гейн */
+    }
     // Сессия помнит, когда началась и когда должна кончиться: ступень можно
     // продлить прямо на ходу, не начиная фрагмент заново (см. extendTo).
     this.current = {

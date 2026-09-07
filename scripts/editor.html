@@ -111,6 +111,8 @@
       <option value="yes">только мои правки</option>
       <option value="flag">только с флагами</option>
     </select>
+    <button id="apply" type="button">Применить в игру</button>
+    <span id="applyMsg" class="progress" style="margin-left:0"></span>
     <span class="progress">проверено <b id="doneN">0</b> из <span id="allN">0</span></span>
   </div>
 </header>
@@ -466,6 +468,31 @@ $('#q').addEventListener('input', () => { page = 0; render(); });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') stopAudio(); });
 
 load();
+
+/*
+  «Применить в игру» — пересборка каталога.
+
+  Правки пишутся в data/overrides.json сразу, в тот же момент, когда их
+  меняешь: отдельной кнопки «Сохранить» нет намеренно. Но игра читает не
+  overrides.json, а собранный data/tracks.json, и до пересборки правок не
+  видит. Эта кнопка её и запускает.
+*/
+document.getElementById('apply').addEventListener('click', async (e) => {
+  const btn = e.currentTarget;
+  const msg = document.getElementById('applyMsg');
+  btn.disabled = true;
+  msg.textContent = 'собираю каталог…';
+  try {
+    const res = await fetch('/api/apply', { method: 'POST' });
+    const data = await res.json();
+    msg.textContent = data.ok ? 'готово — обновите игру' : `ошибка: ${data.error || data.code}`;
+    if (data.log) console.log(data.log);
+  } catch (err) {
+    msg.textContent = `ошибка: ${err.message}`;
+  } finally {
+    btn.disabled = false;
+  }
+});
 </script>
 </body>
 </html>

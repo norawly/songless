@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-06T18:56:22.026Z",
+ "generatedAt": "2026-09-07T01:07:38.492Z",
  "source": "iTunes lookup by artistId (whitelist: data/artists-v2.csv)",
  "note": "Треки собраны строго по одному artistId из whitelist. Свободный текстовый поиск по названиям не используется. Только метаданные и ссылки на официальные 30-секундные превью Apple; аудиофайлы не хранятся.",
  "levelTiers": {
@@ -70,31 +70,31 @@
   "rock"
  ],
  "genreMinTracks": 25,
- "count": 661,
- "edited": 0,
+ "count": 648,
+ "edited": 65,
  "byTier": {
-  "1": 120,
-  "2": 163,
-  "3": 256,
-  "4": 120,
-  "5": 2
+  "1": 85,
+  "2": 171,
+  "3": 260,
+  "4": 128,
+  "5": 4
  },
  "byGenre": {
   "toi": 131,
-  "pop": 377,
-  "rap": 126,
+  "pop": 366,
+  "rap": 125,
   "underground": 28,
-  "rnb": 146,
-  "qpop": 22,
+  "rnb": 145,
+  "qpop": 15,
   "retro": 109,
-  "folk": 32,
+  "folk": 31,
   "indie": 75,
-  "rock": 29,
+  "rock": 28,
   "patriotic": 21
  },
  "byAge": {
-  "family": 561,
-  "18plus": 100
+  "family": 551,
+  "18plus": 97
  },
  "tracks": [
   {
@@ -167,7 +167,9 @@
     "pop"
    ],
    "age": "family",
-   "era": "2010s-now"
+   "era": "2010s-now",
+   "startOffset": 0,
+   "edited": true
   },
   {
    "id": "1505956531",
@@ -181,7 +183,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/cf/a0/76/cfa07612-37f8-f276-2383-185ea1612663/mzaf_6153160053684530621.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/62/14/97/62149713-a8f5-95db-5836-a6bbb89f149e/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%B6%D2%AF%D1%80%D0%B5%D0%B3%D1%96%D2%A3%D0%BD%D0%B5%D0%BD-%D0%B1%D1%96%D1%80-%D0%BE%D1%80%D1%8B%D0%BD-%D0%B1%D0%B5%D1%80/1505956525?i=1505956531&uo=4",
-   "tier": 1,
+   "tier": 2,
    "genres": [
     "toi",
     "pop"
@@ -191,7 +193,8 @@
     "pop"
    ],
    "age": "family",
-   "era": "2010s-now"
+   "era": "2010s-now",
+   "edited": true
   },
   {
    "id": "1125369350",
@@ -229,7 +232,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/94/ad/69/94ad69cb-f5d2-e945-f676-e0c74e1f245b/mzaf_3661555174673721554.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/b1/c2/67/b1c267bf-a5a1-77c6-6467-b13066ba34ac/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%BA%D3%A9%D0%B7%D0%B4%D0%B5%D1%80%D1%96%D2%A3-%D1%81%D0%B5%D0%BD%D1%96%D2%A3-%D1%81%D0%BE%D0%BD%D0%B4%D0%B0%D0%B9-%D3%99%D0%BF-%D3%99%D0%B4%D0%B5%D0%BC%D1%96-feat-argonya/1525525455?i=1525525457&uo=4",
-   "tier": 1,
+   "tier": 3,
    "genres": [
     "toi",
     "pop"
@@ -239,7 +242,8 @@
     "pop"
    ],
    "age": "family",
-   "era": "2010s-now"
+   "era": "2010s-now",
+   "edited": true
   },
   {
    "id": "1087827217",
@@ -277,7 +281,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/90/0e/50/900e50ee-b066-d41c-418e-6e2fdf6d3dcf/mzaf_9923826900060975452.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/a1/a1/00/a1a100f2-4c59-d2b1-1d58-481c48505117/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%BC%D0%B0%D1%81%D0%BA%D2%AF%D0%BD%D0%B5%D0%BC-feat-argonya/1521391747?i=1521391750&uo=4",
-   "tier": 1,
+   "tier": 3,
    "genres": [
     "toi",
     "pop"
@@ -287,7 +291,8 @@
     "pop"
    ],
    "age": "family",
-   "era": "2010s-now"
+   "era": "2010s-now",
+   "edited": true
   },
   {
    "id": "1104905880",
@@ -325,7 +330,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview122/v4/d4/73/62/d47362a9-cee4-d607-5821-2a72498f79b3/mzaf_10707887391677485921.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/61/84/2e/61842e94-3007-cfd3-9848-6f89da5b0524/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D1%81%D0%B5%D0%BD-%D0%BC%D0%B5%D0%BD%D1%96%D2%A3-%D0%B0%D0%B4%D0%B0%D0%BC%D1%8B%D0%BC%D1%81%D1%8B%D2%A3-from-%D0%B1%D1%80%D0%B0%D1%82-%D0%B8%D0%BB%D0%B8-%D0%B1%D1%80%D0%B0%D0%BA-3/1733000280?i=1733000285&uo=4",
-   "tier": 1,
+   "tier": 3,
    "genres": [
     "toi",
     "pop"
@@ -335,7 +340,8 @@
     "pop"
    ],
    "age": "family",
-   "era": "2010s-now"
+   "era": "2010s-now",
+   "edited": true
   },
   {
    "id": "1533785310",
@@ -374,7 +380,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ac/4f/b7/ac4fb7e9-12d1-af95-34f3-04c97e586dcd/mzaf_8627360044052094811.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/f7/ab/fb/f7abfbe7-7869-a2fd-0031-bead46b5c12a/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/k%C3%B5k-tu/1615164284?i=1615164286&uo=4",
-   "tier": 1,
+   "tier": 2,
    "genres": [
     "rap",
     "underground"
@@ -385,7 +391,8 @@
     "underground"
    ],
    "age": "18plus",
-   "era": "2018-now"
+   "era": "2018-now",
+   "edited": true
   },
   {
    "id": "1617842180",
@@ -399,7 +406,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview112/v4/7e/9f/11/7e9f1125-aaef-b33c-39ba-52d4b94d2b2f/mzaf_11497124052431028798.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/e5/d6/af/e5d6af03-a27f-1f68-0688-82b0c84534fa/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%BC%D0%B0%D0%B9%D0%BA-%D0%BA%D1%80%D0%BE%D1%81%D1%81%D0%BE%D0%B2%D0%BA%D0%B8/1617842173?i=1617842180&uo=4",
-   "tier": 1,
+   "tier": 2,
    "genres": [
     "rap",
     "underground"
@@ -410,7 +417,8 @@
     "underground"
    ],
    "age": "18plus",
-   "era": "2018-now"
+   "era": "2018-now",
+   "edited": true
   },
   {
    "id": "1750533571",
@@ -434,8 +442,9 @@
     "comedy",
     "underground"
    ],
-   "age": "18plus",
-   "era": "2018-now"
+   "age": "family",
+   "era": "2018-now",
+   "edited": true
   },
   {
    "id": "1691059005",
@@ -459,8 +468,9 @@
     "comedy",
     "underground"
    ],
-   "age": "18plus",
-   "era": "2018-now"
+   "age": "family",
+   "era": "2018-now",
+   "edited": true
   },
   {
    "id": "1771888881",
@@ -474,7 +484,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/12/f2/92/12f29288-917b-b673-c484-5e07d7d3b74f/mzaf_3628243504396183114.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/30/7e/d5/307ed56b-83c6-a1ae-0553-ce8421e20a88/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%B2%D1%81%D0%B5%D0%BC-%D1%81%D0%B0%D0%BB%D0%B0%D0%BC/1771888746?i=1771888881&uo=4",
-   "tier": 1,
+   "tier": 2,
    "genres": [
     "rap",
     "underground"
@@ -485,7 +495,8 @@
     "underground"
    ],
    "age": "18plus",
-   "era": "2018-now"
+   "era": "2018-now",
+   "edited": true
   },
   {
    "id": "1482628766",
@@ -499,7 +510,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/77/cd/e0/77cde03a-73f6-fd83-1c95-93d24d252c6a/mzaf_403779526946002498.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/9c/36/9e/9c369e41-33c1-8a2c-8b8f-930a5d745df9/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%B1%D0%B5%D0%B3%D0%B8/1482628523?i=1482628766&uo=4",
-   "tier": 1,
+   "tier": 3,
    "genres": [
     "rap",
     "underground"
@@ -510,7 +521,8 @@
     "underground"
    ],
    "age": "18plus",
-   "era": "2018-now"
+   "era": "2018-now",
+   "edited": true
   },
   {
    "id": "1510041291",
@@ -524,7 +536,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/d2/ce/d7/d2ced7cb-098d-31bc-1470-5ec959192937/mzaf_17833565086288569903.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/e4/cc/66/e4cc6607-25d9-d3ff-627e-6157a3b1af1b/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D1%81%D0%B8%D0%B4%D0%B8-%D0%B4%D0%BE%D0%BC%D0%B0/1510041289?i=1510041291&uo=4",
-   "tier": 1,
+   "tier": 3,
    "genres": [
     "rap",
     "underground"
@@ -535,7 +547,8 @@
     "underground"
    ],
    "age": "18plus",
-   "era": "2018-now"
+   "era": "2018-now",
+   "edited": true
   },
   {
    "id": "1533785782",
@@ -549,7 +562,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/b7/9e/28/b79e2870-ac1e-425b-7605-9b36670f666c/mzaf_11444140701001696310.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/27/d7/98/27d798dc-d352-777e-9299-dcf8b8d866a6/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%BC%D0%BE%D0%BB%D0%BE%D0%B4%D1%91%D0%B6%D1%8C/1533785293?i=1533785782&uo=4",
-   "tier": 1,
+   "tier": 3,
    "genres": [
     "rap",
     "underground"
@@ -560,7 +573,8 @@
     "underground"
    ],
    "age": "18plus",
-   "era": "2018-now"
+   "era": "2018-now",
+   "edited": true
   },
   {
    "id": "1768734618",
@@ -574,7 +588,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/5c/97/41/5c974106-9921-266c-a5ce-26bccc8d11be/mzaf_4237574910639799451.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/cb/28/53/cb28536c-1dcf-5fe0-336c-4524d92370a3/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/30-%D0%BD%D0%B5-%D0%B0%D1%83%D1%82/1768734603?i=1768734618&uo=4",
-   "tier": 1,
+   "tier": 2,
    "genres": [
     "rap",
     "underground"
@@ -585,7 +599,8 @@
     "underground"
    ],
    "age": "18plus",
-   "era": "2018-now"
+   "era": "2018-now",
+   "edited": true
   },
   {
    "id": "1501510717",
@@ -599,7 +614,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/69/b8/11/69b81125-f36f-d34c-3c54-cc071ad36568/mzaf_10202531190783960742.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/23/4a/f2/234af254-7475-10d4-3f15-6f8b8dcd8751/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%BF%D0%BE%D1%87%D1%82%D0%B8-%D1%82%D1%8B/1501510561?i=1501510717&uo=4",
-   "tier": 1,
+   "tier": 4,
    "genres": [
     "rap",
     "rnb"
@@ -609,7 +624,8 @@
     "rnb"
    ],
    "age": "18plus",
-   "era": "2014-now"
+   "era": "2014-now",
+   "edited": true
   },
   {
    "id": "1134919526",
@@ -623,7 +639,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/27/47/5a/27475a84-831e-a723-97d3-b9acfcacdbda/mzaf_14684201989627091593.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/c3/72/50/c3725084-e75c-e428-e9d7-70bae70f6136/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%BF%D1%80%D0%B8%D0%B3%D0%BB%D0%B0%D1%88%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BD%D0%B0-%D1%84%D0%B5%D1%81%D1%82%D0%B8%D0%B2%D0%B0%D0%BB%D1%8C-gazgolder-live/1134919434?i=1134919526&uo=4",
-   "tier": 1,
+   "tier": 4,
    "genres": [
     "rap",
     "rnb"
@@ -633,7 +649,8 @@
     "rnb"
    ],
    "age": "18plus",
-   "era": "2014-now"
+   "era": "2014-now",
+   "edited": true
   },
   {
    "id": "6768409587",
@@ -657,7 +674,9 @@
     "rnb"
    ],
    "age": "18plus",
-   "era": "2014-now"
+   "era": "2014-now",
+   "startOffset": 2.054,
+   "edited": true
   },
   {
    "id": "1518201878",
@@ -671,7 +690,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/fb/52/d0/fb52d007-2bc6-8f31-c86c-b426720c1bfc/mzaf_10495292088254850723.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/07/d1/64/07d1648a-7bc4-0742-2de0-edec2e2f084a/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%BA%D0%BF%D1%81%D0%BF/1518201335?i=1518201878&uo=4",
-   "tier": 1,
+   "tier": 2,
    "genres": [
     "rap",
     "rnb"
@@ -681,7 +700,8 @@
     "rnb"
    ],
    "age": "18plus",
-   "era": "2014-now"
+   "era": "2014-now",
+   "edited": true
   },
   {
    "id": "1737464724",
@@ -695,7 +715,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/3e/84/a0/3e84a0c9-165d-0b39-f6ba-f179b67f07af/mzaf_7621611174815824891.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e2/72/46/e27246eb-ddc3-1fc3-fba8-c8fd8f780a72/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D1%82%D1%8B-%D0%BD%D0%B5-%D0%B2%D0%B5%D1%80%D1%8C-%D1%81%D0%BB%D0%B5%D0%B7%D0%B0%D0%BC-lab-%D1%81-%D0%B0%D0%BD%D1%82%D0%BE%D0%BD%D0%BE%D0%BC-%D0%B1%D0%B5%D0%BB%D1%8F%D0%B5%D0%B2%D1%8B%D0%BC/1737464464?i=1737464724&uo=4",
-   "tier": 1,
+   "tier": 3,
    "genres": [
     "rap",
     "rnb"
@@ -705,7 +725,9 @@
     "rnb"
    ],
    "age": "18plus",
-   "era": "2014-now"
+   "era": "2014-now",
+   "startOffset": 0,
+   "edited": true
   },
   {
    "id": "6768409608",
@@ -719,7 +741,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/d9/f0/fd/d9f0fd95-a486-e094-2a9d-8a9cda68a99a/mzaf_6735073815488073978.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/9c/db/3e/9cdb3e26-0251-7fd0-87d5-59036d8bc8b8/3617382019741.png/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%BF%D1%80%D0%B8%D0%B2%D0%B5%D1%82/6768409585?i=6768409608&uo=4",
-   "tier": 1,
+   "tier": 3,
    "genres": [
     "rap",
     "rnb"
@@ -729,7 +751,8 @@
     "rnb"
    ],
    "age": "18plus",
-   "era": "2014-now"
+   "era": "2014-now",
+   "edited": true
   },
   {
    "id": "1737463696",
@@ -752,8 +775,9 @@
     "rap",
     "rnb"
    ],
-   "age": "18plus",
-   "era": "2014-now"
+   "age": "family",
+   "era": "2014-now",
+   "edited": true
   },
   {
    "id": "1458603226",
@@ -791,7 +815,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e8/d4/10/e8d41051-9503-f8ac-b6fa-9080cc28891e/mzaf_1933293325486836160.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ae/95/de/ae95de27-2834-471a-74e7-6c8e90073771/3617380730723.png/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%B8%D0%BC%D0%B5%D0%BD%D0%B0/6769042854?i=6769042857&uo=4",
-   "tier": 1,
+   "tier": 4,
    "genres": [
     "rap",
     "rnb"
@@ -801,7 +825,8 @@
     "rnb"
    ],
    "age": "18plus",
-   "era": "2014-now"
+   "era": "2014-now",
+   "edited": true
   },
   {
    "id": "6769042859",
@@ -815,7 +840,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/f1/ee/04/f1ee0426-6204-74ac-7301-a3178a269f89/mzaf_9024027853923106834.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ae/95/de/ae95de27-2834-471a-74e7-6c8e90073771/3617380730723.png/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D1%81-%D0%BF%D0%BE%D1%86%D0%B5%D0%BB%D1%83%D0%B5%D0%B2/6769042854?i=6769042859&uo=4",
-   "tier": 1,
+   "tier": 4,
    "genres": [
     "rap",
     "rnb"
@@ -825,7 +850,8 @@
     "rnb"
    ],
    "age": "18plus",
-   "era": "2014-now"
+   "era": "2014-now",
+   "edited": true
   },
   {
    "id": "1364899267",
@@ -863,7 +889,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/2f/53/93/2f539304-15e9-7c31-ea35-a40d27d55a04/mzaf_4155662722475220558.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/7a/33/f3/7a33f33b-c910-80a8-b010-7796dadb7bfe/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%B0%D0%B9%D1%8B%D0%BF%D1%82%D0%B0%D0%BC%D0%B0/1365551499?i=1365552266&uo=4",
-   "tier": 1,
+   "tier": 2,
    "genres": [
     "pop",
     "qpop"
@@ -873,7 +899,8 @@
     "qpop"
    ],
    "age": "family",
-   "era": "2015-now"
+   "era": "2015-now",
+   "edited": true
   },
   {
    "id": "1365552271",
@@ -897,7 +924,8 @@
     "qpop"
    ],
    "age": "family",
-   "era": "2015-now"
+   "era": "2015-now",
+   "edited": true
   },
   {
    "id": "1364901231",
@@ -911,7 +939,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/5d/41/1d/5d411df7-9744-3c72-0732-e6af87f06676/mzaf_16698331285480457043.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/a4/63/62/a4636250-ec23-8e59-f231-60687dda6277/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/mooz/1364899253?i=1364901231&uo=4",
-   "tier": 1,
+   "tier": 2,
    "genres": [
     "pop",
     "qpop"
@@ -921,7 +949,9 @@
     "qpop"
    ],
    "age": "family",
-   "era": "2015-now"
+   "era": "2015-now",
+   "startOffset": 1.061,
+   "edited": true
   },
   {
    "id": "1477173279",
@@ -935,7 +965,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/51/11/25/51112542-e691-147a-3a05-5a297e033e9f/mzaf_2511112828375336159.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/c0/ab/5c/c0ab5cd1-4ba2-a39e-d777-017471d45f05/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/men-emes/1477173275?i=1477173279&uo=4",
-   "tier": 1,
+   "tier": 2,
    "genres": [
     "pop",
     "qpop"
@@ -945,7 +975,9 @@
     "qpop"
    ],
    "age": "family",
-   "era": "2015-now"
+   "era": "2015-now",
+   "startOffset": 0.195,
+   "edited": true
   },
   {
    "id": "1365552260",
@@ -959,7 +991,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/43/a5/54/43a55484-6dfd-282e-36f5-817dcabfd83a/mzaf_12596754422809004292.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/7a/33/f3/7a33f33b-c910-80a8-b010-7796dadb7bfe/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D2%9B%D0%B0%D0%BB%D0%B0%D0%B9-%D2%9B%D0%B0%D1%80%D0%B0%D0%B9%D1%81%D1%8B%D2%A3/1365551499?i=1365552260&uo=4",
-   "tier": 1,
+   "tier": 3,
    "genres": [
     "pop",
     "qpop"
@@ -969,7 +1001,8 @@
     "qpop"
    ],
    "age": "family",
-   "era": "2015-now"
+   "era": "2015-now",
+   "edited": true
   },
   {
    "id": "1477173281",
@@ -983,7 +1016,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/b3/02/41/b3024146-e792-8697-1803-efff839208e9/mzaf_5405963170360402424.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/c0/ab/5c/c0ab5cd1-4ba2-a39e-d777-017471d45f05/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/bari-biled/1477173275?i=1477173281&uo=4",
-   "tier": 1,
+   "tier": 2,
    "genres": [
     "pop",
     "qpop"
@@ -993,7 +1026,9 @@
     "qpop"
    ],
    "age": "family",
-   "era": "2015-now"
+   "era": "2015-now",
+   "startOffset": 0.351,
+   "edited": true
   },
   {
    "id": "1534189072",
@@ -1007,7 +1042,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/98/c9/12/98c912c2-1b9d-5fc1-1476-5944f726b7e4/mzaf_14298325698463938695.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/70/8f/00/708f00f6-47e0-e634-4eda-797906cb312f/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/se%C3%B1orita-tekketekke/1534189066?i=1534189072&uo=4",
-   "tier": 1,
+   "tier": 3,
    "genres": [
     "pop",
     "qpop"
@@ -1017,7 +1052,9 @@
     "qpop"
    ],
    "age": "family",
-   "era": "2015-now"
+   "era": "2015-now",
+   "startOffset": 0.68,
+   "edited": true
   },
   {
    "id": "1364901224",
@@ -1031,7 +1068,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/10/c6/ab/10c6abe9-3155-ef36-6bdf-b7c098e5e18e/mzaf_2248803153063612755.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/a4/63/62/a4636250-ec23-8e59-f231-60687dda6277/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/bayau/1364899253?i=1364901224&uo=4",
-   "tier": 1,
+   "tier": 2,
    "genres": [
     "pop",
     "qpop"
@@ -1041,7 +1078,9 @@
     "qpop"
    ],
    "age": "family",
-   "era": "2015-now"
+   "era": "2015-now",
+   "startOffset": 0,
+   "edited": true
   },
   {
    "id": "1449007378",
@@ -1065,7 +1104,9 @@
     "qpop"
    ],
    "age": "family",
-   "era": "2015-now"
+   "era": "2015-now",
+   "startOffset": 1.059,
+   "edited": true
   },
   {
    "id": "1033142373",
@@ -1151,7 +1192,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/67/1f/f4/671ff45c-130d-7a2e-ec48-4fb509b67ffe/mzaf_1673164449755235606.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/9b/73/28/9b732844-b1d2-6383-567f-2a153ad3d1d1/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%B6%D2%AF%D1%80%D0%B5%D0%B3%D1%96%D0%BC-%D0%B0%D2%9B/1535955272?i=1535956027&uo=4",
-   "tier": 1,
+   "tier": 3,
    "genres": [
     "toi",
     "pop"
@@ -1161,7 +1202,8 @@
     "pop"
    ],
    "age": "family",
-   "era": "2008-now"
+   "era": "2008-now",
+   "edited": true
   },
   {
    "id": "1807046395",
@@ -1175,7 +1217,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/a8/b1/b8/a8b1b880-aa06-8a32-a22a-a39a44b7eead/mzaf_11039859449898186313.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/dd/86/9c/dd869c35-2c50-5653-42eb-d35f48ca88c2/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D1%81%D2%AF%D0%B9%D0%B3%D0%B5%D0%BD%D1%96%D0%BC/1807045661?i=1807046395&uo=4",
-   "tier": 1,
+   "tier": 2,
    "genres": [
     "toi",
     "pop"
@@ -1185,7 +1227,8 @@
     "pop"
    ],
    "age": "family",
-   "era": "2008-now"
+   "era": "2008-now",
+   "edited": true
   },
   {
    "id": "1535956041",
@@ -1199,7 +1242,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/80/15/9e/80159e6a-b3ae-03a3-8359-5c3c71ce047f/mzaf_8386743810681127203.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/9b/73/28/9b732844-b1d2-6383-567f-2a153ad3d1d1/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%BA%D2%AF%D0%BD%D0%B4%D0%B5%D1%80-%D3%A9%D1%82%D1%83%D0%B4%D0%B5/1535955272?i=1535956041&uo=4",
-   "tier": 1,
+   "tier": 2,
    "genres": [
     "toi",
     "pop"
@@ -1209,7 +1252,8 @@
     "pop"
    ],
    "age": "family",
-   "era": "2008-now"
+   "era": "2008-now",
+   "edited": true
   },
   {
    "id": "1535956440",
@@ -1271,7 +1315,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/54/99/e3/5499e31b-cd32-63cb-9469-f8bb68606db3/mzaf_5107378021193298641.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/9b/73/28/9b732844-b1d2-6383-567f-2a153ad3d1d1/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D1%81%D0%B5%D0%BD%D1%96-%D1%81%D0%B0%D2%93%D1%8B%D0%BD%D0%B4%D1%8B%D0%BC/1535955272?i=1535956526&uo=4",
-   "tier": 1,
+   "tier": 3,
    "genres": [
     "toi",
     "pop"
@@ -1281,7 +1325,8 @@
     "pop"
    ],
    "age": "family",
-   "era": "2008-now"
+   "era": "2008-now",
+   "edited": true
   },
   {
    "id": "1535955906",
@@ -1367,7 +1412,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/6d/a1/9c/6da19cc4-f4a2-619c-85b4-36bf8e02d99f/mzaf_6135544704440030683.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/00/ad/d2/00add240-9898-4043-8a58-5c45131e4c18/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%B3%D1%83%D0%BB-%D2%9B%D0%B0%D0%BB%D0%B0/1611007083?i=1611007515&uo=4",
-   "tier": 1,
+   "tier": 4,
    "genres": [
     "retro",
     "folk"
@@ -1377,7 +1422,8 @@
     "folk"
    ],
    "age": "family",
-   "era": "1967-1990s"
+   "era": "1967-1990s",
+   "edited": true
   },
   {
    "id": "1611007518",
@@ -1391,7 +1437,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/20/3c/7e/203c7e3f-83f9-4e3f-06a0-cc8d8b0544b9/mzaf_8354544556982534896.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/00/ad/d2/00add240-9898-4043-8a58-5c45131e4c18/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D3%99%D0%BF%D0%B8%D1%82%D3%A9%D0%BA/1611007083?i=1611007518&uo=4",
-   "tier": 1,
+   "tier": 3,
    "genres": [
     "retro",
     "folk"
@@ -1401,7 +1447,8 @@
     "folk"
    ],
    "age": "family",
-   "era": "1967-1990s"
+   "era": "1967-1990s",
+   "edited": true
   },
   {
    "id": "1611007519",
@@ -1415,7 +1462,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/3c/1a/f8/3c1af884-51d6-7fcf-763b-75c97fd26f44/mzaf_10902402231175238278.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/00/ad/d2/00add240-9898-4043-8a58-5c45131e4c18/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%BD%D0%B0%D0%B7-%D2%9B%D0%BE%D2%A3%D1%8B%D1%80/1611007083?i=1611007519&uo=4",
-   "tier": 1,
+   "tier": 3,
    "genres": [
     "retro",
     "folk"
@@ -1425,7 +1472,8 @@
     "folk"
    ],
    "age": "family",
-   "era": "1967-1990s"
+   "era": "1967-1990s",
+   "edited": true
   },
   {
    "id": "1524483731",
@@ -2335,7 +2383,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview122/v4/a1/37/a1/a137a1f6-0a9f-57e9-05a3-233125eb6841/mzaf_12533297110541186644.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/42/91/9f/42919f8a-bafe-3640-073c-c1afa793fcd9/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/when-ive-got-you/1732298391?i=1732298393&uo=4",
-   "tier": 1,
+   "tier": 5,
    "genres": [
     "pop"
    ],
@@ -2345,7 +2393,8 @@
    ],
    "age": "family",
    "era": "2015-now",
-   "flagEnglish": true
+   "flagEnglish": true,
+   "edited": true
   },
   {
    "id": "1474223815",
@@ -2359,7 +2408,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/c8/5f/8d/c85f8d41-b982-fe9f-f655-4694757378e9/mzaf_16318031474932764229.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/d8/23/81/d823813b-ff05-4bb2-e058-c0e2fe4fe2ed/ID.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/if-i-never-breathe-again/1474223805?i=1474223815&uo=4",
-   "tier": 1,
+   "tier": 5,
    "genres": [
     "pop"
    ],
@@ -2369,7 +2418,8 @@
    ],
    "age": "family",
    "era": "2015-now",
-   "flagEnglish": true
+   "flagEnglish": true,
+   "edited": true
   },
   {
    "id": "1474223806",
@@ -2383,7 +2433,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/cc/d3/39/ccd339ce-d27e-d53e-7cc4-3f5e38a4b3d5/mzaf_595716637657730879.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/d8/23/81/d823813b-ff05-4bb2-e058-c0e2fe4fe2ed/ID.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/war-and-peace/1474223805?i=1474223806&uo=4",
-   "tier": 1,
+   "tier": 4,
    "genres": [
     "pop"
    ],
@@ -2392,7 +2442,8 @@
     "classical"
    ],
    "age": "family",
-   "era": "2015-now"
+   "era": "2015-now",
+   "edited": true
   },
   {
    "id": "1413688322",
@@ -2406,7 +2457,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/f1/bc/df/f1bcdfb5-e521-6446-26df-52fae96c6c3c/mzaf_9962771793651820472.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/50/b8/a0/50b8a0d3-7dbf-7d32-a277-1837fc84c55e/bastau.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/without-you-live/1413688060?i=1413688322&uo=4",
-   "tier": 1,
+   "tier": 3,
    "genres": [
     "pop"
    ],
@@ -2416,7 +2467,8 @@
    ],
    "age": "family",
    "era": "2015-now",
-   "flagEnglish": true
+   "flagEnglish": true,
+   "edited": true
   },
   {
    "id": "1647416048",
@@ -2453,7 +2505,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/9b/6c/13/9b6c132f-e756-2afc-6c3d-96645b5575dc/mzaf_343928575148113956.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/0a/f0/6d/0af06da7-cd7a-1553-262e-c8ba49bfd2e7/givemelove.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/give-me-love/1395853402?i=1395854135&uo=4",
-   "tier": 1,
+   "tier": 3,
    "genres": [
     "pop"
    ],
@@ -2463,7 +2515,8 @@
    ],
    "age": "family",
    "era": "2015-now",
-   "flagEnglish": true
+   "flagEnglish": true,
+   "edited": true
   },
   {
    "id": "1395856096",
@@ -2477,7 +2530,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/0f/20/b6/0f20b6e7-61c9-9202-7316-8cd97ca42d5b/mzaf_1558677690556189314.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/d9/62/22/d9622298-283b-5d88-0515-ace991f915b3/restart.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/restart-my-love/1395854230?i=1395856096&uo=4",
-   "tier": 1,
+   "tier": 4,
    "genres": [
     "pop"
    ],
@@ -2487,7 +2540,8 @@
    ],
    "age": "family",
    "era": "2015-now",
-   "flagEnglish": true
+   "flagEnglish": true,
+   "edited": true
   },
   {
    "id": "1473933842",
@@ -2706,7 +2760,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/25/46/6e/25466e06-4049-ccee-7c9b-f29ea6e7602d/mzaf_6814426405189398795.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/12/64/2e/12642e32-69aa-6703-cc39-55cb9123c617/190295043537.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%B8%D1%81%D0%BA%D0%B0%D0%BB-%D0%BD%D0%B0%D1%88%D1%91%D0%BB/1545659741?i=1545659934&uo=4",
-   "tier": 1,
+   "tier": 3,
    "genres": [
     "rap",
     "rnb",
@@ -2718,7 +2772,8 @@
     "pop"
    ],
    "age": "family",
-   "era": "2015-now"
+   "era": "2015-now",
+   "edited": true
   },
   {
    "id": "1525916353",
@@ -3521,7 +3576,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/6c/85/c5/6c85c51d-15a3-f071-1af5-1cbd7c95bc96/mzaf_9970505406886864025.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/66/cc/7b/66cc7b14-fff4-8a92-7fcb-d7043cba93d0/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%BF%D1%8F%D1%82%D1%8B%D0%B9-%D0%BD%D1%8D%D0%BF/1804052776?i=1804053081&uo=4",
-   "tier": 2,
+   "tier": 3,
    "genres": [
     "rap",
     "rnb"
@@ -3532,7 +3587,8 @@
    ],
    "age": "18plus",
    "era": "2019-now",
-   "needsReview": true
+   "needsReview": true,
+   "edited": true
   },
   {
    "id": "1619988356",
@@ -3546,7 +3602,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/42/49/40/4249402e-e8b5-a241-fea4-84b474c01154/mzaf_8566059052414502534.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/e4/94/d8/e494d89e-a833-2ac8-50c9-e4b59e3a8f23/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D1%81%D0%B8%D1%80%D0%B5%D0%BD%D1%8C/1619988203?i=1619988356&uo=4",
-   "tier": 2,
+   "tier": 1,
    "genres": [
     "rap",
     "rnb"
@@ -3557,7 +3613,8 @@
    ],
    "age": "18plus",
    "era": "2019-now",
-   "needsReview": true
+   "needsReview": true,
+   "edited": true
   },
   {
    "id": "1751629448",
@@ -3621,7 +3678,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/d4/6e/4a/d46e4a5c-9b6a-317b-474a-12f315a8ae3b/mzaf_14701549179503600872.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/e3/0c/4c/e30c4c99-bb39-7f92-ada1-64511790b842/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%BE%D1%87%D0%B8/1597449493?i=1597449503&uo=4",
-   "tier": 2,
+   "tier": 1,
    "genres": [
     "rap",
     "rnb"
@@ -3632,7 +3689,8 @@
    ],
    "age": "18plus",
    "era": "2019-now",
-   "needsReview": true
+   "needsReview": true,
+   "edited": true
   },
   {
    "id": "1638974187",
@@ -3646,7 +3704,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/d9/d3/b1/d9d3b11c-d2e5-af33-fb83-8ed3b2f57cfc/mzaf_14711185122936530396.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/52/a0/d9/52a0d9c3-9347-97d1-a03d-f1e29d271a3a/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D1%8D%D1%82%D0%B0%D0%BB%D0%BE%D0%BD-%D0%BA%D1%80%D0%B0%D1%81%D0%BE%D1%82%D1%8B/1638974184?i=1638974187&uo=4",
-   "tier": 2,
+   "tier": 1,
    "genres": [
     "rap",
     "rnb"
@@ -3657,7 +3715,8 @@
    ],
    "age": "18plus",
    "era": "2019-now",
-   "needsReview": true
+   "needsReview": true,
+   "edited": true
   },
   {
    "id": "1552905349",
@@ -3671,7 +3730,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/bb/9a/e2/bb9ae2ff-0070-06f9-1f8c-36e204836b97/mzaf_14218309755942473952.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/ea/8c/56/ea8c5683-174f-c8bd-e5a0-214699b870ed/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%BE%D0%B9%D0%BB%D0%BE%D1%80%D1%83%D0%BC%D0%B4%D0%B0/1552905345?i=1552905349&uo=4",
-   "tier": 2,
+   "tier": 3,
    "genres": [
     "rap",
     "rnb"
@@ -3682,7 +3741,8 @@
    ],
    "age": "18plus",
    "era": "2019-now",
-   "needsReview": true
+   "needsReview": true,
+   "edited": true
   },
   {
    "id": "1762619882",
@@ -5831,30 +5891,6 @@
    "era": "2017-now"
   },
   {
-   "id": "1408440939",
-   "title": "Полетаем (Remix) [feat. Lavrushkin & Eddie G]",
-   "artist": "RaiM & Artur",
-   "artistId": 1454293500,
-   "artistKey": "raim",
-   "album": "Полетаем (Remix) [feat. Lavrushkin & Eddie G] - Single",
-   "year": 2018,
-   "durationMs": 212506,
-   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/38/d4/8a/38d48a40-8a59-3032-0991-1faa39fa244d/mzaf_1508973345196664032.plus.aac.p.m4a",
-   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/6e/61/de/6e61def3-c3ad-10a1-2383-9c43124a60ad/859727490461_cover.jpg/600x600bb.jpg",
-   "appleUrl": "https://music.apple.com/kz/album/%D0%BF%D0%BE%D0%BB%D0%B5%D1%82%D0%B0%D0%B5%D0%BC-remix-feat-lavrushkin-eddie-g/1408440857?i=1408440939&uo=4",
-   "tier": 2,
-   "genres": [
-    "pop",
-    "rap"
-   ],
-   "tags": [
-    "pop",
-    "rap"
-   ],
-   "age": "family",
-   "era": "2017-now"
-  },
-  {
    "id": "6785963465",
    "title": "Сүй иә",
    "artist": "Adilet Zhaugashar",
@@ -6845,7 +6881,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/d3/5a/02/d35a024b-6917-2865-2e54-97041cc5849a/mzaf_11020803759987792651.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/6e/21/08/6e2108c2-0da0-fbef-7637-43e514931698/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/kel-kel/1715481464?i=1715481652&uo=4",
-   "tier": 3,
+   "tier": 2,
    "genres": [
     "indie",
     "rnb"
@@ -6855,7 +6891,8 @@
     "rnb"
    ],
    "age": "family",
-   "era": "2020-now"
+   "era": "2020-now",
+   "edited": true
   },
   {
    "id": "1805794675",
@@ -9114,30 +9151,6 @@
    "era": "2008-now"
   },
   {
-   "id": "1713805105",
-   "title": "People Dancing in the Dark",
-   "artist": "Turan & Evgenia Novik",
-   "artistId": 1162224646,
-   "artistKey": "turan",
-   "album": "People Dancing in the Dark - Single",
-   "year": 2023,
-   "durationMs": 251011,
-   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/8b/a7/b1/8ba7b155-c171-eb74-9c1d-aa46f42f47f1/mzaf_13690930890192574747.plus.aac.p.m4a",
-   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/36/8c/67/368c67a5-3edb-0c95-6318-76d0352f891d/7422407566508.jpg/600x600bb.jpg",
-   "appleUrl": "https://music.apple.com/kz/album/people-dancing-in-the-dark/1713804970?i=1713805105&uo=4",
-   "tier": 3,
-   "genres": [
-    "folk"
-   ],
-   "tags": [
-    "folk",
-    "ethno"
-   ],
-   "age": "family",
-   "era": "2008-now",
-   "flagEnglish": true
-  },
-  {
    "id": "6784112112",
    "title": "La Cumbia de los Kiss",
    "artist": "Turan",
@@ -9857,7 +9870,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a2/68/72/a2687267-956d-3077-00d3-ffd99795e3d4/mzaf_11294296798595722348.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/fd/9c/67/fd9c676a-88b0-c889-9793-153eaecbf436/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%B4%D0%BE%D0%BC%D0%B0/1269143651?i=1269143960&uo=4",
-   "tier": 3,
+   "tier": 2,
    "genres": [
     "pop"
    ],
@@ -9867,7 +9880,8 @@
    ],
    "age": "family",
    "era": "2018-now",
-   "needsReview": true
+   "needsReview": true,
+   "edited": true
   },
   {
    "id": "6769760055",
@@ -9881,7 +9895,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/15/c4/b1/15c4b147-4d52-ec65-bd12-7645502cb31b/mzaf_16691698449232135444.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/76/a0/db/76a0dbcd-e0f3-20e9-823a-fe90879b1128/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/almaty/6769760054?i=6769760055&uo=4",
-   "tier": 3,
+   "tier": 4,
    "genres": [
     "pop"
    ],
@@ -9891,7 +9905,8 @@
    ],
    "age": "family",
    "era": "2018-now",
-   "needsReview": true
+   "needsReview": true,
+   "edited": true
   },
   {
    "id": "1270261042",
@@ -9929,7 +9944,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/0c/68/7d/0c687d7e-2dab-4f9b-8891-e4686735ac9b/mzaf_4158314221017498880.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music118/v4/4a/9a/88/4a9a88cb-c7e2-12ba-b970-f49f4d466250/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%BD%D0%B0%D0%BA%D1%80%D0%BE%D0%B5%D1%82-%D0%B2%D0%BE%D0%BB%D0%BD%D0%BE%D0%B9/1270259986?i=1270260353&uo=4",
-   "tier": 3,
+   "tier": 4,
    "genres": [
     "pop"
    ],
@@ -9939,7 +9954,8 @@
    ],
    "age": "family",
    "era": "2018-now",
-   "needsReview": true
+   "needsReview": true,
+   "edited": true
   },
   {
    "id": "1270261697",
@@ -9953,7 +9969,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/74/26/28/742628b9-7904-114f-7c88-baab4bd493b3/mzaf_7982551644530907219.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music118/v4/4a/9a/88/4a9a88cb-c7e2-12ba-b970-f49f4d466250/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%BB%D0%BE%D0%BD%D0%B5%D0%BB%D0%B8/1270259986?i=1270261697&uo=4",
-   "tier": 3,
+   "tier": 2,
    "genres": [
     "pop"
    ],
@@ -9963,7 +9979,8 @@
    ],
    "age": "family",
    "era": "2018-now",
-   "needsReview": true
+   "needsReview": true,
+   "edited": true
   },
   {
    "id": "1609633533",
@@ -10035,30 +10052,6 @@
    "era": "2019-now"
   },
   {
-   "id": "1615756108",
-   "title": "Married to Your Melody",
-   "artist": "Imanbek & salem ilese",
-   "artistId": 1478512031,
-   "artistKey": "imanbek",
-   "album": "Married to Your Melody - Single",
-   "year": 2022,
-   "durationMs": 178909,
-   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/98/54/a2/9854a2a5-58f8-4b11-da9d-d5a5dec7f91e/mzaf_8023482936886485463.plus.aac.p.m4a",
-   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/ed/b5/25/edb525f6-3daf-3bf5-48d3-d2f655cfeff4/cover.jpg/600x600bb.jpg",
-   "appleUrl": "https://music.apple.com/kz/album/married-to-your-melody/1615756095?i=1615756108&uo=4",
-   "tier": 2,
-   "genres": [
-    "pop"
-   ],
-   "tags": [
-    "electronic",
-    "remix"
-   ],
-   "age": "family",
-   "era": "2019-now",
-   "flagEnglish": true
-  },
-  {
    "id": "1846548876",
    "title": "Wala Lela",
    "artist": "Imanbek & Mohamed Ramadan",
@@ -10080,30 +10073,6 @@
    ],
    "age": "family",
    "era": "2019-now"
-  },
-  {
-   "id": "1742845428",
-   "title": "In the Morning (Exit Remix)",
-   "artist": "Imanbek, Trevor Daniel & Exit",
-   "artistId": 1478512031,
-   "artistKey": "imanbek",
-   "album": "In the Morning (Remixes) - EP",
-   "year": 2024,
-   "durationMs": 140260,
-   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a2/79/21/a279218e-10b9-522f-8a8a-49e635fc7896/mzaf_17470737946001710611.plus.aac.p.m4a",
-   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/fe/d8/95/fed895a3-3f90-af7b-f9ba-39efd3c178f6/8490.jpg/600x600bb.jpg",
-   "appleUrl": "https://music.apple.com/kz/album/in-the-morning-exit-remix/1742845006?i=1742845428&uo=4",
-   "tier": 2,
-   "genres": [
-    "pop"
-   ],
-   "tags": [
-    "electronic",
-    "remix"
-   ],
-   "age": "family",
-   "era": "2019-now",
-   "flagEnglish": true
   },
   {
    "id": "1660029826",
@@ -10315,7 +10284,9 @@
     "acoustic"
    ],
    "age": "family",
-   "era": "2020-now"
+   "era": "2020-now",
+   "startOffset": 1.497,
+   "edited": true
   },
   {
    "id": "1755358885",
@@ -10337,7 +10308,9 @@
     "indie"
    ],
    "age": "family",
-   "era": "2020-now"
+   "era": "2020-now",
+   "startOffset": 0,
+   "edited": true
   },
   {
    "id": "1835399465",
@@ -10359,7 +10332,9 @@
     "indie"
    ],
    "age": "family",
-   "era": "2020-now"
+   "era": "2020-now",
+   "startOffset": 5.043,
+   "edited": true
   },
   {
    "id": "1730527590",
@@ -10539,7 +10514,9 @@
     "toi"
    ],
    "age": "family",
-   "era": "2015-now"
+   "era": "2015-now",
+   "startOffset": 0.737,
+   "edited": true
   },
   {
    "id": "1695613427",
@@ -10563,7 +10540,9 @@
     "toi"
    ],
    "age": "family",
-   "era": "2015-now"
+   "era": "2015-now",
+   "startOffset": 0.971,
+   "edited": true
   },
   {
    "id": "1779426945",
@@ -10731,7 +10710,9 @@
     "rnb"
    ],
    "age": "family",
-   "era": "2020-now"
+   "era": "2020-now",
+   "startOffset": 1.962,
+   "edited": true
   },
   {
    "id": "1559525975",
@@ -10779,7 +10760,9 @@
     "rnb"
    ],
    "age": "family",
-   "era": "2020-now"
+   "era": "2020-now",
+   "startOffset": 0.612,
+   "edited": true
   },
   {
    "id": "1841702497",
@@ -11139,7 +11122,9 @@
     "rnb"
    ],
    "age": "18plus",
-   "era": "2018-now"
+   "era": "2018-now",
+   "startOffset": 0.227,
+   "edited": true
   },
   {
    "id": "1474629444",
@@ -11177,7 +11162,7 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/5c/40/e8/5c40e8f9-fb77-ca3f-0d5e-03f64bb4df92/mzaf_8247538028884568411.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/1a/89/07/1a890735-730c-be36-6e73-64d8d53c5779/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/adjare-gudju/1688358597?i=1688358610&uo=4",
-   "tier": 4,
+   "tier": 1,
    "genres": [
     "rap",
     "rnb"
@@ -11187,7 +11172,8 @@
     "rnb"
    ],
    "age": "18plus",
-   "era": "2018-now"
+   "era": "2018-now",
+   "edited": true
   },
   {
    "id": "1647607777",
@@ -14186,181 +14172,6 @@
    "era": "1980s-now"
   },
   {
-   "id": "1534860271",
-   "title": "1000-чи петлей (feat. Onion & Эдвард OM)",
-   "artist": "MFM",
-   "artistId": 1533401554,
-   "artistKey": "mfm",
-   "album": "Джем - EP",
-   "year": 2019,
-   "durationMs": 145476,
-   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview114/v4/19/7b/89/197b893c-6536-d826-73d8-22747f0b31d8/mzaf_10813904799951632513.plus.aac.p.m4a",
-   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/96/10/9f/96109fb3-ffca-0f9a-38c1-84d00bad895b/0.jpg/600x600bb.jpg",
-   "appleUrl": "https://music.apple.com/kz/album/1000-%D1%87%D0%B8-%D0%BF%D0%B5%D1%82%D0%BB%D0%B5%D0%B9-feat-onion-%D1%8D%D0%B4%D0%B2%D0%B0%D1%80%D0%B4-om/1534860270?i=1534860271&uo=4",
-   "tier": 3,
-   "genres": [
-    "qpop",
-    "pop"
-   ],
-   "tags": [
-    "qpop",
-    "pop"
-   ],
-   "age": "family",
-   "era": "2017-now",
-   "needsReview": true
-  },
-  {
-   "id": "1534860610",
-   "title": "В кругу (feat. Эдвард OM)",
-   "artist": "MFM",
-   "artistId": 1533401554,
-   "artistKey": "mfm",
-   "album": "Джем - EP",
-   "year": 2019,
-   "durationMs": 251063,
-   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview124/v4/65/f5/66/65f566c1-8bed-f56b-20ba-b62b6f861227/mzaf_18676852025081010.plus.aac.p.m4a",
-   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/96/10/9f/96109fb3-ffca-0f9a-38c1-84d00bad895b/0.jpg/600x600bb.jpg",
-   "appleUrl": "https://music.apple.com/kz/album/%D0%B2-%D0%BA%D1%80%D1%83%D0%B3%D1%83-feat-%D1%8D%D0%B4%D0%B2%D0%B0%D1%80%D0%B4-om/1534860270?i=1534860610&uo=4",
-   "tier": 3,
-   "genres": [
-    "qpop",
-    "pop"
-   ],
-   "tags": [
-    "qpop",
-    "pop"
-   ],
-   "age": "family",
-   "era": "2017-now",
-   "needsReview": true
-  },
-  {
-   "id": "1535604838",
-   "title": "Ау (feat. Onion)",
-   "artist": "MFM",
-   "artistId": 1533401554,
-   "artistKey": "mfm",
-   "album": "Ь - Single",
-   "year": 2019,
-   "durationMs": 205218,
-   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview114/v4/9c/e9/b8/9ce9b897-75df-53c9-6eef-d7dbdd3f6583/mzaf_15650839998543898365.plus.aac.p.m4a",
-   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/10/35/af/1035afb6-0322-21ad-df85-775f7198a816/0.jpg/600x600bb.jpg",
-   "appleUrl": "https://music.apple.com/kz/album/%D0%B0%D1%83-feat-onion/1535604835?i=1535604838&uo=4",
-   "tier": 3,
-   "genres": [
-    "qpop",
-    "pop"
-   ],
-   "tags": [
-    "qpop",
-    "pop"
-   ],
-   "age": "family",
-   "era": "2017-now",
-   "needsReview": true
-  },
-  {
-   "id": "1535604836",
-   "title": "Чувство дома (feat. Onion)",
-   "artist": "MFM",
-   "artistId": 1533401554,
-   "artistKey": "mfm",
-   "album": "Ь - Single",
-   "year": 2019,
-   "durationMs": 323213,
-   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview124/v4/a2/13/18/a21318a5-b051-e235-1c6e-6a9aa2ab6e84/mzaf_12451957720847513829.plus.aac.p.m4a",
-   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/10/35/af/1035afb6-0322-21ad-df85-775f7198a816/0.jpg/600x600bb.jpg",
-   "appleUrl": "https://music.apple.com/kz/album/%D1%87%D1%83%D0%B2%D1%81%D1%82%D0%B2%D0%BE-%D0%B4%D0%BE%D0%BC%D0%B0-feat-onion/1535604835?i=1535604836&uo=4",
-   "tier": 3,
-   "genres": [
-    "qpop",
-    "pop"
-   ],
-   "tags": [
-    "qpop",
-    "pop"
-   ],
-   "age": "family",
-   "era": "2017-now",
-   "needsReview": true
-  },
-  {
-   "id": "1535604837",
-   "title": "Узлы",
-   "artist": "MFM",
-   "artistId": 1533401554,
-   "artistKey": "mfm",
-   "album": "Ь - Single",
-   "year": 2019,
-   "durationMs": 264150,
-   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview124/v4/bc/80/5b/bc805b32-cf76-f3b4-9e5c-2f813ee9e5ae/mzaf_17045812480462529233.plus.aac.p.m4a",
-   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/10/35/af/1035afb6-0322-21ad-df85-775f7198a816/0.jpg/600x600bb.jpg",
-   "appleUrl": "https://music.apple.com/kz/album/%D1%83%D0%B7%D0%BB%D1%8B/1535604835?i=1535604837&uo=4",
-   "tier": 3,
-   "genres": [
-    "qpop",
-    "pop"
-   ],
-   "tags": [
-    "qpop",
-    "pop"
-   ],
-   "age": "family",
-   "era": "2017-now",
-   "needsReview": true
-  },
-  {
-   "id": "1871221196",
-   "title": "Не могу без тебя (prod. by Fato Deejays)",
-   "artist": "НьюТон",
-   "artistId": 1870497890,
-   "artistKey": "newton",
-   "album": "Не могу без тебя (prod. by Fato Deejays) - EP",
-   "year": 2026,
-   "durationMs": 220312,
-   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/66/6c/04/666c04ef-008b-de5e-31f6-2f2f6b0bdb86/mzaf_7420175693234292860.plus.aac.p.m4a",
-   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/3d/cd/07/3dcd0764-984f-71ce-7ea0-363cb61b7326/6_001_N_yuTon-Ne_mogu_bez_tebya.jpg/600x600bb.jpg",
-   "appleUrl": "https://music.apple.com/kz/album/%D0%BD%D0%B5-%D0%BC%D0%BE%D0%B3%D1%83-%D0%B1%D0%B5%D0%B7-%D1%82%D0%B5%D0%B1%D1%8F-prod-by-fato-deejays/1871221195?i=1871221196&uo=4",
-   "tier": 3,
-   "genres": [
-    "qpop",
-    "pop"
-   ],
-   "tags": [
-    "qpop",
-    "pop"
-   ],
-   "age": "family",
-   "era": "2018-now",
-   "needsReview": true
-  },
-  {
-   "id": "1887575339",
-   "title": "Танцы в пустоте",
-   "artist": "НьюТон",
-   "artistId": 1870497890,
-   "artistKey": "newton",
-   "album": "Танцы в пустоте - Single",
-   "year": 2026,
-   "durationMs": 203050,
-   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/d6/5f/78/d65f78d4-850e-20c4-bd72-355f8cc8bc14/mzaf_12077045408108114598.plus.aac.p.m4a",
-   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/a1/72/7b/a1727bbe-88cb-321a-766d-0108173ab102/4741534979368.jpg/600x600bb.jpg",
-   "appleUrl": "https://music.apple.com/kz/album/%D1%82%D0%B0%D0%BD%D1%86%D1%8B-%D0%B2-%D0%BF%D1%83%D1%81%D1%82%D0%BE%D1%82%D0%B5/1887575338?i=1887575339&uo=4",
-   "tier": 3,
-   "genres": [
-    "qpop",
-    "pop"
-   ],
-   "tags": [
-    "qpop",
-    "pop"
-   ],
-   "age": "family",
-   "era": "2018-now",
-   "needsReview": true
-  },
-  {
    "id": "1473816002",
    "title": "Bisharashka",
    "artist": "Say Mo",
@@ -14492,28 +14303,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/76/1d/4a/761d4a75-2da5-6344-90eb-2ff1663e49bc/mzaf_12821707439811212073.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/85/a1/ef/85a1efbf-a7cb-7238-bc1e-a73e073a4f77/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D1%81%D1%82%D0%B0%D0%BB%D0%B8%D0%BD%D0%B3%D1%80%D0%B0%D0%B4/1758915843?i=1758916566&uo=4",
-   "tier": 3,
-   "genres": [
-    "rock"
-   ],
-   "tags": [
-    "rock"
-   ],
-   "age": "family",
-   "era": "1990s-now"
-  },
-  {
-   "id": "1787188129",
-   "title": "Два ветра и парус (Счастливый вариант)",
-   "artist": "Мотор-Роллер",
-   "artistId": 1758916075,
-   "artistKey": "motor-roller",
-   "album": "Рок-мюзикл \"Три дома окнами во двор\"",
-   "year": 2025,
-   "durationMs": 273622,
-   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/7b/23/b9/7b23b976-8d4f-164a-0f5c-f488778953fb/mzaf_15810723472598240075.plus.aac.p.m4a",
-   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d9/82/f3/d982f36f-2dcf-6fb2-3bee-9c54c3981bf7/cover.jpg/600x600bb.jpg",
-   "appleUrl": "https://music.apple.com/kz/album/%D0%B4%D0%B2%D0%B0-%D0%B2%D0%B5%D1%82%D1%80%D0%B0-%D0%B8-%D0%BF%D0%B0%D1%80%D1%83%D1%81-%D1%81%D1%87%D0%B0%D1%81%D1%82%D0%BB%D0%B8%D0%B2%D1%8B%D0%B9-%D0%B2%D0%B0%D1%80%D0%B8%D0%B0%D0%BD%D1%82/1787187137?i=1787188129&uo=4",
    "tier": 3,
    "genres": [
     "rock"
@@ -15538,31 +15327,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/2c/60/15/2c601576-5bbc-8322-85d3-5b9a3934db89/mzaf_7518012166201015294.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/40/bf/7c/40bf7c6c-ccb0-72bb-103b-ca91f6ee8545/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D1%87%D1%83%D0%B2%D1%81%D1%82%D0%B2%D0%B0/1439309004?i=1439309007&uo=4",
-   "tier": 3,
-   "genres": [
-    "pop",
-    "rnb"
-   ],
-   "tags": [
-    "pop",
-    "rnb"
-   ],
-   "age": "family",
-   "era": "2018-now",
-   "needsReview": true
-  },
-  {
-   "id": "1486296865",
-   "title": "Я твоя (Акустическая версия)",
-   "artist": "НАZИМА & Misha Marvin",
-   "artistId": 1376622690,
-   "artistKey": "nazima",
-   "album": "Я твоя (Акустическая версия) - Single",
-   "year": 2019,
-   "durationMs": 229091,
-   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/2d/16/9e/2d169ec6-869a-2aed-c8eb-156d7ceb3861/mzaf_10349300320492152455.plus.aac.p.m4a",
-   "art": "https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/21/bd/13/21bd1362-0d13-8108-94e5-30f6a2da6715/cover.jpg/600x600bb.jpg",
-   "appleUrl": "https://music.apple.com/kz/album/%D1%8F-%D1%82%D0%B2%D0%BE%D1%8F-%D0%B0%D0%BA%D1%83%D1%81%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B0%D1%8F-%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D1%8F/1486296858?i=1486296865&uo=4",
    "tier": 3,
    "genres": [
     "pop",

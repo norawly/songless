@@ -12,7 +12,7 @@
  */
 
 import { CONFIG } from './config.js';
-import { norm, foldKey, tightKey, levenshtein, trigramSim } from './normalize.js';
+import { norm, foldKey, tightKey, skeleton, levenshtein, trigramSim } from './normalize.js';
 import { ROUNDS } from './scoring.js';
 
 /* ------------------------------------------------------------------ */
@@ -93,6 +93,7 @@ const W = {
   artistPrefix: 470,
   artistContains: 400,
   comboContains: 340,
+  skeleton: 330,
   allTokens: 300,
   fuzzyBase: 260,
   trigramScale: 250,
@@ -123,6 +124,8 @@ export class Catalog {
         _titleT: tightKey(t.title),
         _artistT: tightKey(t.artist),
         _comboF: `${artistF} ${titleF}`,
+        _titleS: skeleton(t.title),
+        _artistS: skeleton(t.artist),
         _titleWords: titleF.split(' ').filter(Boolean),
         _comboWords: `${artistF} ${titleF}`.split(' ').filter(Boolean),
         _display: `${t.artist} — ${t.title}`,
@@ -275,7 +278,7 @@ export class Catalog {
   /* Поиск                                                             */
   /* ---------------------------------------------------------------- */
 
-  _score(t, qF, qT, qTokens) {
+  _score(t, qF, qT, qTokens, qS) {
     let best = 0;
 
     if (t._titleF === qF) best = Math.max(best, W.titleExact);
@@ -288,6 +291,17 @@ export class Catalog {
     else if (t._artistF.includes(qF)) best = Math.max(best, W.artistContains);
 
     if (best === 0 && t._comboF.includes(qF)) best = W.comboContains;
+
+    // Другой алфавит: «Ninety One» ищут как «найнти уан», «Скриптонит» — как
+    // «Scriptonit». Сравниваем согласные скелеты; гласные при переносе между
+    // языками плывут, согласные держатся.
+    if (best === 0 && qS.length >= 3) {
+      if (t._artistS === qS || t._titleS === qS) best = W.skeleton;
+      else if (t._artistS.startsWith(qS) || t._titleS.startsWith(qS)) best = W.skeleton - 30;
+      else if (qS.length >= 4 && (t._artistS.includes(qS) || t._titleS.includes(qS))) {
+        best = W.skeleton - 60;
+      }
+    }
 
     // Слитный ввод: «карабала» тоже должен находить «Qara Bala».
     if (best === 0 && qT.length >= 4) {
@@ -332,10 +346,11 @@ export class Catalog {
     if (!qF) return [];
     const qT = tightKey(query);
     const qTokens = qF.split(' ').filter(Boolean);
+    const qS = skeleton(query);
 
     const scored = [];
     for (const t of this.tracks) {
-      const s = this._score(t, qF, qT, qTokens);
+      const s = this._score(t, qF, qT, qTokens, qS);
       if (s > 6) scored.push({ t, s });
     }
     scored.sort((a, b) => b.s - a.s || a.t._display.localeCompare(b.t._display, 'kk'));
