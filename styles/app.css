@@ -695,6 +695,28 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
 /* Скелет вместо слова «загружаем»: список не прыгает, когда данные приедут.
    Apps Script отвечает секундами — это его нормальная скорость. */
 .lb-skeleton { display: grid; gap: var(--s-4); }
+/* Линия загрузки под заглушкой: показывает, что данные едут, и объясняет,
+   почему таблица сейчас низкая. */
+.lb-skeleton__bar {
+  display: block; height: 2px; margin-top: var(--s-4);
+  background: var(--color-bg-elevated);
+  position: relative; overflow: hidden;
+}
+.lb-skeleton__bar::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: var(--color-accent-primary);
+  transform: translateX(-100%);
+  animation: lb-progress 1.3s var(--easing-default) infinite;
+}
+@keyframes lb-progress {
+  0%   { transform: translateX(-100%); }
+  60%  { transform: translateX(0); }
+  100% { transform: translateX(100%); }
+}
+/* Данные другого среза: таблица остаётся на месте и тускнеет, а не
+   схлопывается в скелет на каждый щелчок по жанру. */
+.board__body.is-stale { opacity: .45; transition: opacity var(--duration-fast) var(--easing-default); }
 .lb-skeleton i {
   display: block; height: 26px;
   background: linear-gradient(90deg,
@@ -995,6 +1017,8 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
   opacity: var(--dim, 1);
   transition: background var(--duration-normal) var(--easing-default);
 }
+.steps__bar { transition: background var(--duration-normal) var(--easing-default),
+                          opacity var(--duration-normal) var(--easing-default); }
 .steps__cell[data-state="skipped"] .steps__bar { background: var(--color-border-strong); }
 .steps__cell[data-state="wrong"] .steps__bar { background: var(--color-status-error-strong); }
 .steps__cell[data-state="solved"] .steps__bar,
@@ -1608,6 +1632,14 @@ body.is-wrong::after { animation: wrong-flash 440ms var(--easing-out) both; }
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 a.np__name:hover { color: var(--color-accent-primary); }
+.np__also {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  pointer-events: auto;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.np__also a { color: inherit; text-decoration: none; }
+.np__also a:hover { color: var(--color-accent-primary); }
 .np__clip {
   font-size: 9px;
   letter-spacing: var(--letter-spacing-wide);

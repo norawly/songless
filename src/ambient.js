@@ -104,7 +104,7 @@ export class Ambient {
     // может ни разу его не увидеть. Поэтому первым в очереди идёт трек с
     // клипом, если он в этой категории вообще есть, — фон сразу показывает,
     // на что он способен. Дальше очередь обычная, без перекоса.
-    const withClip = this.queue.filter((t) => t.video);
+    const withClip = this.queue.filter((t) => t.video || t.artistVideo);
     if (withClip.length) {
       const first = withClip[Math.floor(Math.random() * withClip.length)];
       this.queue = [...this.queue.filter((t) => t !== first), first];

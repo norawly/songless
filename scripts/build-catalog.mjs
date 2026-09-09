@@ -243,29 +243,52 @@ const api = (path, params) =>
   cachedFetch(`https://itunes.apple.com/${path}?${new URLSearchParams({ country: 'KZ', ...params })}`);
 
 /**
- * Официальные клипы артиста: id → { свёрнутое название → {preview, url} }.
+ * Название клипа и песни — не одна и та же строка.
+ *
+ * У клипа в каталоге Apple к названию липнет всё подряд: «(Official Video)»,
+ * «[Lyric Video]», «feat. …», «- Live». Сравнивать в лоб — значит терять
+ * почти все совпадения, поэтому сначала снимаем эту шелуху.
+ */
+const VIDEO_NOISE = /\((?:[^)]*)\)|\[[^\]]*\]|\b(?:official|video|audio|lyric|lyrics|clip|mv|version|remaster(?:ed)?|explicit)\b/gi;
+
+function videoKey(title) {
+  return foldKey(String(title || '').replace(VIDEO_NOISE, ' '));
+}
+
+/** Похожи ли названия настолько, что это одна песня. */
+function sameSong(a, b) {
+  if (!a || !b) return false;
+  if (a === b) return true;
+  const short = a.length < b.length ? a : b;
+  const long = a.length < b.length ? b : a;
+  // «Мосты» и «Мосты 2024» — одна песня; «Ты» и «Ты не одна» — уже нет,
+  // поэтому короткая часть обязана быть достаточно длинной.
+  return short.length >= 5 && long.startsWith(short);
+}
+
+/**
+ * Официальные клипы артиста: свёрнутое название → { preview, url }.
  *
  * Тот же публичный API Apple, что и для песен, только `entity=musicVideo`.
  * Превью клипа — тридцатисекундный mp4 на CDN Apple; игра ставит его фоном
  * стартового экрана, сильно размытым и затемнённым. YouTube для этого не
  * годится: его поиск требует ключа, а ключ на статическом сайте виден всем.
- *
- * Сопоставляем строго по названию: клип показывается только к своей песне.
- * Иначе на фоне играл бы один трек, а крутился клип другого — и ссылка под
- * ним вела бы не туда, куда обещает.
  */
 async function fetchArtistVideos(artistIds) {
   const out = new Map();
+  const all = [];
   for (const artistId of artistIds) {
     const data = await api('lookup', { id: String(artistId), entity: 'musicVideo', limit: '200' });
     for (const v of data.results || []) {
       if (v.kind !== 'music-video' || !v.previewUrl) continue;
-      const key = foldKey(String(v.trackName || '').replace(/\([^)]*\)/g, ' '));
+      const clip = { preview: v.previewUrl, url: v.trackViewUrl || null, title: v.trackName };
+      all.push(clip);
+      const key = videoKey(v.trackName);
       if (!key || out.has(key)) continue;
-      out.set(key, { preview: v.previewUrl, url: v.trackViewUrl || null });
+      out.set(key, clip);
     }
   }
-  return out;
+  return { byTitle: out, all };
 }
 
 /* ==================================================================== */
@@ -649,6 +672,8 @@ async function main() {
 
   const report = {
     csvRows: all.length,
+    videos: 0,
+    artistVideos: 0,
     resolved: 0,
     failed: [],
     needsReview: [],
@@ -702,7 +727,8 @@ async function main() {
 
     const { genres, tags } = canonGenres(row.genres);
     const needsReview = row.kz_origin === 'verify';
-    const videos = await fetchArtistVideos(accepted.map((a) => a.artistId));
+    const artistIdSet = new Set(accepted.map((a) => a.artistId));
+    const { byTitle: videos, all: artistClips } = await fetchArtistVideos([...artistIdSet]);
 
     for (const t of chosen) {
       const english = looksEnglish(t.trackName);
@@ -721,11 +747,8 @@ async function main() {
         preview: t.previewUrl,
         art: bigArt(t.artworkUrl100),
         appleUrl: t.trackViewUrl || null,
-        // Клип к этой же песне, если он есть: фон стартового экрана.
-        ...(() => {
-          const v = videos.get(foldKey(String(t.trackName).replace(/\([^)]*\)/g, ' ')));
-          return v ? { video: v.preview, videoUrl: v.url } : {};
-        })(),
+        // Клип к этой же песне заполняется ниже: сначала из выдачи по
+        // артисту, потом — точечным поиском.
         tier,
         genres,
         tags,
@@ -742,6 +765,32 @@ async function main() {
         base.genres = [...new Set([...(base.genres || []), 'memes'])];
         base.age = '18plus';
       }
+      // Клип к этой же песне — если он есть.
+      const want = videoKey(t.trackName);
+      let clip = videos.get(want);
+      if (!clip) {
+        for (const [key, v] of videos) {
+          if (sameSong(key, want)) { clip = v; break; }
+        }
+      }
+      if (clip) {
+        base.video = clip.preview;
+        base.videoUrl = clip.url;
+        base.videoTitle = clip.title;
+        report.videos++;
+      } else if (artistClips.length) {
+        // Клипа к этой песне нет, но у артиста есть другие. Для фона этого
+        // достаточно: картинка всё равно размыта до пятен, а подпись честно
+        // назовёт и песню, и клип по отдельности. Точечный поиск по каждой
+        // песне пробовал — Apple режет его по частоте (403 после двух
+        // десятков запросов), 600 треков так не обойти.
+        const pick = artistClips[Math.floor(Math.random() * artistClips.length)];
+        base.artistVideo = pick.preview;
+        base.artistVideoUrl = pick.url;
+        base.artistVideoTitle = pick.title;
+        report.artistVideos++;
+      }
+
       tracks.push(applyOverride(base, overrides[base.id]));
     }
 
@@ -766,6 +815,7 @@ async function main() {
   });
 
   const withVideo = unique.filter((t) => t.video).length;
+  const withArtistVideo = unique.filter((t) => t.artistVideo).length;
   const byTier = {};
   const byGenre = {};
   const byAge = { family: 0, '18plus': 0 };
@@ -818,7 +868,8 @@ async function main() {
     `- Треков в каталоге: **${unique.length}**`,
     `- Из них с ручными правками: **${payload.edited}**`,
     `- Игровых категорий: **${playableGenres.length}** из ${CANON_GENRES.length}`,
-    `- С официальным клипом (фон стартового экрана): **${withVideo}**`,
+    `- С официальным клипом этой же песни: **${withVideo}**`,
+    `- С клипом того же артиста (запасной фон): **${withArtistVideo}**`,
     `- Уникальных артистов в каталоге: **${new Set(unique.map((t) => t.artistKey)).size}**`,
     '',
     '## Распределение по тирам',

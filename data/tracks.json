@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-09T13:54:47.893Z",
+ "generatedAt": "2026-09-09T14:24:02.389Z",
  "source": "iTunes lookup by artistId (whitelist: data/artists-v2.csv)",
  "note": "Треки собраны строго по одному artistId из whitelist. Свободный текстовый поиск по названиям не используется. Только метаданные и ссылки на официальные 30-секундные превью Apple; аудиофайлы не хранятся.",
  "levelTiers": {
@@ -358,8 +358,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e2/b7/fa/e2b7fa9c-304d-4939-70fa-f2b9108093d4/mzaf_7848453741801237446.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/27/d7/98/27d798dc-d352-777e-9299-dcf8b8d866a6/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/5000/1533785293?i=1533785310&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/91/a4/df/91a4df00-b481-325c-5bae-d2858e223625/mzvf_16892906332891825549.1920w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/5000/1550582237?uo=4",
    "tier": 1,
    "genres": [
     "rap",
@@ -372,7 +370,10 @@
     "underground"
    ],
    "age": "18plus",
-   "era": "2018-now"
+   "era": "2018-now",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/91/a4/df/91a4df00-b481-325c-5bae-d2858e223625/mzvf_16892906332891825549.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/5000/1550582237?uo=4",
+   "videoTitle": "5000"
   },
   {
    "id": "1615164286",
@@ -399,6 +400,9 @@
    ],
    "age": "18plus",
    "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/fe/f8/ec/fef8ecb1-b1a6-668b-6bbf-cd58f95eac22/mzvf_269440203667972324.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/k%C3%B5ke-feat-hiro-de-lacure-fatbelly/1550918593?uo=4",
+   "artistVideoTitle": "Kõke (feat. Hiro, De Lacure & Fatbelly)",
    "edited": true
   },
   {
@@ -426,6 +430,9 @@
    ],
    "age": "18plus",
    "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/8b/9e/87/8b9e876e-bb85-830c-6201-196d48eb91b3/mzvf_11655306116863853911.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/arriva-feat-hiro/1527226082?uo=4",
+   "artistVideoTitle": "Arriva (feat. Hiro)",
    "edited": true
   },
   {
@@ -453,6 +460,9 @@
    ],
    "age": "18plus",
    "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/9d/e7/27/9de7274f-cb92-5fca-baa1-b88df16a051b/mzvf_256593286586724418.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B1%D0%B0%D0%BB%D1%83%D1%8E%D1%81%D1%8C/1544964647?uo=4",
+   "artistVideoTitle": "Балуюсь",
    "edited": true
   },
   {
@@ -480,6 +490,9 @@
    ],
    "age": "18plus",
    "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/fe/f8/ec/fef8ecb1-b1a6-668b-6bbf-cd58f95eac22/mzvf_269440203667972324.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/k%C3%B5ke-feat-hiro-de-lacure-fatbelly/1550918593?uo=4",
+   "artistVideoTitle": "Kõke (feat. Hiro, De Lacure & Fatbelly)",
    "edited": true
   },
   {
@@ -507,6 +520,9 @@
    ],
    "age": "18plus",
    "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/dd/f1/d3/ddf1d37c-d165-0261-8d3f-54b64d2af256/mzvf_11005820071962002818.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B8%D0%BD%D1%82%D1%80%D0%BE/1550750573?uo=4",
+   "artistVideoTitle": "Интро",
    "edited": true
   },
   {
@@ -521,8 +537,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/77/cd/e0/77cde03a-73f6-fd83-1c95-93d24d252c6a/mzaf_403779526946002498.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/9c/36/9e/9c369e41-33c1-8a2c-8b8f-930a5d745df9/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%B1%D0%B5%D0%B3%D0%B8/1482628523?i=1482628766&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/82/f8/5b/82f85bf8-8380-7899-eff4-8eb51b1aac9a/mzvf_8085396144788412034.1920w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/%D0%B1%D0%B5%D0%B3%D0%B8/1550918301?uo=4",
    "tier": 3,
    "genres": [
     "rap",
@@ -536,6 +550,9 @@
    ],
    "age": "18plus",
    "era": "2018-now",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/82/f8/5b/82f85bf8-8380-7899-eff4-8eb51b1aac9a/mzvf_8085396144788412034.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D0%B1%D0%B5%D0%B3%D0%B8/1550918301?uo=4",
+   "videoTitle": "Беги",
    "edited": true
   },
   {
@@ -563,6 +580,9 @@
    ],
    "age": "18plus",
    "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/fe/f8/ec/fef8ecb1-b1a6-668b-6bbf-cd58f95eac22/mzvf_269440203667972324.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/k%C3%B5ke-feat-hiro-de-lacure-fatbelly/1550918593?uo=4",
+   "artistVideoTitle": "Kõke (feat. Hiro, De Lacure & Fatbelly)",
    "edited": true
   },
   {
@@ -590,6 +610,9 @@
    ],
    "age": "18plus",
    "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/dd/f1/d3/ddf1d37c-d165-0261-8d3f-54b64d2af256/mzvf_11005820071962002818.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B8%D0%BD%D1%82%D1%80%D0%BE/1550750573?uo=4",
+   "artistVideoTitle": "Интро",
    "edited": true
   },
   {
@@ -617,6 +640,9 @@
    ],
    "age": "18plus",
    "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/b0/3d/39/b03d3903-2445-62ef-6f9e-bc22e7b41ebe/mzvf_13545701929077439410.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B4%D0%B6%D0%B0%D0%B9-feat-hiro/1550918352?uo=4",
+   "artistVideoTitle": "Джай (feat. Hiro)",
    "edited": true
   },
   {
@@ -642,6 +668,9 @@
    ],
    "age": "18plus",
    "era": "2014-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video113/v4/5c/e0/d8/5ce0d8c8-c0fb-548b-bf68-919ab568185e/mzvf_8182484011322145958.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BF%D0%BE%D0%B3%D1%80%D0%B5%D0%B9%D1%81%D1%8F/1471958716?uo=4",
+   "artistVideoTitle": "Погрейся",
    "edited": true
   },
   {
@@ -667,6 +696,9 @@
    ],
    "age": "18plus",
    "era": "2014-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video125/v4/78/e2/a8/78e2a85c-1add-b0f8-aede-22e8c393a581/mzvf_14827578090752959388.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BC%D0%B0%D0%BB%D0%B5%D0%BD%D1%8C%D0%BA%D0%B8%D0%B5-%D1%83%D0%B1%D0%BB%D1%8E%D0%B4%D0%BA%D0%B8-live/1581628795?uo=4",
+   "artistVideoTitle": "Маленькие ублюдки (Live)",
    "edited": true
   },
   {
@@ -692,6 +724,9 @@
    ],
    "age": "18plus",
    "era": "2014-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video125/v4/df/6b/28/df6b2871-c07a-0d6b-b6b2-77b30c311f00/mzvf_8070069494302960982.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B2%D0%B8%D1%82%D0%B0%D0%BC%D0%B8%D0%BD/1317756202?uo=4",
+   "artistVideoTitle": "Витамин",
    "startOffset": 2.054,
    "edited": true
   },
@@ -718,6 +753,9 @@
    ],
    "age": "18plus",
    "era": "2014-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video115/v4/2b/b2/1d/2bb21dfc-6d41-b790-cb14-967b975e168d/mzvf_5902718231297224199.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BA%D0%BE%D0%BB%D1%91%D1%81%D0%B0-2-live/1581629229?uo=4",
+   "artistVideoTitle": "Колёса 2 (Live)",
    "edited": true
   },
   {
@@ -743,6 +781,9 @@
    ],
    "age": "18plus",
    "era": "2014-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video115/v4/28/20/f6/2820f66a-78db-9b0f-d54e-2667c5e4ce99/mzvf_2913502796077897406.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BB%D0%B0%D0%BC%D0%B1%D0%B0%D0%B4%D0%B0-live/1581630670?uo=4",
+   "artistVideoTitle": "Ламбада (Live)",
    "startOffset": 0,
    "edited": true
   },
@@ -769,6 +810,9 @@
    ],
    "age": "18plus",
    "era": "2014-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video113/v4/5c/e0/d8/5ce0d8c8-c0fb-548b-bf68-919ab568185e/mzvf_8182484011322145958.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BF%D0%BE%D0%B3%D1%80%D0%B5%D0%B9%D1%81%D1%8F/1471958716?uo=4",
+   "artistVideoTitle": "Погрейся",
    "edited": true
   },
   {
@@ -794,6 +838,9 @@
    ],
    "age": "family",
    "era": "2014-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/0e/e4/bf/0ee4bf8c-1313-d336-f45a-287831d9f48f/mzvf_7710732535104415784.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B2%D1%8B%D1%81%D0%BE%D1%82%D0%B0-feat-%D1%81%D0%BA%D1%80%D0%B8%D0%BF%D1%82%D0%BE%D0%BD%D0%B8%D1%82-live/1547010265?uo=4",
+   "artistVideoTitle": "Высота (feat. Скриптонит) [Live]",
    "edited": true
   },
   {
@@ -818,7 +865,10 @@
     "rnb"
    ],
    "age": "18plus",
-   "era": "2014-now"
+   "era": "2014-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video125/v4/7a/ac/19/7aac19de-72a7-1b18-5b60-145949e9a274/mzvf_17007442969719572929.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BA%D0%B0%D0%BA%D0%B8%D0%B5-%D0%BD%D0%BE%D0%B2%D0%BE%D1%81%D1%82%D0%B8-live/1581627220?uo=4",
+   "artistVideoTitle": "Какие новости (Live)"
   },
   {
    "id": "6769042857",
@@ -843,6 +893,9 @@
    ],
    "age": "18plus",
    "era": "2014-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/64/4f/ab/644fab7d-9b5b-9405-447a-3e5ffe87223b/mzvf_12402381073134109671.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%87%D0%B8%D1%81%D1%82%D1%8B%D0%B9-ost-%D0%BF%D1%81%D0%B8%D1%85/1546434695?uo=4",
+   "artistVideoTitle": "Чистый (OST «Псих»)",
    "edited": true
   },
   {
@@ -868,6 +921,9 @@
    ],
    "age": "18plus",
    "era": "2014-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video115/v4/3d/11/1a/3d111a87-1910-5316-0b6e-9c424dcd82a6/mzvf_8723582973116552982.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BF%D0%BE%D1%85%D0%B2%D0%B0%D1%81%D1%82%D0%B0%D1%82%D1%8C%D1%81%D1%8F-live/1581627767?uo=4",
+   "artistVideoTitle": "Похвастаться (Live)",
    "edited": true
   },
   {
@@ -882,8 +938,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/44/16/73/441673af-f1f0-112e-ea6c-93d2ceb651d5/mzaf_691630385790286490.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/a4/63/62/a4636250-ec23-8e59-f231-60687dda6277/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/ah-yah-mah/1364899253?i=1364899267&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/a6/21/cc/a621ccb0-3503-5718-57c0-38ca762f0d0d/mzvf_11288045804780475329.1920w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/ah-yah-mah/1723609241?uo=4",
    "tier": 1,
    "genres": [
     "pop",
@@ -894,7 +948,10 @@
     "qpop"
    ],
    "age": "family",
-   "era": "2015-now"
+   "era": "2015-now",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/a6/21/cc/a621ccb0-3503-5718-57c0-38ca762f0d0d/mzvf_11288045804780475329.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/ah-yah-mah/1723609241?uo=4",
+   "videoTitle": "Ah! Yah! Mah!"
   },
   {
    "id": "1365552266",
@@ -919,6 +976,9 @@
    ],
    "age": "family",
    "era": "2015-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/df/2b/77/df2b778a-201c-6ba2-1610-74dbcbbd682e/mzvf_14609354405993827502.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/abuse/1714778097?uo=4",
+   "artistVideoTitle": "Abuse",
    "edited": true
   },
   {
@@ -944,6 +1004,9 @@
    ],
    "age": "family",
    "era": "2015-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/05/ee/89/05ee8991-0569-6fb6-b800-caf74b5b3990/mzvf_16638576698637704378.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/ninety-one/1722442793?uo=4",
+   "artistVideoTitle": "Ninety One",
    "edited": true
   },
   {
@@ -969,6 +1032,9 @@
    ],
    "age": "family",
    "era": "2015-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/05/ee/89/05ee8991-0569-6fb6-b800-caf74b5b3990/mzvf_16638576698637704378.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/ninety-one/1722442793?uo=4",
+   "artistVideoTitle": "Ninety One",
    "startOffset": 1.061,
    "edited": true
   },
@@ -995,6 +1061,9 @@
    ],
    "age": "family",
    "era": "2015-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/f4/cf/75/f4cf75aa-91ac-add7-2f23-68932ea74c8a/mzvf_4654795722999633820.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/bari-biled/1722615054?uo=4",
+   "artistVideoTitle": "Bari Biled",
    "startOffset": 0.195,
    "edited": true
   },
@@ -1021,6 +1090,9 @@
    ],
    "age": "family",
    "era": "2015-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/35/bf/59/35bf599f-dae2-f1a4-0d6d-b9b3f1f6370b/mzvf_12458846710879767863.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/biz/1698974189?uo=4",
+   "artistVideoTitle": "BIZ",
    "edited": true
   },
   {
@@ -1035,8 +1107,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/b3/02/41/b3024146-e792-8697-1803-efff839208e9/mzaf_5405963170360402424.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/c0/ab/5c/c0ab5cd1-4ba2-a39e-d777-017471d45f05/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/bari-biled/1477173275?i=1477173281&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/f4/cf/75/f4cf75aa-91ac-add7-2f23-68932ea74c8a/mzvf_4654795722999633820.1920w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/bari-biled/1722615054?uo=4",
    "tier": 2,
    "genres": [
     "pop",
@@ -1048,6 +1118,9 @@
    ],
    "age": "family",
    "era": "2015-now",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/f4/cf/75/f4cf75aa-91ac-add7-2f23-68932ea74c8a/mzvf_4654795722999633820.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/bari-biled/1722615054?uo=4",
+   "videoTitle": "Bari Biled",
    "startOffset": 0.351,
    "edited": true
   },
@@ -1074,6 +1147,9 @@
    ],
    "age": "family",
    "era": "2015-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/f4/cf/75/f4cf75aa-91ac-add7-2f23-68932ea74c8a/mzvf_4654795722999633820.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/bari-biled/1722615054?uo=4",
+   "artistVideoTitle": "Bari Biled",
    "startOffset": 0.68,
    "edited": true
   },
@@ -1100,6 +1176,9 @@
    ],
    "age": "family",
    "era": "2015-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/a6/21/cc/a621ccb0-3503-5718-57c0-38ca762f0d0d/mzvf_11288045804780475329.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/ah-yah-mah/1723609241?uo=4",
+   "artistVideoTitle": "Ah! Yah! Mah!",
    "startOffset": 0,
    "edited": true
   },
@@ -1126,6 +1205,9 @@
    ],
    "age": "family",
    "era": "2015-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/ae/e0/d1/aee0d13b-86dd-b849-87e7-841f3f634819/mzvf_7243549071651830308.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/emoji/1699394967?uo=4",
+   "artistVideoTitle": "EMoji",
    "startOffset": 1.059,
    "edited": true
   },
@@ -1151,7 +1233,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2008-now"
+   "era": "2008-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/c3/5e/ec/c35eec3f-94f0-7384-61b3-4a7c1eb8f0c0/mzvf_7284914995192000529.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%81%D0%B5%D0%BD%D0%B4%D0%B5%D0%B9-%D0%B0%D1%80%D1%83-%D0%B6%D0%BE%D2%9B-feat-aikyn-tolepbergen-ost-%D0%B3%D0%B4%D0%B5-%D0%BC%D0%BE%D1%91-%D0%BA%D0%BE%D0%BB%D1%8C%D1%86%D0%BE/1552434401?uo=4",
+   "artistVideoTitle": "Сендей ару жоқ (feat. Aikyn Tolepbergen) [OST \"Где моё кольцо?\"]"
   },
   {
    "id": "1033142417",
@@ -1175,7 +1260,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2008-now"
+   "era": "2008-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/c3/5e/ec/c35eec3f-94f0-7384-61b3-4a7c1eb8f0c0/mzvf_7284914995192000529.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%81%D0%B5%D0%BD%D0%B4%D0%B5%D0%B9-%D0%B0%D1%80%D1%83-%D0%B6%D0%BE%D2%9B-feat-aikyn-tolepbergen-ost-%D0%B3%D0%B4%D0%B5-%D0%BC%D0%BE%D1%91-%D0%BA%D0%BE%D0%BB%D1%8C%D1%86%D0%BE/1552434401?uo=4",
+   "artistVideoTitle": "Сендей ару жоқ (feat. Aikyn Tolepbergen) [OST \"Где моё кольцо?\"]"
   },
   {
    "id": "1535955851",
@@ -1199,7 +1287,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2008-now"
+   "era": "2008-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/c3/5e/ec/c35eec3f-94f0-7384-61b3-4a7c1eb8f0c0/mzvf_7284914995192000529.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%81%D0%B5%D0%BD%D0%B4%D0%B5%D0%B9-%D0%B0%D1%80%D1%83-%D0%B6%D0%BE%D2%9B-feat-aikyn-tolepbergen-ost-%D0%B3%D0%B4%D0%B5-%D0%BC%D0%BE%D1%91-%D0%BA%D0%BE%D0%BB%D1%8C%D1%86%D0%BE/1552434401?uo=4",
+   "artistVideoTitle": "Сендей ару жоқ (feat. Aikyn Tolepbergen) [OST \"Где моё кольцо?\"]"
   },
   {
    "id": "1535956027",
@@ -1224,6 +1315,9 @@
    ],
    "age": "family",
    "era": "2008-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/c3/5e/ec/c35eec3f-94f0-7384-61b3-4a7c1eb8f0c0/mzvf_7284914995192000529.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%81%D0%B5%D0%BD%D0%B4%D0%B5%D0%B9-%D0%B0%D1%80%D1%83-%D0%B6%D0%BE%D2%9B-feat-aikyn-tolepbergen-ost-%D0%B3%D0%B4%D0%B5-%D0%BC%D0%BE%D1%91-%D0%BA%D0%BE%D0%BB%D1%8C%D1%86%D0%BE/1552434401?uo=4",
+   "artistVideoTitle": "Сендей ару жоқ (feat. Aikyn Tolepbergen) [OST \"Где моё кольцо?\"]",
    "edited": true
   },
   {
@@ -1249,6 +1343,9 @@
    ],
    "age": "family",
    "era": "2008-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/c3/5e/ec/c35eec3f-94f0-7384-61b3-4a7c1eb8f0c0/mzvf_7284914995192000529.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%81%D0%B5%D0%BD%D0%B4%D0%B5%D0%B9-%D0%B0%D1%80%D1%83-%D0%B6%D0%BE%D2%9B-feat-aikyn-tolepbergen-ost-%D0%B3%D0%B4%D0%B5-%D0%BC%D0%BE%D1%91-%D0%BA%D0%BE%D0%BB%D1%8C%D1%86%D0%BE/1552434401?uo=4",
+   "artistVideoTitle": "Сендей ару жоқ (feat. Aikyn Tolepbergen) [OST \"Где моё кольцо?\"]",
    "edited": true
   },
   {
@@ -1274,6 +1371,9 @@
    ],
    "age": "family",
    "era": "2008-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/c3/5e/ec/c35eec3f-94f0-7384-61b3-4a7c1eb8f0c0/mzvf_7284914995192000529.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%81%D0%B5%D0%BD%D0%B4%D0%B5%D0%B9-%D0%B0%D1%80%D1%83-%D0%B6%D0%BE%D2%9B-feat-aikyn-tolepbergen-ost-%D0%B3%D0%B4%D0%B5-%D0%BC%D0%BE%D1%91-%D0%BA%D0%BE%D0%BB%D1%8C%D1%86%D0%BE/1552434401?uo=4",
+   "artistVideoTitle": "Сендей ару жоқ (feat. Aikyn Tolepbergen) [OST \"Где моё кольцо?\"]",
    "edited": true
   },
   {
@@ -1298,7 +1398,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2008-now"
+   "era": "2008-now",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/c3/5e/ec/c35eec3f-94f0-7384-61b3-4a7c1eb8f0c0/mzvf_7284914995192000529.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D1%81%D0%B5%D0%BD%D0%B4%D0%B5%D0%B9-%D0%B0%D1%80%D1%83-%D0%B6%D0%BE%D2%9B-feat-aikyn-tolepbergen-ost-%D0%B3%D0%B4%D0%B5-%D0%BC%D0%BE%D1%91-%D0%BA%D0%BE%D0%BB%D1%8C%D1%86%D0%BE/1552434401?uo=4",
+   "videoTitle": "Сендей ару жоқ (feat. Aikyn Tolepbergen) [OST \"Где моё кольцо?\"]"
   },
   {
    "id": "1541309330",
@@ -1322,7 +1425,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2008-now"
+   "era": "2008-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/c3/5e/ec/c35eec3f-94f0-7384-61b3-4a7c1eb8f0c0/mzvf_7284914995192000529.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%81%D0%B5%D0%BD%D0%B4%D0%B5%D0%B9-%D0%B0%D1%80%D1%83-%D0%B6%D0%BE%D2%9B-feat-aikyn-tolepbergen-ost-%D0%B3%D0%B4%D0%B5-%D0%BC%D0%BE%D1%91-%D0%BA%D0%BE%D0%BB%D1%8C%D1%86%D0%BE/1552434401?uo=4",
+   "artistVideoTitle": "Сендей ару жоқ (feat. Aikyn Tolepbergen) [OST \"Где моё кольцо?\"]"
   },
   {
    "id": "1535956526",
@@ -1347,6 +1453,9 @@
    ],
    "age": "family",
    "era": "2008-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/c3/5e/ec/c35eec3f-94f0-7384-61b3-4a7c1eb8f0c0/mzvf_7284914995192000529.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%81%D0%B5%D0%BD%D0%B4%D0%B5%D0%B9-%D0%B0%D1%80%D1%83-%D0%B6%D0%BE%D2%9B-feat-aikyn-tolepbergen-ost-%D0%B3%D0%B4%D0%B5-%D0%BC%D0%BE%D1%91-%D0%BA%D0%BE%D0%BB%D1%8C%D1%86%D0%BE/1552434401?uo=4",
+   "artistVideoTitle": "Сендей ару жоқ (feat. Aikyn Tolepbergen) [OST \"Где моё кольцо?\"]",
    "edited": true
   },
   {
@@ -1371,7 +1480,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2008-now"
+   "era": "2008-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/c3/5e/ec/c35eec3f-94f0-7384-61b3-4a7c1eb8f0c0/mzvf_7284914995192000529.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%81%D0%B5%D0%BD%D0%B4%D0%B5%D0%B9-%D0%B0%D1%80%D1%83-%D0%B6%D0%BE%D2%9B-feat-aikyn-tolepbergen-ost-%D0%B3%D0%B4%D0%B5-%D0%BC%D0%BE%D1%91-%D0%BA%D0%BE%D0%BB%D1%8C%D1%86%D0%BE/1552434401?uo=4",
+   "artistVideoTitle": "Сендей ару жоқ (feat. Aikyn Tolepbergen) [OST \"Где моё кольцо?\"]"
   },
   {
    "id": "1666901833",
@@ -2110,7 +2222,10 @@
     "jazz"
    ],
    "age": "family",
-   "era": "1990s-2015"
+   "era": "1990s-2015",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/dd/23/fe/dd23fe1e-530a-0fe7-f9ce-ffcefc59a486/mzvf_281607453414445356.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%82%D0%B8%D0%BA-%D1%82%D0%B0%D0%BA/1726525035?uo=4",
+   "artistVideoTitle": "Тик-так"
   },
   {
    "id": "1704006130",
@@ -2136,7 +2251,10 @@
     "jazz"
    ],
    "age": "family",
-   "era": "1990s-2015"
+   "era": "1990s-2015",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/11/b7/3b/11b73b71-87f9-95ad-5796-099ed2e6b605/mzvf_9447624400990975759.720w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%81%D0%B5-%D0%BB%D1%8F-%D0%B2%D0%B8/1540259497?uo=4",
+   "artistVideoTitle": "Се ля ви"
   },
   {
    "id": "1586634871",
@@ -2162,7 +2280,10 @@
     "jazz"
    ],
    "age": "family",
-   "era": "1990s-2015"
+   "era": "1990s-2015",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/dd/23/fe/dd23fe1e-530a-0fe7-f9ce-ffcefc59a486/mzvf_281607453414445356.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%82%D0%B8%D0%BA-%D1%82%D0%B0%D0%BA/1726525035?uo=4",
+   "artistVideoTitle": "Тик-так"
   },
   {
    "id": "1599072177",
@@ -2176,8 +2297,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/b0/82/21/b082215c-dc88-c8ca-04b5-33b3ef65c06f/mzaf_16751276808101151869.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/a3/b8/b3/a3b8b348-f004-ddd7-a5e1-0cb6d2955514/0.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%BC%D0%BE%D1%81%D1%82%D1%8B/1599072176?i=1599072177&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/5e/e8/53/5ee85363-514f-1a44-ebec-82e500bd921c/mzvf_3849845391302332103.1920w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/%D0%BC%D0%BE%D1%81%D1%82%D1%8B-a21-live-session/1719616975?uo=4",
    "tier": 1,
    "genres": [
     "retro",
@@ -2190,7 +2309,10 @@
     "jazz"
    ],
    "age": "family",
-   "era": "1990s-2015"
+   "era": "1990s-2015",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/5e/e8/53/5ee85363-514f-1a44-ebec-82e500bd921c/mzvf_3849845391302332103.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D0%BC%D0%BE%D1%81%D1%82%D1%8B-a21-live-session/1719616975?uo=4",
+   "videoTitle": "Мосты (A'21 Live Session)"
   },
   {
    "id": "1535968382",
@@ -2204,8 +2326,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/16/5e/a7/165ea7e4-09ec-ab93-268c-84f4e49351f3/mzaf_7639221689524642036.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/18/bc/6c/18bc6cac-4692-239d-9a6d-8b6bc646221e/0.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D1%81%D0%B5-%D0%BB%D1%8F-%D0%B2%D0%B8/1535968381?i=1535968382&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/11/b7/3b/11b73b71-87f9-95ad-5796-099ed2e6b605/mzvf_9447624400990975759.720w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/%D1%81%D0%B5-%D0%BB%D1%8F-%D0%B2%D0%B8/1540259497?uo=4",
    "tier": 1,
    "genres": [
     "retro",
@@ -2218,7 +2338,10 @@
     "jazz"
    ],
    "age": "family",
-   "era": "1990s-2015"
+   "era": "1990s-2015",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/11/b7/3b/11b73b71-87f9-95ad-5796-099ed2e6b605/mzvf_9447624400990975759.720w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D1%81%D0%B5-%D0%BB%D1%8F-%D0%B2%D0%B8/1540259497?uo=4",
+   "videoTitle": "Се ля ви"
   },
   {
    "id": "1559103819",
@@ -2232,8 +2355,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/9e/0a/fd/9e0afdce-8ee7-88f5-00e6-25e17be48962/mzaf_15588021590830924540.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/61/3d/e6/613de6aa-e66e-4ea2-850d-46337075240b/0.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D1%83%D0%BB%D0%B5%D1%82%D0%B0%D1%8E/1559103816?i=1559103819&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/c5/da/9c/c5da9cec-179f-83c6-5681-3e6fcbbcbbc7/mzvf_12933309793822815128.1920w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/%D1%83%D0%BB%D0%B5%D1%82%D0%B0%D1%8E/1726936396?uo=4",
    "tier": 1,
    "genres": [
     "retro",
@@ -2246,7 +2367,10 @@
     "jazz"
    ],
    "age": "family",
-   "era": "1990s-2015"
+   "era": "1990s-2015",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/c5/da/9c/c5da9cec-179f-83c6-5681-3e6fcbbcbbc7/mzvf_12933309793822815128.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D1%83%D0%BB%D0%B5%D1%82%D0%B0%D1%8E/1726936396?uo=4",
+   "videoTitle": "Улетаю"
   },
   {
    "id": "1535533695",
@@ -2260,8 +2384,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/15/b5/b1/15b5b153-9461-c973-c8e8-26bc2cff6dfe/mzaf_3742890410039737074.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/86/7b/b3/867bb378-2959-a255-97ff-1e17071ba91f/0.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D1%82%D0%B8%D0%BA-%D1%82%D0%B0%D0%BA/1535533694?i=1535533695&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/dd/23/fe/dd23fe1e-530a-0fe7-f9ce-ffcefc59a486/mzvf_281607453414445356.1920w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/%D1%82%D0%B8%D0%BA-%D1%82%D0%B0%D0%BA/1726525035?uo=4",
    "tier": 1,
    "genres": [
     "retro",
@@ -2274,7 +2396,10 @@
     "jazz"
    ],
    "age": "family",
-   "era": "1990s-2015"
+   "era": "1990s-2015",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/dd/23/fe/dd23fe1e-530a-0fe7-f9ce-ffcefc59a486/mzvf_281607453414445356.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D1%82%D0%B8%D0%BA-%D1%82%D0%B0%D0%BA/1726525035?uo=4",
+   "videoTitle": "Тик-так"
   },
   {
    "id": "1579543275",
@@ -2288,8 +2413,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/bf/74/64/bf7464af-b700-ad2d-daa9-9a2aee7a62ec/mzaf_8383033110027408110.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/90/7e/aa/907eaaab-d587-24a1-61b1-e02bc9523fd4/0.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D1%82%D0%B0%D0%BA-%D0%B6%D0%B5-%D0%BA%D0%B0%D0%BA-%D0%B2%D1%81%D0%B5/1579543267?i=1579543275&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/1c/a9/f3/1ca9f394-eb3b-c958-cc60-87c525cae116/mzvf_17374403805477114150.1920w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/%D1%82%D0%B0%D0%BA-%D0%B6%D0%B5-%D0%BA%D0%B0%D0%BA-%D0%B2%D1%81%D0%B5/1726928863?uo=4",
    "tier": 1,
    "genres": [
     "retro",
@@ -2302,7 +2425,10 @@
     "jazz"
    ],
    "age": "family",
-   "era": "1990s-2015"
+   "era": "1990s-2015",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/1c/a9/f3/1ca9f394-eb3b-c958-cc60-87c525cae116/mzvf_17374403805477114150.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D1%82%D0%B0%D0%BA-%D0%B6%D0%B5-%D0%BA%D0%B0%D0%BA-%D0%B2%D1%81%D0%B5/1726928863?uo=4",
+   "videoTitle": "Так же как все"
   },
   {
    "id": "1586625528",
@@ -2316,8 +2442,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/7b/67/ce/7b67ce57-47a7-f78c-f0f7-e3d51fdb9ed5/mzaf_9970416803380025779.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/af/fd/e5/affde5aa-a55b-3413-c31f-f067d7fa2881/0.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%BF%D0%B0%D0%BF%D0%B0-%D0%BC%D0%B0%D0%BC%D0%B0-%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D1%8F-1/1586625527?i=1586625528&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video122/v4/ef/57/d3/ef57d3e1-856b-976c-ab1b-f066bfc3f273/mzvf_9172390162247129800.1920w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/%D0%BF%D0%B0%D0%BF%D0%B0-%D0%BC%D0%B0%D0%BC%D0%B0/1735712629?uo=4",
    "tier": 1,
    "genres": [
     "retro",
@@ -2330,7 +2454,10 @@
     "jazz"
    ],
    "age": "family",
-   "era": "1990s-2015"
+   "era": "1990s-2015",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video122/v4/ef/57/d3/ef57d3e1-856b-976c-ab1b-f066bfc3f273/mzvf_9172390162247129800.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D0%BF%D0%B0%D0%BF%D0%B0-%D0%BC%D0%B0%D0%BC%D0%B0/1735712629?uo=4",
+   "videoTitle": "Папа, мама"
   },
   {
    "id": "1586636476",
@@ -2356,7 +2483,10 @@
     "jazz"
    ],
    "age": "family",
-   "era": "1990s-2015"
+   "era": "1990s-2015",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/b0/07/68/b0076860-261a-bf05-1e43-e78d6cbf50ba/mzvf_14239504657186661512.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B1%D0%B5%D0%B3%D1%83-%D0%BA-%D1%82%D0%B5%D0%B1%D0%B5/1726929457?uo=4",
+   "artistVideoTitle": "Бегу к тебе"
   },
   {
    "id": "1413688323",
@@ -2379,7 +2509,10 @@
     "classical"
    ],
    "age": "family",
-   "era": "2015-now"
+   "era": "2015-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/d7/b2/25/d7b22577-32c3-5938-27f5-cdcecac22230/mzvf_9615795124974899784.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BB%D1%8E%D0%B1%D0%BE%D0%B2%D1%8C-%D1%83%D1%81%D1%82%D0%B0%D0%B2%D1%88%D0%B8%D1%85-%D0%BB%D0%B5%D0%B1%D0%B5%D0%B4%D0%B5%D0%B9/1491603722?uo=4",
+   "artistVideoTitle": "Любовь уставших лебедей"
   },
   {
    "id": "1395859493",
@@ -2402,7 +2535,10 @@
     "classical"
    ],
    "age": "family",
-   "era": "2015-now"
+   "era": "2015-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video123/v4/72/f1/c3/72f1c371-7490-8fe1-c0d0-e9a52ec5ef0a/mzvf_17548008256184139900.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B7%D0%BD%D0%B0%D0%B9/1483708099?uo=4",
+   "artistVideoTitle": "Знай"
   },
   {
    "id": "1732298393",
@@ -2427,6 +2563,9 @@
    "age": "family",
    "era": "2015-now",
    "flagEnglish": true,
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/3e/85/67/3e856754-7e04-aa14-867f-e1f5da90ff2d/mzvf_15492011227148044350.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/loves-not-over-yet/1800996278?uo=4",
+   "artistVideoTitle": "Love's Not Over Yet",
    "edited": true
   },
   {
@@ -2452,6 +2591,9 @@
    "age": "family",
    "era": "2015-now",
    "flagEnglish": true,
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/5b/10/fc/5b10fc96-7b21-78dd-a6bf-c2fd157afc1c/mzvf_5939581123060331653.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B7%D0%BD%D0%B0%D0%B9/1545338160?uo=4",
+   "artistVideoTitle": "Знай",
    "edited": true
   },
   {
@@ -2476,6 +2618,9 @@
    ],
    "age": "family",
    "era": "2015-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video123/v4/72/f1/c3/72f1c371-7490-8fe1-c0d0-e9a52ec5ef0a/mzvf_17548008256184139900.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B7%D0%BD%D0%B0%D0%B9/1483708099?uo=4",
+   "artistVideoTitle": "Знай",
    "edited": true
   },
   {
@@ -2501,6 +2646,9 @@
    "age": "family",
    "era": "2015-now",
    "flagEnglish": true,
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/5b/10/fc/5b10fc96-7b21-78dd-a6bf-c2fd157afc1c/mzvf_5939581123060331653.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B7%D0%BD%D0%B0%D0%B9/1545338160?uo=4",
+   "artistVideoTitle": "Знай",
    "edited": true
   },
   {
@@ -2524,7 +2672,10 @@
     "classical"
    ],
    "age": "family",
-   "era": "2015-now"
+   "era": "2015-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/5b/10/fc/5b10fc96-7b21-78dd-a6bf-c2fd157afc1c/mzvf_5939581123060331653.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B7%D0%BD%D0%B0%D0%B9/1545338160?uo=4",
+   "artistVideoTitle": "Знай"
   },
   {
    "id": "1395854135",
@@ -2549,6 +2700,9 @@
    "age": "family",
    "era": "2015-now",
    "flagEnglish": true,
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/d7/b2/25/d7b22577-32c3-5938-27f5-cdcecac22230/mzvf_9615795124974899784.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BB%D1%8E%D0%B1%D0%BE%D0%B2%D1%8C-%D1%83%D1%81%D1%82%D0%B0%D0%B2%D1%88%D0%B8%D1%85-%D0%BB%D0%B5%D0%B1%D0%B5%D0%B4%D0%B5%D0%B9/1491603722?uo=4",
+   "artistVideoTitle": "Любовь уставших лебедей",
    "edited": true
   },
   {
@@ -2574,6 +2728,9 @@
    "age": "family",
    "era": "2015-now",
    "flagEnglish": true,
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video123/v4/72/f1/c3/72f1c371-7490-8fe1-c0d0-e9a52ec5ef0a/mzvf_17548008256184139900.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B7%D0%BD%D0%B0%D0%B9/1483708099?uo=4",
+   "artistVideoTitle": "Знай",
    "edited": true
   },
   {
@@ -2597,7 +2754,10 @@
     "classical"
    ],
    "age": "family",
-   "era": "2015-now"
+   "era": "2015-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/d7/b2/25/d7b22577-32c3-5938-27f5-cdcecac22230/mzvf_9615795124974899784.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BB%D1%8E%D0%B1%D0%BE%D0%B2%D1%8C-%D1%83%D1%81%D1%82%D0%B0%D0%B2%D1%88%D0%B8%D1%85-%D0%BB%D0%B5%D0%B1%D0%B5%D0%B4%D0%B5%D0%B9/1491603722?uo=4",
+   "artistVideoTitle": "Любовь уставших лебедей"
   },
   {
    "id": "1355737377",
@@ -2611,8 +2771,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/0e/d6/32/0ed6325e-ddde-9894-97d7-f616dd2fa2a5/mzaf_16177157079144021810.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/3d/8b/5f/3d8b5f38-d3fb-6c11-6dd8-b7f4d05ceeb8/contsched.cchzdzyc.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%BC%D0%B5%D0%B4%D0%B8%D0%BD%D0%B0/1355736895?i=1355737377&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video128/v4/41/3f/3b/413f3b9c-6a9f-54e5-4529-184940e5f558/mzvf_194168378781257949.1920w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/%D0%BC%D0%B5%D0%B4%D0%B8%D0%BD%D0%B0/1361141899?uo=4",
    "tier": 1,
    "genres": [
     "rap",
@@ -2625,7 +2783,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2015-now"
+   "era": "2015-now",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video128/v4/41/3f/3b/413f3b9c-6a9f-54e5-4529-184940e5f558/mzvf_194168378781257949.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D0%BC%D0%B5%D0%B4%D0%B8%D0%BD%D0%B0/1361141899?uo=4",
+   "videoTitle": "Медина"
   },
   {
    "id": "1650481053",
@@ -2651,7 +2812,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2015-now"
+   "era": "2015-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/12/1e/00/121e00fd-ef0e-c181-680c-0fa09240dfa5/mzvf_9319230953028245405.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B8%D1%81%D0%BA%D0%B0%D0%BB-%D0%BD%D0%B0%D1%88%D1%91%D0%BB/1556894175?uo=4",
+   "artistVideoTitle": "Искал-Нашёл"
   },
   {
    "id": "1164160868",
@@ -2677,7 +2841,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2015-now"
+   "era": "2015-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/12/1e/00/121e00fd-ef0e-c181-680c-0fa09240dfa5/mzvf_9319230953028245405.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B8%D1%81%D0%BA%D0%B0%D0%BB-%D0%BD%D0%B0%D1%88%D1%91%D0%BB/1556894175?uo=4",
+   "artistVideoTitle": "Искал-Нашёл"
   },
   {
    "id": "1090546556",
@@ -2703,7 +2870,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2015-now"
+   "era": "2015-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video128/v4/41/3f/3b/413f3b9c-6a9f-54e5-4529-184940e5f558/mzvf_194168378781257949.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BC%D0%B5%D0%B4%D0%B8%D0%BD%D0%B0/1361141899?uo=4",
+   "artistVideoTitle": "Медина"
   },
   {
    "id": "1264665046",
@@ -2729,7 +2899,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2015-now"
+   "era": "2015-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/4c/ab/f5/4cabf58e-efd6-c041-1ec4-eff831a558b5/mzvf_2768539355441412191.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BF%D0%B0%D0%BD%D0%B4%D0%B0/1701775816?uo=4",
+   "artistVideoTitle": "Панда"
   },
   {
    "id": "1090557340",
@@ -2755,7 +2928,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2015-now"
+   "era": "2015-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/60/4f/b9/604fb9fd-d306-a1ba-f7a8-e93c362a7539/mzvf_2212280220445911563.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/la-vida-loca-feat-jaman-t-lyric-video/1537144622?uo=4",
+   "artistVideoTitle": "La Vida Loca (feat. Jaman T) [Lyric Video]"
   },
   {
    "id": "1164160850",
@@ -2769,8 +2945,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/8b/71/dc/8b71dc4c-53c2-4db8-a5aa-f556feef730e/mzaf_16763971960249460823.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music71/v4/1d/90/01/1d900115-0bbb-ca90-284e-21078ae09308/190295980672.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%BB%D0%B5%D0%B9%D0%BB%D0%B0-feat-%D0%BC%D0%B0%D0%BA%D0%B2%D0%B8%D0%BD/1164160464?i=1164160850&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video125/v4/19/45/66/194566c6-cb4b-a300-a929-583a9b6bdf29/mzvf_1071214841444801191.1920w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/%D0%BB%D0%B5%D0%B9%D0%BB%D0%B0-feat-%D0%BC%D0%B0%D0%BA%D0%B2%D0%B8%D0%BD/1247919041?uo=4",
    "tier": 1,
    "genres": [
     "rap",
@@ -2783,7 +2957,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2015-now"
+   "era": "2015-now",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video125/v4/19/45/66/194566c6-cb4b-a300-a929-583a9b6bdf29/mzvf_1071214841444801191.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D0%BB%D0%B5%D0%B9%D0%BB%D0%B0-feat-%D0%BC%D0%B0%D0%BA%D0%B2%D0%B8%D0%BD/1247919041?uo=4",
+   "videoTitle": "Лейла (feat. Маквин)"
   },
   {
    "id": "1545659934",
@@ -2797,8 +2974,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/25/46/6e/25466e06-4049-ccee-7c9b-f29ea6e7602d/mzaf_6814426405189398795.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/12/64/2e/12642e32-69aa-6703-cc39-55cb9123c617/190295043537.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%B8%D1%81%D0%BA%D0%B0%D0%BB-%D0%BD%D0%B0%D1%88%D1%91%D0%BB/1545659741?i=1545659934&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/12/1e/00/121e00fd-ef0e-c181-680c-0fa09240dfa5/mzvf_9319230953028245405.1920w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/%D0%B8%D1%81%D0%BA%D0%B0%D0%BB-%D0%BD%D0%B0%D1%88%D1%91%D0%BB/1556894175?uo=4",
    "tier": 3,
    "genres": [
     "rap",
@@ -2812,6 +2987,9 @@
    ],
    "age": "family",
    "era": "2015-now",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/12/1e/00/121e00fd-ef0e-c181-680c-0fa09240dfa5/mzvf_9319230953028245405.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D0%B8%D1%81%D0%BA%D0%B0%D0%BB-%D0%BD%D0%B0%D1%88%D1%91%D0%BB/1556894175?uo=4",
+   "videoTitle": "Искал-Нашёл",
    "edited": true
   },
   {
@@ -2838,7 +3016,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2015-now"
+   "era": "2015-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/60/4f/b9/604fb9fd-d306-a1ba-f7a8-e93c362a7539/mzvf_2212280220445911563.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/la-vida-loca-feat-jaman-t-lyric-video/1537144622?uo=4",
+   "artistVideoTitle": "La Vida Loca (feat. Jaman T) [Lyric Video]"
   },
   {
    "id": "1484327342",
@@ -2852,8 +3033,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/fc/85/c9/fc85c913-ff7e-f73f-af55-2bfa89b48040/mzaf_4220763066258219723.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/e6/a0/11/e6a011af-a106-8131-2cea-0dc9192753b0/190295390730.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%B4%D0%B6%D0%B0%D0%B4%D1%83%D0%B0/1484327338?i=1484327342&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video113/v4/34/b0/28/34b02884-adb3-0c83-9b16-5617c4e362f5/mzvf_9334121047965924752.1920w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/%D0%B4%D0%B6%D0%B0%D0%B4%D1%83%D0%B0/1485750810?uo=4",
    "tier": 1,
    "genres": [
     "rap",
@@ -2866,7 +3045,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2015-now"
+   "era": "2015-now",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video113/v4/34/b0/28/34b02884-adb3-0c83-9b16-5617c4e362f5/mzvf_9334121047965924752.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D0%B4%D0%B6%D0%B0%D0%B4%D1%83%D0%B0/1485750810?uo=4",
+   "videoTitle": "Джадуа"
   },
   {
    "id": "6766889800",
@@ -2890,7 +3072,10 @@
     "rnb"
    ],
    "age": "family",
-   "era": "2018-now"
+   "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/90/21/b3/9021b36d-8f20-78c6-b74a-2f48e4613fb3/mzvf_17012990877921864815.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/ne-sebep/1781376232?uo=4",
+   "artistVideoTitle": "Ne Sebep?"
   },
   {
    "id": "1806052221",
@@ -2914,7 +3099,10 @@
     "rnb"
    ],
    "age": "family",
-   "era": "2018-now"
+   "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/53/db/75/53db7539-1a03-dc30-7238-506ac51b6517/mzvf_2772899491425883406.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/uige/1786119843?uo=4",
+   "artistVideoTitle": "Uige"
   },
   {
    "id": "6766889610",
@@ -2938,7 +3126,10 @@
     "rnb"
    ],
    "age": "family",
-   "era": "2018-now"
+   "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/34/e8/2d/34e82d4c-cb46-1ab4-880e-6ba249c793d4/mzvf_8328809125055177311.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/ant/1763655809?uo=4",
+   "artistVideoTitle": "Ant"
   },
   {
    "id": "6766889591",
@@ -2962,7 +3153,10 @@
     "rnb"
    ],
    "age": "family",
-   "era": "2018-now"
+   "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/81/19/98/8119982b-0c3b-5528-5092-b7564e53c6fc/mzvf_17024417558584609728.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/qansha-kun/1786116974?uo=4",
+   "artistVideoTitle": "Qansha Kun?"
   },
   {
    "id": "1700912887",
@@ -2976,8 +3170,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/e4/c4/0d/e4c40dd8-08d6-f933-f7e3-5d5718bd2cd8/mzaf_18150855306743343592.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/5e/2b/c8/5e2bc833-d6cd-f096-cdbd-c47714747192/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/aiga-qarap/1700912870?i=1700912887&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/08/75/3b/08753b3f-778b-8713-76d2-799b371df5b4/mzvf_17023558399106911308.1920w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/aiga-qarap/1774026448?uo=4",
    "tier": 1,
    "genres": [
     "pop",
@@ -2988,7 +3180,10 @@
     "rnb"
    ],
    "age": "family",
-   "era": "2018-now"
+   "era": "2018-now",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/08/75/3b/08753b3f-778b-8713-76d2-799b371df5b4/mzvf_17023558399106911308.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/aiga-qarap/1774026448?uo=4",
+   "videoTitle": "Aiga qarap"
   },
   {
    "id": "1759423716",
@@ -3002,8 +3197,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/0d/cb/bd/0dcbbd19-db07-75bf-a79b-6a1eea3e748f/mzaf_11973602703180638589.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/0d/a2/2c/0da22ca2-2f38-3123-38ae-1836268a562d/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/taxi/1759423701?i=1759423716&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/b4/9c/ec/b49cec06-9eb8-cd7c-8205-c4d728fd1392/mzvf_6129415418117153116.1920w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/taxi/1785892483?uo=4",
    "tier": 1,
    "genres": [
     "pop",
@@ -3014,7 +3207,10 @@
     "rnb"
    ],
    "age": "family",
-   "era": "2018-now"
+   "era": "2018-now",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/b4/9c/ec/b49cec06-9eb8-cd7c-8205-c4d728fd1392/mzvf_6129415418117153116.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/taxi/1785892483?uo=4",
+   "videoTitle": "Taxi"
   },
   {
    "id": "1768082732",
@@ -3038,7 +3234,10 @@
     "rnb"
    ],
    "age": "family",
-   "era": "2018-now"
+   "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/34/e8/2d/34e82d4c-cb46-1ab4-880e-6ba249c793d4/mzvf_8328809125055177311.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/ant/1763655809?uo=4",
+   "artistVideoTitle": "Ant"
   },
   {
    "id": "1851698925",
@@ -3062,7 +3261,10 @@
     "rnb"
    ],
    "age": "family",
-   "era": "2018-now"
+   "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/45/7f/d1/457fd158-bb06-ab90-69d1-8f3e05f576d3/mzvf_16275785193370404706.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/kuz/1781376462?uo=4",
+   "artistVideoTitle": "Kuz"
   },
   {
    "id": "1695106274",
@@ -3076,8 +3278,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/47/13/c7/4713c75b-ef24-5173-7c75-829af0d0a861/mzaf_5929848722538840797.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/01/32/ec/0132ecb5-82c8-6add-7d3c-0f00b94e5f8a/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/qansha-kun/1695106253?i=1695106274&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/81/19/98/8119982b-0c3b-5528-5092-b7564e53c6fc/mzvf_17024417558584609728.1920w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/qansha-kun/1786116974?uo=4",
    "tier": 1,
    "genres": [
     "pop",
@@ -3088,7 +3288,10 @@
     "rnb"
    ],
    "age": "family",
-   "era": "2018-now"
+   "era": "2018-now",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/81/19/98/8119982b-0c3b-5528-5092-b7564e53c6fc/mzvf_17024417558584609728.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/qansha-kun/1786116974?uo=4",
+   "videoTitle": "Qansha Kun?"
   },
   {
    "id": "1522822259",
@@ -3112,7 +3315,10 @@
     "rnb"
    ],
    "age": "family",
-   "era": "2018-now"
+   "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/08/75/3b/08753b3f-778b-8713-76d2-799b371df5b4/mzvf_17023558399106911308.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/aiga-qarap/1774026448?uo=4",
+   "artistVideoTitle": "Aiga qarap"
   },
   {
    "id": "1654400423",
@@ -3297,7 +3503,10 @@
     "rnb"
    ],
    "age": "18plus",
-   "era": "2017-now"
+   "era": "2017-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/ee/32/de/ee32dea2-f4df-439e-9493-acc41f42f693/mzvf_3656741376963501313.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BF%D0%BE%D1%81%D0%BB%D0%B5-%D0%B4%D0%BE%D0%B6%D0%B4%D1%8F/1701109868?uo=4",
+   "artistVideoTitle": "После дождя"
   },
   {
    "id": "1635351541",
@@ -3321,7 +3530,10 @@
     "rnb"
    ],
    "age": "18plus",
-   "era": "2017-now"
+   "era": "2017-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video122/v4/2b/05/08/2b050811-0531-b64a-24c0-d35290028125/mzvf_10244524967593957332.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BC%D0%B0%D1%80%D0%BE%D0%B4%D1%91%D1%80%D1%8B/1635711867?uo=4",
+   "artistVideoTitle": "Мародёры"
   },
   {
    "id": "1692972427",
@@ -3345,7 +3557,10 @@
     "rnb"
    ],
    "age": "18plus",
-   "era": "2017-now"
+   "era": "2017-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/97/da/89/97da8972-d1c3-40de-d329-2c73acb0aaa8/mzvf_12751913778931307218.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%81%D0%B8%D0%B4%D0%B8-%D0%B4%D0%BE%D0%BC%D0%B0/1785642495?uo=4",
+   "artistVideoTitle": "Сиди дома"
   },
   {
    "id": "6762845229",
@@ -3369,7 +3584,10 @@
     "rnb"
    ],
    "age": "18plus",
-   "era": "2017-now"
+   "era": "2017-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/97/da/89/97da8972-d1c3-40de-d329-2c73acb0aaa8/mzvf_12751913778931307218.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%81%D0%B8%D0%B4%D0%B8-%D0%B4%D0%BE%D0%BC%D0%B0/1785642495?uo=4",
+   "artistVideoTitle": "Сиди дома"
   },
   {
    "id": "1531905663",
@@ -3393,7 +3611,10 @@
     "rnb"
    ],
    "age": "18plus",
-   "era": "2017-now"
+   "era": "2017-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video123/v4/28/5d/37/285d3738-8348-abf4-d644-ad7b12c4bdbb/mzvf_9644989232587353760.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BD%D0%B0-2-%D0%B8%D1%85/1667835798?uo=4",
+   "artistVideoTitle": "На 2 Их"
   },
   {
    "id": "1692972433",
@@ -3407,8 +3628,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/58/d8/5d/58d85db5-36af-030f-f152-d7ceb44b3b9a/mzaf_12412852733727470010.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/cd/48/5c/cd485cfe-7352-38f7-e15f-d3f05234b3bf/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%BF%D0%BE%D1%81%D0%BB%D0%B5-%D0%B4%D0%BE%D0%B6%D0%B4%D1%8F/1692972415?i=1692972433&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/ee/32/de/ee32dea2-f4df-439e-9493-acc41f42f693/mzvf_3656741376963501313.1920w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/%D0%BF%D0%BE%D1%81%D0%BB%D0%B5-%D0%B4%D0%BE%D0%B6%D0%B4%D1%8F/1701109868?uo=4",
    "tier": 2,
    "genres": [
     "rap",
@@ -3419,7 +3638,10 @@
     "rnb"
    ],
    "age": "18plus",
-   "era": "2017-now"
+   "era": "2017-now",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/ee/32/de/ee32dea2-f4df-439e-9493-acc41f42f693/mzvf_3656741376963501313.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D0%BF%D0%BE%D1%81%D0%BB%D0%B5-%D0%B4%D0%BE%D0%B6%D0%B4%D1%8F/1701109868?uo=4",
+   "videoTitle": "После дождя"
   },
   {
    "id": "1519807092",
@@ -3443,7 +3665,10 @@
     "rnb"
    ],
    "age": "18plus",
-   "era": "2017-now"
+   "era": "2017-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video122/v4/2d/80/20/2d8020df-0299-5135-d18d-722f721421dd/mzvf_16261802476356631046.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/nov%D1%8B%D0%B9-%D1%82%D1%83%D1%80/1648127768?uo=4",
+   "artistVideoTitle": "NOVЫЙ Тур"
   },
   {
    "id": "1733850654",
@@ -3637,6 +3862,9 @@
    "age": "18plus",
    "era": "2019-now",
    "needsReview": true,
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/e3/2a/98/e32a98cd-b25c-e0ff-b29b-f52b990e098e/mzvf_17858026843822828792.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B2%D1%80%D0%B5%D0%B4%D0%B8%D0%BD%D0%B0/1679450318?uo=4",
+   "artistVideoTitle": "Вредина",
    "edited": true
   },
   {
@@ -3663,6 +3891,9 @@
    "age": "18plus",
    "era": "2019-now",
    "needsReview": true,
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/e3/2a/98/e32a98cd-b25c-e0ff-b29b-f52b990e098e/mzvf_17858026843822828792.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B2%D1%80%D0%B5%D0%B4%D0%B8%D0%BD%D0%B0/1679450318?uo=4",
+   "artistVideoTitle": "Вредина",
    "edited": true
   },
   {
@@ -3688,7 +3919,10 @@
    ],
    "age": "18plus",
    "era": "2019-now",
-   "needsReview": true
+   "needsReview": true,
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/3d/42/ca/3d42caa3-898d-b83a-7a78-d6527a5a1675/mzvf_6162511644575513484.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/true/1845146567?uo=4",
+   "artistVideoTitle": "TRUE"
   },
   {
    "id": "1630843910",
@@ -3702,8 +3936,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/24/43/ea/2443eaff-2239-fc20-9b67-35e860d96b68/mzaf_4155647112889978708.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/03/03/63/0303639b-997a-ab72-c72e-2ed9b6d5a5fe/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%B2%D1%80%D0%B5%D0%B4%D0%B8%D0%BD%D0%B0/1630843903?i=1630843910&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/e3/2a/98/e32a98cd-b25c-e0ff-b29b-f52b990e098e/mzvf_17858026843822828792.1920w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/%D0%B2%D1%80%D0%B5%D0%B4%D0%B8%D0%BD%D0%B0/1679450318?uo=4",
    "tier": 2,
    "genres": [
     "rap",
@@ -3715,7 +3947,10 @@
    ],
    "age": "18plus",
    "era": "2019-now",
-   "needsReview": true
+   "needsReview": true,
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/e3/2a/98/e32a98cd-b25c-e0ff-b29b-f52b990e098e/mzvf_17858026843822828792.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D0%B2%D1%80%D0%B5%D0%B4%D0%B8%D0%BD%D0%B0/1679450318?uo=4",
+   "videoTitle": "Вредина"
   },
   {
    "id": "1597449503",
@@ -3741,6 +3976,9 @@
    "age": "18plus",
    "era": "2019-now",
    "needsReview": true,
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/3d/42/ca/3d42caa3-898d-b83a-7a78-d6527a5a1675/mzvf_6162511644575513484.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/true/1845146567?uo=4",
+   "artistVideoTitle": "TRUE",
    "edited": true
   },
   {
@@ -3767,6 +4005,9 @@
    "age": "18plus",
    "era": "2019-now",
    "needsReview": true,
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video125/v4/a6/15/64/a6156433-bfaa-4fec-8c93-2e816f1ffcd4/mzvf_1446148657857878608.720w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%81%D1%82%D0%B0%D1%82%D1%83%D1%81-%D0%B4%D1%83%D1%88%D0%B8-live/1582469053?uo=4",
+   "artistVideoTitle": "Статус души (Live)",
    "edited": true
   },
   {
@@ -3793,6 +4034,9 @@
    "age": "18plus",
    "era": "2019-now",
    "needsReview": true,
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/f3/ac/50/f3ac50d9-3f81-9588-3852-371c4e15043f/mzvf_12576429213828274062.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%80%D0%B0%D1%81%D1%81%D1%82%D0%BE%D1%8F%D0%BD%D0%B8%D0%B5/1849115142?uo=4",
+   "artistVideoTitle": "Расстояние",
    "edited": true
   },
   {
@@ -3817,7 +4061,10 @@
     "rap"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video122/v4/7e/09/7a/7e097a34-608c-3160-7dc5-a0134aff1a80/mzvf_17834667404773798054.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/shaiqa-feat-dudeontheguitar-de-lacure-yenlik-remix/1631389391?uo=4",
+   "artistVideoTitle": "Shaiqa (feat. dudeontheguitar, De Lacure & Yenlik) [Remix]"
   },
   {
    "id": "1785615544",
@@ -3841,7 +4088,10 @@
     "rap"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/fe/f8/ec/fef8ecb1-b1a6-668b-6bbf-cd58f95eac22/mzvf_269440203667972324.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/k%C3%B5ke-feat-hiro-de-lacure-fatbelly/1550918593?uo=4",
+   "artistVideoTitle": "Kõke (feat. Hiro, De Lacure & Fatbelly)"
   },
   {
    "id": "1751946269",
@@ -3865,7 +4115,10 @@
     "rap"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/e5/a5/b9/e5a5b9cc-2739-8651-a61a-f8eeb87f846e/mzvf_8994955864597524946.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B7%D0%B4%D0%B5%D1%81%D1%8C-%D0%BD%D0%B8%D0%BA%D1%82%D0%BE-%D0%BD%D0%B5-%D0%BA%D1%83%D1%80%D0%B8%D1%82/1774485223?uo=4",
+   "artistVideoTitle": "Здесь никто не курит"
   },
   {
    "id": "1491731353",
@@ -3889,7 +4142,10 @@
     "rap"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/fe/f8/ec/fef8ecb1-b1a6-668b-6bbf-cd58f95eac22/mzvf_269440203667972324.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/k%C3%B5ke-feat-hiro-de-lacure-fatbelly/1550918593?uo=4",
+   "artistVideoTitle": "Kõke (feat. Hiro, De Lacure & Fatbelly)"
   },
   {
    "id": "1803136481",
@@ -3913,7 +4169,10 @@
     "rap"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video122/v4/7e/09/7a/7e097a34-608c-3160-7dc5-a0134aff1a80/mzvf_17834667404773798054.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/shaiqa-feat-dudeontheguitar-de-lacure-yenlik-remix/1631389391?uo=4",
+   "artistVideoTitle": "Shaiqa (feat. dudeontheguitar, De Lacure & Yenlik) [Remix]"
   },
   {
    "id": "1697484956",
@@ -3937,7 +4196,10 @@
     "rap"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video122/v4/7e/09/7a/7e097a34-608c-3160-7dc5-a0134aff1a80/mzvf_17834667404773798054.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/shaiqa-feat-dudeontheguitar-de-lacure-yenlik-remix/1631389391?uo=4",
+   "artistVideoTitle": "Shaiqa (feat. dudeontheguitar, De Lacure & Yenlik) [Remix]"
   },
   {
    "id": "1803136475",
@@ -3961,7 +4223,10 @@
     "rap"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video122/v4/7e/09/7a/7e097a34-608c-3160-7dc5-a0134aff1a80/mzvf_17834667404773798054.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/shaiqa-feat-dudeontheguitar-de-lacure-yenlik-remix/1631389391?uo=4",
+   "artistVideoTitle": "Shaiqa (feat. dudeontheguitar, De Lacure & Yenlik) [Remix]"
   },
   {
    "id": "1762067862",
@@ -3985,7 +4250,10 @@
     "underground"
    ],
    "age": "18plus",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video113/v4/59/ee/4f/59ee4f65-1540-eb78-855e-73635ee94a10/mzvf_16140353198730368931.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/i-can-believe/1661814378?uo=4",
+   "artistVideoTitle": "I Can Believe"
   },
   {
    "id": "1559211313",
@@ -4009,7 +4277,10 @@
     "underground"
    ],
    "age": "18plus",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/68/20/06/68200690-c5c3-b55d-7559-e7d286ae187c/mzvf_12848763333463289664.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/uade/1607483616?uo=4",
+   "artistVideoTitle": "Uade"
   },
   {
    "id": "6768429450",
@@ -4033,7 +4304,10 @@
     "underground"
    ],
    "age": "18plus",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/68/20/06/68200690-c5c3-b55d-7559-e7d286ae187c/mzvf_12848763333463289664.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/uade/1607483616?uo=4",
+   "artistVideoTitle": "Uade"
   },
   {
    "id": "1600154199",
@@ -4047,8 +4321,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/af/c5/6f/afc56f77-eef0-76a8-03e9-5e1ad66e1b9f/mzaf_9065467033153335224.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/31/29/c0/3129c0d0-aba1-b124-74d5-267b307f8bda/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/uade/1600154196?i=1600154199&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/68/20/06/68200690-c5c3-b55d-7559-e7d286ae187c/mzvf_12848763333463289664.1920w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/uade/1607483616?uo=4",
    "tier": 2,
    "genres": [
     "rap",
@@ -4059,7 +4331,10 @@
     "underground"
    ],
    "age": "18plus",
-   "era": "2019-now"
+   "era": "2019-now",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/68/20/06/68200690-c5c3-b55d-7559-e7d286ae187c/mzvf_12848763333463289664.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/uade/1607483616?uo=4",
+   "videoTitle": "Uade"
   },
   {
    "id": "1719775413",
@@ -4083,7 +4358,10 @@
     "underground"
    ],
    "age": "18plus",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video113/v4/59/ee/4f/59ee4f65-1540-eb78-855e-73635ee94a10/mzvf_16140353198730368931.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/i-can-believe/1661814378?uo=4",
+   "artistVideoTitle": "I Can Believe"
   },
   {
    "id": "1859026784",
@@ -4107,7 +4385,10 @@
     "underground"
    ],
    "age": "18plus",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/68/20/06/68200690-c5c3-b55d-7559-e7d286ae187c/mzvf_12848763333463289664.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/uade/1607483616?uo=4",
+   "artistVideoTitle": "Uade"
   },
   {
    "id": "1719775967",
@@ -4131,7 +4412,10 @@
     "underground"
    ],
    "age": "18plus",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video113/v4/59/ee/4f/59ee4f65-1540-eb78-855e-73635ee94a10/mzvf_16140353198730368931.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/i-can-believe/1661814378?uo=4",
+   "artistVideoTitle": "I Can Believe"
   },
   {
    "id": "1637222688",
@@ -4621,7 +4905,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2010s-now"
+   "era": "2010s-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/94/12/47/94124741-2acc-ce89-7bec-beb0092b5b8d/mzvf_14025385923280081698.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/boran-feat-russ-mendy/1535229392?uo=4",
+   "artistVideoTitle": "Boran (feat. Russ Mendy)"
   },
   {
    "id": "1530388227",
@@ -4645,7 +4932,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2010s-now"
+   "era": "2010s-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/94/12/47/94124741-2acc-ce89-7bec-beb0092b5b8d/mzvf_14025385923280081698.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/boran-feat-russ-mendy/1535229392?uo=4",
+   "artistVideoTitle": "Boran (feat. Russ Mendy)"
   },
   {
    "id": "1530350932",
@@ -4669,7 +4959,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2010s-now"
+   "era": "2010s-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/94/12/47/94124741-2acc-ce89-7bec-beb0092b5b8d/mzvf_14025385923280081698.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/boran-feat-russ-mendy/1535229392?uo=4",
+   "artistVideoTitle": "Boran (feat. Russ Mendy)"
   },
   {
    "id": "1530576268",
@@ -4693,7 +4986,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2010s-now"
+   "era": "2010s-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/94/12/47/94124741-2acc-ce89-7bec-beb0092b5b8d/mzvf_14025385923280081698.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/boran-feat-russ-mendy/1535229392?uo=4",
+   "artistVideoTitle": "Boran (feat. Russ Mendy)"
   },
   {
    "id": "1563773413",
@@ -4717,7 +5013,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2010s-now"
+   "era": "2010s-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/94/12/47/94124741-2acc-ce89-7bec-beb0092b5b8d/mzvf_14025385923280081698.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/boran-feat-russ-mendy/1535229392?uo=4",
+   "artistVideoTitle": "Boran (feat. Russ Mendy)"
   },
   {
    "id": "1563772382",
@@ -4741,7 +5040,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2010s-now"
+   "era": "2010s-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/94/12/47/94124741-2acc-ce89-7bec-beb0092b5b8d/mzvf_14025385923280081698.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/boran-feat-russ-mendy/1535229392?uo=4",
+   "artistVideoTitle": "Boran (feat. Russ Mendy)"
   },
   {
    "id": "1601976364",
@@ -4765,7 +5067,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2010s-now"
+   "era": "2010s-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/94/12/47/94124741-2acc-ce89-7bec-beb0092b5b8d/mzvf_14025385923280081698.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/boran-feat-russ-mendy/1535229392?uo=4",
+   "artistVideoTitle": "Boran (feat. Russ Mendy)"
   },
   {
    "id": "1763682058",
@@ -4957,7 +5262,10 @@
     "estrada"
    ],
    "age": "family",
-   "era": "2005-now"
+   "era": "2005-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/28/14/fa/2814fae1-bf05-7a9a-03ad-f84c5de2b4eb/mzvf_846093985291601088.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B6%D2%B1%D0%BB%D0%B4%D1%8B%D0%B7%D0%B4%D1%8B-%D1%82%D2%AF%D0%BD%D0%B4%D0%B5-feat-2rar/1549545322?uo=4",
+   "artistVideoTitle": "Жұлдызды Түнде (feat. 2Rar)"
   },
   {
    "id": "1562649116",
@@ -4981,7 +5289,10 @@
     "estrada"
    ],
    "age": "family",
-   "era": "2005-now"
+   "era": "2005-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/28/14/fa/2814fae1-bf05-7a9a-03ad-f84c5de2b4eb/mzvf_846093985291601088.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B6%D2%B1%D0%BB%D0%B4%D1%8B%D0%B7%D0%B4%D1%8B-%D1%82%D2%AF%D0%BD%D0%B4%D0%B5-feat-2rar/1549545322?uo=4",
+   "artistVideoTitle": "Жұлдызды Түнде (feat. 2Rar)"
   },
   {
    "id": "1718063629",
@@ -5005,7 +5316,10 @@
     "estrada"
    ],
    "age": "family",
-   "era": "2005-now"
+   "era": "2005-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/28/14/fa/2814fae1-bf05-7a9a-03ad-f84c5de2b4eb/mzvf_846093985291601088.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B6%D2%B1%D0%BB%D0%B4%D1%8B%D0%B7%D0%B4%D1%8B-%D1%82%D2%AF%D0%BD%D0%B4%D0%B5-feat-2rar/1549545322?uo=4",
+   "artistVideoTitle": "Жұлдызды Түнде (feat. 2Rar)"
   },
   {
    "id": "1562659479",
@@ -5029,7 +5343,10 @@
     "estrada"
    ],
    "age": "family",
-   "era": "2005-now"
+   "era": "2005-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/28/14/fa/2814fae1-bf05-7a9a-03ad-f84c5de2b4eb/mzvf_846093985291601088.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B6%D2%B1%D0%BB%D0%B4%D1%8B%D0%B7%D0%B4%D1%8B-%D1%82%D2%AF%D0%BD%D0%B4%D0%B5-feat-2rar/1549545322?uo=4",
+   "artistVideoTitle": "Жұлдызды Түнде (feat. 2Rar)"
   },
   {
    "id": "1562649203",
@@ -5053,7 +5370,10 @@
     "estrada"
    ],
    "age": "family",
-   "era": "2005-now"
+   "era": "2005-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/28/14/fa/2814fae1-bf05-7a9a-03ad-f84c5de2b4eb/mzvf_846093985291601088.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B6%D2%B1%D0%BB%D0%B4%D1%8B%D0%B7%D0%B4%D1%8B-%D1%82%D2%AF%D0%BD%D0%B4%D0%B5-feat-2rar/1549545322?uo=4",
+   "artistVideoTitle": "Жұлдызды Түнде (feat. 2Rar)"
   },
   {
    "id": "1562649692",
@@ -5077,7 +5397,10 @@
     "estrada"
    ],
    "age": "family",
-   "era": "2005-now"
+   "era": "2005-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/28/14/fa/2814fae1-bf05-7a9a-03ad-f84c5de2b4eb/mzvf_846093985291601088.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B6%D2%B1%D0%BB%D0%B4%D1%8B%D0%B7%D0%B4%D1%8B-%D1%82%D2%AF%D0%BD%D0%B4%D0%B5-feat-2rar/1549545322?uo=4",
+   "artistVideoTitle": "Жұлдызды Түнде (feat. 2Rar)"
   },
   {
    "id": "1562649432",
@@ -5101,7 +5424,10 @@
     "estrada"
    ],
    "age": "family",
-   "era": "2005-now"
+   "era": "2005-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/28/14/fa/2814fae1-bf05-7a9a-03ad-f84c5de2b4eb/mzvf_846093985291601088.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B6%D2%B1%D0%BB%D0%B4%D1%8B%D0%B7%D0%B4%D1%8B-%D1%82%D2%AF%D0%BD%D0%B4%D0%B5-feat-2rar/1549545322?uo=4",
+   "artistVideoTitle": "Жұлдызды Түнде (feat. 2Rar)"
   },
   {
    "id": "1330814196",
@@ -5293,7 +5619,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "1987-now"
+   "era": "1987-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/5e/e8/53/5ee85363-514f-1a44-ebec-82e500bd921c/mzvf_3849845391302332103.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BC%D0%BE%D1%81%D1%82%D1%8B-a21-live-session/1719616975?uo=4",
+   "artistVideoTitle": "Мосты (A'21 Live Session)"
   },
   {
    "id": "1559103828",
@@ -5307,8 +5636,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/6b/3d/b8/6b3db885-4c0c-8d62-7e05-09a213702c61/mzaf_14400281831480342185.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/61/3d/e6/613de6aa-e66e-4ea2-850d-46337075240b/0.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D1%82%D1%8B/1559103816?i=1559103828&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/03/b5/51/03b55168-552a-2633-794e-0833822af067/mzvf_2451232580918778093.1920w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/%D1%82%D1%8B-feat-zied/1726931528?uo=4",
    "tier": 2,
    "genres": [
     "retro",
@@ -5319,7 +5646,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "1987-now"
+   "era": "1987-now",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/03/b5/51/03b55168-552a-2633-794e-0833822af067/mzvf_2451232580918778093.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D1%82%D1%8B-feat-zied/1726931528?uo=4",
+   "videoTitle": "Ты (feat. Zied)"
   },
   {
    "id": "1265853778",
@@ -5800,7 +6130,10 @@
     "rap"
    ],
    "age": "family",
-   "era": "2017-now"
+   "era": "2017-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/a1/1b/26/a11b2636-355b-a4db-5802-4e36583dbdfd/mzvf_3183054052361283363.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BA%D3%A9%D0%B7-%D2%9B%D0%BE%D1%80%D2%9B%D0%B0%D2%9B-%D2%9B%D0%BE%D0%BB-%D0%B1%D0%B0%D1%82%D1%8B%D1%80/1598370232?uo=4",
+   "artistVideoTitle": "Көз - қорқақ, қол - батыр"
   },
   {
    "id": "1775528972",
@@ -5824,7 +6157,10 @@
     "rap"
    ],
    "age": "family",
-   "era": "2017-now"
+   "era": "2017-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/a1/1b/26/a11b2636-355b-a4db-5802-4e36583dbdfd/mzvf_3183054052361283363.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BA%D3%A9%D0%B7-%D2%9B%D0%BE%D1%80%D2%9B%D0%B0%D2%9B-%D2%9B%D0%BE%D0%BB-%D0%B1%D0%B0%D1%82%D1%8B%D1%80/1598370232?uo=4",
+   "artistVideoTitle": "Көз - қорқақ, қол - батыр"
   },
   {
    "id": "1647591012",
@@ -5848,7 +6184,10 @@
     "rap"
    ],
    "age": "family",
-   "era": "2017-now"
+   "era": "2017-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/a1/1b/26/a11b2636-355b-a4db-5802-4e36583dbdfd/mzvf_3183054052361283363.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BA%D3%A9%D0%B7-%D2%9B%D0%BE%D1%80%D2%9B%D0%B0%D2%9B-%D2%9B%D0%BE%D0%BB-%D0%B1%D0%B0%D1%82%D1%8B%D1%80/1598370232?uo=4",
+   "artistVideoTitle": "Көз - қорқақ, қол - батыр"
   },
   {
    "id": "1703559157",
@@ -5872,7 +6211,10 @@
     "rap"
    ],
    "age": "family",
-   "era": "2017-now"
+   "era": "2017-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/a1/1b/26/a11b2636-355b-a4db-5802-4e36583dbdfd/mzvf_3183054052361283363.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BA%D3%A9%D0%B7-%D2%9B%D0%BE%D1%80%D2%9B%D0%B0%D2%9B-%D2%9B%D0%BE%D0%BB-%D0%B1%D0%B0%D1%82%D1%8B%D1%80/1598370232?uo=4",
+   "artistVideoTitle": "Көз - қорқақ, қол - батыр"
   },
   {
    "id": "1648878249",
@@ -5896,7 +6238,10 @@
     "rap"
    ],
    "age": "family",
-   "era": "2017-now"
+   "era": "2017-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/a1/1b/26/a11b2636-355b-a4db-5802-4e36583dbdfd/mzvf_3183054052361283363.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BA%D3%A9%D0%B7-%D2%9B%D0%BE%D1%80%D2%9B%D0%B0%D2%9B-%D2%9B%D0%BE%D0%BB-%D0%B1%D0%B0%D1%82%D1%8B%D1%80/1598370232?uo=4",
+   "artistVideoTitle": "Көз - қорқақ, қол - батыр"
   },
   {
    "id": "1648878248",
@@ -5920,7 +6265,10 @@
     "rap"
    ],
    "age": "family",
-   "era": "2017-now"
+   "era": "2017-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/a1/1b/26/a11b2636-355b-a4db-5802-4e36583dbdfd/mzvf_3183054052361283363.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BA%D3%A9%D0%B7-%D2%9B%D0%BE%D1%80%D2%9B%D0%B0%D2%9B-%D2%9B%D0%BE%D0%BB-%D0%B1%D0%B0%D1%82%D1%8B%D1%80/1598370232?uo=4",
+   "artistVideoTitle": "Көз - қорқақ, қол - батыр"
   },
   {
    "id": "6785963465",
@@ -6711,7 +7059,10 @@
     "acoustic"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/5e/df/e2/5edfe2b8-c3c1-26cc-c381-d94a9903329b/mzvf_1039026124368628534.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/k%C3%BCt-meni/1704012637?uo=4",
+   "artistVideoTitle": "Küt Meni"
   },
   {
    "id": "1688529995",
@@ -6734,7 +7085,10 @@
     "acoustic"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/5e/df/e2/5edfe2b8-c3c1-26cc-c381-d94a9903329b/mzvf_1039026124368628534.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/k%C3%BCt-meni/1704012637?uo=4",
+   "artistVideoTitle": "Küt Meni"
   },
   {
    "id": "1846865193",
@@ -6757,7 +7111,10 @@
     "acoustic"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/5e/df/e2/5edfe2b8-c3c1-26cc-c381-d94a9903329b/mzvf_1039026124368628534.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/k%C3%BCt-meni/1704012637?uo=4",
+   "artistVideoTitle": "Küt Meni"
   },
   {
    "id": "1885101098",
@@ -6780,7 +7137,10 @@
     "acoustic"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video122/v4/7e/09/7a/7e097a34-608c-3160-7dc5-a0134aff1a80/mzvf_17834667404773798054.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/shaiqa-feat-dudeontheguitar-de-lacure-yenlik-remix/1631389391?uo=4",
+   "artistVideoTitle": "Shaiqa (feat. dudeontheguitar, De Lacure & Yenlik) [Remix]"
   },
   {
    "id": "1527335720",
@@ -6803,7 +7163,10 @@
     "acoustic"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/5e/df/e2/5edfe2b8-c3c1-26cc-c381-d94a9903329b/mzvf_1039026124368628534.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/k%C3%BCt-meni/1704012637?uo=4",
+   "artistVideoTitle": "Küt Meni"
   },
   {
    "id": "1755171356",
@@ -6827,7 +7190,10 @@
     "rnb"
    ],
    "age": "family",
-   "era": "2020-now"
+   "era": "2020-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/94/74/d3/9474d3c1-f72c-26e3-04fa-617af48acb01/mzvf_9969329101278389196.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/ket/1843919698?uo=4",
+   "artistVideoTitle": "Ket"
   },
   {
    "id": "1640249015",
@@ -6851,7 +7217,10 @@
     "rnb"
    ],
    "age": "family",
-   "era": "2020-now"
+   "era": "2020-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video112/v4/de/c3/34/dec3342c-8ec0-363e-f2a4-5bec7967d2b6/mzvf_2338419490504441025.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/sybyrlaiyn-3/1654778505?uo=4",
+   "artistVideoTitle": "sybyrlaiyn <3"
   },
   {
    "id": "1645073442",
@@ -6865,8 +7234,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview122/v4/5f/d5/72/5fd57242-7e13-fcea-5178-70986314a76a/mzaf_2395604676894577207.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/56/d2/f6/56d2f615-ddef-53dc-125f-fb24252297a7/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/sybyrlaiyn-3/1645073431?i=1645073442&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video112/v4/de/c3/34/dec3342c-8ec0-363e-f2a4-5bec7967d2b6/mzvf_2338419490504441025.1920w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/sybyrlaiyn-3/1654778505?uo=4",
    "tier": 3,
    "genres": [
     "indie",
@@ -6877,7 +7244,10 @@
     "rnb"
    ],
    "age": "family",
-   "era": "2020-now"
+   "era": "2020-now",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video112/v4/de/c3/34/dec3342c-8ec0-363e-f2a4-5bec7967d2b6/mzvf_2338419490504441025.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/sybyrlaiyn-3/1654778505?uo=4",
+   "videoTitle": "sybyrlaiyn <3"
   },
   {
    "id": "1656314976",
@@ -6901,7 +7271,10 @@
     "rnb"
    ],
    "age": "family",
-   "era": "2020-now"
+   "era": "2020-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/94/74/d3/9474d3c1-f72c-26e3-04fa-617af48acb01/mzvf_9969329101278389196.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/ket/1843919698?uo=4",
+   "artistVideoTitle": "Ket"
   },
   {
    "id": "1715481652",
@@ -6926,6 +7299,9 @@
    ],
    "age": "family",
    "era": "2020-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/94/74/d3/9474d3c1-f72c-26e3-04fa-617af48acb01/mzvf_9969329101278389196.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/ket/1843919698?uo=4",
+   "artistVideoTitle": "Ket",
    "edited": true
   },
   {
@@ -7070,7 +7446,10 @@
     "soul"
    ],
    "age": "family",
-   "era": "2017-now"
+   "era": "2017-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/16/87/58/16875861-f781-bd53-262c-bf80a780a375/mzvf_11102936063259755271.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B4%D0%BE-%D0%B7%D0%B0%D0%B2%D1%82%D1%80%D0%B0/1541607493?uo=4",
+   "artistVideoTitle": "До завтра"
   },
   {
    "id": "1803583697",
@@ -7094,7 +7473,10 @@
     "soul"
    ],
    "age": "family",
-   "era": "2017-now"
+   "era": "2017-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/5e/e8/53/5ee85363-514f-1a44-ebec-82e500bd921c/mzvf_3849845391302332103.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BC%D0%BE%D1%81%D1%82%D1%8B-a21-live-session/1719616975?uo=4",
+   "artistVideoTitle": "Мосты (A'21 Live Session)"
   },
   {
    "id": "1841862620",
@@ -7118,7 +7500,10 @@
     "soul"
    ],
    "age": "family",
-   "era": "2017-now"
+   "era": "2017-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/a3/1b/d9/a31bd95b-3aa5-9083-cb18-b8d746b0d513/mzvf_8648554339439894675.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BF%D0%B0%D0%B4%D0%B0%D0%B5%D0%BC-live/1547009754?uo=4",
+   "artistVideoTitle": "Падаем (Live)"
   },
   {
    "id": "1538730945",
@@ -7142,7 +7527,10 @@
     "soul"
    ],
    "age": "family",
-   "era": "2017-now"
+   "era": "2017-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/5e/e8/53/5ee85363-514f-1a44-ebec-82e500bd921c/mzvf_3849845391302332103.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BC%D0%BE%D1%81%D1%82%D1%8B-a21-live-session/1719616975?uo=4",
+   "artistVideoTitle": "Мосты (A'21 Live Session)"
   },
   {
    "id": "1841862631",
@@ -7166,7 +7554,10 @@
     "soul"
    ],
    "age": "family",
-   "era": "2017-now"
+   "era": "2017-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/16/87/58/16875861-f781-bd53-262c-bf80a780a375/mzvf_11102936063259755271.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B4%D0%BE-%D0%B7%D0%B0%D0%B2%D1%82%D1%80%D0%B0/1541607493?uo=4",
+   "artistVideoTitle": "До завтра"
   },
   {
    "id": "1807096318",
@@ -7535,7 +7926,10 @@
     "indie"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/eb/39/91/eb39911a-0677-280c-ba2f-f9563982a561/mzvf_11385255418487080776.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/jol/1769505850?uo=4",
+   "artistVideoTitle": "Jol"
   },
   {
    "id": "1846869073",
@@ -7559,7 +7953,10 @@
     "indie"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video113/v4/59/ee/4f/59ee4f65-1540-eb78-855e-73635ee94a10/mzvf_16140353198730368931.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/i-can-believe/1661814378?uo=4",
+   "artistVideoTitle": "I Can Believe"
   },
   {
    "id": "1837198493",
@@ -7583,7 +7980,10 @@
     "indie"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/a1/e5/46/a1e546d7-95bd-feb4-b2af-867180f8d661/mzvf_15306385419809013116.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/bipl-a-colors-show/1867492509?uo=4",
+   "artistVideoTitle": "Bipl - A COLORS SHOW"
   },
   {
    "id": "1841483454",
@@ -7607,7 +8007,10 @@
     "indie"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video113/v4/59/ee/4f/59ee4f65-1540-eb78-855e-73635ee94a10/mzvf_16140353198730368931.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/i-can-believe/1661814378?uo=4",
+   "artistVideoTitle": "I Can Believe"
   },
   {
    "id": "1841483137",
@@ -7631,7 +8034,10 @@
     "indie"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/eb/39/91/eb39911a-0677-280c-ba2f-f9563982a561/mzvf_11385255418487080776.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/jol/1769505850?uo=4",
+   "artistVideoTitle": "Jol"
   },
   {
    "id": "1653986547",
@@ -7755,8 +8161,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/20/dd/e5/20dde5aa-1f9a-61a6-24fd-52549db1491d/mzaf_9316662781782242418.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/39/00/32/39003281-62d2-282a-dd36-96e71350333d/0.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%BD%D0%B5%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%BE%D1%88%D0%BB%D0%BE/1875555368?i=1875555369&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/f4/d5/fd/f4d5fd84-7999-3722-183a-b62645bb3db4/mzvf_47881679995643251.1920w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/%D0%BD%D0%B5%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%BE%D1%88%D0%BB%D0%BE-live-at-vk-stadium-moscow-2024/1812948974?uo=4",
    "tier": 3,
    "genres": [
     "indie"
@@ -7766,7 +8170,10 @@
     "alt"
    ],
    "age": "family",
-   "era": "2018-now"
+   "era": "2018-now",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/f4/d5/fd/f4d5fd84-7999-3722-183a-b62645bb3db4/mzvf_47881679995643251.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D0%BD%D0%B5%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%BE%D1%88%D0%BB%D0%BE-live-at-vk-stadium-moscow-2024/1812948974?uo=4",
+   "videoTitle": "Непроизошло"
   },
   {
    "id": "1767767475",
@@ -7780,8 +8187,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/34/b2/e2/34b2e296-ac28-0083-6e6d-863dbe328f0f/mzaf_13607374952808999592.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/1e/fb/c3/1efbc3dc-b59a-271f-5e47-ed5d06a0abab/0.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D1%83%D0%BB%D0%B8%D1%86%D1%8B-%D0%B6%D0%B4%D0%B0%D0%BB%D0%B8/1767767473?i=1767767475&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/74/0d/2b/740d2b3c-3ce8-7cdc-e2ad-490f2fc43e84/mzvf_3586330273261173995.1920w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/%D1%83%D0%BB%D0%B8%D1%86%D1%8B-%D0%B6%D0%B4%D0%B0%D0%BB%D0%B8/1716510070?uo=4",
    "tier": 3,
    "genres": [
     "indie"
@@ -7791,7 +8196,10 @@
     "alt"
    ],
    "age": "family",
-   "era": "2018-now"
+   "era": "2018-now",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video112/v4/eb/6d/f7/eb6df79f-7f05-7e38-e2b5-73e0e76c45ec/mzvf_13017673031964901677.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D1%83%D0%BB%D0%B8%D1%86%D1%8B-%D0%B6%D0%B4%D0%B0%D0%BB%D0%B8-acoustic-live-at-moscow-2021/1645196531?uo=4",
+   "videoTitle": "Улицы ждали (Acoustic) [Live at Moscow 2021]"
   },
   {
    "id": "1767767474",
@@ -7805,8 +8213,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/63/92/c4/6392c4af-c452-215f-4715-52afa7e63e5e/mzaf_18432789910350076397.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/1e/fb/c3/1efbc3dc-b59a-271f-5e47-ed5d06a0abab/0.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%BE%D1%81%D1%82%D0%B0%D0%BD%D0%B5%D0%BC%D1%81%D1%8F-%D0%B7%D0%B4%D0%B5%D1%81%D1%8C/1767767473?i=1767767474&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video112/v4/a8/07/36/a80736a7-011a-09c4-4a5a-0f1423ebcf60/mzvf_17842102024340714750.1920w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/%D0%BE%D1%81%D1%82%D0%B0%D0%BD%D0%B5%D0%BC%D1%81%D1%8F-%D0%B7%D0%B4%D0%B5%D1%81%D1%8C-live-at-moscow-2021/1645196659?uo=4",
    "tier": 3,
    "genres": [
     "indie"
@@ -7816,7 +8222,10 @@
     "alt"
    ],
    "age": "family",
-   "era": "2018-now"
+   "era": "2018-now",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video112/v4/a8/07/36/a80736a7-011a-09c4-4a5a-0f1423ebcf60/mzvf_17842102024340714750.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D0%BE%D1%81%D1%82%D0%B0%D0%BD%D0%B5%D0%BC%D1%81%D1%8F-%D0%B7%D0%B4%D0%B5%D1%81%D1%8C-live-at-moscow-2021/1645196659?uo=4",
+   "videoTitle": "Останемся здесь (Live at Moscow 2021)"
   },
   {
    "id": "1767767691",
@@ -7830,8 +8239,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/38/b5/31/38b53109-e691-ee2e-866e-a9a3edc5e2af/mzaf_16322605849197009496.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/1e/fb/c3/1efbc3dc-b59a-271f-5e47-ed5d06a0abab/0.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/pmml/1767767473?i=1767767691&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/9a/cf/df/9acfdfce-a9da-44a7-d55b-c4aed5f84351/mzvf_8280720681014314803.1920w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/pmml/1716379813?uo=4",
    "tier": 3,
    "genres": [
     "indie"
@@ -7841,7 +8248,10 @@
     "alt"
    ],
    "age": "family",
-   "era": "2018-now"
+   "era": "2018-now",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/9a/cf/df/9acfdfce-a9da-44a7-d55b-c4aed5f84351/mzvf_8280720681014314803.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/pmml/1716379813?uo=4",
+   "videoTitle": "PMML"
   },
   {
    "id": "1767767476",
@@ -7855,8 +8265,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/28/5d/38/285d38b1-0f32-b3d8-2ef5-fd63a2fc2e59/mzaf_9430177742072418452.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/1e/fb/c3/1efbc3dc-b59a-271f-5e47-ed5d06a0abab/0.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D1%82%D1%8F%D0%BD%D0%B5%D1%82/1767767473?i=1767767476&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/66/bf/99/66bf9991-2372-8578-568b-333615077e96/mzvf_2308237822866339392.1920w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/%D1%82%D1%8F%D0%BD%D0%B5%D1%82-live-at-vk-stadium-moscow-2024/1812770443?uo=4",
    "tier": 3,
    "genres": [
     "indie"
@@ -7866,7 +8274,10 @@
     "alt"
    ],
    "age": "family",
-   "era": "2018-now"
+   "era": "2018-now",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/66/bf/99/66bf9991-2372-8578-568b-333615077e96/mzvf_2308237822866339392.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D1%82%D1%8F%D0%BD%D0%B5%D1%82-live-at-vk-stadium-moscow-2024/1812770443?uo=4",
+   "videoTitle": "Тянет"
   },
   {
    "id": "1882981333",
@@ -7888,7 +8299,10 @@
     "rap"
    ],
    "age": "18plus",
-   "era": "2016-now"
+   "era": "2016-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/2f/21/2b/2f212b47-0627-d414-a914-46994bd25bb3/mzvf_8788248811482206532.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/jagdai-feat-qurt-live/1547009961?uo=4",
+   "artistVideoTitle": "JAGDAI (feat. qurt) [Live]"
   },
   {
    "id": "1501806596",
@@ -7910,7 +8324,10 @@
     "rap"
    ],
    "age": "18plus",
-   "era": "2016-now"
+   "era": "2016-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/f0/dc/6b/f0dc6bf1-ef24-0b14-97b2-88ac9a5f1195/mzvf_14426777251461648744.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%88%D0%B8%D1%80%D0%B5-%D0%BA%D0%B0%D1%80%D0%BC%D0%B0%D0%BD-feat-truwer/1677253453?uo=4",
+   "artistVideoTitle": "Шире карман (feat. Truwer)"
   },
   {
    "id": "1822256920",
@@ -7932,7 +8349,10 @@
     "rap"
    ],
    "age": "18plus",
-   "era": "2016-now"
+   "era": "2016-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/f0/dc/6b/f0dc6bf1-ef24-0b14-97b2-88ac9a5f1195/mzvf_14426777251461648744.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%88%D0%B8%D1%80%D0%B5-%D0%BA%D0%B0%D1%80%D0%BC%D0%B0%D0%BD-feat-truwer/1677253453?uo=4",
+   "artistVideoTitle": "Шире карман (feat. Truwer)"
   },
   {
    "id": "1717565702",
@@ -7954,7 +8374,10 @@
     "rap"
    ],
    "age": "18plus",
-   "era": "2016-now"
+   "era": "2016-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/20/0f/39/200f3986-b56c-e42a-21db-7ee9bbbefd88/mzvf_13576279729441847382.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/soltustik/1550102523?uo=4",
+   "artistVideoTitle": "SOLTUSTIK"
   },
   {
    "id": "1822256632",
@@ -7976,7 +8399,10 @@
     "rap"
    ],
    "age": "18plus",
-   "era": "2016-now"
+   "era": "2016-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/01/78/77/01787732-60d0-610e-9d7e-5e8e7447a38c/mzvf_12055551490486745961.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BC%D0%B0%D0%B9%D1%84-live/1547009756?uo=4",
+   "artistVideoTitle": "Майф (Live)"
   },
   {
    "id": "1690038024",
@@ -7998,7 +8424,10 @@
     "rap"
    ],
    "age": "18plus",
-   "era": "2017-now"
+   "era": "2017-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/da/4a/a0/da4aa0bd-710a-6d88-a09f-6d33be3b9798/mzvf_16882809452793552817.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/lesenka/1873939832?uo=4",
+   "artistVideoTitle": "LESENKA"
   },
   {
    "id": "1692916044",
@@ -8020,7 +8449,10 @@
     "rap"
    ],
    "age": "18plus",
-   "era": "2017-now"
+   "era": "2017-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/db/73/47/db73479e-4eb7-05d8-be7d-5c2e61dd591c/mzvf_18005632440939311443.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/bounce/1895139852?uo=4",
+   "artistVideoTitle": "Bounce"
   },
   {
    "id": "1692574294",
@@ -8042,7 +8474,10 @@
     "rap"
    ],
    "age": "18plus",
-   "era": "2017-now"
+   "era": "2017-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/db/73/47/db73479e-4eb7-05d8-be7d-5c2e61dd591c/mzvf_18005632440939311443.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/bounce/1895139852?uo=4",
+   "artistVideoTitle": "Bounce"
   },
   {
    "id": "6769594877",
@@ -8064,7 +8499,10 @@
     "rap"
    ],
    "age": "18plus",
-   "era": "2017-now"
+   "era": "2017-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video125/v4/11/56/05/115605b7-630c-abfb-a22c-0ba531f7b2c9/mzvf_6728170698915168406.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/gasoline-live/1581627382?uo=4",
+   "artistVideoTitle": "Gasoline (Live)"
   },
   {
    "id": "6769594874",
@@ -8086,7 +8524,10 @@
     "rap"
    ],
    "age": "18plus",
-   "era": "2017-now"
+   "era": "2017-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/43/9a/24/439a24f0-3095-2cc2-e79e-e1ded6d7f690/mzvf_15330909610529525339.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/seduction/1869138545?uo=4",
+   "artistVideoTitle": "Seduction"
   },
   {
    "id": "1499346331",
@@ -8108,7 +8549,10 @@
     "rap"
    ],
    "age": "18plus",
-   "era": "2015-now"
+   "era": "2015-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/a7/37/e3/a737e3fd-d39a-79e9-6268-191b62efe93e/mzvf_11538626314038830440.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%81%D0%B0%D0%BB%D0%B0%D0%BC-feat-104/1553731095?uo=4",
+   "artistVideoTitle": "Салам (feat. 104)"
   },
   {
    "id": "1499346600",
@@ -8130,7 +8574,10 @@
     "rap"
    ],
    "age": "18plus",
-   "era": "2015-now"
+   "era": "2015-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video115/v4/34/a6/37/34a637e8-bdb7-694b-c134-c51a704aa44e/mzvf_2361512260672171161.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BD%D0%B8%D0%B0/1239770946?uo=4",
+   "artistVideoTitle": "Ниа"
   },
   {
    "id": "1287038494",
@@ -8152,7 +8599,10 @@
     "rap"
    ],
    "age": "18plus",
-   "era": "2015-now"
+   "era": "2015-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video122/v4/a6/f9/fb/a6f9fb76-ce19-1406-dbc0-58cbce6fcf5e/mzvf_634728704826726224.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/vous/1617976593?uo=4",
+   "artistVideoTitle": "VOUS"
   },
   {
    "id": "1499346590",
@@ -8174,7 +8624,10 @@
     "rap"
    ],
    "age": "18plus",
-   "era": "2015-now"
+   "era": "2015-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video113/v4/0c/b9/b5/0cb9b5b7-5ddb-e6a0-aa79-afb168851d27/mzvf_449581310762431083.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/3x3-feat-104-t-fest/1474976522?uo=4",
+   "artistVideoTitle": "3x3 (feat. 104 & T-Fest)"
   },
   {
    "id": "1452778780",
@@ -8196,7 +8649,10 @@
     "rap"
    ],
    "age": "18plus",
-   "era": "2015-now"
+   "era": "2015-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video115/v4/34/a6/37/34a637e8-bdb7-694b-c134-c51a704aa44e/mzvf_2361512260672171161.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BD%D0%B8%D0%B0/1239770946?uo=4",
+   "artistVideoTitle": "Ниа"
   },
   {
    "id": "1893376637",
@@ -8220,7 +8676,10 @@
     "underground"
    ],
    "age": "18plus",
-   "era": "2016-now"
+   "era": "2016-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video113/v4/a8/43/d8/a843d893-0324-7979-a779-bf0522824f92/mzvf_11852416088206793875.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/bs-korob/1511001340?uo=4",
+   "artistVideoTitle": "BS Korob"
   },
   {
    "id": "1765372917",
@@ -8245,7 +8704,10 @@
    ],
    "age": "18plus",
    "era": "2016-now",
-   "flagEnglish": true
+   "flagEnglish": true,
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video113/v4/a8/43/d8/a843d893-0324-7979-a779-bf0522824f92/mzvf_11852416088206793875.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/bs-korob/1511001340?uo=4",
+   "artistVideoTitle": "BS Korob"
   },
   {
    "id": "1689222728",
@@ -8269,7 +8731,10 @@
     "underground"
    ],
    "age": "18plus",
-   "era": "2016-now"
+   "era": "2016-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video113/v4/a8/43/d8/a843d893-0324-7979-a779-bf0522824f92/mzvf_11852416088206793875.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/bs-korob/1511001340?uo=4",
+   "artistVideoTitle": "BS Korob"
   },
   {
    "id": "1809962055",
@@ -8293,7 +8758,10 @@
     "underground"
    ],
    "age": "18plus",
-   "era": "2016-now"
+   "era": "2016-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video113/v4/a8/43/d8/a843d893-0324-7979-a779-bf0522824f92/mzvf_11852416088206793875.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/bs-korob/1511001340?uo=4",
+   "artistVideoTitle": "BS Korob"
   },
   {
    "id": "1701404846",
@@ -8317,7 +8785,10 @@
     "underground"
    ],
    "age": "18plus",
-   "era": "2016-now"
+   "era": "2016-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video113/v4/a8/43/d8/a843d893-0324-7979-a779-bf0522824f92/mzvf_11852416088206793875.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/bs-korob/1511001340?uo=4",
+   "artistVideoTitle": "BS Korob"
   },
   {
    "id": "1806380900",
@@ -9479,7 +9950,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2018-now"
+   "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/27/1b/49/271b4905-6f12-ce81-2073-387763e4bc31/mzvf_17020316739927285558.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/aitkym-kelgeni-feat-aidhn/1606934771?uo=4",
+   "artistVideoTitle": "Aitkym Kelgeni (feat. Aidhn)"
   },
   {
    "id": "1512688735",
@@ -9501,7 +9975,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2018-now"
+   "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/27/1b/49/271b4905-6f12-ce81-2073-387763e4bc31/mzvf_17020316739927285558.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/aitkym-kelgeni-feat-aidhn/1606934771?uo=4",
+   "artistVideoTitle": "Aitkym Kelgeni (feat. Aidhn)"
   },
   {
    "id": "1499337604",
@@ -9523,7 +10000,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2018-now"
+   "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/27/1b/49/271b4905-6f12-ce81-2073-387763e4bc31/mzvf_17020316739927285558.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/aitkym-kelgeni-feat-aidhn/1606934771?uo=4",
+   "artistVideoTitle": "Aitkym Kelgeni (feat. Aidhn)"
   },
   {
    "id": "1491924187",
@@ -9545,7 +10025,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2018-now"
+   "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/27/1b/49/271b4905-6f12-ce81-2073-387763e4bc31/mzvf_17020316739927285558.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/aitkym-kelgeni-feat-aidhn/1606934771?uo=4",
+   "artistVideoTitle": "Aitkym Kelgeni (feat. Aidhn)"
   },
   {
    "id": "1545158343",
@@ -9567,7 +10050,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2018-now"
+   "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/27/1b/49/271b4905-6f12-ce81-2073-387763e4bc31/mzvf_17020316739927285558.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/aitkym-kelgeni-feat-aidhn/1606934771?uo=4",
+   "artistVideoTitle": "Aitkym Kelgeni (feat. Aidhn)"
   },
   {
    "id": "1564595611",
@@ -9927,6 +10413,9 @@
    "age": "family",
    "era": "2018-now",
    "needsReview": true,
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video123/v4/f5/42/df/f542df46-5ccf-c647-db9c-c0e7087f1f7b/mzvf_8902002022522635998.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BC%D0%B0%D0%BD%D1%8F/1461503983?uo=4",
+   "artistVideoTitle": "Маня",
    "edited": true
   },
   {
@@ -9952,6 +10441,9 @@
    "age": "family",
    "era": "2018-now",
    "needsReview": true,
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/e2/e1/6c/e2e16c5d-896f-9be0-0b65-d1d7f58eec16/mzvf_7204217131926105097.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BC%D1%8F%D1%81%D0%BE-%D0%B8-%D0%BA%D0%BE%D1%81%D1%82%D0%B8/1454671071?uo=4",
+   "artistVideoTitle": "Мясо и кости",
    "edited": true
   },
   {
@@ -9976,7 +10468,10 @@
    ],
    "age": "family",
    "era": "2018-now",
-   "needsReview": true
+   "needsReview": true,
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/f6/44/75/f644757b-4e68-b2bd-4964-30547a9b991a/mzvf_15051312367082868730.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%80%D0%B0%D0%B7%D0%BD%D1%8B%D0%B5-%D0%BB%D1%8E%D0%B4%D0%B8/1753803953?uo=4",
+   "artistVideoTitle": "Разные люди"
   },
   {
    "id": "1270260353",
@@ -10001,6 +10496,9 @@
    "age": "family",
    "era": "2018-now",
    "needsReview": true,
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/f6/44/75/f644757b-4e68-b2bd-4964-30547a9b991a/mzvf_15051312367082868730.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%80%D0%B0%D0%B7%D0%BD%D1%8B%D0%B5-%D0%BB%D1%8E%D0%B4%D0%B8/1753803953?uo=4",
+   "artistVideoTitle": "Разные люди",
    "edited": true
   },
   {
@@ -10026,6 +10524,9 @@
    "age": "family",
    "era": "2018-now",
    "needsReview": true,
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video123/v4/f5/42/df/f542df46-5ccf-c647-db9c-c0e7087f1f7b/mzvf_8902002022522635998.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BC%D0%B0%D0%BD%D1%8F/1461503983?uo=4",
+   "artistVideoTitle": "Маня",
    "edited": true
   },
   {
@@ -10040,8 +10541,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/bc/5a/44/bc5a4409-5324-db2c-694a-c2071888ce63/mzaf_9064937805077069046.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/aa/7f/ef/aa7fef0f-c5b0-2a7c-43db-8d93bbda8517/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/belly-dancer/1609633532?i=1609633533&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/3d/79/cb/3d79cb54-3e99-7887-248c-c2a4e0413d76/mzvf_7705559600789609474.1920w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/belly-dancer/1726334216?uo=4",
    "tier": 2,
    "genres": [
     "pop"
@@ -10051,7 +10550,10 @@
     "remix"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/3d/79/cb/3d79cb54-3e99-7887-248c-c2a4e0413d76/mzvf_7705559600789609474.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/belly-dancer/1726334216?uo=4",
+   "videoTitle": "Belly Dancer"
   },
   {
    "id": "1525217116",
@@ -10074,7 +10576,10 @@
     "remix"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/3d/79/cb/3d79cb54-3e99-7887-248c-c2a4e0413d76/mzvf_7705559600789609474.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/belly-dancer/1726334216?uo=4",
+   "artistVideoTitle": "Belly Dancer"
   },
   {
    "id": "1850358025",
@@ -10088,8 +10593,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/38/f1/64/38f16486-761b-bd87-f796-c771c1cf83d9/mzaf_16760109238428134257.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/28/dc/26/28dc269c-6443-22b1-2e2e-4590faae8359/8800344687385_cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/sob/1850358021?i=1850358025&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/d8/7e/0b/d87e0b48-6c02-65c6-3fcc-d5b0bdba3da3/mzvf_12918045017300924818.1920w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/sob/1849582822?uo=4",
    "tier": 2,
    "genres": [
     "pop"
@@ -10099,7 +10602,10 @@
     "remix"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/d8/7e/0b/d87e0b48-6c02-65c6-3fcc-d5b0bdba3da3/mzvf_12918045017300924818.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/sob/1849582822?uo=4",
+   "videoTitle": "SOB"
   },
   {
    "id": "1846548876",
@@ -10122,7 +10628,10 @@
     "remix"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/b5/80/bd/b580bd57-5975-5b11-01ee-d9a321e2e24d/mzvf_7298569523581951992.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/give-it-to-em-feat-spliff-star/1738638917?uo=4",
+   "artistVideoTitle": "Give It To 'Em (feat. Spliff Star)"
   },
   {
    "id": "1660029826",
@@ -10145,7 +10654,10 @@
     "remix"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video125/v4/06/57/b1/0657b1ad-6a0d-5db8-0a24-fbfcea6efd22/mzvf_12046986796559167818.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/bam/1581569602?uo=4",
+   "artistVideoTitle": "Bam"
   },
   {
    "id": "1854572800",
@@ -10169,7 +10681,10 @@
     "qpop"
    ],
    "age": "family",
-   "era": "2018-now"
+   "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/eb/39/91/eb39911a-0677-280c-ba2f-f9563982a561/mzvf_11385255418487080776.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/jol/1769505850?uo=4",
+   "artistVideoTitle": "Jol"
   },
   {
    "id": "1893274157",
@@ -10193,7 +10708,10 @@
     "qpop"
    ],
    "age": "family",
-   "era": "2018-now"
+   "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/eb/39/91/eb39911a-0677-280c-ba2f-f9563982a561/mzvf_11385255418487080776.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/jol/1769505850?uo=4",
+   "artistVideoTitle": "Jol"
   },
   {
    "id": "1818807331",
@@ -10217,7 +10735,10 @@
     "qpop"
    ],
    "age": "family",
-   "era": "2018-now"
+   "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/eb/39/91/eb39911a-0677-280c-ba2f-f9563982a561/mzvf_11385255418487080776.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/jol/1769505850?uo=4",
+   "artistVideoTitle": "Jol"
   },
   {
    "id": "1893274166",
@@ -10241,7 +10762,10 @@
     "qpop"
    ],
    "age": "family",
-   "era": "2018-now"
+   "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/eb/39/91/eb39911a-0677-280c-ba2f-f9563982a561/mzvf_11385255418487080776.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/jol/1769505850?uo=4",
+   "artistVideoTitle": "Jol"
   },
   {
    "id": "1809381136",
@@ -10265,7 +10789,10 @@
     "qpop"
    ],
    "age": "family",
-   "era": "2018-now"
+   "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/eb/39/91/eb39911a-0677-280c-ba2f-f9563982a561/mzvf_11385255418487080776.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/jol/1769505850?uo=4",
+   "artistVideoTitle": "Jol"
   },
   {
    "id": "1725961596",
@@ -10980,7 +11507,10 @@
     "underground"
    ],
    "age": "18plus",
-   "era": "2018-now"
+   "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/de/6d/b6/de6db6f2-1bc6-5745-304d-727357638bcc/mzvf_4236377381300035910.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B1%D0%B8%D0%B3-%D1%81%D0%B8%D1%82%D0%B8-%D0%BB%D0%B0%D0%B9%D1%84/1737248122?uo=4",
+   "artistVideoTitle": "Биг Сити Лайф"
   },
   {
    "id": "1689008342",
@@ -11004,7 +11534,10 @@
     "underground"
    ],
    "age": "18plus",
-   "era": "2018-now"
+   "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/d7/f0/c4/d7f0c4ee-f57e-7def-0159-15bba793f621/mzvf_1347010917091735624.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B6%D0%B8%D1%82%D1%8C-%D1%85%D0%BE%D1%87%D1%83/1852566523?uo=4",
+   "artistVideoTitle": "Жить хочу"
   },
   {
    "id": "1826856585",
@@ -11028,7 +11561,10 @@
     "underground"
    ],
    "age": "18plus",
-   "era": "2018-now"
+   "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/63/32/df/6332df19-05c6-afcb-dff8-0defe2a9ba66/mzvf_7694052854222182881.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%8F-%D1%82%D0%B5%D0%B1%D1%8F-%D0%BB%D1%8E%D0%B1%D0%BB%D1%8E/1820080534?uo=4",
+   "artistVideoTitle": "Я тебя люблю"
   },
   {
    "id": "1563033838",
@@ -11052,7 +11588,10 @@
     "rap"
    ],
    "age": "18plus",
-   "era": "2017-now"
+   "era": "2017-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/0f/ca/f0/0fcaf0cc-a136-31dc-ec5b-b4cd9ac0dc0f/mzvf_15483265963040663746.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/top-chik-live/1547010016?uo=4",
+   "artistVideoTitle": "TOP CHIK (Live)"
   },
   {
    "id": "1538561781",
@@ -11066,8 +11605,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/e2/2b/e7/e22be7e6-6859-d06b-9888-589ab6764580/mzaf_3287836489117822037.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/8a/cd/83/8acd8353-ae2a-53eb-4334-4b341d6beb3c/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%B1%D1%83%D1%82%D1%8B%D0%BB%D0%BA%D0%B8/1538561778?i=1538561781&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/2d/80/94/2d80946d-d02e-8f19-428a-0fb3d099ec1d/mzvf_14979765260560778003.1920w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/%D0%B1%D1%83%D1%82%D1%8B%D0%BB%D0%BA%D0%B8-live/1547009542?uo=4",
    "tier": 3,
    "genres": [
     "rnb",
@@ -11078,7 +11615,10 @@
     "rap"
    ],
    "age": "18plus",
-   "era": "2017-now"
+   "era": "2017-now",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/2d/80/94/2d80946d-d02e-8f19-428a-0fb3d099ec1d/mzvf_14979765260560778003.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D0%B1%D1%83%D1%82%D1%8B%D0%BB%D0%BA%D0%B8-live/1547009542?uo=4",
+   "videoTitle": "Бутылки (Live)"
   },
   {
    "id": "1523633750",
@@ -11102,7 +11642,10 @@
     "rap"
    ],
    "age": "18plus",
-   "era": "2017-now"
+   "era": "2017-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/0f/ca/f0/0fcaf0cc-a136-31dc-ec5b-b4cd9ac0dc0f/mzvf_15483265963040663746.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/top-chik-live/1547010016?uo=4",
+   "artistVideoTitle": "TOP CHIK (Live)"
   },
   {
    "id": "1538561795",
@@ -11126,7 +11669,10 @@
     "rap"
    ],
    "age": "18plus",
-   "era": "2017-now"
+   "era": "2017-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/2d/80/94/2d80946d-d02e-8f19-428a-0fb3d099ec1d/mzvf_14979765260560778003.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B1%D1%83%D1%82%D1%8B%D0%BB%D0%BA%D0%B8-live/1547009542?uo=4",
+   "artistVideoTitle": "Бутылки (Live)"
   },
   {
    "id": "1538562070",
@@ -11150,7 +11696,10 @@
     "rap"
    ],
    "age": "18plus",
-   "era": "2017-now"
+   "era": "2017-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/0f/ca/f0/0fcaf0cc-a136-31dc-ec5b-b4cd9ac0dc0f/mzvf_15483265963040663746.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/top-chik-live/1547010016?uo=4",
+   "artistVideoTitle": "TOP CHIK (Live)"
   },
   {
    "id": "1505352406",
@@ -11175,6 +11724,9 @@
    ],
    "age": "18plus",
    "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/8b/9e/87/8b9e876e-bb85-830c-6201-196d48eb91b3/mzvf_11655306116863853911.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/arriva-feat-hiro/1527226082?uo=4",
+   "artistVideoTitle": "Arriva (feat. Hiro)",
    "startOffset": 0.227,
    "edited": true
   },
@@ -11200,7 +11752,10 @@
     "rnb"
    ],
    "age": "18plus",
-   "era": "2018-now"
+   "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/ce/71/87/ce7187a3-dcc5-88fc-408c-b0f8f6f4383f/mzvf_3295989653742919551.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/redrum-feat-%D1%85%D0%B8%D1%80%D0%BE/1786130476?uo=4",
+   "artistVideoTitle": "Redrum (feat. Хиро)"
   },
   {
    "id": "1688358610",
@@ -11225,6 +11780,9 @@
    ],
    "age": "18plus",
    "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/8b/9e/87/8b9e876e-bb85-830c-6201-196d48eb91b3/mzvf_11655306116863853911.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/arriva-feat-hiro/1527226082?uo=4",
+   "artistVideoTitle": "Arriva (feat. Hiro)",
    "edited": true
   },
   {
@@ -11249,7 +11807,10 @@
     "underground"
    ],
    "age": "18plus",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/1f/22/a0/1f22a007-fe43-0dc4-60b8-46c37f2b5a4c/mzvf_4337275328813325885.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/ayaz/1548367800?uo=4",
+   "artistVideoTitle": "ayaz"
   },
   {
    "id": "1628183650",
@@ -11273,7 +11834,10 @@
     "underground"
    ],
    "age": "18plus",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/59/d8/b6/59d8b63c-dc0c-4e3c-d519-2c05c4db4f41/mzvf_14470334695489080808.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/xxx/1882324001?uo=4",
+   "artistVideoTitle": "XXX"
   },
   {
    "id": "1628183387",
@@ -11297,7 +11861,10 @@
     "underground"
    ],
    "age": "18plus",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/1f/22/a0/1f22a007-fe43-0dc4-60b8-46c37f2b5a4c/mzvf_4337275328813325885.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/ayaz/1548367800?uo=4",
+   "artistVideoTitle": "ayaz"
   },
   {
    "id": "1776637008",
@@ -11319,7 +11886,10 @@
     "rap"
    ],
    "age": "18plus",
-   "era": "2018-now"
+   "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/db/73/47/db73479e-4eb7-05d8-be7d-5c2e61dd591c/mzvf_18005632440939311443.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/bounce/1895139852?uo=4",
+   "artistVideoTitle": "Bounce"
   },
   {
    "id": "1773627149",
@@ -11341,7 +11911,10 @@
     "rap"
    ],
    "age": "18plus",
-   "era": "2018-now"
+   "era": "2018-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video112/v4/a8/f3/eb/a8f3eb2f-584e-4d8c-9b08-e25d06c819aa/mzvf_5928317864281818884.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/in-da-club/1733456998?uo=4",
+   "artistVideoTitle": "In da club"
   },
   {
    "id": "1773767635",
@@ -11355,8 +11928,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/7a/5c/a3/7a5ca3b7-9f80-5754-b2b5-3897811817b2/mzaf_16963788836780518520.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f5/66/d5/f566d5b0-b073-1ce5-e431-5089d1cad8ab/0.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/in-da-club/1773767632?i=1773767635&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video112/v4/a8/f3/eb/a8f3eb2f-584e-4d8c-9b08-e25d06c819aa/mzvf_5928317864281818884.1920w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/in-da-club/1733456998?uo=4",
    "tier": 4,
    "genres": [
     "rap"
@@ -11365,7 +11936,10 @@
     "rap"
    ],
    "age": "18plus",
-   "era": "2018-now"
+   "era": "2018-now",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video112/v4/a8/f3/eb/a8f3eb2f-584e-4d8c-9b08-e25d06c819aa/mzvf_5928317864281818884.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/in-da-club/1733456998?uo=4",
+   "videoTitle": "In da club"
   },
   {
    "id": "1678396183",
@@ -11389,7 +11963,10 @@
     "rnb"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/bd/12/35/bd12351d-2b34-f093-6c8f-7776ccf77b2b/mzvf_231690855993339172.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%85%D0%BE%D1%80%D0%BE%D1%88%D0%B0/6804877184?uo=4",
+   "artistVideoTitle": "Хороша"
   },
   {
    "id": "1678396264",
@@ -11413,7 +11990,10 @@
     "rnb"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/bd/12/35/bd12351d-2b34-f093-6c8f-7776ccf77b2b/mzvf_231690855993339172.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%85%D0%BE%D1%80%D0%BE%D1%88%D0%B0/6804877184?uo=4",
+   "artistVideoTitle": "Хороша"
   },
   {
    "id": "1786983794",
@@ -11437,7 +12017,10 @@
     "rnb"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/bd/12/35/bd12351d-2b34-f093-6c8f-7776ccf77b2b/mzvf_231690855993339172.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%85%D0%BE%D1%80%D0%BE%D1%88%D0%B0/6804877184?uo=4",
+   "artistVideoTitle": "Хороша"
   },
   {
    "id": "1498457787",
@@ -11459,7 +12042,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/c3/5e/ec/c35eec3f-94f0-7384-61b3-4a7c1eb8f0c0/mzvf_7284914995192000529.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D1%81%D0%B5%D0%BD%D0%B4%D0%B5%D0%B9-%D0%B0%D1%80%D1%83-%D0%B6%D0%BE%D2%9B-feat-aikyn-tolepbergen-ost-%D0%B3%D0%B4%D0%B5-%D0%BC%D0%BE%D1%91-%D0%BA%D0%BE%D0%BB%D1%8C%D1%86%D0%BE/1552434401?uo=4",
+   "videoTitle": "Сендей ару жоқ (feat. Aikyn Tolepbergen) [OST \"Где моё кольцо?\"]"
   },
   {
    "id": "1612058720",
@@ -11481,7 +12067,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/c3/5e/ec/c35eec3f-94f0-7384-61b3-4a7c1eb8f0c0/mzvf_7284914995192000529.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%81%D0%B5%D0%BD%D0%B4%D0%B5%D0%B9-%D0%B0%D1%80%D1%83-%D0%B6%D0%BE%D2%9B-feat-aikyn-tolepbergen-ost-%D0%B3%D0%B4%D0%B5-%D0%BC%D0%BE%D1%91-%D0%BA%D0%BE%D0%BB%D1%8C%D1%86%D0%BE/1552434401?uo=4",
+   "artistVideoTitle": "Сендей ару жоқ (feat. Aikyn Tolepbergen) [OST \"Где моё кольцо?\"]"
   },
   {
    "id": "1490629150",
@@ -11503,7 +12092,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/c3/5e/ec/c35eec3f-94f0-7384-61b3-4a7c1eb8f0c0/mzvf_7284914995192000529.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%81%D0%B5%D0%BD%D0%B4%D0%B5%D0%B9-%D0%B0%D1%80%D1%83-%D0%B6%D0%BE%D2%9B-feat-aikyn-tolepbergen-ost-%D0%B3%D0%B4%D0%B5-%D0%BC%D0%BE%D1%91-%D0%BA%D0%BE%D0%BB%D1%8C%D1%86%D0%BE/1552434401?uo=4",
+   "artistVideoTitle": "Сендей ару жоқ (feat. Aikyn Tolepbergen) [OST \"Где моё кольцо?\"]"
   },
   {
    "id": "1541615576",
@@ -11525,7 +12117,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/c3/5e/ec/c35eec3f-94f0-7384-61b3-4a7c1eb8f0c0/mzvf_7284914995192000529.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%81%D0%B5%D0%BD%D0%B4%D0%B5%D0%B9-%D0%B0%D1%80%D1%83-%D0%B6%D0%BE%D2%9B-feat-aikyn-tolepbergen-ost-%D0%B3%D0%B4%D0%B5-%D0%BC%D0%BE%D1%91-%D0%BA%D0%BE%D0%BB%D1%8C%D1%86%D0%BE/1552434401?uo=4",
+   "artistVideoTitle": "Сендей ару жоқ (feat. Aikyn Tolepbergen) [OST \"Где моё кольцо?\"]"
   },
   {
    "id": "1484179221",
@@ -11547,7 +12142,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/c3/5e/ec/c35eec3f-94f0-7384-61b3-4a7c1eb8f0c0/mzvf_7284914995192000529.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%81%D0%B5%D0%BD%D0%B4%D0%B5%D0%B9-%D0%B0%D1%80%D1%83-%D0%B6%D0%BE%D2%9B-feat-aikyn-tolepbergen-ost-%D0%B3%D0%B4%D0%B5-%D0%BC%D0%BE%D1%91-%D0%BA%D0%BE%D0%BB%D1%8C%D1%86%D0%BE/1552434401?uo=4",
+   "artistVideoTitle": "Сендей ару жоқ (feat. Aikyn Tolepbergen) [OST \"Где моё кольцо?\"]"
   },
   {
    "id": "1605116492",
@@ -11643,7 +12241,10 @@
     "rnb"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/28/14/fa/2814fae1-bf05-7a9a-03ad-f84c5de2b4eb/mzvf_846093985291601088.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B6%D2%B1%D0%BB%D0%B4%D1%8B%D0%B7%D0%B4%D1%8B-%D1%82%D2%AF%D0%BD%D0%B4%D0%B5-feat-2rar/1549545322?uo=4",
+   "artistVideoTitle": "Жұлдызды Түнде (feat. 2Rar)"
   },
   {
    "id": "1695971264",
@@ -11667,7 +12268,10 @@
     "rnb"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/28/14/fa/2814fae1-bf05-7a9a-03ad-f84c5de2b4eb/mzvf_846093985291601088.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B6%D2%B1%D0%BB%D0%B4%D1%8B%D0%B7%D0%B4%D1%8B-%D1%82%D2%AF%D0%BD%D0%B4%D0%B5-feat-2rar/1549545322?uo=4",
+   "artistVideoTitle": "Жұлдызды Түнде (feat. 2Rar)"
   },
   {
    "id": "1695970882",
@@ -11691,7 +12295,10 @@
     "rnb"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/28/14/fa/2814fae1-bf05-7a9a-03ad-f84c5de2b4eb/mzvf_846093985291601088.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B6%D2%B1%D0%BB%D0%B4%D1%8B%D0%B7%D0%B4%D1%8B-%D1%82%D2%AF%D0%BD%D0%B4%D0%B5-feat-2rar/1549545322?uo=4",
+   "artistVideoTitle": "Жұлдызды Түнде (feat. 2Rar)"
   },
   {
    "id": "1617661812",
@@ -11824,7 +12431,10 @@
     "indie"
    ],
    "age": "family",
-   "era": "2020-now"
+   "era": "2020-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/27/1b/49/271b4905-6f12-ce81-2073-387763e4bc31/mzvf_17020316739927285558.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/aitkym-kelgeni-feat-aidhn/1606934771?uo=4",
+   "artistVideoTitle": "Aitkym Kelgeni (feat. Aidhn)"
   },
   {
    "id": "1500277353",
@@ -11846,7 +12456,10 @@
     "indie"
    ],
    "age": "family",
-   "era": "2020-now"
+   "era": "2020-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/27/1b/49/271b4905-6f12-ce81-2073-387763e4bc31/mzvf_17020316739927285558.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/aitkym-kelgeni-feat-aidhn/1606934771?uo=4",
+   "artistVideoTitle": "Aitkym Kelgeni (feat. Aidhn)"
   },
   {
    "id": "1500277535",
@@ -11868,7 +12481,10 @@
     "indie"
    ],
    "age": "family",
-   "era": "2020-now"
+   "era": "2020-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/27/1b/49/271b4905-6f12-ce81-2073-387763e4bc31/mzvf_17020316739927285558.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/aitkym-kelgeni-feat-aidhn/1606934771?uo=4",
+   "artistVideoTitle": "Aitkym Kelgeni (feat. Aidhn)"
   },
   {
    "id": "6780475354",
@@ -12134,7 +12750,10 @@
     "toi"
    ],
    "age": "family",
-   "era": "2021-now"
+   "era": "2021-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/e5/db/9b/e5db9b63-1407-fd68-1a4a-5cb86c9dcc38/mzvf_3101065860754500097.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/buiyrmadyn-feat-raiymbek/1524442905?uo=4",
+   "artistVideoTitle": "Buiyrmadyn (feat. Raiymbek)"
   },
   {
    "id": "1767956929",
@@ -12158,7 +12777,10 @@
     "toi"
    ],
    "age": "family",
-   "era": "2021-now"
+   "era": "2021-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/02/55/75/025575d6-b59b-6ea7-c87c-fe2f9b117603/mzvf_8299410562693122840.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/aldadyn-ba-feat-aidyn-zhumakhan/1524937756?uo=4",
+   "artistVideoTitle": "Aldadyn Ba (feat. Aidyn Zhumakhan)"
   },
   {
    "id": "1643157609",
@@ -12182,7 +12804,10 @@
     "toi"
    ],
    "age": "family",
-   "era": "2021-now"
+   "era": "2021-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/02/55/75/025575d6-b59b-6ea7-c87c-fe2f9b117603/mzvf_8299410562693122840.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/aldadyn-ba-feat-aidyn-zhumakhan/1524937756?uo=4",
+   "artistVideoTitle": "Aldadyn Ba (feat. Aidyn Zhumakhan)"
   },
   {
    "id": "1635940944",
@@ -12270,7 +12895,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2021-now"
+   "era": "2021-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/bd/52/9a/bd529a60-4b3c-9a93-46c9-046ba15436cb/mzvf_11807706380885042485.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/aman-bol%C5%9Fy-s%C3%BCigen%C4%B1m/1774026305?uo=4",
+   "artistVideoTitle": "Aman bolşy süigenım"
   },
   {
    "id": "1657005089",
@@ -12292,7 +12920,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2021-now"
+   "era": "2021-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/bd/52/9a/bd529a60-4b3c-9a93-46c9-046ba15436cb/mzvf_11807706380885042485.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/aman-bol%C5%9Fy-s%C3%BCigen%C4%B1m/1774026305?uo=4",
+   "artistVideoTitle": "Aman bolşy süigenım"
   },
   {
    "id": "1646351817",
@@ -12314,7 +12945,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2021-now"
+   "era": "2021-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/bd/52/9a/bd529a60-4b3c-9a93-46c9-046ba15436cb/mzvf_11807706380885042485.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/aman-bol%C5%9Fy-s%C3%BCigen%C4%B1m/1774026305?uo=4",
+   "artistVideoTitle": "Aman bolşy süigenım"
   },
   {
    "id": "1875517504",
@@ -13364,7 +13998,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/d6/6d/b1/d66db1c0-37cc-c6b3-9c77-ac1fede62c99/mzvf_13954799038757575481.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%81%D0%B2%D0%B5%D0%BB%D0%B0-%D1%81-%D1%83%D0%BC%D0%B0/1527274566?uo=4",
+   "artistVideoTitle": "Свела с ума"
   },
   {
    "id": "1500281767",
@@ -13378,8 +14015,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/6e/7d/51/6e7d5117-ad49-5b84-5cb5-c1e5b0502958/mzaf_2030605908941747907.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/9b/5b/9a/9b5b9a42-81dd-07c7-25fe-69b8531b17da/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D1%81%D0%B2%D0%B5%D0%BB%D0%B0-%D1%81-%D1%83%D0%BC%D0%B0/1500281345?i=1500281767&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/d6/6d/b1/d66db1c0-37cc-c6b3-9c77-ac1fede62c99/mzvf_13954799038757575481.1920w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/%D1%81%D0%B2%D0%B5%D0%BB%D0%B0-%D1%81-%D1%83%D0%BC%D0%B0/1527274566?uo=4",
    "tier": 4,
    "genres": [
     "patriotic",
@@ -13390,7 +14025,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/d6/6d/b1/d66db1c0-37cc-c6b3-9c77-ac1fede62c99/mzvf_13954799038757575481.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D1%81%D0%B2%D0%B5%D0%BB%D0%B0-%D1%81-%D1%83%D0%BC%D0%B0/1527274566?uo=4",
+   "videoTitle": "Свела с ума"
   },
   {
    "id": "1545394044",
@@ -13414,7 +14052,10 @@
     "pop"
    ],
    "age": "family",
-   "era": "2019-now"
+   "era": "2019-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/d6/6d/b1/d66db1c0-37cc-c6b3-9c77-ac1fede62c99/mzvf_13954799038757575481.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%81%D0%B2%D0%B5%D0%BB%D0%B0-%D1%81-%D1%83%D0%BC%D0%B0/1527274566?uo=4",
+   "artistVideoTitle": "Свела с ума"
   },
   {
    "id": "1729787161",
@@ -14249,7 +14890,10 @@
     "electronic"
    ],
    "age": "18plus",
-   "era": "2017-now"
+   "era": "2017-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video122/v4/9a/89/0f/9a890f2d-17cd-48f1-6a24-d4e79832cfd0/mzvf_14095499688454071852.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/bla-bla-bala-feat-say-mo/1621738020?uo=4",
+   "artistVideoTitle": "BLA BLA BALA (feat. Say Mo)"
   },
   {
    "id": "1764342874",
@@ -14273,7 +14917,10 @@
     "electronic"
    ],
    "age": "18plus",
-   "era": "2017-now"
+   "era": "2017-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video122/v4/9a/89/0f/9a890f2d-17cd-48f1-6a24-d4e79832cfd0/mzvf_14095499688454071852.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/bla-bla-bala-feat-say-mo/1621738020?uo=4",
+   "artistVideoTitle": "BLA BLA BALA (feat. Say Mo)"
   },
   {
    "id": "1490833470",
@@ -14297,7 +14944,10 @@
     "electronic"
    ],
    "age": "18plus",
-   "era": "2017-now"
+   "era": "2017-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/47/8f/52/478f5223-a7b1-50fb-10ff-8d8b94a38c91/mzvf_6010118968560206249.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/bla-bla-bala-feat-say-mo/1778733686?uo=4",
+   "artistVideoTitle": "Bla Bla Bala (feat. Say Mo)"
   },
   {
    "id": "1490833672",
@@ -14321,7 +14971,10 @@
     "electronic"
    ],
    "age": "18plus",
-   "era": "2017-now"
+   "era": "2017-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/47/8f/52/478f5223-a7b1-50fb-10ff-8d8b94a38c91/mzvf_6010118968560206249.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/bla-bla-bala-feat-say-mo/1778733686?uo=4",
+   "artistVideoTitle": "Bla Bla Bala (feat. Say Mo)"
   },
   {
    "id": "1778269295",
@@ -14345,7 +14998,10 @@
     "electronic"
    ],
    "age": "18plus",
-   "era": "2017-now"
+   "era": "2017-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video122/v4/9a/89/0f/9a890f2d-17cd-48f1-6a24-d4e79832cfd0/mzvf_14095499688454071852.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/bla-bla-bala-feat-say-mo/1621738020?uo=4",
+   "artistVideoTitle": "BLA BLA BALA (feat. Say Mo)"
   },
   {
    "id": "1758916566",
@@ -15269,7 +15925,10 @@
    ],
    "age": "family",
    "era": "2019-now",
-   "needsReview": true
+   "needsReview": true,
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/18/7b/2c/187b2cde-5693-26c4-334e-25da756bcfbe/mzvf_8263652011507704172.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B7%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9-%D0%BD%D0%BE%D0%B2%D1%8B%D0%B9-%D0%B3%D0%BE%D0%B4/1786603657?uo=4",
+   "artistVideoTitle": "Здравствуй, Новый год"
   },
   {
    "id": "1657188747",
@@ -15294,7 +15953,10 @@
    ],
    "age": "family",
    "era": "2019-now",
-   "needsReview": true
+   "needsReview": true,
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/87/88/af/8788afcb-ea89-5b13-633a-261f83907aa1/mzvf_236123643910930205.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%B1%D0%B5%D1%81%D1%81%D0%BE%D0%BD%D0%BD%D0%B8%D1%86%D0%B0-live-session/1675535319?uo=4",
+   "artistVideoTitle": "Бессонница (Live session)"
   },
   {
    "id": "1711026651",
@@ -15319,7 +15981,10 @@
    ],
    "age": "family",
    "era": "2019-now",
-   "needsReview": true
+   "needsReview": true,
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video113/v4/e3/c1/f3/e3c1f366-a716-4931-321f-8ed9179338c7/mzvf_17336360691901129223.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%84%D0%B5%D1%80%D0%BE%D0%BC%D0%BE%D0%BD%D1%8B/1651727519?uo=4",
+   "artistVideoTitle": "Феромоны"
   },
   {
    "id": "1624511058",
@@ -15344,7 +16009,10 @@
    ],
    "age": "family",
    "era": "2018-now",
-   "needsReview": true
+   "needsReview": true,
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video113/v4/d3/aa/b6/d3aab637-9402-cf32-8ba6-7f5a014b8440/mzvf_4369295928551985793.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BE%D1%82%D0%BF%D1%83%D1%81%D0%BA%D0%B0%D1%8E/1480844431?uo=4",
+   "artistVideoTitle": "Отпускаю"
   },
   {
    "id": "1391693570",
@@ -15369,7 +16037,10 @@
    ],
    "age": "family",
    "era": "2018-now",
-   "needsReview": true
+   "needsReview": true,
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video123/v4/2c/ba/52/2cba522b-744f-6a13-2ba0-2185a9ff15c4/mzvf_11706603646119859967.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BB%D0%B5%D0%BD%D1%82%D1%8B/1508645341?uo=4",
+   "artistVideoTitle": "Ленты"
   },
   {
    "id": "1439309007",
@@ -15394,7 +16065,10 @@
    ],
    "age": "family",
    "era": "2018-now",
-   "needsReview": true
+   "needsReview": true,
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/19/00/2e/19002ed4-9d60-d649-72d9-158250d4e2f1/mzvf_6642078912437633014.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D1%82%D1%8B%D1%81%D1%8F%D1%87%D0%B8-%D0%B8%D1%81%D1%82%D0%BE%D1%80%D0%B8%D0%B9/1498062883?uo=4",
+   "artistVideoTitle": "Тысячи историй"
   },
   {
    "id": "1376637175",
@@ -15419,7 +16093,10 @@
    ],
    "age": "family",
    "era": "2018-now",
-   "needsReview": true
+   "needsReview": true,
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video113/v4/d3/aa/b6/d3aab637-9402-cf32-8ba6-7f5a014b8440/mzvf_4369295928551985793.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BE%D1%82%D0%BF%D1%83%D1%81%D0%BA%D0%B0%D1%8E/1480844431?uo=4",
+   "artistVideoTitle": "Отпускаю"
   },
   {
    "id": "1773162507",
@@ -15443,7 +16120,10 @@
     "indie"
    ],
    "age": "family",
-   "era": "2020-now"
+   "era": "2020-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video118/v4/f4/07/e4/f407e42f-afb3-e37e-791b-f6c04fbc16fb/mzvf_3055872092457685558.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BE%D1%81%D0%BE%D0%B1%D0%B5%D0%BD%D0%BD%D0%B0%D1%8F/1373145829?uo=4",
+   "artistVideoTitle": "Особенная"
   },
   {
    "id": "6776877950",
@@ -15467,7 +16147,10 @@
     "indie"
    ],
    "age": "family",
-   "era": "2020-now"
+   "era": "2020-now",
+   "artistVideo": "https://video-ssl.itunes.apple.com/itunes-assets/Video113/v4/55/c7/e0/55c7e081-d92c-89ae-a20a-7984354fd0bf/mzvf_11260828886463652153.1920w.h264lc.U.p.m4v",
+   "artistVideoUrl": "https://music.apple.com/kz/music-video/%D0%BC%D0%B0%D0%B3%D0%BD%D0%B8%D1%82%D1%8B/1471621760?uo=4",
+   "artistVideoTitle": "Магниты"
   },
   {
    "id": "1773314441",
@@ -15481,8 +16164,6 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/34/d0/17/34d0170a-48c7-60f4-6c30-54dd531076c2/mzaf_5393849453355389619.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/6e/14/24/6e14240c-fc27-bde1-eda1-c7db1439a743/0.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%BC%D0%B0%D0%B3%D0%BD%D0%B8%D1%82%D1%8B/1773314433?i=1773314441&uo=4",
-   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video113/v4/55/c7/e0/55c7e081-d92c-89ae-a20a-7984354fd0bf/mzvf_11260828886463652153.1920w.h264lc.U.p.m4v",
-   "videoUrl": "https://music.apple.com/kz/music-video/%D0%BC%D0%B0%D0%B3%D0%BD%D0%B8%D1%82%D1%8B/1471621760?uo=4",
    "tier": 4,
    "genres": [
     "rnb",
@@ -15493,7 +16174,10 @@
     "indie"
    ],
    "age": "family",
-   "era": "2020-now"
+   "era": "2020-now",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video113/v4/55/c7/e0/55c7e081-d92c-89ae-a20a-7984354fd0bf/mzvf_11260828886463652153.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D0%BC%D0%B0%D0%B3%D0%BD%D0%B8%D1%82%D1%8B/1471621760?uo=4",
+   "videoTitle": "Магниты"
   }
  ]
 }

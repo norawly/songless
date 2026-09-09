@@ -51,6 +51,42 @@ let boardsCache = null;
 let boardsSlice = null;
 /** Строк в компактной таблице на телефоне: экран не прокручивается. */
 const MOBILE_BOARD_ROWS = 3;
+/**
+ * Живой раунд: набор функций, которыми внешний код докрашивает разметку, не
+ * пересобирая её. Ставится в wireRound, обнуляется при уходе с экрана.
+ */
+let roundApi = null;
+/** Таймер отложенной перезагрузки таблиц после смены фильтров. */
+let boardsTimer = 0;
+
+/**
+ * Сколько строк рекордов показывать. Считается от высоты экрана: на ноутбуке
+ * помещается семь, на большом мониторе десять, на телефоне три. Раньше число
+ * было фиксированным, и на маленьком экране таблица либо не влезала, либо
+ * половина места пустовала.
+ */
+function boardRows() {
+  if (mobile()) return MOBILE_BOARD_ROWS;
+  const h = window.innerHeight;
+  if (h < 700) return 4;
+  if (h < 820) return 5;
+  if (h < 1000) return 7;
+  return 10;
+}
+
+/**
+ * Перезагрузка таблиц после смены фильтров — с задержкой.
+ *
+ * Человек часто щёлкает несколько жанров подряд; дёргать сеть на каждый
+ * щелчок незачем, а показывать при этом скелет — тем более: строки уже есть,
+ * они просто относятся к прошлому срезу. Поэтому таблица тускнеет и остаётся
+ * на месте, пока едут новые данные.
+ */
+function reloadBoardsSoon() {
+  clearTimeout(boardsTimer);
+  for (const box of $$('[data-board]')) box.classList.add('is-stale');
+  boardsTimer = setTimeout(() => loadBoards(), 600);
+}
 /** Перехват «уходишь без имени» показывается ровно один раз за сессию. */
 let signPromptShown = false;
 /**
@@ -231,14 +267,25 @@ function showNowPlaying(track) {
     return;
   }
 
-  const url = track.videoUrl || track.appleUrl;
   const name = `${track.artist} — ${track.title}`;
+  // Клип этой же песни — подписываем как «клип» и ведём ссылку на него.
+  // Клип того же артиста, но другой песни, — называем отдельно: подпись не
+  // должна выдавать чужой ролик за клип звучащей песни.
+  const own = Boolean(track.video);
+  const songUrl = own ? (track.videoUrl || track.appleUrl) : track.appleUrl;
   box.innerHTML = `
     <span class="np__label">${esc(t('np.now'))}</span>
-    ${url
-      ? `<a class="np__name" href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(name)}</a>`
+    ${songUrl
+      ? `<a class="np__name" href="${esc(songUrl)}" target="_blank" rel="noopener noreferrer">${esc(name)}</a>`
       : `<span class="np__name">${esc(name)}</span>`}
-    ${track.video ? `<span class="np__clip">${esc(t('np.clip'))}</span>` : ''}`;
+    ${own ? `<span class="np__clip">${esc(t('np.clip'))}</span>` : ''}
+    ${!own && track.artistVideo && videoAllowed()
+      ? `<span class="np__also">${esc(t('np.clipOf'))} ${
+          track.artistVideoUrl
+            ? `<a href="${esc(track.artistVideoUrl)}" target="_blank" rel="noopener noreferrer">«${esc(track.artistVideoTitle || '')}»</a>`
+            : `«${esc(track.artistVideoTitle || '')}»`
+        }</span>`
+      : ''}`;
   box.hidden = false;
 
   startVideoBg(track);
@@ -253,6 +300,7 @@ function videoAllowed() {
 }
 
 let videoTimer = 0;
+let videoFreeze = 0;
 /**
  * Клип за сеанс фона — один.
  *
@@ -272,7 +320,8 @@ function allowNextVideo() {
 
 function startVideoBg(track) {
   stopVideoBg();
-  if (!track.video || videoUsed || !videoAllowed()) return;
+  const src = track.video || track.artistVideo;
+  if (!src || videoUsed || !videoAllowed()) return;
   videoUsed = true;
   // Пауза перед загрузкой: за это время человек успевает нажать «Играть», и
   // тогда качать нечего.
@@ -284,15 +333,26 @@ function startVideoBg(track) {
       node = document.createElement('video');
       node.className = 'song-video';
       node.muted = true;
-      node.loop = true;
       node.playsInline = true;
       node.preload = 'none';
+      node.disablePictureInPicture = true;
       node.setAttribute('aria-hidden', 'true');
       bg.prepend(node);
     }
-    node.src = track.video;
+    node.src = src;
     node.play().then(() => {
       node.classList.add('is-on');
+      // Через четверть минуты ставим на паузу и оставляем кадр.
+      //
+      // Apple отдаёт превью клипа единственным качеством — 1920 в ширину,
+      // 15–20 МБ; меньших вариантов у неё просто нет (проверял подстановкой
+      // 1280w/848w/640w в адрес — 404). Уменьшить файл нельзя, но можно не
+      // качать его целиком: браузер тянет поток по мере воспроизведения, и
+      // пауза его останавливает. Кадр при этом остаётся на экране, а он и
+      // так размыт до пятен — разницы между «видео замерло» и «видео идёт»
+      // на глаз нет, зато трафика и декодирования вдвое меньше.
+      clearTimeout(videoFreeze);
+      videoFreeze = setTimeout(() => node.pause(), 14000);
     }).catch(() => {
       /* автоплей не дали — остаётся зелёное свечение */
     });
@@ -301,6 +361,7 @@ function startVideoBg(track) {
 
 function stopVideoBg() {
   clearTimeout(videoTimer);
+  clearTimeout(videoFreeze);
   const node = document.querySelector('.song-video');
   if (!node) return;
   node.classList.remove('is-on');
@@ -344,8 +405,8 @@ function wireFirstGesture() {
     // Вкладку свернули — видео на фоне незачем крутить и тем более докачивать.
     const v = document.querySelector('.song-video');
     if (!v) return;
+    // Вернулись на вкладку — если кадр уже заморожен, будить его незачем.
     if (document.hidden) v.pause();
-    else if (v.classList.contains('is-on')) v.play().catch(() => {});
   });
 }
 
@@ -574,6 +635,24 @@ function resetToStart() {
 /* Роутер                                                              */
 /* ================================================================== */
 
+/**
+ * Что сейчас построено на экране. Нужно, чтобы отличать «сменился экран» от
+ * «изменилось состояние того же экрана».
+ */
+let mounted = { screen: null, round: -1 };
+
+/**
+ * Перерисовка.
+ *
+ * Раньше любое изменение состояния пересобирало экран целиком через
+ * innerHTML. Это дёшево в коде и дорого на глаз: выбрал жанр — весь стартовый
+ * экран мигнул и приехал заново вместе с таблицей рекордов; нажал «Пропустить»
+ * — раунд отыграл появление так, будто партия началась сначала.
+ *
+ * Поэтому здесь развилка: если экран тот же и раунд тот же, состояние
+ * ДОКРАШИВАЕТСЯ поверх живого DOM (patchStart / patchRound), а пересборка
+ * остаётся только для настоящей смены экрана.
+ */
 function render() {
   const rail = document.getElementById('level-rail');
   const inGame = game.screen === SCREEN.ROUND || game.screen === SCREEN.REVEAL;
@@ -585,8 +664,20 @@ function render() {
   document.getElementById('chrome-head')
     .dataset.hideBrand = game.screen === SCREEN.FINAL ? '1' : '0';
 
-  paintToken++; // всё, что красило фон для прошлого экрана, теперь недействительно
   syncAmbient();
+
+  const same = mounted.screen === game.screen;
+  if (same && game.screen === SCREEN.START && $('.screen--start')) {
+    patchStart();
+    return;
+  }
+  if (same && game.screen === SCREEN.ROUND && mounted.round === game.roundIndex
+      && $('.screen--round') && roundApi) {
+    roundApi.stepChanged();
+    return;
+  }
+
+  paintToken++; // всё, что красило фон для прошлого экрана, теперь недействительно
 
   switch (game.screen) {
     case SCREEN.START: renderStart(); break;
@@ -595,6 +686,54 @@ function render() {
     case SCREEN.REVEAL: renderReveal(); break;
     case SCREEN.FINAL: renderFinal(); break;
     case SCREEN.ERROR: renderRuntimeError(); break;
+  }
+  mounted = { screen: game.screen, round: game.roundIndex };
+}
+
+/**
+ * Стартовый экран: меняются только состояния кнопок и подписи.
+ *
+ * Таблицы рекордов при этом НЕ пересобираются — они лишь получают новый
+ * заголовок среза и тускнеют, пока едут новые данные. Раньше на каждый щелчок
+ * по жанру они схлопывались в скелет и прыгали обратно.
+ */
+function patchStart() {
+  for (const b of $$('[data-diff]')) {
+    b.setAttribute('aria-pressed', String(b.dataset.diff === game.filters.difficulty));
+  }
+  for (const b of $$('[data-age]')) {
+    b.setAttribute('aria-pressed', String(b.dataset.age === game.filters.age));
+  }
+  for (const b of $$('[data-genre]')) {
+    b.setAttribute('aria-pressed', String(game.filters.genres.includes(b.dataset.genre)));
+  }
+  const random = $('[data-random]');
+  if (random) random.setAttribute('aria-pressed', String(game.isRandom));
+
+  const hints = $$('.start__setup .field__hint, .settings-sheet .field__hint');
+  if (hints[0]) hints[0].textContent = t(`difficulty.${game.filters.difficulty}Hint`);
+  if (hints[1]) hints[1].textContent = t(`age.${game.filters.age}Hint`);
+
+  const line = $('.setup-line__value');
+  if (line) line.textContent = setupSummary();
+
+  const av = game.availability;
+  const start = $('[data-start]');
+  if (start) start.disabled = !av.ok;
+  const meta = $('.start__meta');
+  if (meta && av.ok) {
+    meta.textContent = t('start.catalogCount', { count: fmtNum(av.total), artists: av.artists });
+  }
+  const warn = $('.start__warn');
+  if (meta) meta.hidden = !av.ok;
+  if (warn) warn.hidden = av.ok;
+
+  if (LB.enabled()) {
+    const label = sliceLabel(game.sliceKey).full;
+    for (const el of $$('.board__slice')) {
+      el.textContent = el.dataset.global === '1' ? t('lb.globalHint') : `${t('lb.byCategory')}: ${label}`;
+    }
+    reloadBoardsSoon();
   }
 }
 
@@ -619,6 +758,7 @@ function renderLevelRail(rail) {
 /* ================================================================== */
 
 function renderStart() {
+  roundApi = null;
   audio.stop(200);
   pulse.setMode('glow');
 
@@ -816,22 +956,29 @@ function howToMarkup() {
  * в экспертном». Пока данные едут, показываем скелет строк, а не слово
  * «загружаем»: список не прыгает, когда они приедут.
  */
-function boardMarkup(kind, title, subtitle, rows = CONFIG.LEADERBOARD_PREVIEW_N) {
+function boardMarkup(kind, title, subtitle, rows = boardRows()) {
   return `
     <section class="board board--${esc(kind)}">
       <div class="board__head">
         <button class="board__title" data-open-board="${kind}" type="button">${esc(title)}</button>
         <button class="board__more" data-open-board="${kind}" type="button">${esc(t('lb.openFull'))} →</button>
       </div>
-      <p class="board__slice">${esc(subtitle)}</p>
-      <div class="board__body" data-board="${kind}">${skeletonRows(rows)}</div>
+      <p class="board__slice"${kind === 'global' ? ' data-global="1"' : ''}>${esc(subtitle)}</p>
+      <div class="board__body" data-board="${kind}">${skeletonRows(Math.min(3, rows))}</div>
     </section>`;
 }
 
-function skeletonRows(n) {
+/**
+ * Заглушка на время загрузки: три полосы и линия прогресса под ними.
+ *
+ * Раньше полос было столько же, сколько строк в топе, и когда приходили
+ * реальные две строки, блок схлопывался рывком. Теперь заглушка заведомо
+ * низкая, а таблица вырастает до своей высоты плавно (см. swapBoardBody).
+ */
+function skeletonRows(n = 3) {
   return `<div class="lb-skeleton" aria-hidden="true">${
     Array.from({ length: n }, (_, i) => `<i style="--i:${i}"></i>`).join('')
-  }</div>`;
+  }<span class="lb-skeleton__bar"></span></div>`;
 }
 
 function wireStart() {
@@ -857,13 +1004,16 @@ async function loadBoards() {
   const boxes = $$('[data-board]');
   if (!boxes.length) return;
   const slice = game.sliceKey;
-  const limit = mobile() ? MOBILE_BOARD_ROWS : CONFIG.LEADERBOARD_PREVIEW_N;
+  const limit = boardRows();
   try {
     boardsCache = await LB.fetchBoards(slice, limit);
     boardsSlice = slice;
     // Экран мог смениться, пока шёл запрос: Apps Script отвечает секундами.
     if (!$('[data-board]')) return;
-    for (const box of $$('[data-board]')) paintBoard(box.dataset.board);
+    for (const box of $$('[data-board]')) {
+      box.classList.remove('is-stale');
+      paintBoard(box.dataset.board);
+    }
 
     // Старый скрипт в таблице не считает общий зачёт — собираем его на
     // клиенте из категорий. Отдельно и после отрисовки: он самый медленный.
@@ -881,7 +1031,7 @@ async function loadBoards() {
         <button class="btn btn--ghost btn--sm" data-retry-board type="button">${esc(t('lb.retry'))}</button>`;
     }
     $('[data-retry-board]')?.addEventListener('click', () => {
-      for (const box of $$('[data-board]')) box.innerHTML = skeletonRows(3);
+      for (const box of $$('[data-board]')) box.innerHTML = skeletonRows();
       loadBoards();
     });
   }
@@ -894,9 +1044,43 @@ function paintBoard(kind, highlight = null) {
   // global === null означает старую версию скрипта: он этот зачёт не считает,
   // и его собирает клиент (loadBoards). Пока считает — оставляем скелет.
   if (kind === 'global' && rows === null) return;
-  host.innerHTML = (rows && rows.length)
+  swapBoardBody(host, (rows && rows.length)
     ? leaderboardTable(rows, highlight)
-    : `<p class="muted">${esc(kind === 'today' ? t('lb.emptyToday') : t('lb.empty'))}</p>`;
+    : `<p class="muted">${esc(kind === 'today' ? t('lb.emptyToday') : t('lb.empty'))}</p>`);
+}
+
+/**
+ * Замена содержимого таблицы с плавным изменением высоты.
+ *
+ * Скелет из семи полос и настоящий топ из двух строк — разной высоты, и без
+ * этого весь блок под ними прыгал вверх рывком. Здесь высота фиксируется по
+ * старому содержимому, подменяется разметка, и высота едет к новой за один
+ * переход. Дальше высота снова становится авто, иначе таблица перестала бы
+ * реагировать на изменение шрифта или ширины.
+ */
+function swapBoardBody(host, html) {
+  if (reduceMotion()) {
+    host.innerHTML = html;
+    return;
+  }
+  const from = host.offsetHeight;
+  host.innerHTML = html;
+  const to = host.offsetHeight;
+  if (!from || from === to) return;
+
+  host.style.height = `${from}px`;
+  host.style.overflow = 'hidden';
+  // Двойной кадр: без него браузер склеит установку и снятие высоты в одно
+  // изменение стиля, и перехода не будет.
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    host.style.transition = 'height var(--duration-slow) var(--easing-out)';
+    host.style.height = `${to}px`;
+    setTimeout(() => {
+      host.style.height = '';
+      host.style.overflow = '';
+      host.style.transition = '';
+    }, 420);
+  }));
 }
 
 function leaderboardTable(rows, highlightNick = null, { head = false, slice = false } = {}) {
@@ -1329,11 +1513,19 @@ function wireRound() {
    * @param {number} [fromMs] с какой секунды ступени начать. По умолчанию —
    *   продолжить то, что уже звучит, или начать сначала.
    */
-  async function playStep(fromMs = null) {
+  /**
+   * @param {number|null} fromMs с какой секунды ступени начать
+   * @param {{user?: boolean}} [opts] user: нажатие на кнопку, а не внутренний
+   *   вызов. Различать обязательно: для человека повторное нажатие — «стоп»,
+   *   а продолжение ступени после пропуска — не нажатие, и останавливать
+   *   там нечего. На этом уже спотыкались: пропуск глушил песню вместо того,
+   *   чтобы продлить её до следующей ступени.
+   */
+  async function playStep(fromMs = null, opts = {}) {
     const durMs = game.stepMs;
 
     // Нажали, пока играет, и не выбирали точку — значит, «стоп».
-    if (fromMs === null && playing && audio.isLive(game.track.id)) {
+    if (opts.user && fromMs === null && playing && audio.isLive(game.track.id)) {
       stopFragment();
       return;
     }
@@ -1399,7 +1591,7 @@ function wireRound() {
     });
   }
 
-  playBtn.addEventListener('click', () => playStep());
+  playBtn.addEventListener('click', () => playStep(null, { user: true }));
 
   /* --- поиск --- */
 
@@ -1613,7 +1805,7 @@ function wireRound() {
     if (e.target === input) return;
     if (e.code === 'Space') {
       e.preventDefault();
-      playStep();
+      playStep(null, { user: true });
     } else if (e.key.toLowerCase() === 's') {
       e.preventDefault();
       $('[data-act]')?.click();
@@ -1623,6 +1815,49 @@ function wireRound() {
   document.addEventListener('keydown', onKey);
   app()._offKeys?.();
   app()._offKeys = () => document.removeEventListener('keydown', onKey);
+
+  /**
+   * Ступень сменилась внутри того же раунда (пропуск или неверный ответ).
+   *
+   * Экран при этом НЕ пересобирается: перерисовывается только шкала ступеней,
+   * подписи под плеером и кнопка действия. Раньше здесь была полная замена
+   * разметки, и раунд отыгрывал появление заново — выглядело так, будто
+   * партия началась сначала.
+   */
+  function stepChanged() {
+    const steps = $('.steps');
+    if (steps) steps.outerHTML = stepMeterMarkup();
+
+    const durLabel = formatStepDuration(game.stepMs);
+    const dur = $('.player__dur');
+    if (dur) dur.textContent = durLabel;
+    playBtn.setAttribute('aria-label', t('a11y.play', { seconds: durLabel }));
+
+    const seek = $('[data-seek]');
+    if (seek) seek.setAttribute('aria-valuemax', String(Math.round(game.stepMs / 1000)));
+    setSeek(0);
+
+    const hint = $('.round__hint');
+    if (hint) {
+      hint.textContent = game.step === 0 && game.roundIndex === 0
+        ? t('round.hintFirst') : t('round.hintSkip');
+    }
+
+    if (!game.hasPending && input) input.value = '';
+    syncActionButton();
+
+    // Песня не прерывалась: продлеваем фрагмент до новой длительности.
+    if (audio.isLive(game.track.id)) playStep();
+    else {
+      playing = false;
+      playBtn.classList.remove('is-playing');
+      $('[data-play-label]').textContent = t('round.play');
+      const ring = $('[data-ring]');
+      if (ring) ring.style.strokeDashoffset = '295';
+    }
+  }
+
+  roundApi = { stepChanged };
 
   // Разметка новая, а песня та же и всё ещё звучит: подхватываем её и
   // продлеваем до длительности новой ступени.
@@ -1662,6 +1897,7 @@ function showAudioError() {
 /* ================================================================== */
 
 function renderReveal() {
+  roundApi = null;
   const r = game.results[game.results.length - 1];
   const track = r.track;
   const last = game.roundIndex >= ROUNDS - 1;
@@ -1769,6 +2005,7 @@ function whenIdle(fn) {
 /* ================================================================== */
 
 function renderFinal() {
+  roundApi = null;
   audio.stop(220);
   // Обложки открыты, но пока курсор ни на одной — фон нейтральный.
   pulse.setMode('glow');
