@@ -56,6 +56,15 @@ export class Ambient {
     this.timer = 0;
     this.filters = null;
     this.filtersKey = '';
+    /** Токен запуска: ответ на устаревшую загрузку не должен победить. */
+    this.token = 0;
+    this.switchTimer = 0;
+    /** Кого сейчас слышно. Наружу — чтобы показать подпись и клип. */
+    this.track = null;
+    /** @type {(track: object|null) => void} */
+    this.onTrack = () => {};
+    /** Смена категории = новый сеанс фона: см. allowNextVideo в main.js. */
+    this.onSwitch = () => {};
     /** @type {{source: AudioBufferSourceNode, gain: GainNode}|null} */
     this.node = null;
     /** Что уже звучало в фоне — партия эти треки не берёт. */
@@ -90,6 +99,16 @@ export class Ambient {
       [pool[i], pool[j]] = [pool[j], pool[i]];
     }
     this.queue = pool.slice(0, 40);
+
+    // Клип есть у меньшинства треков, и если полагаться на случай, человек
+    // может ни разу его не увидеть. Поэтому первым в очереди идёт трек с
+    // клипом, если он в этой категории вообще есть, — фон сразу показывает,
+    // на что он способен. Дальше очередь обычная, без перекоса.
+    const withClip = this.queue.filter((t) => t.video);
+    if (withClip.length) {
+      const first = withClip[Math.floor(Math.random() * withClip.length)];
+      this.queue = [...this.queue.filter((t) => t !== first), first];
+    }
   }
 
   _next() {
@@ -103,15 +122,27 @@ export class Ambient {
    */
   async start(filters = null) {
     const key = filters ? `${(filters.genres || []).join('+')}|${filters.age}` : '';
-    if (this.playing && key === this.filtersKey) return;
-    // Фильтры сменились — очередь пересобираем, текущий трек доигрывает и
-    // уходит в затухание сам.
-    if (key !== this.filtersKey) {
+    const changed = key !== this.filtersKey;
+
+    if (changed) {
       this.filters = filters;
       this.filtersKey = key;
       this.queue = [];
     }
-    if (this.playing) return;
+
+    if (this.playing) {
+      if (!changed) return;
+      // Категорию переключили — фон обязан ответить, иначе человек не поймёт,
+      // что музыка вообще зависит от выбора. Ждём полсекунды: если он щёлкает
+      // чипы подряд, менять трек на каждый щелчок незачем.
+      clearTimeout(this.switchTimer);
+      this.switchTimer = setTimeout(() => {
+        this.onSwitch();
+        this._cycle();
+      }, 500);
+      return;
+    }
+
     this.playing = true;
     this._cycle();
   }
@@ -119,6 +150,7 @@ export class Ambient {
   /** Один трек: завести, дать ему отыграть отрезок, уйти в следующий. */
   async _cycle() {
     if (!this.playing) return;
+    const token = ++this.token;
 
     const track = this._next();
     if (!track) {
@@ -131,10 +163,12 @@ export class Ambient {
       buf = await this.engine.load(track, { timeoutMs: 12000 });
     } catch {
       // Не загрузился — молча берём следующий, фон не повод для ошибки.
-      if (this.playing) this._cycle();
+      if (this.playing && token === this.token) this._cycle();
       return;
     }
-    if (!this.playing) return;
+    // Пока грузили, фильтры могли смениться ещё раз — тогда этот трек уже
+    // не тот, который просили.
+    if (!this.playing || token !== this.token) return;
 
     const ctx = this.engine.ensureContext();
     const dest = this.engine.busIn;
@@ -165,6 +199,8 @@ export class Ambient {
     this._fadeOutPrevious();
     this.node = { source, gain };
     this.usedIds.add(track.id);
+    this.track = track;
+    this.onTrack(track);
 
     // Следующий заводим чуть раньше конца — затухания накладываются, паузы нет.
     clearTimeout(this.timer);
@@ -190,8 +226,13 @@ export class Ambient {
   stop(fadeS = 1.2) {
     if (!this.playing && !this.node) return;
     this.playing = false;
+    this.token++;
     clearTimeout(this.timer);
+    clearTimeout(this.switchTimer);
     this.timer = 0;
+    this.switchTimer = 0;
+    this.track = null;
+    this.onTrack(null);
 
     const ctx = this.engine.ctx;
     const cur = this.node;

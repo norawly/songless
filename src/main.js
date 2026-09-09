@@ -175,6 +175,8 @@ async function boot() {
   }
 
   ambient.setCatalog(catalog);
+  ambient.onTrack = showNowPlaying;
+  ambient.onSwitch = allowNextVideo;
   game = new Game(catalog);
   restoreMode();
   game.onChange(render);
@@ -197,6 +199,118 @@ function liveBg(mode = 'glow') {
   pulse.setMode(mode);
   pulse.show();
   pulse.start(audio.analyser);
+}
+
+/**
+ * Подпись «сейчас звучит» и клип на фоне.
+ *
+ * Фон стартового экрана — настоящая песня из каталога, значит её обязательно
+ * нужно подписать: атрибуция полагается везде, где слышен трек, а не только
+ * там, где он показан карточкой. Подпись мелкая и приглушённая — она не спорит
+ * с интерфейсом, но по ней можно перейти к песне.
+ *
+ * У части треков есть официальный клип (сборщик кладёт его в поле `video`).
+ * Тогда он идёт фоном — сильно размытый и затемнённый, почти невидимый: это
+ * атмосфера, а не просмотр. Условия жёсткие, и вот почему:
+ *   — только десктоп: превью клипа весит около 17 МБ, на телефоне это и
+ *     трафик, и нагрев;
+ *   — только при быстром соединении и без режима экономии трафика;
+ *   — загрузка начинается через пару секунд после старта песни: тот, кто
+ *     сразу нажал «Играть», не скачает ни байта.
+ * YouTube для этого не годится: его поиск требует ключа, а ключ на статическом
+ * сайте виден любому.
+ */
+function showNowPlaying(track) {
+  const box = document.getElementById('now-playing');
+  if (!box) return;
+
+  if (!track) {
+    box.hidden = true;
+    box.innerHTML = '';
+    stopVideoBg();
+    return;
+  }
+
+  const url = track.videoUrl || track.appleUrl;
+  const name = `${track.artist} — ${track.title}`;
+  box.innerHTML = `
+    <span class="np__label">${esc(t('np.now'))}</span>
+    ${url
+      ? `<a class="np__name" href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(name)}</a>`
+      : `<span class="np__name">${esc(name)}</span>`}
+    ${track.video ? `<span class="np__clip">${esc(t('np.clip'))}</span>` : ''}`;
+  box.hidden = false;
+
+  startVideoBg(track);
+}
+
+/** Можно ли вообще тянуть 17 мегабайт ради фоновой картинки. */
+function videoAllowed() {
+  if (mobile() || reduceMotion()) return false;
+  const c = navigator.connection;
+  if (c && (c.saveData || /^(slow-)?2g$|^3g$/.test(c.effectiveType || ''))) return false;
+  return true;
+}
+
+let videoTimer = 0;
+/**
+ * Клип за сеанс фона — один.
+ *
+ * Превью клипа весит 10–20 МБ. Треки в фоне сменяются каждые двадцать с
+ * лишним секунд, и если пускать клип к каждому, счёт пойдёт на десятки
+ * мегабайт в минуту — за красивый фон столько не платят. Поэтому клип
+ * показывается к ПЕРВОМУ треку после запуска или смены категории (очередь
+ * специально ставит такой трек первым), а дальше остаётся зелёное свечение
+ * до следующего переключения.
+ */
+let videoUsed = false;
+
+/** Сбрасывается при смене категории: там начинается новый сеанс фона. */
+function allowNextVideo() {
+  videoUsed = false;
+}
+
+function startVideoBg(track) {
+  stopVideoBg();
+  if (!track.video || videoUsed || !videoAllowed()) return;
+  videoUsed = true;
+  // Пауза перед загрузкой: за это время человек успевает нажать «Играть», и
+  // тогда качать нечего.
+  videoTimer = setTimeout(() => {
+    const bg = document.getElementById('song-bg');
+    if (!bg || game.screen !== SCREEN.START) return;
+    let node = bg.querySelector('.song-video');
+    if (!node) {
+      node = document.createElement('video');
+      node.className = 'song-video';
+      node.muted = true;
+      node.loop = true;
+      node.playsInline = true;
+      node.preload = 'none';
+      node.setAttribute('aria-hidden', 'true');
+      bg.prepend(node);
+    }
+    node.src = track.video;
+    node.play().then(() => {
+      node.classList.add('is-on');
+    }).catch(() => {
+      /* автоплей не дали — остаётся зелёное свечение */
+    });
+  }, 2500);
+}
+
+function stopVideoBg() {
+  clearTimeout(videoTimer);
+  const node = document.querySelector('.song-video');
+  if (!node) return;
+  node.classList.remove('is-on');
+  // Даём затухнуть и только потом снимаем источник: иначе кадр моргнёт чёрным.
+  setTimeout(() => {
+    if (node.classList.contains('is-on')) return;
+    node.pause();
+    node.removeAttribute('src');
+    node.load();
+  }, 500);
 }
 
 /**
@@ -227,6 +341,11 @@ function wireFirstGesture() {
   document.addEventListener('touchend', wake, { passive: true });
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden) audio.resumeIfNeeded();
+    // Вкладку свернули — видео на фоне незачем крутить и тем более докачивать.
+    const v = document.querySelector('.song-video');
+    if (!v) return;
+    if (document.hidden) v.pause();
+    else if (v.classList.contains('is-on')) v.play().catch(() => {});
   });
 }
 

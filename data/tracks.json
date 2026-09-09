@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-07T17:58:08.834Z",
+ "generatedAt": "2026-09-09T13:54:47.893Z",
  "source": "iTunes lookup by artistId (whitelist: data/artists-v2.csv)",
  "note": "Треки собраны строго по одному artistId из whitelist. Свободный текстовый поиск по названиям не используется. Только метаданные и ссылки на официальные 30-секундные превью Apple; аудиофайлы не хранятся.",
  "levelTiers": {
@@ -358,6 +358,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e2/b7/fa/e2b7fa9c-304d-4939-70fa-f2b9108093d4/mzaf_7848453741801237446.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/27/d7/98/27d798dc-d352-777e-9299-dcf8b8d866a6/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/5000/1533785293?i=1533785310&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/91/a4/df/91a4df00-b481-325c-5bae-d2858e223625/mzvf_16892906332891825549.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/5000/1550582237?uo=4",
    "tier": 1,
    "genres": [
     "rap",
@@ -519,6 +521,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/77/cd/e0/77cde03a-73f6-fd83-1c95-93d24d252c6a/mzaf_403779526946002498.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/9c/36/9e/9c369e41-33c1-8a2c-8b8f-930a5d745df9/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%B1%D0%B5%D0%B3%D0%B8/1482628523?i=1482628766&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/82/f8/5b/82f85bf8-8380-7899-eff4-8eb51b1aac9a/mzvf_8085396144788412034.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D0%B1%D0%B5%D0%B3%D0%B8/1550918301?uo=4",
    "tier": 3,
    "genres": [
     "rap",
@@ -878,6 +882,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/44/16/73/441673af-f1f0-112e-ea6c-93d2ceb651d5/mzaf_691630385790286490.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/a4/63/62/a4636250-ec23-8e59-f231-60687dda6277/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/ah-yah-mah/1364899253?i=1364899267&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/a6/21/cc/a621ccb0-3503-5718-57c0-38ca762f0d0d/mzvf_11288045804780475329.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/ah-yah-mah/1723609241?uo=4",
    "tier": 1,
    "genres": [
     "pop",
@@ -1029,6 +1035,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/b3/02/41/b3024146-e792-8697-1803-efff839208e9/mzaf_5405963170360402424.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/c0/ab/5c/c0ab5cd1-4ba2-a39e-d777-017471d45f05/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/bari-biled/1477173275?i=1477173281&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/f4/cf/75/f4cf75aa-91ac-add7-2f23-68932ea74c8a/mzvf_4654795722999633820.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/bari-biled/1722615054?uo=4",
    "tier": 2,
    "genres": [
     "pop",
@@ -2168,6 +2176,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/b0/82/21/b082215c-dc88-c8ca-04b5-33b3ef65c06f/mzaf_16751276808101151869.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/a3/b8/b3/a3b8b348-f004-ddd7-a5e1-0cb6d2955514/0.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%BC%D0%BE%D1%81%D1%82%D1%8B/1599072176?i=1599072177&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/5e/e8/53/5ee85363-514f-1a44-ebec-82e500bd921c/mzvf_3849845391302332103.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D0%BC%D0%BE%D1%81%D1%82%D1%8B-a21-live-session/1719616975?uo=4",
    "tier": 1,
    "genres": [
     "retro",
@@ -2194,6 +2204,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/16/5e/a7/165ea7e4-09ec-ab93-268c-84f4e49351f3/mzaf_7639221689524642036.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/18/bc/6c/18bc6cac-4692-239d-9a6d-8b6bc646221e/0.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D1%81%D0%B5-%D0%BB%D1%8F-%D0%B2%D0%B8/1535968381?i=1535968382&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/11/b7/3b/11b73b71-87f9-95ad-5796-099ed2e6b605/mzvf_9447624400990975759.720w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D1%81%D0%B5-%D0%BB%D1%8F-%D0%B2%D0%B8/1540259497?uo=4",
    "tier": 1,
    "genres": [
     "retro",
@@ -2220,6 +2232,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/9e/0a/fd/9e0afdce-8ee7-88f5-00e6-25e17be48962/mzaf_15588021590830924540.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/61/3d/e6/613de6aa-e66e-4ea2-850d-46337075240b/0.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D1%83%D0%BB%D0%B5%D1%82%D0%B0%D1%8E/1559103816?i=1559103819&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/c5/da/9c/c5da9cec-179f-83c6-5681-3e6fcbbcbbc7/mzvf_12933309793822815128.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D1%83%D0%BB%D0%B5%D1%82%D0%B0%D1%8E/1726936396?uo=4",
    "tier": 1,
    "genres": [
     "retro",
@@ -2246,6 +2260,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/15/b5/b1/15b5b153-9461-c973-c8e8-26bc2cff6dfe/mzaf_3742890410039737074.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/86/7b/b3/867bb378-2959-a255-97ff-1e17071ba91f/0.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D1%82%D0%B8%D0%BA-%D1%82%D0%B0%D0%BA/1535533694?i=1535533695&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/dd/23/fe/dd23fe1e-530a-0fe7-f9ce-ffcefc59a486/mzvf_281607453414445356.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D1%82%D0%B8%D0%BA-%D1%82%D0%B0%D0%BA/1726525035?uo=4",
    "tier": 1,
    "genres": [
     "retro",
@@ -2272,6 +2288,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/bf/74/64/bf7464af-b700-ad2d-daa9-9a2aee7a62ec/mzaf_8383033110027408110.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/90/7e/aa/907eaaab-d587-24a1-61b1-e02bc9523fd4/0.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D1%82%D0%B0%D0%BA-%D0%B6%D0%B5-%D0%BA%D0%B0%D0%BA-%D0%B2%D1%81%D0%B5/1579543267?i=1579543275&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/1c/a9/f3/1ca9f394-eb3b-c958-cc60-87c525cae116/mzvf_17374403805477114150.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D1%82%D0%B0%D0%BA-%D0%B6%D0%B5-%D0%BA%D0%B0%D0%BA-%D0%B2%D1%81%D0%B5/1726928863?uo=4",
    "tier": 1,
    "genres": [
     "retro",
@@ -2298,6 +2316,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/7b/67/ce/7b67ce57-47a7-f78c-f0f7-e3d51fdb9ed5/mzaf_9970416803380025779.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/af/fd/e5/affde5aa-a55b-3413-c31f-f067d7fa2881/0.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%BF%D0%B0%D0%BF%D0%B0-%D0%BC%D0%B0%D0%BC%D0%B0-%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D1%8F-1/1586625527?i=1586625528&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video122/v4/ef/57/d3/ef57d3e1-856b-976c-ab1b-f066bfc3f273/mzvf_9172390162247129800.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D0%BF%D0%B0%D0%BF%D0%B0-%D0%BC%D0%B0%D0%BC%D0%B0/1735712629?uo=4",
    "tier": 1,
    "genres": [
     "retro",
@@ -2591,6 +2611,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/0e/d6/32/0ed6325e-ddde-9894-97d7-f616dd2fa2a5/mzaf_16177157079144021810.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/3d/8b/5f/3d8b5f38-d3fb-6c11-6dd8-b7f4d05ceeb8/contsched.cchzdzyc.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%BC%D0%B5%D0%B4%D0%B8%D0%BD%D0%B0/1355736895?i=1355737377&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video128/v4/41/3f/3b/413f3b9c-6a9f-54e5-4529-184940e5f558/mzvf_194168378781257949.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D0%BC%D0%B5%D0%B4%D0%B8%D0%BD%D0%B0/1361141899?uo=4",
    "tier": 1,
    "genres": [
     "rap",
@@ -2747,6 +2769,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/8b/71/dc/8b71dc4c-53c2-4db8-a5aa-f556feef730e/mzaf_16763971960249460823.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music71/v4/1d/90/01/1d900115-0bbb-ca90-284e-21078ae09308/190295980672.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%BB%D0%B5%D0%B9%D0%BB%D0%B0-feat-%D0%BC%D0%B0%D0%BA%D0%B2%D0%B8%D0%BD/1164160464?i=1164160850&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video125/v4/19/45/66/194566c6-cb4b-a300-a929-583a9b6bdf29/mzvf_1071214841444801191.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D0%BB%D0%B5%D0%B9%D0%BB%D0%B0-feat-%D0%BC%D0%B0%D0%BA%D0%B2%D0%B8%D0%BD/1247919041?uo=4",
    "tier": 1,
    "genres": [
     "rap",
@@ -2773,6 +2797,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/25/46/6e/25466e06-4049-ccee-7c9b-f29ea6e7602d/mzaf_6814426405189398795.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/12/64/2e/12642e32-69aa-6703-cc39-55cb9123c617/190295043537.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%B8%D1%81%D0%BA%D0%B0%D0%BB-%D0%BD%D0%B0%D1%88%D1%91%D0%BB/1545659741?i=1545659934&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video114/v4/12/1e/00/121e00fd-ef0e-c181-680c-0fa09240dfa5/mzvf_9319230953028245405.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D0%B8%D1%81%D0%BA%D0%B0%D0%BB-%D0%BD%D0%B0%D1%88%D1%91%D0%BB/1556894175?uo=4",
    "tier": 3,
    "genres": [
     "rap",
@@ -2826,6 +2852,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/fc/85/c9/fc85c913-ff7e-f73f-af55-2bfa89b48040/mzaf_4220763066258219723.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/e6/a0/11/e6a011af-a106-8131-2cea-0dc9192753b0/190295390730.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%B4%D0%B6%D0%B0%D0%B4%D1%83%D0%B0/1484327338?i=1484327342&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video113/v4/34/b0/28/34b02884-adb3-0c83-9b16-5617c4e362f5/mzvf_9334121047965924752.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D0%B4%D0%B6%D0%B0%D0%B4%D1%83%D0%B0/1485750810?uo=4",
    "tier": 1,
    "genres": [
     "rap",
@@ -2948,6 +2976,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/e4/c4/0d/e4c40dd8-08d6-f933-f7e3-5d5718bd2cd8/mzaf_18150855306743343592.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/5e/2b/c8/5e2bc833-d6cd-f096-cdbd-c47714747192/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/aiga-qarap/1700912870?i=1700912887&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/08/75/3b/08753b3f-778b-8713-76d2-799b371df5b4/mzvf_17023558399106911308.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/aiga-qarap/1774026448?uo=4",
    "tier": 1,
    "genres": [
     "pop",
@@ -2972,6 +3002,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/0d/cb/bd/0dcbbd19-db07-75bf-a79b-6a1eea3e748f/mzaf_11973602703180638589.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/0d/a2/2c/0da22ca2-2f38-3123-38ae-1836268a562d/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/taxi/1759423701?i=1759423716&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/b4/9c/ec/b49cec06-9eb8-cd7c-8205-c4d728fd1392/mzvf_6129415418117153116.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/taxi/1785892483?uo=4",
    "tier": 1,
    "genres": [
     "pop",
@@ -3044,6 +3076,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/47/13/c7/4713c75b-ef24-5173-7c75-829af0d0a861/mzaf_5929848722538840797.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/01/32/ec/0132ecb5-82c8-6add-7d3c-0f00b94e5f8a/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/qansha-kun/1695106253?i=1695106274&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/81/19/98/8119982b-0c3b-5528-5092-b7564e53c6fc/mzvf_17024417558584609728.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/qansha-kun/1786116974?uo=4",
    "tier": 1,
    "genres": [
     "pop",
@@ -3373,6 +3407,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/58/d8/5d/58d85db5-36af-030f-f152-d7ceb44b3b9a/mzaf_12412852733727470010.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/cd/48/5c/cd485cfe-7352-38f7-e15f-d3f05234b3bf/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%BF%D0%BE%D1%81%D0%BB%D0%B5-%D0%B4%D0%BE%D0%B6%D0%B4%D1%8F/1692972415?i=1692972433&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/ee/32/de/ee32dea2-f4df-439e-9493-acc41f42f693/mzvf_3656741376963501313.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D0%BF%D0%BE%D1%81%D0%BB%D0%B5-%D0%B4%D0%BE%D0%B6%D0%B4%D1%8F/1701109868?uo=4",
    "tier": 2,
    "genres": [
     "rap",
@@ -3666,6 +3702,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/24/43/ea/2443eaff-2239-fc20-9b67-35e860d96b68/mzaf_4155647112889978708.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/03/03/63/0303639b-997a-ab72-c72e-2ed9b6d5a5fe/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%B2%D1%80%D0%B5%D0%B4%D0%B8%D0%BD%D0%B0/1630843903?i=1630843910&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/e3/2a/98/e32a98cd-b25c-e0ff-b29b-f52b990e098e/mzvf_17858026843822828792.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D0%B2%D1%80%D0%B5%D0%B4%D0%B8%D0%BD%D0%B0/1679450318?uo=4",
    "tier": 2,
    "genres": [
     "rap",
@@ -4009,6 +4047,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/af/c5/6f/afc56f77-eef0-76a8-03e9-5e1ad66e1b9f/mzaf_9065467033153335224.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/31/29/c0/3129c0d0-aba1-b124-74d5-267b307f8bda/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/uade/1600154196?i=1600154199&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/68/20/06/68200690-c5c3-b55d-7559-e7d286ae187c/mzvf_12848763333463289664.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/uade/1607483616?uo=4",
    "tier": 2,
    "genres": [
     "rap",
@@ -5267,6 +5307,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/6b/3d/b8/6b3db885-4c0c-8d62-7e05-09a213702c61/mzaf_14400281831480342185.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/61/3d/e6/613de6aa-e66e-4ea2-850d-46337075240b/0.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D1%82%D1%8B/1559103816?i=1559103828&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/03/b5/51/03b55168-552a-2633-794e-0833822af067/mzvf_2451232580918778093.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D1%82%D1%8B-feat-zied/1726931528?uo=4",
    "tier": 2,
    "genres": [
     "retro",
@@ -6823,6 +6865,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview122/v4/5f/d5/72/5fd57242-7e13-fcea-5178-70986314a76a/mzaf_2395604676894577207.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/56/d2/f6/56d2f615-ddef-53dc-125f-fb24252297a7/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/sybyrlaiyn-3/1645073431?i=1645073442&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video112/v4/de/c3/34/dec3342c-8ec0-363e-f2a4-5bec7967d2b6/mzvf_2338419490504441025.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/sybyrlaiyn-3/1654778505?uo=4",
    "tier": 3,
    "genres": [
     "indie",
@@ -7711,6 +7755,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/20/dd/e5/20dde5aa-1f9a-61a6-24fd-52549db1491d/mzaf_9316662781782242418.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/39/00/32/39003281-62d2-282a-dd36-96e71350333d/0.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%BD%D0%B5%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%BE%D1%88%D0%BB%D0%BE/1875555368?i=1875555369&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/f4/d5/fd/f4d5fd84-7999-3722-183a-b62645bb3db4/mzvf_47881679995643251.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D0%BD%D0%B5%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%BE%D1%88%D0%BB%D0%BE-live-at-vk-stadium-moscow-2024/1812948974?uo=4",
    "tier": 3,
    "genres": [
     "indie"
@@ -7734,6 +7780,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/34/b2/e2/34b2e296-ac28-0083-6e6d-863dbe328f0f/mzaf_13607374952808999592.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/1e/fb/c3/1efbc3dc-b59a-271f-5e47-ed5d06a0abab/0.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D1%83%D0%BB%D0%B8%D1%86%D1%8B-%D0%B6%D0%B4%D0%B0%D0%BB%D0%B8/1767767473?i=1767767475&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/74/0d/2b/740d2b3c-3ce8-7cdc-e2ad-490f2fc43e84/mzvf_3586330273261173995.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D1%83%D0%BB%D0%B8%D1%86%D1%8B-%D0%B6%D0%B4%D0%B0%D0%BB%D0%B8/1716510070?uo=4",
    "tier": 3,
    "genres": [
     "indie"
@@ -7757,6 +7805,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/63/92/c4/6392c4af-c452-215f-4715-52afa7e63e5e/mzaf_18432789910350076397.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/1e/fb/c3/1efbc3dc-b59a-271f-5e47-ed5d06a0abab/0.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%BE%D1%81%D1%82%D0%B0%D0%BD%D0%B5%D0%BC%D1%81%D1%8F-%D0%B7%D0%B4%D0%B5%D1%81%D1%8C/1767767473?i=1767767474&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video112/v4/a8/07/36/a80736a7-011a-09c4-4a5a-0f1423ebcf60/mzvf_17842102024340714750.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D0%BE%D1%81%D1%82%D0%B0%D0%BD%D0%B5%D0%BC%D1%81%D1%8F-%D0%B7%D0%B4%D0%B5%D1%81%D1%8C-live-at-moscow-2021/1645196659?uo=4",
    "tier": 3,
    "genres": [
     "indie"
@@ -7780,6 +7830,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/38/b5/31/38b53109-e691-ee2e-866e-a9a3edc5e2af/mzaf_16322605849197009496.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/1e/fb/c3/1efbc3dc-b59a-271f-5e47-ed5d06a0abab/0.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/pmml/1767767473?i=1767767691&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video126/v4/9a/cf/df/9acfdfce-a9da-44a7-d55b-c4aed5f84351/mzvf_8280720681014314803.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/pmml/1716379813?uo=4",
    "tier": 3,
    "genres": [
     "indie"
@@ -7803,6 +7855,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/28/5d/38/285d38b1-0f32-b3d8-2ef5-fd63a2fc2e59/mzaf_9430177742072418452.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/1e/fb/c3/1efbc3dc-b59a-271f-5e47-ed5d06a0abab/0.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D1%82%D1%8F%D0%BD%D0%B5%D1%82/1767767473?i=1767767476&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/66/bf/99/66bf9991-2372-8578-568b-333615077e96/mzvf_2308237822866339392.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D1%82%D1%8F%D0%BD%D0%B5%D1%82-live-at-vk-stadium-moscow-2024/1812770443?uo=4",
    "tier": 3,
    "genres": [
     "indie"
@@ -9986,6 +10040,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/bc/5a/44/bc5a4409-5324-db2c-694a-c2071888ce63/mzaf_9064937805077069046.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/aa/7f/ef/aa7fef0f-c5b0-2a7c-43db-8d93bbda8517/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/belly-dancer/1609633532?i=1609633533&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video116/v4/3d/79/cb/3d79cb54-3e99-7887-248c-c2a4e0413d76/mzvf_7705559600789609474.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/belly-dancer/1726334216?uo=4",
    "tier": 2,
    "genres": [
     "pop"
@@ -10032,6 +10088,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/38/f1/64/38f16486-761b-bd87-f796-c771c1cf83d9/mzaf_16760109238428134257.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/28/dc/26/28dc269c-6443-22b1-2e2e-4590faae8359/8800344687385_cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/sob/1850358021?i=1850358025&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/d8/7e/0b/d87e0b48-6c02-65c6-3fcc-d5b0bdba3da3/mzvf_12918045017300924818.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/sob/1849582822?uo=4",
    "tier": 2,
    "genres": [
     "pop"
@@ -11008,6 +11066,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/e2/2b/e7/e22be7e6-6859-d06b-9888-589ab6764580/mzaf_3287836489117822037.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/8a/cd/83/8acd8353-ae2a-53eb-4334-4b341d6beb3c/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%B1%D1%83%D1%82%D1%8B%D0%BB%D0%BA%D0%B8/1538561778?i=1538561781&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video211/v4/2d/80/94/2d80946d-d02e-8f19-428a-0fb3d099ec1d/mzvf_14979765260560778003.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D0%B1%D1%83%D1%82%D1%8B%D0%BB%D0%BA%D0%B8-live/1547009542?uo=4",
    "tier": 3,
    "genres": [
     "rnb",
@@ -11295,6 +11355,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/7a/5c/a3/7a5ca3b7-9f80-5754-b2b5-3897811817b2/mzaf_16963788836780518520.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f5/66/d5/f566d5b0-b073-1ce5-e431-5089d1cad8ab/0.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/in-da-club/1773767632?i=1773767635&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video112/v4/a8/f3/eb/a8f3eb2f-584e-4d8c-9b08-e25d06c819aa/mzvf_5928317864281818884.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/in-da-club/1733456998?uo=4",
    "tier": 4,
    "genres": [
     "rap"
@@ -13316,6 +13378,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/6e/7d/51/6e7d5117-ad49-5b84-5cb5-c1e5b0502958/mzaf_2030605908941747907.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/9b/5b/9a/9b5b9a42-81dd-07c7-25fe-69b8531b17da/cover.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D1%81%D0%B2%D0%B5%D0%BB%D0%B0-%D1%81-%D1%83%D0%BC%D0%B0/1500281345?i=1500281767&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video124/v4/d6/6d/b1/d66db1c0-37cc-c6b3-9c77-ac1fede62c99/mzvf_13954799038757575481.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D1%81%D0%B2%D0%B5%D0%BB%D0%B0-%D1%81-%D1%83%D0%BC%D0%B0/1527274566?uo=4",
    "tier": 4,
    "genres": [
     "patriotic",
@@ -15417,6 +15481,8 @@
    "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/34/d0/17/34d0170a-48c7-60f4-6c30-54dd531076c2/mzaf_5393849453355389619.plus.aac.p.m4a",
    "art": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/6e/14/24/6e14240c-fc27-bde1-eda1-c7db1439a743/0.jpg/600x600bb.jpg",
    "appleUrl": "https://music.apple.com/kz/album/%D0%BC%D0%B0%D0%B3%D0%BD%D0%B8%D1%82%D1%8B/1773314433?i=1773314441&uo=4",
+   "video": "https://video-ssl.itunes.apple.com/itunes-assets/Video113/v4/55/c7/e0/55c7e081-d92c-89ae-a20a-7984354fd0bf/mzvf_11260828886463652153.1920w.h264lc.U.p.m4v",
+   "videoUrl": "https://music.apple.com/kz/music-video/%D0%BC%D0%B0%D0%B3%D0%BD%D0%B8%D1%82%D1%8B/1471621760?uo=4",
    "tier": 4,
    "genres": [
     "rnb",

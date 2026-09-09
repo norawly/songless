@@ -242,6 +242,32 @@ async function cachedFetch(url, attempt = 0) {
 const api = (path, params) =>
   cachedFetch(`https://itunes.apple.com/${path}?${new URLSearchParams({ country: 'KZ', ...params })}`);
 
+/**
+ * Официальные клипы артиста: id → { свёрнутое название → {preview, url} }.
+ *
+ * Тот же публичный API Apple, что и для песен, только `entity=musicVideo`.
+ * Превью клипа — тридцатисекундный mp4 на CDN Apple; игра ставит его фоном
+ * стартового экрана, сильно размытым и затемнённым. YouTube для этого не
+ * годится: его поиск требует ключа, а ключ на статическом сайте виден всем.
+ *
+ * Сопоставляем строго по названию: клип показывается только к своей песне.
+ * Иначе на фоне играл бы один трек, а крутился клип другого — и ссылка под
+ * ним вела бы не туда, куда обещает.
+ */
+async function fetchArtistVideos(artistIds) {
+  const out = new Map();
+  for (const artistId of artistIds) {
+    const data = await api('lookup', { id: String(artistId), entity: 'musicVideo', limit: '200' });
+    for (const v of data.results || []) {
+      if (v.kind !== 'music-video' || !v.previewUrl) continue;
+      const key = foldKey(String(v.trackName || '').replace(/\([^)]*\)/g, ' '));
+      if (!key || out.has(key)) continue;
+      out.set(key, { preview: v.previewUrl, url: v.trackViewUrl || null });
+    }
+  }
+  return out;
+}
+
 /* ==================================================================== */
 /* Шаг 1: имя артиста → artistId                                        */
 /* ==================================================================== */
@@ -676,6 +702,7 @@ async function main() {
 
     const { genres, tags } = canonGenres(row.genres);
     const needsReview = row.kz_origin === 'verify';
+    const videos = await fetchArtistVideos(accepted.map((a) => a.artistId));
 
     for (const t of chosen) {
       const english = looksEnglish(t.trackName);
@@ -694,6 +721,11 @@ async function main() {
         preview: t.previewUrl,
         art: bigArt(t.artworkUrl100),
         appleUrl: t.trackViewUrl || null,
+        // Клип к этой же песне, если он есть: фон стартового экрана.
+        ...(() => {
+          const v = videos.get(foldKey(String(t.trackName).replace(/\([^)]*\)/g, ' ')));
+          return v ? { video: v.preview, videoUrl: v.url } : {};
+        })(),
         tier,
         genres,
         tags,
@@ -733,6 +765,7 @@ async function main() {
     return true;
   });
 
+  const withVideo = unique.filter((t) => t.video).length;
   const byTier = {};
   const byGenre = {};
   const byAge = { family: 0, '18plus': 0 };
@@ -785,6 +818,7 @@ async function main() {
     `- Треков в каталоге: **${unique.length}**`,
     `- Из них с ручными правками: **${payload.edited}**`,
     `- Игровых категорий: **${playableGenres.length}** из ${CANON_GENRES.length}`,
+    `- С официальным клипом (фон стартового экрана): **${withVideo}**`,
     `- Уникальных артистов в каталоге: **${new Set(unique.map((t) => t.artistKey)).size}**`,
     '',
     '## Распределение по тирам',

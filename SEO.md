@@ -106,10 +106,12 @@ npm run og              # og-image.png (нужен поднятый npm run dev)
 1. Откройте [search.google.com/search-console](https://search.google.com/search-console).
 2. **Добавить ресурс → Домен** (`zhengisbay.com`). Это лучше, чем URL-префикс:
    один раз подтвердили — покрыты все поддомены, включая старый `songless`.
-3. Google даст строку вида `google-site-verification=…`. Добавьте её в
-   Cloudflare: **DNS → Add record → тип TXT, Name `@`, Content — строка целиком**.
-   Сохранить, вернуться в Search Console, нажать **Подтвердить**
-   (TXT расходится за пару минут, иногда до часа).
+3. Подтверждение владения. **Файл `google99a4ad3c2c9ca121.html` уже лежит в
+   корне сайта** — если Search Console предлагает способ «HTML-файл», просто
+   нажмите «Подтвердить». Для ресурса типа «Домен» файла мало: там нужен
+   DNS — **Cloudflare → DNS → Add record → тип TXT, Name `@`, Content —
+   строка `google-site-verification=…` целиком**. TXT расходится за пару
+   минут, иногда до часа.
 4. **Sitemaps** → в поле ввести `sitemap.xml` → Отправить. Ожидаемо: «Успешно»,
    3 обнаруженных URL.
 5. **Проверка URL** → вставить `https://olensiz.zhengisbay.com/` → **Запросить

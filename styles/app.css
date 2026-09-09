@@ -154,6 +154,24 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
   transition: opacity 200ms linear, transform 260ms linear;
 }
 
+/* Клип на фоне стартового экрана. Размытие и темнота здесь не украшение:
+   картинка обязана читаться как атмосфера, а не как видео, иначе она забирает
+   внимание у интерфейса и мешает читать текст. Появляется и уходит плавно —
+   резкое включение видео выглядит как сбой. */
+.song-video {
+  position: absolute;
+  inset: -8%;
+  width: 116%; height: 116%;
+  object-fit: cover;
+  opacity: 0;
+  filter: blur(26px) saturate(1.15) brightness(0.42);
+  transform: scale(1.06);
+  transition: opacity 900ms var(--easing-default);
+  pointer-events: none;
+}
+.song-video.is-on { opacity: 0.5; }
+.song-bg[data-mode="cover"] .song-video { opacity: 0; }
+
 /* Переключение режимов. Оба набора слоёв существуют всегда — строить их в
    момент показа ответа значило бы получить рывок ровно на этом переходе. */
 .song-bg[data-mode="cover"] .song-glow { opacity: 0; }
@@ -1557,6 +1575,49 @@ body.is-wrong::after { animation: wrong-flash 440ms var(--easing-out) both; }
   .chrome__main { overflow-y: auto; }
 }
 
+/* ---------------------------------------------------------------------------
+   ПОДПИСЬ «СЕЙЧАС ЗВУЧИТ»
+
+   Фон стартового экрана — настоящая песня, и её нужно назвать. Подпись висит
+   в углу, набрана мелко и приглушённо: она не участвует в композиции экрана,
+   но её видно, если искать глазами. Кликается только имя.
+   ------------------------------------------------------------------------ */
+
+.np {
+  position: fixed;
+  left: var(--pad-shell-h);
+  bottom: max(var(--pad-shell-v), env(safe-area-inset-bottom));
+  z-index: 2;
+  display: flex; align-items: baseline; gap: var(--s-8);
+  max-width: min(28rem, calc(100vw - var(--pad-shell-h) * 2));
+  pointer-events: none;
+  animation: rise-in var(--duration-slow) var(--easing-out) both;
+}
+.np__label {
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--letter-spacing-wider);
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
+}
+.np__name {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  pointer-events: auto;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+a.np__name:hover { color: var(--color-accent-primary); }
+.np__clip {
+  font-size: 9px;
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  color: var(--color-accent-on);
+  background: var(--color-accent-primary);
+  padding: 1px 4px;
+  white-space: nowrap;
+}
+
 /* ===========================================================================
    ДВИЖЕНИЕ
 
@@ -1985,6 +2046,15 @@ body.is-wrong::after { animation: wrong-flash 440ms var(--easing-out) both; }
   .menu__item:last-child { border-bottom: 0; }
 
   /* Переключатели лидерборда в столбик: в строку на 360px они не встают. */
+  /* Подпись фона на телефоне — по центру и одной строкой: угол там занят
+     системными жестами. */
+  .np {
+    left: var(--pad-shell-h); right: var(--pad-shell-h);
+    justify-content: center;
+    max-width: none;
+  }
+  .np__label { display: none; }
+
   .lb-controls { flex-direction: column; align-items: stretch; gap: var(--s-12); }
   .lb-controls__cat { max-width: none; }
   .lb-controls .seg { width: 100%; }
@@ -2027,6 +2097,10 @@ body.is-wrong::after { animation: wrong-flash 440ms var(--easing-out) both; }
   .fcard.is-sounding .fcard__eq i { animation: none; height: 9px; }
   .card__art, .results, .results__item, .lang__hint { animation: none; }
   .loading__bar::after { animation: none; opacity: 0; }
+  /* Видео на фоне при отключённой анимации не запускается вовсе
+     (см. videoAllowed в src/main.js), правило — на всякий случай. */
+  .song-video { display: none; }
+  .np { animation: none; }
   /* Ни одно появление не анимируется: элементы просто на месте. */
   .screen,
   .screen--start .hero > *, .screen--start .start__cta,
