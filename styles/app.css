@@ -164,12 +164,34 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
   width: 116%; height: 116%;
   object-fit: cover;
   opacity: 0;
-  filter: blur(26px) saturate(1.15) brightness(0.42);
+  /* Размытие уменьшено с 26 до 18: на 26 картинка превращалась в ровное
+     пятно и переставала читаться как видео вообще. */
+  filter: blur(18px) saturate(1.15) brightness(0.46);
   transform: scale(1.06);
   transition: opacity 900ms var(--easing-default);
   pointer-events: none;
 }
-.song-video.is-on { opacity: 0.5; }
+.song-video.is-on { opacity: 0.55; }
+
+/* Обложка вместо клипа: у большинства треков клипа нет, а чёрный фон —
+   не фон. Медленный дрейф превращает статичную картинку в атмосферу. */
+.song-art {
+  position: absolute;
+  inset: -12%;
+  width: 124%; height: 124%;
+  object-fit: cover;
+  opacity: 0;
+  filter: blur(28px) saturate(1.2) brightness(0.42);
+  transition: opacity 1200ms var(--easing-default);
+  animation: art-drift 46s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+.song-art.is-on { opacity: 0.42; }
+@keyframes art-drift {
+  from { transform: scale(1.05) translate3d(-1.5%, -1%, 0); }
+  to   { transform: scale(1.16) translate3d(1.5%, 1.5%, 0); }
+}
+.song-bg[data-mode="cover"] .song-art { opacity: 0; }
 .song-bg[data-mode="cover"] .song-video { opacity: 0; }
 
 /* Переключение режимов. Оба набора слоёв существуют всегда — строить их в
@@ -692,6 +714,29 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
 }
 .board__body { min-height: 0; overflow: hidden; }
 
+/* Идёт обновление: тонкая полоска под заголовком. Таблица при этом остаётся
+   на экране — она уже показана из сохранённой копии. */
+.board { position: relative; }
+.board.is-busy .board__head::after {
+  content: "";
+  position: absolute; left: 0; right: 0; bottom: -2px; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-accent-primary), transparent);
+  background-size: 40% 100%;
+  background-repeat: no-repeat;
+  animation: board-busy 1.2s var(--easing-default) infinite;
+}
+@keyframes board-busy {
+  from { background-position: -40% 0; }
+  to { background-position: 140% 0; }
+}
+/* Новая строка в таблице: не мигает, а проявляется на своём месте, пока
+   соседи разъезжаются. */
+.lb tbody tr.is-new { animation: lb-row-in var(--duration-slow) var(--easing-out) both; }
+@keyframes lb-row-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: none; }
+}
+
 /* Скелет вместо слова «загружаем»: список не прыгает, когда данные приедут.
    Apps Script отвечает секундами — это его нормальная скорость. */
 .lb-skeleton { display: grid; gap: var(--s-4); }
@@ -1011,18 +1056,41 @@ h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
   gap: var(--s-4);
 }
 .steps__cell { display: grid; gap: var(--s-4); justify-items: center; }
+/*
+  Шкала ступеней.
+
+  Ячейки стоят намертво: они не появляются и не исчезают, потому что число
+  ступеней в раунде не меняется. Меняется только заливка, и она ЗАЛИВАЕТСЯ
+  слева направо — как заполняется дорожка, а не как «мигнул новый элемент».
+  Раньше на смену ступени перерисовывалась вся шкала, и каждая ячейка играла
+  своё появление снизу вверх: выглядело так, будто раунд начался заново.
+*/
 .steps__bar {
+  position: relative;
   display: block; width: 100%; height: 4px;
   background: var(--color-bg-tertiary);
   opacity: var(--dim, 1);
-  transition: background var(--duration-normal) var(--easing-default);
+  overflow: hidden;
+  transition: opacity var(--duration-normal) var(--easing-default);
 }
-.steps__bar { transition: background var(--duration-normal) var(--easing-default),
-                          opacity var(--duration-normal) var(--easing-default); }
-.steps__cell[data-state="skipped"] .steps__bar { background: var(--color-border-strong); }
-.steps__cell[data-state="wrong"] .steps__bar { background: var(--color-status-error-strong); }
+.steps__bar::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: var(--color-border-strong);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--duration-slow) var(--easing-out),
+              background var(--duration-normal) var(--easing-default);
+}
+.steps__cell[data-state="skipped"] .steps__bar::after,
+.steps__cell[data-state="wrong"] .steps__bar::after,
+.steps__cell[data-state="solved"] .steps__bar::after,
+.steps__cell[data-state="now"] .steps__bar::after { transform: scaleX(1); }
+.steps__cell[data-state="wrong"] .steps__bar::after { background: var(--color-status-error-strong); }
+.steps__cell[data-state="solved"] .steps__bar::after,
+.steps__cell[data-state="now"] .steps__bar::after { background: var(--color-accent-primary); }
 .steps__cell[data-state="solved"] .steps__bar,
-.steps__cell[data-state="now"] .steps__bar { background: var(--color-accent-primary); opacity: 1; }
+.steps__cell[data-state="now"] .steps__bar { opacity: 1; }
 .steps__dur {
   font-family: var(--font-family-mono);
   font-size: var(--font-size-xs);
@@ -2128,10 +2196,11 @@ a.np__name:hover { color: var(--color-accent-primary); }
   .final__grid { perspective: none; }
   .fcard.is-sounding .fcard__eq i { animation: none; height: 9px; }
   .card__art, .results, .results__item, .lang__hint { animation: none; }
+  .steps__bar::after { transition: none; }
   .loading__bar::after { animation: none; opacity: 0; }
   /* Видео на фоне при отключённой анимации не запускается вовсе
      (см. videoAllowed в src/main.js), правило — на всякий случай. */
-  .song-video { display: none; }
+  .song-video, .song-art { display: none; }
   .np { animation: none; }
   /* Ни одно появление не анимируется: элементы просто на месте. */
   .screen,
@@ -2141,6 +2210,7 @@ a.np__name:hover { color: var(--color-accent-primary); }
   .screen--round .player, .screen--round .steps, .screen--round .answer,
   .screen--reveal .card__meta > *,
   .lb tbody tr { animation: none !important; opacity: 1; transform: none; }
+  .board.is-busy .board__head::after { animation: none; }
   .btn:active, .chip:active, .seg__btn:active,
   .setup-line:active, .menu__item:active, .play:active { transform: none; }
   :root { transition: none; }

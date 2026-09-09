@@ -17,7 +17,7 @@ import {
   ROUNDS, roundScore, stepPoints, stepDuration, stepCount, nearMissKind,
   DEFAULT_MODE, modeOf,
 } from './scoring.js';
-import { foldKey } from './normalize.js';
+import { foldKey, skeleton } from './normalize.js';
 
 /**
  * Название без скобок: «Космос (feat. Чарусша)» и «Космос» — для игрока одна
@@ -97,6 +97,8 @@ export class Game {
     this.fragmentEndedAt = null;
     /** performance.now() первого валидного ввода после окончания фрагмента. */
     this.firstInputAt = null;
+    /** performance.now() момента, когда набранное впервые повело к ответу. */
+    this.recognizedAt = null;
     /** performance.now() начала раунда — для «за сколько ответил» в финале. */
     this.roundStartedAt = performance.now();
     /** Ступени, которые игрок уже слышал. */
@@ -174,6 +176,10 @@ export class Game {
    * LOADING: игра не стартует, пока все пять не декодированы.
    */
   prepare(exclude = null) {
+    // Новая партия — новая сессия. Сервер лидерборда не пускает две записи с
+    // одним sessionHash чаще, чем раз в двадцать секунд; с общим на всю
+    // вкладку идентификатором вторая партия подряд получала «rate-limited».
+    this.sessionId = makeSessionId();
     const { picked, spares, recycled } = this.catalog.pickGame(this.filters, ROUNDS, exclude);
     this.tracks = picked;
     this.spares = spares;
@@ -255,23 +261,67 @@ export class Game {
     this.heardSteps.add(this.step);
     this.fragmentEndedAt = performance.now();
     this.firstInputAt = null;
+    this.recognizedAt = null;
   }
 
-  /** Любой ввод в поле ответа: клавиша, вставка, IME, автодополнение. */
+  /**
+   * Любой ввод в поле ответа: клавиша, вставка, IME, автодополнение.
+   *
+   * Здесь же ловится момент УЗНАВАНИЯ. Раньше часы бонуса останавливал любой
+   * первый символ, и это было неверно с двух сторон: человек, который начал
+   * наугад перебирать буквы, забирал бонус ни за что, а тот, кто узнал песню
+   * сразу, но печатает медленно (или ищет казахское название кириллицей),
+   * терял его за чужую скорость печати.
+   *
+   * Теперь часы останавливает только ввод, который ВЕДЁТ К ПРАВИЛЬНОМУ
+   * ответу: набранное совпало с началом названия или имени артиста загаданной
+   * песни. Сравнение идёт через ту же нормализацию, что и поиск, поэтому
+   * «Бейкер» засчитывается для Baker, а «kara» — для «Қара».
+   */
   registerInput(value) {
+    const text = String(value || '').trim();
     // Поле очищено в ноль — предыдущий «первый ввод» аннулируется.
-    if (value.trim() === '') {
+    if (text === '') {
       this.firstInputAt = null;
       return;
     }
     if (this.fragmentEndedAt === null) return; // ввод до конца фрагмента не считается
-    if (this.firstInputAt !== null) return;
-    this.firstInputAt = performance.now();
+    if (this.firstInputAt === null) this.firstInputAt = performance.now();
+    if (this.recognizedAt === null && this._looksLikeAnswer(text)) {
+      this.recognizedAt = performance.now();
+    }
   }
 
+  /** Ведёт ли набранное к загаданной песне. */
+  _looksLikeAnswer(text) {
+    const answer = this.track;
+    if (!answer) return false;
+    const q = foldKey(text);
+    if (q.length < 2) return false;
+
+    const fields = [answer.title, answer.artist];
+    for (const f of fields) {
+      const full = foldKey(f);
+      if (full.startsWith(q) || full.includes(` ${q}`)) return true;
+    }
+    // Другой алфавит: «Найнти» для Ninety One, «Бейкер» для Baker.
+    const qs = skeleton(text);
+    if (qs.length >= 3) {
+      for (const f of fields) {
+        const fs = skeleton(f);
+        if (fs.startsWith(qs) || fs.includes(qs)) return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Сколько прошло от конца фрагмента до момента узнавания.
+   * Если человек так и не начал набирать правильное — бонуса нет вовсе.
+   */
   get timeToFirstInputMs() {
-    if (this.fragmentEndedAt === null || this.firstInputAt === null) return null;
-    return Math.max(0, this.firstInputAt - this.fragmentEndedAt);
+    if (this.fragmentEndedAt === null || this.recognizedAt === null) return null;
+    return Math.max(0, this.recognizedAt - this.fragmentEndedAt);
   }
 
   /* ---------------------------------------------------------------- */
@@ -369,6 +419,7 @@ export class Game {
     }
     this.step++;
     this.firstInputAt = null;
+    this.recognizedAt = null;
     this.fragmentEndedAt = null;
     this._emit();
     return false;

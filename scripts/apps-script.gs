@@ -36,21 +36,21 @@
 var SHEET_NAME = 'scores';
 
 /** Теоретический максимум за партию. Должен совпадать с MAX_GAME_SCORE
- *  в src/scoring.js (5 раундов × 2250). Всё выше — отбрасываем. */
-var MAX_GAME_SCORE = 11250;
+ *  в src/scoring.js (5 раундов × 4050). Всё выше — отбрасываем. */
+var MAX_GAME_SCORE = 20250;
 
 /** Максимум за один раунд (лучшая ступень экспертного режима с бонусом). */
-var MAX_ROUND_SCORE = 2250;
+var MAX_ROUND_SCORE = 4050;
 
 /** Базовые цены ступеней и множители режимов — копия src/scoring.js.
  *  Нужны, чтобы отсечь раунд, который дороже потолка своей ступени. */
 var MODES = {
-  normal: { points: [1000, 720, 520, 380, 280, 200], mult: 1.0 },
-  expert: { points: [1000, 700, 500, 350, 250, 180, 130], mult: 1.8 }
+  normal: { points: [1800, 1120, 700, 440, 280, 180], mult: 1.0 },
+  expert: { points: [1500, 950, 600, 380, 240, 150], mult: 1.8 }
 };
 
 /** Доля ступени, которую максимум добавляет бонус за скорость. */
-var BONUS_FRACTION = 0.25;
+var BONUS_FRACTION = 0.5;
 
 /** Имя гостя, если игрок не подписался. К нему добавляется порядковый номер. */
 var GUEST_NAME = 'Qonaq';
@@ -217,7 +217,7 @@ function validate(body) {
     if (p < 0 || p > MAX_ROUND_SCORE) return { ok: false, error: 'impossible-round' };
 
     var step = r.step;
-    if (typeof step !== 'number' || step < 1 || step > 7) return { ok: false, error: 'bad-step' };
+    if (typeof step !== 'number' || step < 1 || step > 6) return { ok: false, error: 'bad-step' };
     // Раунд не может стоить больше потолка своей ступени в своём режиме.
     if (p > maxForStep(step, body.slice)) return { ok: false, error: 'round-exceeds-step-cap' };
     // Непойманный раунд обязан быть нулевым.

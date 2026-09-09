@@ -27,8 +27,12 @@ import { MAX_GAME_SCORE, MAX_ROUND_SCORE, ROUNDS } from './scoring.js';
 
 export const enabled = () => Boolean(CONFIG.LEADERBOARD_ENDPOINT);
 
-/** Сколько ждём ответа, прежде чем показать «недоступно». */
-const TIMEOUT_MS = 9000;
+/**
+ * Сколько ждём ответа. Apps Script после простоя стартует медленно — первый
+ * запрос за долгое время спокойно занимает десяток секунд, и девяти не
+ * хватало: игра показывала «недоступно» там, где всё работало.
+ */
+const TIMEOUT_MS = 20000;
 
 /**
  * Корни нецензурной лексики (рус./каз.) и типовые оскорбления.
@@ -197,6 +201,67 @@ export async function submitScore(p) {
   const data = await res.json();
   if (!data || data.ok !== true) throw new Error(data?.error || 'лидерборд отказал');
   return data;
+}
+
+/* ------------------------------------------------------------------ */
+/* Сохранённые таблицы                                                  */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Таблицы лежат в localStorage и показываются СРАЗУ, до всякой сети.
+ *
+ * Причина простая: Apps Script отвечает секундами, а иногда не отвечает вовсе.
+ * Показать вчерашний топ мгновенно и обновить его в фоне честнее, чем держать
+ * человека перед скелетом на каждой перезагрузке и на каждой смене категории.
+ * Если обновить не удалось — на экране остаётся то, что было, без ругани:
+ * таблица рекордов не та вещь, ради которой стоит показывать ошибку.
+ */
+function boardsStore() {
+  try {
+    return JSON.parse(localStorage.getItem(CONFIG.BOARDS_KEY) || '{}') || {};
+  } catch {
+    return {};
+  }
+}
+
+/** @returns {{allTime:object[], today:object[], global:object[]|null, categories:object[], ts:number}|null} */
+export function cachedBoards(slice) {
+  const store = boardsStore();
+  const own = store[slice];
+  if (!own) return null;
+  return { ...own, global: store.__global?.rows ?? null };
+}
+
+export function saveBoards(slice, boards) {
+  try {
+    const store = boardsStore();
+    store[slice] = {
+      allTime: boards.allTime || [],
+      today: boards.today || [],
+      categories: boards.categories || [],
+      ts: Date.now(),
+    };
+    // Общий зачёт от категории не зависит — храним отдельно и не трогаем при
+    // переключении жанров.
+    if (Array.isArray(boards.global)) {
+      store.__global = { rows: boards.global, ts: Date.now() };
+    }
+    // Больше десятка срезов держать незачем: выкидываем самые старые.
+    const keys = Object.keys(store).filter((k) => k !== '__global');
+    if (keys.length > 12) {
+      keys.sort((a, b) => (store[a].ts || 0) - (store[b].ts || 0));
+      for (const k of keys.slice(0, keys.length - 12)) delete store[k];
+    }
+    localStorage.setItem(CONFIG.BOARDS_KEY, JSON.stringify(store));
+  } catch {
+    /* приватный режим или переполнение — не повод ломать игру */
+  }
+}
+
+/** Насколько стар сохранённый общий зачёт. */
+export function globalAge() {
+  const ts = boardsStore().__global?.ts || 0;
+  return ts ? Date.now() - ts : Infinity;
 }
 
 /* ------------------------------------------------------------------ */

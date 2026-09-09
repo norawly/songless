@@ -51,6 +51,8 @@ let boardsCache = null;
 let boardsSlice = null;
 /** Строк в компактной таблице на телефоне: экран не прокручивается. */
 const MOBILE_BOARD_ROWS = 3;
+/** Короче этого перемотка внутри ступени не имеет смысла. */
+const SEEK_MIN_MS = 1500;
 /**
  * Живой раунд: набор функций, которыми внешний код докрашивает разметку, не
  * пересобирая её. Ставится в wireRound, обнуляется при уходе с экрана.
@@ -212,9 +214,11 @@ async function boot() {
 
   ambient.setCatalog(catalog);
   ambient.onTrack = showNowPlaying;
-  ambient.onSwitch = allowNextVideo;
+  // Смена категории — новый сеанс фона: клип разрешаем сразу, не дожидаясь
+  // окончания обычной паузы между клипами.
+  ambient.onSwitch = () => { videoStartedAt = 0; };
   game = new Game(catalog);
-  restoreMode();
+  restoreFilters();
   game.onChange(render);
 
   // Смена языка перерисовывает и шапку, и текущий экран.
@@ -266,6 +270,8 @@ function showNowPlaying(track) {
     stopVideoBg();
     return;
   }
+  const bgNode = document.getElementById('song-bg');
+  if (bgNode) bgNode.dataset.art = track.art ? '1' : '0';
 
   const name = `${track.artist} — ${track.title}`;
   // Клип этой же песни — подписываем как «клип» и ведём ссылку на него.
@@ -291,7 +297,7 @@ function showNowPlaying(track) {
   startVideoBg(track);
 }
 
-/** Можно ли вообще тянуть 17 мегабайт ради фоновой картинки. */
+/** Можно ли вообще тянуть два десятка мегабайт ради фоновой картинки. */
 function videoAllowed() {
   if (mobile() || reduceMotion()) return false;
   const c = navigator.connection;
@@ -302,66 +308,99 @@ function videoAllowed() {
 let videoTimer = 0;
 let videoFreeze = 0;
 /**
- * Клип за сеанс фона — один.
+ * Когда в последний раз начинали качать клип.
  *
- * Превью клипа весит 10–20 МБ. Треки в фоне сменяются каждые двадцать с
- * лишним секунд, и если пускать клип к каждому, счёт пойдёт на десятки
- * мегабайт в минуту — за красивый фон столько не платят. Поэтому клип
- * показывается к ПЕРВОМУ треку после запуска или смены категории (очередь
- * специально ставит такой трек первым), а дальше остаётся зелёное свечение
- * до следующего переключения.
+ * Превью клипа весит 15–20 МБ, а треки в фоне сменяются каждые двадцать с
+ * лишним секунд. Клип к каждому — это десятки мегабайт в минуту. Раньше стоял
+ * жёсткий предел «один за сеанс», но тогда клип видели один раз и решали, что
+ * он не работает. Теперь окно: новый клип берётся не чаще, чем раз в
+ * COOLDOWN, а между ними фоном идёт обложка.
  */
-let videoUsed = false;
-
-/** Сбрасывается при смене категории: там начинается новый сеанс фона. */
-function allowNextVideo() {
-  videoUsed = false;
-}
+let videoStartedAt = 0;
+const VIDEO_COOLDOWN_MS = 40000;
 
 function startVideoBg(track) {
   stopVideoBg();
+  const bg = document.getElementById('song-bg');
+  if (!bg) return;
+
   const src = track.video || track.artistVideo;
-  if (!src || videoUsed || !videoAllowed()) return;
-  videoUsed = true;
-  // Пауза перед загрузкой: за это время человек успевает нажать «Играть», и
-  // тогда качать нечего.
-  videoTimer = setTimeout(() => {
-    const bg = document.getElementById('song-bg');
-    if (!bg || game.screen !== SCREEN.START) return;
-    let node = bg.querySelector('.song-video');
-    if (!node) {
-      node = document.createElement('video');
-      node.className = 'song-video';
-      node.muted = true;
-      node.playsInline = true;
-      node.preload = 'none';
-      node.disablePictureInPicture = true;
-      node.setAttribute('aria-hidden', 'true');
-      bg.prepend(node);
-    }
-    node.src = src;
-    node.play().then(() => {
-      node.classList.add('is-on');
-      // Через четверть минуты ставим на паузу и оставляем кадр.
-      //
-      // Apple отдаёт превью клипа единственным качеством — 1920 в ширину,
-      // 15–20 МБ; меньших вариантов у неё просто нет (проверял подстановкой
-      // 1280w/848w/640w в адрес — 404). Уменьшить файл нельзя, но можно не
-      // качать его целиком: браузер тянет поток по мере воспроизведения, и
-      // пауза его останавливает. Кадр при этом остаётся на экране, а он и
-      // так размыт до пятен — разницы между «видео замерло» и «видео идёт»
-      // на глаз нет, зато трафика и декодирования вдвое меньше.
-      clearTimeout(videoFreeze);
-      videoFreeze = setTimeout(() => node.pause(), 14000);
-    }).catch(() => {
-      /* автоплей не дали — остаётся зелёное свечение */
-    });
-  }, 2500);
+  const fresh = Date.now() - videoStartedAt > VIDEO_COOLDOWN_MS;
+  if (src && fresh && videoAllowed()) {
+    videoStartedAt = Date.now();
+    // Небольшая пауза перед загрузкой: кто сразу нажал «Играть», не скачает
+    // ни байта. Полсекунды достаточно, чтобы это отсечь, и не настолько
+    // много, чтобы фон «появлялся неизвестно когда».
+    videoTimer = setTimeout(() => playClip(bg, src), 600);
+    return;
+  }
+  // Клипа нет (или он был только что) — фоном идёт обложка.
+  showCoverBg(bg, track);
+}
+
+/** Заводит клип и показывает его, как только появился первый кадр. */
+function playClip(bg, src) {
+  if (game.screen !== SCREEN.START) return;
+  let node = bg.querySelector('.song-video');
+  if (!node) {
+    node = document.createElement('video');
+    node.className = 'song-video';
+    node.muted = true;
+    node.playsInline = true;
+    node.preload = 'auto';
+    node.disablePictureInPicture = true;
+    node.setAttribute('aria-hidden', 'true');
+    bg.prepend(node);
+  }
+  // Показываем по первому кадру, а не по концу загрузки: ждать целиком —
+  // это десяток секунд чёрного фона.
+  node.oncanplay = () => node.classList.add('is-on');
+  node.src = src;
+  node.play().then(() => {
+    node.classList.add('is-on');
+    // Через четверть минуты ставим на паузу и оставляем кадр.
+    //
+    // Apple отдаёт превью клипа единственным качеством — 1920 в ширину,
+    // 15–20 МБ; меньших вариантов у неё нет (проверял подстановкой
+    // 1280w/848w/640w в адрес — 404). Уменьшить файл нельзя, но можно не
+    // качать его целиком: браузер тянет поток по мере воспроизведения, и
+    // пауза его останавливает. Кадр остаётся на экране, а он и так размыт
+    // до пятен — разницы на глаз нет, зато трафика вдвое меньше.
+    clearTimeout(videoFreeze);
+    videoFreeze = setTimeout(() => node.pause(), 14000);
+  }).catch(() => {
+    /* автоплей не дали — остаётся обложка и свечение */
+  });
+}
+
+/**
+ * Обложка вместо клипа.
+ *
+ * Клип есть у 250 треков из 647, у остальных фоном идёт обложка альбома:
+ * растянутая, размытая и медленно плывущая. Маленькая картинка по центру
+ * выглядела бы вставкой, а резкая во весь экран — спорила бы с интерфейсом;
+ * медленное движение делает из неё то же, чем был клип, — атмосферу.
+ */
+function showCoverBg(bg, track) {
+  if (!track.art || reduceMotion()) return;
+  let node = bg.querySelector('.song-art');
+  if (!node) {
+    node = document.createElement('img');
+    node.className = 'song-art';
+    node.decoding = 'async';
+    node.setAttribute('aria-hidden', 'true');
+    node.alt = '';
+    bg.prepend(node);
+  }
+  node.onload = () => node.classList.add('is-on');
+  node.src = track.art;
 }
 
 function stopVideoBg() {
   clearTimeout(videoTimer);
   clearTimeout(videoFreeze);
+  const art = document.querySelector('.song-art');
+  if (art) art.classList.remove('is-on');
   const node = document.querySelector('.song-video');
   if (!node) return;
   node.classList.remove('is-on');
@@ -421,19 +460,43 @@ function syncAmbient() {
   syncSoundButtons();
 }
 
-/** Режим подачи запоминается между партиями — это выбор, а не настройка. */
-function restoreMode() {
+/**
+ * Настройки переживают перезагрузку.
+ *
+ * Многие начинают новую партию не кнопкой «ещё раз», а обновлением страницы —
+ * и до этого каждый раз заново выставляли режим, возраст и жанры. Теперь
+ * выбор восстанавливается: он про человека, а не про партию. Язык и громкость
+ * хранятся своими модулями (i18n.js, audio.js), здесь — фильтры.
+ */
+function restoreFilters() {
   try {
     const saved = localStorage.getItem(CONFIG.MODE_KEY);
     if (saved && MODES[saved]) game.filters.difficulty = saved;
   } catch {
     /* приватный режим */
   }
+  try {
+    const raw = JSON.parse(localStorage.getItem(CONFIG.FILTERS_KEY) || 'null');
+    if (!raw) return;
+    if (raw.age === 'family' || raw.age === '18plus' || raw.age === 'both') {
+      game.filters.age = raw.age;
+    }
+    if (Array.isArray(raw.genres)) {
+      const known = new Set(catalog.availableGenres());
+      game.filters.genres = raw.genres.filter((g) => known.has(g));
+    }
+  } catch {
+    /* приватный режим или мусор в хранилище — играем с настройками по умолчанию */
+  }
 }
 
-function rememberMode(id) {
+function rememberFilters() {
   try {
-    localStorage.setItem(CONFIG.MODE_KEY, id);
+    localStorage.setItem(CONFIG.MODE_KEY, game.filters.difficulty);
+    localStorage.setItem(CONFIG.FILTERS_KEY, JSON.stringify({
+      age: game.filters.age,
+      genres: game.filters.genres,
+    }));
   } catch {
     /* приватный режим */
   }
@@ -907,22 +970,25 @@ function showSettings() {
 function handleFilterClick(e) {
   const diff = e.target.closest('[data-diff]');
   if (diff) {
-    rememberMode(diff.dataset.diff);
     game.setDifficulty(diff.dataset.diff);
+    rememberFilters();
     return true;
   }
   const age = e.target.closest('[data-age]');
   if (age) {
     game.setAge(age.dataset.age);
+    rememberFilters();
     return true;
   }
   if (e.target.closest('[data-random]')) {
     game.resetGenres();
+    rememberFilters();
     return true;
   }
   const g = e.target.closest('[data-genre]');
   if (g) {
     game.toggleGenre(g.dataset.genre);
+    rememberFilters();
     return true;
   }
   return false;
@@ -1000,32 +1066,65 @@ function wireStart() {
 /* Лидерборды                                                          */
 /* ------------------------------------------------------------------ */
 
+/**
+ * Загрузка таблиц.
+ *
+ * Порядок важен: сначала на экран выкладывается СОХРАНЁННОЕ (мгновенно, без
+ * скелета), и только потом уходит запрос. Пока он идёт, над таблицей висит
+ * тонкая полоска — это всё, что человек должен заметить. Пришли данные —
+ * строки переезжают на новые места с анимацией. Не пришли — на экране
+ * остаётся то, что было; ошибку показываем, только если показывать больше
+ * нечего.
+ */
 async function loadBoards() {
   const boxes = $$('[data-board]');
   if (!boxes.length) return;
   const slice = game.sliceKey;
   const limit = boardRows();
-  try {
-    boardsCache = await LB.fetchBoards(slice, limit);
+
+  const cached = LB.cachedBoards(slice);
+  if (cached) {
+    boardsCache = { ...cached };
     boardsSlice = slice;
-    // Экран мог смениться, пока шёл запрос: Apps Script отвечает секундами.
-    if (!$('[data-board]')) return;
     for (const box of $$('[data-board]')) {
       box.classList.remove('is-stale');
       paintBoard(box.dataset.board);
     }
+  }
 
-    // Старый скрипт в таблице не считает общий зачёт — собираем его на
-    // клиенте из категорий. Отдельно и после отрисовки: он самый медленный.
-    if (boardsCache.global === null && $('[data-board="global"]')) {
-      const rows = await LB.fetchGlobalFallback(boardsCache.categories, limit);
-      if (boardsSlice !== slice || !boardsCache) return;
-      boardsCache.global = rows;
-      paintBoard('global');
+  setBoardsBusy(true);
+  try {
+    const fresh = await LB.fetchBoards(slice, limit);
+    // Экран мог смениться, пока шёл запрос: Apps Script отвечает секундами.
+    if (!$('[data-board]') || game.sliceKey !== slice) return;
+
+    // Общий зачёт не зависит от категории. Если сервер его не считает
+    // (старая версия скрипта), берём сохранённый и обновляем раз в час —
+    // собирать его из категорий на каждый чих слишком дорого.
+    if (fresh.global === null) {
+      fresh.global = cached?.global ?? null;
+      if (LB.globalAge() > 60 * 60 * 1000 || fresh.global === null) {
+        LB.fetchGlobalFallback(fresh.categories, limit).then((rows) => {
+          if (!rows.length || !$('[data-board="global"]')) return;
+          boardsCache.global = rows;
+          LB.saveBoards(slice, boardsCache);
+          paintBoard('global');
+        }).catch(() => {});
+      }
+    }
+
+    boardsCache = fresh;
+    boardsSlice = slice;
+    LB.saveBoards(slice, fresh);
+    for (const box of $$('[data-board]')) {
+      box.classList.remove('is-stale');
+      paintBoard(box.dataset.board);
     }
   } catch (err) {
     console.warn('leaderboard:', err);
-    // Лидерборд необязателен: показываем честное состояние, игру не трогаем.
+    // Есть что показывать — показываем и молчим: неудачное обновление не
+    // повод стирать таблицу.
+    if (cached) return;
     for (const box of $$('[data-board]')) {
       box.innerHTML = `<p class="muted">${esc(t('lb.offline'))}</p>
         <button class="btn btn--ghost btn--sm" data-retry-board type="button">${esc(t('lb.retry'))}</button>`;
@@ -1034,7 +1133,14 @@ async function loadBoards() {
       for (const box of $$('[data-board]')) box.innerHTML = skeletonRows();
       loadBoards();
     });
+  } finally {
+    setBoardsBusy(false);
   }
+}
+
+/** Тонкая полоска над таблицами: идёт обновление. */
+function setBoardsBusy(on) {
+  for (const b of $$('.board')) b.classList.toggle('is-busy', on);
 }
 
 function paintBoard(kind, highlight = null) {
@@ -1042,11 +1148,39 @@ function paintBoard(kind, highlight = null) {
   if (!host || !boardsCache) return;
   const rows = boardsCache[kind];
   // global === null означает старую версию скрипта: он этот зачёт не считает,
-  // и его собирает клиент (loadBoards). Пока считает — оставляем скелет.
-  if (kind === 'global' && rows === null) return;
+  // и его собирает клиент (loadBoards). Пока считает — оставляем как есть.
+  if (kind === 'global' && rows == null) return;
+
+  // Запоминаем, где какая строка стояла ДО обновления: после подмены разметки
+  // они поедут на новые места, а не появятся заново. Новичок в середине
+  // таблицы должен раздвинуть соседей, а не мигнуть на их фоне.
+  const before = new Map();
+  for (const tr of $$('tbody tr', host)) {
+    before.set(tr.querySelector('.lb__nick')?.textContent.trim(), tr.getBoundingClientRect().top);
+  }
+
   swapBoardBody(host, (rows && rows.length)
     ? leaderboardTable(rows, highlight)
     : `<p class="muted">${esc(kind === 'today' ? t('lb.emptyToday') : t('lb.empty'))}</p>`);
+
+  if (reduceMotion()) return;
+  for (const tr of $$('tbody tr', host)) {
+    const nick = tr.querySelector('.lb__nick')?.textContent.trim();
+    const was = before.get(nick);
+    const now = tr.getBoundingClientRect().top;
+    if (was === undefined) {
+      tr.classList.add('is-new');       // новая строка — проявляется
+      continue;
+    }
+    const dy = was - now;
+    if (!dy) continue;
+    tr.style.transform = `translateY(${dy}px)`;
+    tr.style.transition = 'none';
+    requestAnimationFrame(() => {
+      tr.style.transition = 'transform var(--duration-slow) var(--easing-out)';
+      tr.style.transform = '';
+    });
+  }
 }
 
 /**
@@ -1339,16 +1473,7 @@ function renderRound() {
           <span class="player__label" data-play-label>${esc(t('round.play'))}</span>
           <span class="player__dur">${esc(formatStepDuration(game.stepMs))}</span>
         </p>
-        ${mobile() ? '' : `
-        <!-- Перемотка внутри ступени: на двадцатисекундном фрагменте ждать
-             конца ради последних секунд бессмысленно. На телефоне её нет —
-             там нет места, и палец промахивается по такой полосе. -->
-        <div class="seek" data-seek role="slider" tabindex="0"
-             aria-label="${esc(t('a11y.seek'))}" aria-valuemin="0"
-             aria-valuemax="${Math.round(game.stepMs / 1000)}" aria-valuenow="0">
-          <i class="seek__fill" data-seek-fill></i>
-          <i class="seek__head" data-seek-head></i>
-        </div>`}
+        ${mobile() || game.stepMs < SEEK_MIN_MS ? '' : seekMarkup()}
       </div>
 
       ${stepMeterMarkup()}
@@ -1396,6 +1521,24 @@ function renderRound() {
  *   красный — на ступени была попытка, и она неверна
  *   лайм    — текущая ступень
  */
+/**
+ * Полоса перемотки внутри ступени.
+ *
+ * На двадцатисекундном фрагменте ждать конца ради последних секунд
+ * бессмысленно. На телефоне её нет — там нет места, и палец промахивается по
+ * такой полосе. На коротких ступенях (0,2–1 с) тоже нет: перематывать внутри
+ * двух десятых секунды нечего.
+ */
+function seekMarkup() {
+  return `
+    <div class="seek" data-seek role="slider" tabindex="0"
+         aria-label="${esc(t('a11y.seek'))}" aria-valuemin="0"
+         aria-valuemax="${Math.round(game.stepMs / 1000)}" aria-valuenow="0">
+      <i class="seek__fill" data-seek-fill></i>
+      <i class="seek__head" data-seek-head></i>
+    </div>`;
+}
+
 function stepMeterMarkup() {
   const total = game.stepsTotal;
   const cells = [];
@@ -1471,7 +1614,10 @@ function wireRound() {
     const spin = () => {
       if (stale() || !ring.isConnected) return;
       const elapsed = (audio.elapsedOf(game.track.id) ?? 0) * 1000;
-      const p = Math.min(1, elapsed / Math.max(durMs, 200));
+      // Нижняя граница в 200 мс когда-то спасала от деления на ноль, но на
+      // экспертной ступени в 0,2 с она же делала прогресс вечно
+      // «наполовину»: кольцо и полоса замирали посередине.
+      const p = Math.min(1, elapsed / Math.max(durMs, 60));
       ring.style.strokeDashoffset = String(295 * (1 - p));
       setSeek(p);
       if (p < 1) raf = requestAnimationFrame(spin);
@@ -1555,9 +1701,12 @@ function wireRound() {
     }
   }
 
-  // Перемотка: клик и перетаскивание по полосе задают точку старта.
-  const seek = $('[data-seek]');
-  if (seek) {
+  /** Клик и перетаскивание по полосе задают точку старта. */
+  function wireSeek() {
+    const seek = $('[data-seek]');
+    if (!seek || seek.dataset.wired === '1') return;
+    seek.dataset.wired = '1';
+
     const seekTo = (clientX) => {
       const r = seek.getBoundingClientRect();
       const p = Math.max(0, Math.min(0.98, (clientX - r.left) / r.width));
@@ -1590,6 +1739,8 @@ function wireRound() {
       e.preventDefault();
     });
   }
+
+  wireSeek();
 
   playBtn.addEventListener('click', () => playStep(null, { user: true }));
 
@@ -1825,8 +1976,19 @@ function wireRound() {
    * партия началась сначала.
    */
   function stepChanged() {
+    // Шкалу не пересоздаём: ячейки стоят на месте, меняется только состояние,
+    // а заливка вытекает слева направо средствами CSS.
     const steps = $('.steps');
-    if (steps) steps.outerHTML = stepMeterMarkup();
+    if (steps) {
+      const cells = $$('.steps__cell', steps);
+      cells.forEach((cell, i) => {
+        cell.dataset.state = i === game.step
+          ? 'now'
+          : game.stepStates[i] || STEP_STATE.LOCKED;
+      });
+      steps.setAttribute('aria-label',
+        t('a11y.stepMeter', { n: game.step + 1, total: game.stepsTotal }));
+    }
 
     const durLabel = formatStepDuration(game.stepMs);
     const dur = $('.player__dur');
@@ -1834,7 +1996,18 @@ function wireRound() {
     playBtn.setAttribute('aria-label', t('a11y.play', { seconds: durLabel }));
 
     const seek = $('[data-seek]');
-    if (seek) seek.setAttribute('aria-valuemax', String(Math.round(game.stepMs / 1000)));
+    const needSeek = !mobile() && game.stepMs >= SEEK_MIN_MS;
+    if (seek && !needSeek) seek.remove();
+    if (!seek && needSeek) {
+      // Ступень доросла до размера, на котором перемотка осмысленна.
+      const player = $('.player');
+      if (player) {
+        player.insertAdjacentHTML('beforeend', seekMarkup());
+        wireSeek();
+      }
+    }
+    const seekNow = $('[data-seek]');
+    if (seekNow) seekNow.setAttribute('aria-valuemax', String(Math.round(game.stepMs / 1000)));
     setSeek(0);
 
     const hint = $('.round__hint');

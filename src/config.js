@@ -49,6 +49,12 @@ export const CONFIG = {
   NICK_KEY: 'olensiz:nick',
   /** Выбранный режим подачи (блок B1). */
   MODE_KEY: 'olensiz:mode',
+  /** Возраст и жанры: человек не должен настраивать игру заново после F5. */
+  FILTERS_KEY: 'olensiz:filters',
+  /** Сохранённые таблицы рекордов — чтобы они были на экране сразу. */
+  BOARDS_KEY: 'olensiz:boards:v1',
+  /** Сколько считать сохранённые таблицы свежими (мс). */
+  BOARDS_TTL_MS: 6 * 60 * 60 * 1000,
 
   /** Публичная ссылка на игру — подставляется в текст шеринга. */
   SHARE_URL: 'https://olensiz.zhengisbay.com',
