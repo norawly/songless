@@ -214,6 +214,9 @@ async function boot() {
 
   ambient.setCatalog(catalog);
   ambient.onTrack = showNowPlaying;
+  // Фон начинает грузиться, как только трек выбран: звук и видео едут
+  // параллельно, и клип успевает появиться к началу песни.
+  ambient.onPrepare = (track) => startVideoBg(track);
   // Смена категории — новый сеанс фона: клип разрешаем сразу, не дожидаясь
   // окончания обычной паузы между клипами.
   ambient.onSwitch = () => { videoStartedAt = 0; };
@@ -293,8 +296,6 @@ function showNowPlaying(track) {
         }</span>`
       : ''}`;
   box.hidden = false;
-
-  startVideoBg(track);
 }
 
 /** Можно ли вообще тянуть два десятка мегабайт ради фоновой картинки. */
@@ -319,45 +320,73 @@ let videoFreeze = 0;
 let videoStartedAt = 0;
 const VIDEO_COOLDOWN_MS = 40000;
 
+/**
+ * Слои фона под музыку: обложка и клип. Порядок в DOM важен — обложка ниже,
+ * клип выше, свечение поверх обоих.
+ */
+function bgLayers(bg) {
+  let art = bg.querySelector('.song-art');
+  if (!art) {
+    art = document.createElement('img');
+    art.className = 'song-art';
+    art.decoding = 'async';
+    art.alt = '';
+    art.setAttribute('aria-hidden', 'true');
+    bg.prepend(art);
+  }
+  let video = bg.querySelector('.song-video');
+  if (!video) {
+    video = document.createElement('video');
+    video.className = 'song-video';
+    video.muted = true;
+    video.playsInline = true;
+    video.preload = 'auto';
+    video.disablePictureInPicture = true;
+    video.setAttribute('aria-hidden', 'true');
+    art.after(video);
+  }
+  return { art, video };
+}
+
+/**
+ * Фон для нового трека.
+ *
+ * Обложка показывается СРАЗУ: она весит десятки килобайт и появляется почти
+ * мгновенно, поэтому чёрного фона не бывает никогда. Клип — если он есть и
+ * если его можно себе позволить — проявляется поверх неё через несколько
+ * секунд, когда набралось достаточно данных.
+ */
 function startVideoBg(track) {
   stopVideoBg();
   const bg = document.getElementById('song-bg');
-  if (!bg) return;
+  if (!bg || reduceMotion()) return;
+
+  const { art } = bgLayers(bg);
+  if (track.art) {
+    art.onload = () => art.classList.add('is-on');
+    art.src = track.art;
+    if (art.complete && art.naturalWidth) art.classList.add('is-on');
+  }
 
   const src = track.video || track.artistVideo;
   const fresh = Date.now() - videoStartedAt > VIDEO_COOLDOWN_MS;
-  if (src && fresh && videoAllowed()) {
-    videoStartedAt = Date.now();
-    // Небольшая пауза перед загрузкой: кто сразу нажал «Играть», не скачает
-    // ни байта. Полсекунды достаточно, чтобы это отсечь, и не настолько
-    // много, чтобы фон «появлялся неизвестно когда».
-    videoTimer = setTimeout(() => playClip(bg, src), 600);
-    return;
-  }
-  // Клипа нет (или он был только что) — фоном идёт обложка.
-  showCoverBg(bg, track);
+  if (!src || !fresh || !videoAllowed()) return;
+  videoStartedAt = Date.now();
+  // Небольшая пауза перед загрузкой: кто сразу нажал «Играть», не скачает
+  // ни байта.
+  videoTimer = setTimeout(() => playClip(bg, src), 300);
 }
 
 /** Заводит клип и показывает его, как только появился первый кадр. */
 function playClip(bg, src) {
   if (game.screen !== SCREEN.START) return;
-  let node = bg.querySelector('.song-video');
-  if (!node) {
-    node = document.createElement('video');
-    node.className = 'song-video';
-    node.muted = true;
-    node.playsInline = true;
-    node.preload = 'auto';
-    node.disablePictureInPicture = true;
-    node.setAttribute('aria-hidden', 'true');
-    bg.prepend(node);
-  }
+  const { video } = bgLayers(bg);
   // Показываем по первому кадру, а не по концу загрузки: ждать целиком —
-  // это десяток секунд чёрного фона.
-  node.oncanplay = () => node.classList.add('is-on');
-  node.src = src;
-  node.play().then(() => {
-    node.classList.add('is-on');
+  // это десяток секунд.
+  video.oncanplay = () => video.classList.add('is-on');
+  video.src = src;
+  video.play().then(() => {
+    video.classList.add('is-on');
     // Через четверть минуты ставим на паузу и оставляем кадр.
     //
     // Apple отдаёт превью клипа единственным качеством — 1920 в ширину,
@@ -367,33 +396,10 @@ function playClip(bg, src) {
     // пауза его останавливает. Кадр остаётся на экране, а он и так размыт
     // до пятен — разницы на глаз нет, зато трафика вдвое меньше.
     clearTimeout(videoFreeze);
-    videoFreeze = setTimeout(() => node.pause(), 14000);
+    videoFreeze = setTimeout(() => video.pause(), 14000);
   }).catch(() => {
     /* автоплей не дали — остаётся обложка и свечение */
   });
-}
-
-/**
- * Обложка вместо клипа.
- *
- * Клип есть у 250 треков из 647, у остальных фоном идёт обложка альбома:
- * растянутая, размытая и медленно плывущая. Маленькая картинка по центру
- * выглядела бы вставкой, а резкая во весь экран — спорила бы с интерфейсом;
- * медленное движение делает из неё то же, чем был клип, — атмосферу.
- */
-function showCoverBg(bg, track) {
-  if (!track.art || reduceMotion()) return;
-  let node = bg.querySelector('.song-art');
-  if (!node) {
-    node = document.createElement('img');
-    node.className = 'song-art';
-    node.decoding = 'async';
-    node.setAttribute('aria-hidden', 'true');
-    node.alt = '';
-    bg.prepend(node);
-  }
-  node.onload = () => node.classList.add('is-on');
-  node.src = track.art;
 }
 
 function stopVideoBg() {

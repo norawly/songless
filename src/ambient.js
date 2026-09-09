@@ -63,8 +63,15 @@ export class Ambient {
     this.track = null;
     /** @type {(track: object|null) => void} */
     this.onTrack = () => {};
-    /** Смена категории = новый сеанс фона: см. allowNextVideo в main.js. */
+    /** Смена категории = новый сеанс фона: см. main.js. */
     this.onSwitch = () => {};
+    /**
+     * Трек ВЫБРАН, но ещё не зазвучал: самое время начать качать его клип.
+     * Иначе видео стартует только после того, как загрузится звук, и на фон
+     * набегает лишних три секунды пустоты.
+     * @type {(track: object) => void}
+     */
+    this.onPrepare = () => {};
     /** @type {{source: AudioBufferSourceNode, gain: GainNode}|null} */
     this.node = null;
     /** Что уже звучало в фоне — партия эти треки не берёт. */
@@ -157,6 +164,9 @@ export class Ambient {
       this.playing = false;
       return;
     }
+
+    // Клип начинает грузиться параллельно со звуком, а не после него.
+    this.onPrepare(track);
 
     let buf;
     try {
