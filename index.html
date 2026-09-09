@@ -10,6 +10,11 @@
 <meta name="description" content="Óleńsiz (Olensiz) — қазақ әнін бірнеше секундтан танитын онлайн ойын. 600-ден астам ән, 5 раунд, екі режим. Игра: угадай казахскую песню по короткому фрагменту.">
 <meta name="keywords" content="өлең тап, әнді тап, songless қазақша, қазақша ән ойыны, olensiz, угадай казахскую песню, songless казахстан, казахская музыкальная игра, qazaqsha an oiyny">
 <meta name="author" content="zhengisbay.com">
+<!-- Подтверждение прав в Яндекс.Вебмастере. Значение выдаёт сам Вебмастер:
+     Настройки → Права доступа → Мета-тег. Пока строка закомментирована,
+     подтверждать можно через DNS TXT в Cloudflare — см. SEO.md §3.
+<meta name="yandex-verification" content="ВСТАВЬТЕ_КОД">
+-->
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#08090a">
 <link rel="canonical" href="https://olensiz.zhengisbay.com/">
@@ -51,28 +56,90 @@
 <link rel="preconnect" href="https://audio-ssl.itunes.apple.com" crossorigin>
 <link rel="preconnect" href="https://is1-ssl.mzstatic.com" crossorigin>
 
+<!-- Каталог нужен сразу после запуска скриптов: просим браузер начать
+     качать его параллельно с ними, а не после. -->
+<link rel="preload" href="data/tracks.json" as="fetch">
+
 <link rel="stylesheet" href="styles/tokens.css">
 <link rel="stylesheet" href="styles/app.css">
 
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "VideoGame",
-  "name": "Óleńsiz",
-  "alternateName": ["Olensiz", "Өлеңсіз", "Songless қазақша"],
-  "url": "https://olensiz.zhengisbay.com/",
-  "image": "https://olensiz.zhengisbay.com/og-image.png",
-  "description": "Онлайн-игра: угадай казахскую песню по короткому фрагменту. Қазақ әнін бірнеше секундтан танитын ойын.",
-  "inLanguage": ["kk", "ru"],
-  "genre": ["Music", "Quiz", "Trivia"],
-  "gamePlatform": "Web browser",
-  "applicationCategory": "GameApplication",
-  "operatingSystem": "Any",
-  "author": { "@type": "Person", "name": "Nurali Zhengisbay", "url": "https://zhengisbay.com" },
-  "publisher": { "@type": "Organization", "name": "zhengisbay.com", "url": "https://zhengisbay.com" },
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "KZT" },
-  "isAccessibleForFree": true
-}
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    "@id": "https://olensiz.zhengisbay.com/#game",
+    "name": "Óleńsiz",
+    "alternateName": [
+      "Olensiz",
+      "Өлеңсіз",
+      "Songless қазақша",
+      "Угадай казахскую песню"
+    ],
+    "url": "https://olensiz.zhengisbay.com/",
+    "image": "https://olensiz.zhengisbay.com/og-image.png",
+    "screenshot": "https://olensiz.zhengisbay.com/og-image.png",
+    "description": "Онлайн-игра: угадай казахскую песню по короткому фрагменту. Қазақ әнін бірнеше секундтан танитын ойын. 647 песен 136 казахстанских исполнителей, пять раундов, два режима сложности.",
+    "inLanguage": [
+      "kk",
+      "ru"
+    ],
+    "genre": [
+      "Music",
+      "Quiz",
+      "Trivia"
+    ],
+    "gamePlatform": [
+      "Web browser",
+      "Android",
+      "iOS"
+    ],
+    "playMode": "SinglePlayer",
+    "applicationCategory": "GameApplication",
+    "operatingSystem": "Any",
+    "browserRequirements": "Требуется JavaScript",
+    "author": {
+      "@type": "Person",
+      "name": "Nurali Zhengisbay",
+      "url": "https://zhengisbay.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "zhengisbay.com",
+      "url": "https://zhengisbay.com",
+      "sameAs": [
+        "https://zhengisbay.com"
+      ]
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "KZT",
+      "availability": "https://schema.org/InStock"
+    },
+    "isAccessibleForFree": true,
+    "isPartOf": {
+      "@id": "https://olensiz.zhengisbay.com/#website"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://olensiz.zhengisbay.com/#website",
+    "name": "Óleńsiz",
+    "alternateName": "Olensiz",
+    "url": "https://olensiz.zhengisbay.com/",
+    "inLanguage": [
+      "kk",
+      "ru"
+    ],
+    "publisher": {
+      "@type": "Person",
+      "name": "Nurali Zhengisbay",
+      "url": "https://zhengisbay.com"
+    }
+  }
+]
 </script>
 </head>
 <body>
@@ -159,7 +226,8 @@
       Бесплатно и без регистрации.
     </p>
     <p>
-      <a href="about.html">Ойын туралы толығырақ · Подробнее об игре</a>
+      <a href="about.html">Ойын туралы толығырақ · Подробнее об игре</a> ·
+      <a href="catalog.html">Каталог: 136 исполнителей</a>
     </p>
     <p>
       Ойын Apple iTunes-тың ашық ресми үзінділерін пайдаланады, аудио файлдарды

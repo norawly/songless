@@ -24,6 +24,7 @@ npm start
 | `npm run screenshots` | Скриншоты экранов в `.design/tap-anda/screenshots/` |
 | `npm run og` | Пересобрать `og-image.png` 1200×630 |
 | `npm run icons` | Пересобрать иконки приложения в `icons/` |
+| `npm run seo` | Пересобрать `catalog.html` и `sitemap.xml` из каталога |
 | `npm run editor` | Локальный редактор каталога → `http://localhost:5175` |
 | `http://localhost:5173/?debug=1` | В консоль пишутся найденные `startOffset` |
 

@@ -20,11 +20,13 @@
  * списке — подняли номер, старый кэш удалится сам.
  */
 
-const VERSION = 'olensiz-v1';
+const VERSION = 'olensiz-v2';
 const SHELL = [
   '/',
   '/index.html',
   '/about.html',
+  '/catalog.html',
+  '/404.html',
   '/styles/tokens.css',
   '/styles/app.css',
   '/src/main.js',

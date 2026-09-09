@@ -1,9 +1,17 @@
 # Óleńsiz — olensiz.zhengisbay.com
+
 User-agent: *
 Allow: /
 
-# Собранный каталог и служебные файлы индексировать незачем.
+# Каталог игры поисковику НУЖЕН: Googlebot рендерит страницу, а без tracks.json
+# приложение покажет ему экран ошибки вместо игры. Остальное содержимое
+# data/ — исходники и отчёты сборки, они не страницы.
+Allow: /data/tracks.json
 Disallow: /data/
 Disallow: /scripts/
+Disallow: /.cache/
+
+# Список исполнителей для поиска отдаёт catalog.html — настоящей страницей
+# с текстом, а не JSON-ом.
 
 Sitemap: https://olensiz.zhengisbay.com/sitemap.xml

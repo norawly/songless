@@ -254,6 +254,8 @@ npm run icons             # перерисовать иконки приложе
 index.html                 каркас: шапка, экран, слой фона
 about.html                 текстовая страница «Об игре» (видимая, для людей и поиска)
 og-image.png               превью для соцсетей, 1200×630
+catalog.html               список исполнителей для поиска (npm run seo)
+404.html                   страница «не найдено» для GitHub Pages
 manifest.webmanifest       описание приложения для установки на телефон
 sw.js                      service worker: оболочка работает офлайн
 icons/                     иконки приложения (npm run icons)
@@ -296,6 +298,7 @@ scripts/
   screenshots.mjs          скриншоты экранов
   make-og.mjs              генерация og-image
   make-icons.mjs           генерация иконок приложения
+  make-seo.mjs             catalog.html + sitemap.xml из каталога
   lib/cdp.mjs              общий клиент headless Chrome
 .design/tap-anda/          документы процесса проектирования
 ```
