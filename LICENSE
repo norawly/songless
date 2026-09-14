@@ -1,0 +1,76 @@
+Óleńsiz — проприетарная лицензия / Proprietary License
+
+Copyright (c) 2026 Nurali Zhengisbay (zhengisbay.com). Все права защищены.
+All rights reserved.
+
+────────────────────────────────────────────────────────────────────────────
+РУССКИЙ
+────────────────────────────────────────────────────────────────────────────
+
+1. Этот репозиторий и всё, что в нём создано автором, — исходный код,
+   дизайн, тексты, структура и логика игры, система очков, сборщик и
+   разметка каталога, графика, название и логотип «Óleńsiz» (далее —
+   «Произведение»), — принадлежат автору.
+
+2. Никакие права на Произведение не передаются. Без предварительного
+   письменного разрешения автора ЗАПРЕЩЕНО:
+     — копировать Произведение целиком или частями;
+     — изменять его и создавать производные работы;
+     — публиковать, распространять, размещать на своих серверах и сайтах;
+     — использовать в коммерческих и некоммерческих целях;
+     — продавать, сдавать в аренду, сублицензировать;
+     — использовать название «Óleńsiz» / «Olensiz» и оформление игры.
+
+3. Публикация кода на GitHub не является разрешением на его использование.
+   Правила GitHub позволяют просматривать публичный репозиторий и создавать
+   его копию (fork) внутри GitHub; это не даёт права использовать
+   Произведение где-либо ещё и в каких-либо целях.
+
+4. Настоящая лицензия действует для данной версии и всех последующих версий
+   Произведения. Она заменяет лицензию MIT, указанную в более ранних версиях.
+
+5. Не являются частью Произведения и автору не принадлежат: музыкальные
+   произведения и их фрагменты, обложки альбомов, названия песен и имена
+   исполнителей. Фрагменты воспроизводятся с официального CDN Apple,
+   права на них принадлежат соответствующим правообладателям.
+
+6. ПРОИЗВЕДЕНИЕ ПРЕДОСТАВЛЯЕТСЯ «КАК ЕСТЬ», БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ.
+
+7. По вопросам лицензирования, сотрудничества и приобретения прав:
+   https://zhengisbay.com
+
+────────────────────────────────────────────────────────────────────────────
+ENGLISH
+────────────────────────────────────────────────────────────────────────────
+
+1. This repository and everything created in it by the author — source
+   code, design, texts, game structure and logic, the scoring system, the
+   catalog builder and markup, graphics, and the "Óleńsiz" name and logo
+   (the "Work") — are owned by the author.
+
+2. No rights to the Work are granted. Without the author's prior written
+   permission you may NOT:
+     — copy the Work in whole or in part;
+     — modify it or create derivative works;
+     — publish, distribute, or host it on your own servers or sites;
+     — use it for any commercial or non-commercial purpose;
+     — sell, rent, lease, or sublicense it;
+     — use the "Óleńsiz" / "Olensiz" name or the game's visual identity.
+
+3. Publishing the code on GitHub does not grant permission to use it.
+   GitHub's Terms of Service allow viewing a public repository and forking
+   it within GitHub; this does not grant any right to use the Work anywhere
+   else or for any purpose.
+
+4. This license applies to this version and all subsequent versions of the
+   Work. It supersedes the MIT license stated in earlier versions.
+
+5. The following are NOT part of the Work and are not owned by the author:
+   musical works and their excerpts, album artwork, song titles, and artist
+   names. Excerpts are streamed from Apple's official CDN; all rights belong
+   to their respective owners.
+
+6. THE WORK IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
+
+7. For licensing, partnerships, or acquisition inquiries:
+   https://zhengisbay.com

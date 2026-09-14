@@ -4,7 +4,7 @@
   "description": "Óleńsiz — угадай казахскую песню по короткому фрагменту. Статичный сайт без бэкенда.",
   "type": "module",
   "private": true,
-  "license": "MIT",
+  "license": "UNLICENSED",
   "scripts": {
     "start": "node scripts/verify-scoring.mjs > /dev/null && node scripts/serve.mjs",
     "dev": "node scripts/serve.mjs",
